@@ -1,0 +1,173 @@
+
+\subsection{Complexidade}
+
+\begin{frame}
+    \frametitle{$NP$-difícil}
+    \begin{itemize}
+        \item O problema \rcsp\ é $NP$-difícil mesmo para o caso em que existe apenas um
+                único recurso (\cite{HZ80} \cite{GJ79}). 
+        \item A prova se dá pela redução do problema \mochila\ ao \rcsp.
+    \end{itemize}
+
+    \begin{problema}{\textsc{Mochila}(N,w,v,d)}
+        Dados
+        \begin{itemize}
+            \item\ Um conjunto de itens $N = \{1, \dots, n\}$,
+            \item\ pesos $w_i \in \mathbb{N}$, $i = 1, \dots, n$, para esses itens,
+            \item\ valores $v_i \in \mathbb{N}$, $i = 1, \dots, n$, para esse itens,
+            \item\ um peso limite $d \in \mathbb{N}_0$.
+        \end{itemize}
+
+        O peso de um subconjunto $I \subseteq N$ é
+        $w(I) = \sum_{i \in I}{w_i}$, e seu valor é 
+        $v(I) = \sum_{i \in I}{v_i}$. O problema \textsc{Mochila} consiste em
+        encontrar um subconjunto de itens com valor máximo, cujo peso não excede
+        o limite $d$.
+    \end{problema}
+\end{frame}
+
+\begin{frame}
+    \frametitle{$NP$-difícil}
+    \begin{teorema}{} O \rcsp\ é $NP$-difícil.
+    \end{teorema}
+
+    {\small
+    \begin{prova} Vamos tomar uma instância $\cal{I}$ do problema \mochila. Nós podemos
+        construir uma instância $\cal{I}'$ para o \rcsp\ como se segue:
+        \begin{itemize}
+            \item $V := N \cup \{0\}$.
+            \item $A := A_1 \cup A_2$.
+            \begin{itemize}
+                \item $A_1 := \{(i-1,i): i=1,\dots,n\}$,
+                \item $A_2 := \{(i-1,i): i=1,\dots,n\}$.
+            \end{itemize}
+            \item $s := 0$, $t := n$.
+            \item $k := 1$.
+            \item $l := d$.
+            \item 
+                $
+	            r_a := \left\{
+	            \begin{array}{ll}
+		        \begin{array}{ll}
+			    w_i, & \text{se } a \in A_1, \\
+			    0, & \text{caso contrário}
+		        \end{array} & \text{para todo } a \in A.
+	            \end{array}
+	            \right.
+                $
+            \item
+                $
+	            c_a := \left\{
+	            \begin{array}{ll}
+		        \begin{array}{ll}
+			    M - v_i, & \text{se } a \in A_1, \\
+			    M, & \text{caso contrário}
+		        \end{array} & \text{para todo } a \in A.
+	            \end{array}
+	            \right.
+                $
+        \end{itemize}
+        \vspace{5cm}
+    \end{prova}
+    }
+\end{frame}
+
+\begin{frame}
+    \frametitle{$NP$-difícil}
+    \begin{prova} Continuação ...
+
+        \begin{figure}[h!]
+            \centering
+                \includegraphics[scale=1.2]{figuras/grafo_rscp_mochila.png}
+            \caption{\it {\small Os arcos preenchidos são os arcos de $A_1$ e os 
+                    tracejados de $A_2$. O rótulo de cada arco $a$ representa $c_a/r_a$.}}
+            \label{fig:rscp_mochila}
+        \end{figure}
+
+        \vspace{-0.5cm}
+        {\small
+        \begin{itemize}
+            \item A constante $M$ deve ser definida de tal forma 
+                    que $M-v_i \geq 0$, $1 \leq i \leq n$.
+            \item Por questão de praticidade vamos representar 
+                    um arco $(i-1,i) \in A_1$ como $a^1_i$ 
+                    e um arco $(i-1,i) \in A_2$ como $a^2_i$.
+        \end{itemize}
+        }
+
+        \vspace{5cm}
+    \end{prova}
+
+\end{frame}
+
+\begin{frame}
+    \frametitle{$NP$-difícil}
+    \begin{prova} Continuação ...
+
+        \begin{itemize}
+            \item Qualquer $st$-caminho $P$ 
+                    em $G = (V,A)$ contém 
+                    ou $a^1_i$ ou $a^2_i$, $i=1,\dots,n$. 
+            \item Vamos dividir os arcos de $P$ em dois subconjuntos $X$ e $Y$
+                \begin{itemize}
+                    \item onde $X$ contém os arcos em
+                    $P$ que estão em $A_1$, 
+                    \item e $Y$ contém os demais arcos. 
+                \end{itemize}
+            \item A partir 
+                    de $X$, vamos definir um subconjunto $S \subseteq N$,
+                    tal que $i \in S$ se e somente se $a^1_i \in X$. 
+        \end{itemize}
+
+        \vspace{3cm}
+    \end{prova}
+\end{frame}
+
+\begin{frame}
+    \frametitle{$NP$-difícil}
+    \begin{prova} Continuação ...
+        
+        Com isso,
+
+{\small
+        \begin{equation}
+            \begin{array}{rcl}
+                c(P) & = & \displaystyle\sum_{a^1_i \in X}{(M-v_i)} + \displaystyle\sum_{a^2_i \in Y}{M}\\
+                & = & n \cdot M - \displaystyle\sum_{a^1_i \in X}{v_i}\\
+                & = & n \cdot M - v(S)
+            \end{array}
+        \end{equation}
+
+        \begin{equation}
+            \begin{array}{rcl}
+                r(P) & = & \displaystyle\sum_{a^1_i \in X}{w_i} + \displaystyle\sum_{a^2_i \in Y}{0} \\
+                & = & \displaystyle\sum_{a^1_i \in X}{w_i} \\
+                & = & w(S)
+            \end{array}
+        \end{equation}
+}
+
+        \vspace{5cm}
+    \end{prova}
+\end{frame}
+
+\begin{frame}
+    \frametitle{$NP$-difícil}
+    \begin{prova} Continuação ...
+
+        Daí, concluímos que todo subconjunto $S \subseteq N$ contém um $st$-caminho $P$ associado, e 
+        vice-versa, por meio da equivalência 
+        $i \in S \Leftrightarrow a^1_i \in P$.
+        Pelas equações $(1)$ e $(2)$, um conjunto $S$ e um caminho $P$ associados, 
+        possuem $r(P)=w(S)$
+        e $c(P) = n \cdot M - v(S)$. E daí temos dois resultados:
+        \begin{displaymath}
+            \begin{array}{rcl}
+                r(P) \leq l & \Longleftrightarrow & w(S) \le d$$\\
+                \text{ minimizar } c(P) & \Longleftrightarrow & \text{ maximilizar }v(S)
+            \end{array}
+        \end{displaymath}
+
+    \end{prova}
+
+\end{frame}

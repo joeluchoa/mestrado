@@ -1,0 +1,233 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%    INTRODUÇÃO
+%x
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter*{Introdução}
+\markboth{Introdução}{Introdução}
+\addcontentsline{toc}{chapter}{Introdução}
+\label{cap:introducao}
+
+\par
+\begin{floatingfigure}[l]{30mm}
+\begin{center}
+  \psfrag{s}{$s$}
+  \psfrag{t}{$t$}
+  \includegraphics{./figs/rede}
+\end{center} 
+\end{floatingfigure}
+\noindent
+
+
+Uma certa empresa de telecomunicações, cujo nome real não será
+citado por razões de confidencialidade, mas que para nossa
+comodidade será chamada de TeleMax, fornece linhas de transmissão
+aos seus clientes de modo que estes possam, por exemplo, ligar-se
+às suas filiais por linhas privadas.
+Para tal, conta com uma infra-estru\-tu\-ra de rede bastante complexa
+compreendendo cabos e diversos equipamentos de junção.  Esta rede
+é \textit{full-duplex}, ou seja, possui passagem de dados em ambos os
+sentidos.  Para entender o processo de fornecimento de linhas de
+transmissão, passaremos a um exemplo.  A empresa SoftSOF
+possui duas sedes, uma em Santos e outra em Fernandópolis e, deseja interligar suas
+filiais com uma qualidade mínima de 200 Kbits/s, em pico de uso.
+A SoftSOF possui 10 computadores em cada uma de suas filiais, logo
+precisaríamos de um link de 200 Kbits/s $\times 10 = 2000$ Kbits/s.
+É solicitado à TeleMax um \textit{link} de 2000 Kbits/s ligando as suas sedes.
+A TeleMax não possui uma ligação direta entre as duas cidades,
+entretanto possui uma ligação que passa por São José do Rio
+Preto, ou seja, um caminho Santos - São José Do Rio Preto -
+Fernandópolis.  Infelizmente, este link só dispõe de 1024 Kbits/s.
+No entanto, observando-se sua infra-estrutura, descobre-se que existe um outro
+caminho: Santos - São Paulo - Fernandópolis, também com
+capacidade de 1024 Kbits/s.  Pronto. A TeleMax pode fornecer o link
+requerido pela SoftSOF, bastando para isso utilizar os dois
+caminhos acima descritos, totalizando os 2048 Kbits/s, um pouco acima do requerido.
+
+\par
+\begin{figure}[htbp]
+\begin{center}
+\psfrag{Fernandopolis}{{\tiny Fernandópolis}}
+\psfrag{Sao Paulo}{{\tiny São Paulo}}
+\psfrag{Sao Jose do Rio Preto}{{\tiny São José do Rio Preto}}
+\psfrag{Santos}{{\tiny Santos}}
+\psfrag{2000 Kbits}{{\tiny 2000 Kbits/s}}
+\psfrag{1024 Kbits}{{\tiny 1024 Kbits/s}}
+\psfrag{labela}{($a$)}
+\psfrag{labelb}{($b$)}
+\includegraphics[width=1\textwidth]{./figs/introducaoTeleMax.eps}
+   \caption[Exemplo de uma solução para interligação de sinais]{Em ($a$) vemos um esquema solicitação da SoftSOF, um link de 2000 Kbits/s entre as filiais. Em ($b$) está descrita a solução encontrada pela TeleMax, com base na disponibilidade de sua rede.}
+\end{center} 
+\end{figure}
+\noindent
+Vamos a algumas considerações relevantes. O custo de um caminho é 
+função da quantidade de equipamentos usada e não da distância total 
+dos cabos que o compõe.
+Isto se deve ao custo elevado dos equipamentos se comparado ao dos cabos. 
+Assim, passa a ser melhor utilizar uma ligação que percorra uma distância 
+maior mas que passa por um número menor de equipamentos, do que uma com 
+menor distância mas que se utiliza de mais equipamentos.
+
+
+A justificativa para a geração de diversos caminhos no lugar de apenas
+um está relacionada à capacidade de transmissão disponível por cabo.  A
+motivação para a geração dos menores caminhos, ou seja, com utilização
+mínima de equipamentos, requer uma explicação mais detalhada.  Até agora
+fomos simplistas ao tratarmos das relações entre cabos e equipamentos
+como se um equipamento se ligasse a apenas um cabo.  Na verdade, cada
+equipamento se liga a um grande número de cabos.  Assim, podemos ter
+diversos caminhos entre dois equipamentos, um para cada cabo.  A fim de
+utilizarmos bem os recursos da rede é interessante que o menor número
+de equipamentos esteja alocado para cada cliente pois, desta maneira, um
+número maior de ligações poderá ser oferecido pela TeleMax.  Embora a
+utilização do menor número possível de equipamentos para cada cliente
+não seja suficiente para garantir que a rede esteja sendo utilizada de
+maneira eficiente, não nos importaremos com isto neste trabalho.  Feitas
+as devidas considerações, vamos agora justificar a automação do
+processo.
+
+Imagine levar a cabo o processo de fornecimento de linhas manualmente.  
+Podemos salientar alguns problemas da abordagem manual.  Devido às dimensões da rede, o
+operador responsável levará muito tempo para obter uma lista de caminhos
+entre os pontos.  Durante o tempo em que o operador gastar analisando a
+rede, esta poderá ter sofrido alterações, as quais não serão levadas em
+conta por ele.  Além disso, sabemos como as pessoas são suscetíveis a
+falhas, ainda mais quando expostas a atividades maçantes e repetitivas.
+Por conta destes fatores, a TeleMax sentiu a necessidade de uma
+ferramenta computacional que gerasse de maneira rápida e confiável uma
+série de caminhos entre dois pontos da sua rede.
+
+Na construção da ferramenta, consideramos a rede
+como um grafo simétrico, por ser full-duplex, onde as arestas são
+representadas pelos cabos e os vértices pelos equipamentos.  A
+ferramenta tinha como núcleo o algoritmo desenvolvido por Naoki Katoh,
+Toshihide Ibaraki e H. Mine~\cite{katoh:n-12-411}, 
+de geração de menores caminhos.  Os caminhos de mesmo custo,
+ou seja, que se utilizam de igual quantidade de equipamentos, são
+posteriormente reordenados crescentemente pela distância total
+percorrida por seus cabos.  
+Esta dissertação trata de algoritmos que produzem caminhos de menor custo em grafos.
+Embora algoritmos para tal sejam de interesse teórico, é curioso
+observar que foi uma aplicação prática, demandada por uma necessidade
+surgida no âmbito empresarial, que nos levou ao estudo destes.
+
+
+\section*{Organização da dissertação}
+
+
+O capítulo~\ref{cap:preliminares} contém a maior parte das notações, conceitos e definições
+que são usadas ao longo desta dissertação.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Em seguida, no capítulo~\ref{cap:problema-CM}, o método de Dijkstra para geração de caminho mínimo é descrito.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+No capítulo~\ref{cap:problema-k-caminhos} descrevemos o problema dos $k$-menores caminhos.
+Passamos, em seguida a descrever as árvores de prefixos e finalizamos 
+explicando o algoritmo de YEN que as utiliza.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%, apresentando o algoritmo resultante, seu invariantes e uma
+%análise de sua eficiência e corretude.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%No capítulo~4 o método de YEN é descrito além da estrutura de árvores de prefixos a partir do
+%qual este pode ser melhor entendido.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+No capítulo~\ref{cap:hershberger} apresentamos o algoritmo desenvolvido por 
+John Hershberger, Matthew Maxel e Subhash Suri que é um refinamento do algoritmo de Yen e é
+semelhante ao algoritmo desenvolvido por Naoki Katoh, Toshihide Ibaraki e H. Mine,
+o qual é apresentado no capítulo~\ref{cap:algoritmo-kim}.
+
+No capítulo~\ref{cap:algoritmo-kim} o método desenvolvido por Naoki Katoh,
+Toshihide Ibaraki e H. Mine~\cite{katoh:n-12-411} é descrito mais detalhadamente.
+Além disso, a implementação feita é exibida juntamente com uma simulação de sua execução.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Seguimos, no capítulo~\ref{cap:experimentos}, com uma série de gráficos e 
+análises experimentais do desempenho da nossa implementação do algoritmo de KIM.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Finalmente, no capítulo~\ref{cap:consideracoes}, relatamos as nossas conclusões, 
+frustrações e possíveis trabalhos futuros.
+
+
+
+
+
+%\section*{Breve cronologia}
+
+
+ 
+%% A \defi{árvore dos prefixos} de $\{P_1,\ldots,P_i\}$ é uma
+%% árvore enraizada junto com uma função que associa um rótulo a
+%% cada nó e a cada aresta da árvore. Suponha que 
+
+%% Sejam $P_1,\ldots,P_i$ 
+%% caminhos distintos de $s$ a~$t$ em um grafo, $V'$ e $A'$ 
+%% o conjunto dos vértices e arcos presentes  nos caminhos, 
+%% respectivamente.
+
+%% Suponha que $(N,E)$ é uma árvore com raiz $r$, conjunto de nós $N$ 
+%% e conjunto de arestas $E$. Suponha ainda que $f$ é uma função 
+%% rótulo que associa a cada nó em $N$ um vértice em $V'$ e a cada aresta em $E$ 
+%% um arco em $A$. Diremos que $(N,E,r,f)$ é uma \defi{árvore dos caminhos}  
+%% $\{P_1,\ldots,P_i\}$ se para cada caminho 
+%%  \begin{eqnarray*}
+%%  \seq{r=u_{0}, e_{1}, u_{1}, \ldots, e_{t}, u_{t}}
+%%  \end{eqnarray*}
+%% de $r$ a uma folha $u_t$ de $(N,E)$ temos que
+%%  \begin{eqnarray*}
+%%  \seq{f(r)=f(u_{0}), f(e_{1}), f(u_{1}), \ldots, f(e_{t}), u_{t}}
+%%  \end{eqnarray*}
+%% é um caminho em $\{P_1,\ldots,P_i\}$
+
+
+%% Seja $\Rcal$ uma coleção de caminhos em  
+%% caminhos distintos em um grafo e sejam $V'$ e $A'$ 
+%% o conjunto dos vértices e arcos presentes nos caminhos, 
+%% respectivamente.
+
+%% Suponha que $(N,E)$ é uma árvore com raiz $r$, conjunto de nós $N$ 
+%% e conjunto de arestas $E$. Suponha ainda que $f$ é uma função 
+%% rótulo que associa a cada nó em $N$ um vértice em $V'$ e a cada aresta em $E$ 
+%% um arco em $A$. Se 
+%% \begin{eqnarray*}
+%%  Q=\seq{u_{0}, e_{1}, u_{1}, \ldots, e_{t}, u_{t}}
+%% \end{eqnarray*}
+%% é um caminho em  $(N,E)$, então
+%% \begin{eqnarray*}
+%%  f(Q):=\seq{f(u_{0}), f(e_{1}), f(u_{1}), \ldots, f(e_{t}), u_{t}}
+%% \end{eqnarray*}
+%% Assim, $f(Q)$ é uma seqüência de vértices e arcos nos caminhos 
+
+%% Diremos que $(N,E,r,f)$ é uma \defi{árvore dos caminhos}  
+%% $\Qcal$ se para cada caminho 
+%%  \begin{eqnarray*}
+%%  \seq{r=u_{0}, e_{1}, u_{1}, \ldots, e_{t}, u_{t}}
+%%  \end{eqnarray*}
+%% em $(N,E)$ de $r$ a uma folha $u_t$ corresponde a um único
+%% caminho
+%%  \begin{eqnarray*}
+%%  \seq{f(r)=f(u_{0}), f(e_{1}), f(u_{1}), \ldots, f(e_{t}), u_{t}}
+%%  \end{eqnarray*}
+%% em $\Qcal$. Ademais, cada caminho em $\Qcal$  
+
+
+
+ 
+%% um vértice em raiz 
+
+%% que cada nó e cada aresta possui um rótulo. Os
+%% nós são rotulados com vértices de
+
+
+ 
+
+
+%% todos os caminhos em uma mesma 
+%% parte têm um prefixo comum. 
+
+
+

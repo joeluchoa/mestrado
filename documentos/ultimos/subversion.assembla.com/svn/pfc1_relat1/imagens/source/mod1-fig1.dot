@@ -1,0 +1,10 @@
+digraph G {
+	rankdir = LR
+	{rank=same; <s,u> <s,v>}
+	{rank=same; <v,w> <u,w>}
+	<s,u> -> <u,w>;
+	<s,v> -> <v,w>;
+	<u,w> -> <w,z>;
+	<v,w> -> <w,z>;
+	<w,z> -> <z,t>;
+}

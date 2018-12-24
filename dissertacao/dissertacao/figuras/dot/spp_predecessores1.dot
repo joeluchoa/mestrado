@@ -1,0 +1,30 @@
+digraph G {
+  node [shape=circle, texmode="math"];
+  edge [label=" ", lblstyle=auto, topath="bend left"];
+
+  s -> v [topath="bend right"];
+  s -> w [color=red, style=bold];
+  s -> u [color=red, style=bold];
+  v -> w [];
+  u -> w [];
+  u -> z [];
+  w -> t [color=red, style=bold];
+  w -> z [color=red, style=bold, topath="bend right"];
+  z -> t [];
+  t -> v [color=red, style=bold];
+
+  node [style=invis, shape=none, color=blue, fontcolor=blue];
+  edge [style=invis, len=0.2];
+  s -> ss;
+  u -> uu;
+  v -> vv;
+  t -> tt;
+  z -> zz;
+  w -> ww;
+  ss []
+  uu []
+  vv []
+  tt []
+  zz []
+  ww []
+}

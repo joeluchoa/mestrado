@@ -1,0 +1,104 @@
+\section{Motivação}
+
+\subsection*{Problema}
+
+\begin{frame}{Provisionamento de sinais}
+	\begin{itemize}
+		\item Serviço de interligação de sinais.
+		\item Permite que sinais do ponto $a$ sejam enviados ao ponto $b$.
+	\end{itemize}
+	\begin{figure}
+	\pgfuseimage{interligacao}
+   	\caption{Destacamos um possível caminho interligando $a$ e $b$.}
+	\end{figure}
+\end{frame}
+
+\begin{frame}{Processo de provisionamento}
+ \begin{block}{Requisitos do cliente}
+	\begin{itemize}
+		\item Quantidade de sinais.
+		\item Tipos de sinais.
+		\item Origem e destino.
+		\item Qualidade de serviço.
+	\end{itemize}
+ \end{block}
+\begin{figure}
+	\pgfuseimage{aprovisionamento}
+   	%\caption{Caminho entre $a$ e $b$ com cada elemento exibindo as quantidades usada e a máxima de transmissão.}
+	\end{figure}
+\end{frame}
+
+\begin{frame}{Processo de provisionamento}
+\begin{block}{Considerações}
+	\begin{itemize}
+		\item Custo é função do número de equipamentos usados.
+		\item Número de caminhos depende da quantidade de sinais.
+		\item Critério de desempate é a distância total.
+	\end{itemize}
+\end{block}
+\begin{figure}
+\pgfuseimage{aprovisionamento2}
+%\caption{Caminho entre $a$ e $b$ com cada elemento exibindo as quantidades usada e a máxima de transmissão.}
+\end{figure}
+\end{frame}
+
+
+
+%% \begin{frame}{Algoritmo final entregue}
+%% \framesubtitle{Algoritmo de Katoh, Ibaraki e Mine(KIM)}
+%%   \begin{tikzpicture}[scale=0.85]
+%%     \tikzstyle{node}=%
+%%     [%
+%%       inner sep=0pt,%
+%%       outer sep=0pt,%
+%%       ball color=example text.fg,%
+%%       circle%
+%%     ]
+%%         \node[node,minimum size=8pt,label=left:{s}] at (0,3) (S)  {};
+%%         \node[node] at (1,3) (A)  {};
+%%         \node[node] at (2,3) (B)  {};
+%%         \node[node] at (3,3) (C)  {};
+%%         \node[node] at (4,1) (D)  {};
+%%         \node[node,minimum size=8pt,label=right:{t}] at (11,3) (T) {};
+%%        
+%%         \node[color=red] at (6,3.2) (P1) {P1};
+%% 
+%%         \path [-,thick,red]  
+%%                   (S) edge[] (T)
+%%                   (S) edge (A)
+%%                   (A) edge (B)
+%%                   (B) edge (C);
+%%        \onslide<2->{
+%%         \path [-,thick,blue]  
+%%                   (B) edge[bend right] (D)
+%%                   (D) edge[bend right] (T);
+%%          \node[color=blue] at (6,1) (P2) {P2};
+%% 
+%%         }
+%%         \onslide<5->{
+%%         \path [-,thick,black,dashed]  
+%%                   (A.north) edge[in=90] (T.north);
+%%                  \node[color=black] at (6,5.8) (Pc) {Pc};
+%% }
+%%         \onslide<3->{
+%%         \path [-,thick,black,dashed]  
+%%                   (C.north) edge[bend left] (T.north);
+%%                  \node[color=black] at (6,4.5) (Pb) {Pb};
+%% }
+%%        \onslide<4->{
+%%         \path [-,thick,black,dashed]  
+%%                   (D) edge[in=-90,out=-90] (T);
+%%                  \node[color=black] at (6,0) (Pa) {Pa};
+%% }
+%%         \end{tikzpicture}
+%%         
+%%         
+%%         %\begin{figure}
+%% 	%\pgfuseimage{kimCaminhos}
+%% 	%\caption{\\
+%% 	%	$P1$ : caminho mínimo entre $s$ e $t$. \\
+%% %		$P2$ : caminho mínimo diferente de $P1$. \\ 
+%% %		$Pa$,$Pb$,$Pc$: caminhos candidatos.}	
+%% %	\end{figure}
+%% \end{frame}
+

@@ -1,0 +1,18 @@
+#DIMACS command file for priority queue tests.  
+#
+
+spbad 512 10 -s39011  | dikh >spbad.512.1
+spbad 512 10 -s39012 | dikh >spbad.512.2
+spbad 512 10 -s39013 | dikh >spbad.512.3
+spbad 512 10 -s39014 | dikh >spbad.512.4
+spbad 512 10 -s39015 | dikh >spbad.512.5
+spbad 1024 10 -s39016 | dikh >spbad.1024.1
+spbad 1024 10 -s39017 | dikh >spbad1024.2
+spbad 1024 10 -s39017 | dikh >spbad1024.3
+spbad 1024 10 -s39018 | dikh >spbad1024.4
+spbad 1024 10 -s39019 | dikh >spbad1024.5
+spbad 2048 10 -s39020 | dikh >spbad2048.1
+spbad 2048 10 -s39021 | dikh >spbad2048.2
+spbad 2048 10 -s39022 | dikh >spbad2048.3
+spbad 2048 10 -s39023 | dikh >spbad2048.4
+spbad 2048 10 -s39024 | dikh >spbad2048.5

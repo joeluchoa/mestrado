@@ -1,0 +1,334 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8x]{inputenc}
+\usepackage{ucs}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{makeidx}
+\usepackage[brazil]{babel}
+\author{Joel Silva Uchoa}
+\title{Resumo da Tese de Doutorado de Mark Ziegelmann}
+\begin{document}
+\maketitle
+
+\section{Resumo}
+
+O clássico problema de caminhos mínimos, de encontrar um caminho de 
+custo mínimo entre dois vértices em um grafo, é eficientemente resolvido 
+em tempo polinomial. Contudo, em muitas aplicações nós também temos 
+adicionalmente um orçamento ou restrições de recursos no caminho. Estes 
+problema é conhecido como caminhos mínimos com restrições e infelizmente 
+pertence a classe de problemas ``difíceis'', para os quais não se 
+conhece algoritmo com complexidade de tempo polinomial. Nesta tese, nós 
+propomos um método de duas fases para o problema de caminhos mínimos com 
+restrições. Nós primeiramente resolvemos uma relaxação para obter um 
+limite superior e inferior, e depois eliminamos a folga com um algoritmo 
+esperto de ranqueamento de caminhos para obter a solução exata. Nós 
+comparamos métodos antigos e novos, tanto teoricamente como 
+experimentalmente.
+
+\section{Capítulo 1 - Introdução}
+
+O problema de caminhas mínimos é um dos problemas fundamentais em 
+Ciência da Computação. Ele tem sido muito estudado e algoritmos 
+polinomiais eficientes são conhecidos. O problema de caminhos mínimos 
+surge, com muita frequência, na prática, desde que uma grande variedade 
+de aplicações querer o envio de algum material (exemplo: um pacote de 
+dados, uma camada telefônica ou um veículo) entre dois específicos 
+pontos em uma rede, tão rápido, ou barato quanto possível.
+
+Contudo, na prática, muitas vezes não estamos somente interessado no 
+caminho mais barato ou rápido, e sim estamos interessados em uma 
+combinação de diferentes critérios, exemplo, nós queremos ter um caminho 
+que é tanto barato quanto rápido. Isto é conhecido como o bi-critério ou 
+multi-critério caminho mínimo. Como otimizar todos os critérios pode não 
+ser possível, nós escolhemos uma critério como função de custo que 
+queremos minimizar, os outros ficam como funções de consumo de recursos 
+e impomos um orçamento para limitar o consumo máximo destes recursos em 
+um caminho. O \emph{RSPC} consiste em procurar o caminho de custo mínimo 
+entre dois nós cujo o consumo de recursos satisfaz os limites 
+estabelecidos.
+
+Em redes de comunicação, nos temos problema de roteamento de qualidade 
+de serviço (\emph{QoS}). Nós estamo procurando por um caminho de custo 
+mínimo que obedece um dado limite de atraso ou nível de 
+segurança/confiabilidade. Isto é novamente um caminho mínimo com 
+restrições. Mais informações podem ser encontradas nos artigos de 
+\textsc{Orda (1998) e Xue (2000)}.
+
+Existe também outras aplicações que podem ser modeladas como caminhos 
+mínimos com restrições:
+
+\textsc{Eliman e Kohler (1997)} mostraram como modelar duas aplicações 
+de engenharia como caminhos mínimos com restrições (com múltiplos 
+recursos): sequencias ótimas para os processos de tratamento de esgoto e 
+composição de paredes energéticas de custo mínimo (??).
+
+\textsc{Dahl e Realfsen (2000) e Nygaard (2000)} estudaram o problema de 
+aproximação de curva linear e mostraram como modelar isto como um 
+caminho mínimo com restrições (\textsc{ver Sessão 3.5}). Eles procuram 
+um caminho que corresponda %TODO
+
+\subsection{Aplicações}
+
+O problema de caminhos mínimos tem um grande número de aplicações 
+práticas:
+
+A primeira aplicação que vem a mente é o planejamento de rotas em redes 
+de tráfego. Nós queremos ir de $A$ até $B$, por exemplo, e gostaríamos 
+de minimizar os trechos congestionados enquanto impomos uma restrição de 
+tamanho de percurso no caminho \textsc{Ver figura 1.1}.  
+Alternativamente, nós queremos ir de $A$ até $B$ tão rápido quando 
+possível mas temos uma restrição de orçamento em relação ao combustível 
+ou a pedágios.
+
+\textsc{Figura 1.1 Um mapa com ponto A e B, via congestionadas, o menor 
+caminho, e o menor caminho minimizando congestionamento.}
+
+\section{Capítulo 3 - Caminhos Mínimos com Recursos Limitados}
+
+Neste capítulo nós consideramos uma variante do clássico problema de 
+caminhos mínimos (\emph{SP}), o problema de caminhos mínimos com 
+restrições (sobre recursos) (\emph{CSP}). Diferentemente do problema 
+original \emph{SP}, o \emph{CSP} é $\mathcal{NP}$-completo. Como existem 
+importante aplicações que podem ser modeladas como uma instância do 
+\emph{CSP}, nós estamos interessados em resolver o problema tão 
+eficiente quanto possível.
+
+Nós começamos o capítulo com uma discussão sobre trabalhos anteriores.  
+Como em problemas muito difíceis, nós vamos primeiros vamos olhar uma 
+relaxação de um programa linear que modela o \emph{CSP}. Começando da 
+formulação do programa linear inteiro, nós extraímos um método 
+combinatório para resolver a relaxação com a combinação de intuição 
+geométrica simples e teoria em otimização. No caso de um único recurso 
+nossa abordagem é equivalente a métodos previamente propostos, contudo, 
+nós somos os primeiros a provar um limite de tempo polinomial para o 
+algoritmo. Nós também obtemos o primeiro método combinatório para 
+resolver, de forma exata, a relaxação no caso de múltiplos recursos.  
+Resolver a relaxação nos dá um limite superior e inferior. Nós iremos 
+então rever velhos métodos e apresentar novos métodos para eliminar ao 
+máximo a falga da dualidade para obter um método exato com duas fases 
+para o \emph{CSP}. Nós fechamos o capítulo com uma detalhada comparação 
+experimental dos diferentes métodos.
+
+\subsection{Definição do problema}
+
+O problema de caminhos mínimos com restrições (de recursos) (\emph{CSP}) 
+requer a computação de um caminho de menor custo que seja limitado por 
+um conjunto de restrições de recursos. Mais precisamente, nós temos um 
+grafo $G=(V,E)$ com $|V|=n$ e $|E|=m$, um vértice de origem $s$ e um 
+vértice de destino $t$, e $k$ limites de recursos $\lambda^{(1)}$ até 
+$\lambda^{(k)}$. Cada aresta $e$ tem um custo $c_e$ e consume 
+$r^{(i)}_e$ unidades do recurso $i$, $1 \le i \le k$. Assumimos custos e 
+recursos como não negativos. Eles são aditivos ao longo dos caminhos. A 
+meta é encontrar um caminho com menor custo de $s$ até $t$ que satisfaça 
+as restrições de consumo de recursos.
+
+O caso especial $k=1$ é chamado de caso com recurso simples 
+(\emph{single resource case}) que tem sido mais estudado previamente 
+(ver Sessão 3.2) e nós iremos considerar este caso caso na Sessão 3.3.2.  
+O caso com múltiplos recurso ($k>1$) irá ser discutido na Sessão 3.3.4.
+
+\subsection{Trabalhos anteriores}
+
+
+Nós damos aqui uma visão geral dos trabalhos anteriores sobre o problema 
+de caminhos mínimos com restrições.
+
+\subsection{Complexidade}
+
+Mesmo que o problema de caminhos mínimos (sem restrições), nós iremos 
+ver que a introdução de uma única restrição de recurso torna o problema 
+$\mathcal{NP}$-completo.
+
+\emph{CSP} é listado como um problema \textsc{ND30} (\emph{shortest 
+weight-constrained path}) em \textsc{Garey e Johnson (1979)} e reportado 
+como sendo $\mathcal{NP}$-completo  por redução ao problema da 
+\textsc{Partição}. \textsc{Hanler e Zang (1980)} fizeram uma 
+interessante redução ao bem conhecido problema da \textsc{Moshila} 
+(\emph{knapsack problem}) que é muito similar:
+
+Nós temos um conjunto de $n-1$ itens, cada um tem um valor $v_j$ e um 
+peso $w_j$, para $j = 1, \cdots, n - 1$. A meta é colocar itens na 
+\textsc{Mochila} tal que o limite de peso $\lambda$ não seja excedido e 
+o valor dos itens escolhidos seja maximizado. O problema da 
+\textsc{Mochila} (\emph{KP}) pode ser modelado como:
+
+\[
+  \begin{array}{lrcl}
+  \textrm{maximizar}	& \displaystyle\sum_{j=1}^{n-1}{v_jx_j}	&     	&   
+  \\
+  \textrm{sujeito à}	& \displaystyle\sum_{j=1}^{n-1}{w_jx_j}	& \le 	& 
+  \lambda \\
+    & x_j \in \{0, 1\}     						&  		& j = 1, \cdots, n - 1 \\
+  \end{array}
+\]
+
+Onde $v_j$, $w_j$, $\lambda$ são inteiros positivos. Agora nós vamos 
+configurar um grafo direcionado de $n$ vértices com dois arcos paralelos 
+entre cada de vértices $j$ e $j+1$, para $j = 1, \cdots, n - 1$. Seja 
+$c^{(1)}_{j,j+1} = M - v_j$, $r^{(1)}_{j,j+1} = w_j$ e
+$c^{(2)}_{j,j+1} = M      $, $r^{(2)}_{j,j+1} = 0  $ os parâmetros do 
+primeiro e segundo arco para $j = 1, \cdots, n - 1$, respectivamente, 
+onde $M = max\{v_j : j = 1, \cdots, n - 1\}$ (\textsc{ver Figura 3.1}).
+
+\textsc{Figura 3.1}
+
+Então é evidente que \emph{KP} pode ser resolvido encontrando um caminho 
+mínimo (em relação ao parâmetro $c$) do vértice $1$ até o vértice $n$, 
+sujeito a consumir uma quantidade de recursos (parâmetro $r$) limitada 
+por $\lambda$. Como o \emph{KP} é $\mathcal{NP}$-completo, podemos 
+deduzir que o \emph{CSP} é também $\mathcal{NP}$-completo.
+
+\subsection{Programação dinâmica recursiva}
+
+O primeiro estudo lidando como o \emph{CSP} com um único recurso foi 
+feito por \textsc{Joksch (1966)} que apresentou um algoritmo baseado em 
+programação dinâmica (\textsc{ver tambem Lawler (1976)}).
+
+Nós chamamos um caminho de $i$ até $j$ de $r$-caminho se o consumo de 
+recursos do $ij$-caminho é menor ou igual a $r$. Nós procuramos o 
+$\lambda$-caminho mínimo de $1$ à $n$. Digamos que $c_j(r)$ seja o custo 
+do menor $r$-caminho do vértice $i$ até o vértice $j$. Então temos a 
+seguinte definição recursiva:
+
+$$ c_j(r) = min\{
+c_j(r - 1), \displaystyle\min_{(i,j) \in E, r_{ij} \le r}\{c_i(r - 
+r_{ij}) + c_{ij}\}
+\} $$
+
+Setando $c_1(r) = 0$ para $1 \le r \le \lambda$ e $c_j(0) = \infty$ para 
+$j = 2, \cdots, n$, nós podemos recursivamente computar o valor ótimo 
+para o problema \emph{CSP} que é dado por $c_n(\lambda)$.
+
+A complexidade de tempo deste método é $O(m\lambda)$ e o consumo de 
+espaço é $O(n\lambda)$. Assim a programação dinâmica dá-nos um 
+pseudopolinômial algoritmo para o \emph{CSP}, e também para o problema 
+da \textsc{Mochila}.
+
+Como no caso do problema da \textsc{Mochila}, a abordagem por 
+programação dinâmica pode também ser usada para obter um \emph{PTAS} 
+para o \emph{CSP} utilizando arredondamento e escala, que é discutido na 
+próxima sub-sessão.
+
+As abordagens de \emph{labeling} discutidas na Sessão 3.2.4 construídas 
+em cima da programação dinâmica recursiva faz uso do fato de que 
+$c_j(r)$ é uma função escada (?) (\emph{step function}).
+
+\subsection{$\epsilon$-aproximação}
+
+\emph{CSP} é fracamente $\mathcal{NP}$-completo, já que nós temos uma 
+simples formulação pseudo polinomial por programação dinâmica.  
+\textsc{Hassin (1992)} aplicou a técnica padrão de \emph{rounding and 
+scaling} para obter um \emph{fully polynomial $\epsilon$-approximation 
+scheme} (\emph{PTAS}) para o \emph{CSP}. Vamos rever, resumidamente, 
+este método agora.
+
+Na sessão anterior nós vimos um procedimento simples baseado em 
+programação dinâmica. Para nossos propósitos aqui, um outro algoritmo 
+recursivo é mais útil:
+Digamos que $g_j(c)$ denota o consumo de recursos de um $1j$-caminho 
+mínimo que custa no máximo $c$. Então a seguinte recursão pode ser 
+definida:
+
+$$ g_j(c) = min\{
+g_j(c - 1), \displaystyle\min_{(i,j) \in E, c_{ij} \le c}\{g_i(c - 
+c_{ij}) + r_{ij}\}
+\} $$
+
+Setando $g_1(c) = 0$ para $c = 0, \cdots, OPT$ e $g_j(0) = \infty$ para 
+$2, \cdots, n$, nós podemos iterativamente computar o valor ótimo para 
+nosso problema.
+
+Note que $OPT$ não é um valor conhecido a priori, mas temos que $OPT = 
+min \{c | g_n(c) \le \lambda\}$. Assim, $g_j(c)$ deve ser computado 
+primeiramente para $c=1$ e $j=1,\cdots,n$, depois para $c=2$, e assim 
+sucessivamente até que $g_j(c) \le \lambda$ pela primeira vez, e então 
+que setamos $OPT$ com o valor atual de $c$. A complexidade desde 
+algoritmo é $O(m OPT)$.
+
+Agora, digamos que $V$ seja um certo valor, e suponha que queremos 
+testar se $OPT \ge V$ ou não. Um procedimento polinomial que responde 
+essa questão pode ser estendido em um algoritmo polinomial parar 
+encontrar $OPT$ simplesmente usando uma uma busca binário. Como nosso 
+problema é $\mathcal{NP}$-difícil, temos que nos satisfazer com um teste 
+mais fraco.
+
+Tomemos um $\epsilon$ fixo, $0 < \epsilon < 1$. Agora, nós explicamos um 
+teste polinomial $\epsilon$-aproximado com as seguintes propriedades: se 
+tal teste devolve uma saída positiva, então definitivamente $OPT \ge V$.  
+Se ele revolver uma saída negativa, então nós sabemos que $OPT < (V + 
+\epsilon)$.
+
+O teste arrendonda o custo $c_{ij}$ das arestas, substituindo seu valor 
+por:
+
+$$ \left\lfloor \frac{ c_{ij} }{ \epsilon V / (n-1) } \right\rfloor 
+\cdot \frac{\epsilon V}{(n-1)} $$.
+
+Isto diminui todos os custos de arestas em no máximo $\epsilon V / 
+(n-1)$, e todos os custos de caminhos em no máximo $\epsilon V$. Agora o 
+problema pode ser resolvido aplicando o algoritmo anterior ao grafo com 
+os custo das arestas escalados para $\lfloor c_{ij} / (\epsilon V / 
+(n-1)) \rfloor$. Os valores de $g_j(c)$ para $j = 2, ..., n$, são 
+primeiro computados para $c=1$, depois para $c=1,2,\cdots$ até que
+$g_n(c) \le \lambda$ para algum $c=\hat{c}<(n-1)/\epsilon$, ou $c \ge 
+(n-1)/\epsilon$.
+
+No primeiro caso, um $\lambda$-caminho de custo de no máximo
+$$ \frac{V\epsilon}{n - 1} \hat{c} + V\epsilon < V(1+\epsilon)$$
+foi encontrado, e segue que $OPT < V(1+\epsilon)$. No segundo caso, cada 
+$\lambda$-caminho tem $c' \ge (n-1)/\epsilon$ ou $c \ge V$, então $OPT 
+\ge V$. Assim, o teste funciona como queríamos.
+
+A complexidade de tempo é polinomial cara fixado o $\epsilon$ é 
+explicada em seguida: Tomar a parte inteira de um número não negativo no 
+intervalo $\{0, \cdots, U\}$ pode ser feito em tempo $O(\lg(U))$ usando 
+busca binária. Arrendondar o custo das aresta toma tempo 
+$O(mlg(n/\epsilon))$ desde que nós escalamos somente as arestas com 
+custo menor que $V$ (o resultado é no máximo $(n-1)/\epsilon)$. Depois 
+executamos $O(n\epsilon)$ iterações do algoritmo acima que novamente 
+toma tempo $O(|E|\lg(n/\epsilon))$. E essa é também a complexidade do 
+procedimento de teste inteiro.
+
+Agora nós usamos este teste para chegar a um \emph{PTAS} baseado em 
+escalar e arrendondar: Para aproximar $OPT$ nós primeiramente 
+determinamos um limite superior ($UB$) e um limite inferior ($LB$).  O 
+limite superior $UB$ pode ser setado como a soma das $n-1$ arestas com 
+maior custo, ou o custo da caminho que consome menos recursos. O limite 
+inferior $LB$ pode ser setado como $0$ ou o caminho de menor custo.
+
+Se $UB \le (1 + \epsilon)LB$, então $UB$ é uma $\epsilon$-aproximação de 
+$OPT$. Suponha que $UB > (1+\epsilon)LB$. Seja $V$ um dado valor $LB < V 
+< UB/(1+\epsilon)$. O procedimento \textsc{Teste} pode agora ser 
+aplicado para melhorar os limites para $OPT$. Especificamente, ou $LB$ é 
+aumentado ou $UB$ é diminuído para $V(1+\epsilon)$. Executando uma 
+sequência de testes, a razão $UB/LB$ pode ser reduzida. Uma vez que a 
+razão atinga o valor de uma constante predefinida, digamos $2$, então 
+uma $\epsilon$-aproximação pode ser obtida aplicando-se o algoritmo por 
+programação dinâmica para o grafo com os custo das arestas escalados 
+para $\lfloor c_{ij} / (LB/(n-1)) \rfloor$. O erro final é no máximo 
+$\epsilon LB < \epsilon OPT$.
+
+A complexidade de tempo para o último passo é $O(|E|n/\epsilon)$. A 
+redução da razão $UB/LB$ é melhor alcançada por busca binária no 
+intervalo $(LB, UB)$ em escala logarítmica. Depois de cada teste nós 
+atualizamos os limites. Para garantir uma rápida redução de razão nós 
+executamos o teste com o valor $x$ tal que $UB/x=x/LB$, que é $x = 
+(LB\cdot UB)^{1/2}$. O número de testes necessários para reduzir a razão 
+para abaixo de $2$ é $O(\lg\lg(UB/LB))$ e cada teste toma tempo 
+$O(|E|n/\epsilon)$. \textsc{Hassin (1992)} mostrou como computar um 
+valor inteiro próximo a $O(UB\cdot LB)^{1/2}$ em tempo 
+$O(\lg\lg(UB/LB))$. Isto dá uma complexidade de tempo, total de 
+$O(\lg\lg(UB/LB)(|E|(n\epsilon) + \lg\lg(UB/LB)))$ para este algoritmo 
+$\epsilon$-aproximado como um $PTAS$ para o \emph{CSP}.
+
+\textsc{Hassin (1992)} também mostrou uma \emph{PTAS} cuja a 
+complexidade depende somente do número de variáveis e $1/\epsilon$ e 
+possui complexidade de tempo de $O(|E|(n^2/\epsilon)\lg(n/\epsilon))$.
+O melhor $PTAS$ foi obtido por \textsc{Phillips (1993)} que atingiu a 
+complexidade de tempo de $O(|E|(n/\epsilon) + 
+(n^2/\epsilon)\lg(n/\epsilon))$.
+
+
+\end{document}

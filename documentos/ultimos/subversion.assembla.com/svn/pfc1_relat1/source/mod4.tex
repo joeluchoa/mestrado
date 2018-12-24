@@ -1,0 +1,67 @@
+% ================================
+% Modelagem 4
+% ================================
+
+A última modelagem apresentada neste projeto mostra uma abordagem diferente das modelagens anteriores, e que surgiu de \cite{detal:10}. Nestas eram feitas transformações de alguns arcos do grafo original em vértices no grafo resultante. Nas duas primeiras modelagens eram criados vértices $\<u,v\>$ em $G'$  representando arcos $(u,v)$ de $G$, e na terceira modelagem eram criados  vértices $\<u,v,w\>$ em $G'$ representando conversões livres $(u,v,w)$ em $G$. Diferentemente destas três modelagens anteriores, onde eram feitas transformações de arcos de $G$ para vértices de $G'$, a modelagem desta Seção estende o grafo original a fim de separar cada possível fluxo nele encontrado. A forma encontrada para que cada fluxo seja facilmente identificada foi dividir os vértices, na proporção de um vértice em $G'$ para cada destino de arco nos vértices de $G$. O mesmo foi feito com os vértices que são origem de arcos. Assim sendo, cada arco em $G$ criará um arco e dois vértices em $G'$, um em cada extremidade. Chamemos estes arcos de arcos inter-vértices, pois unem dois vértices distintos de $G$.
+
+São utilizados três campos para dar nome a um vértice em $G'$, de forma semelhante ao que é apresentado na Modelagem 3. O primeiro campo identifica qual vértice de $G$ o vértice de $G'$ representa. O segundo campo indica de qual vértice de $G$ partiu o arco associado ao vértice de $G'$, e da mesma forma o terceiro campo indica o destino do arco. Complementando, o custo associado a cada arco de $G$ adicionado a $G'$ nesta etapa se mantém o mesmo. Como exemplo, dados $u,z \in V(G)$ e $(u,z) \in A(G)$ será gerado $\<u,u,z\>, \<z,u,z\> \in V(G')$ e um arco $(\<u,u,z\>,\<z,u,z\>) \in A(G')$ unindo os dois vértices com custo $c'(\<u,u,z\>,\<z,u,z\>) = c(u,z)$. Embora um pouco confuso à primeira vista, esta forma de nomear os vértices facilita a compreensão da transformação de $G$ em $G'$, e nada impede que em uma implementação seja feito um mapeamento para nomes mais fáceis de serem tratados.
+
+Levando em consideração o grafo da Figura \ref{grafooriginal} o início do grafo $G'$ se dá como visto na Figura \ref{mod4-fig1}. Esta primeira figura agrupa os vértices de $G'$ criados a partir de um mesmo vértice de $G$ para facilitar o entendimento de como foram criados esses vértices e da nomenclatura dos mesmos.
+
+\begin{figure*}[hct]
+ \centering
+ \includegraphics[scale = 0.45]{\locimg mod4-fig1.pdf}
+ \caption{Criação dos vértices e dos arcos inter-vértices.}
+ \label{mod4-fig1}
+\end{figure*}
+
+Com os vértices e os arcos inter-vértices criados incluímos os arcos que representam as ``ligações internas'' de um mesmo vértice de $G$, e chamemos estes arcos de intra-vértices. A inclusão de um destes arcos em $G'$  permite a ligação entre três vértices consecutivos de $G$ (do vértice anterior, do vértice atual e do próximo vértice). Em outras palavras, significa que aquele caminho é uma conversão livre em $G$. Portanto para criarmos uma conversão livre basta utilizar um arco intra-vértice do segundo vértice da conversão livre, e para inibir que um caminho proibido seja percorrido basta eliminar o arco intra-vértice correspondente no segundo vértice de tal caminho.
+
+Como não há nenhum ônus quando se entra ou sai de um vértice em $G$, os arcos intra-vértices em $G'$ não possuem custo, podendo ser percorridos sem o consumo de valor algum. O grafo da Figura \ref{mod4-fig2} apresenta o grafo $G'$ com todos os vértices e arcos. É representado de uma forma diferente da Figura \ref{mod4-fig1} a fim de melhor se ajustar aos limites da página e facilitar a sua vizualização.
+
+
+\begin{figure*}[hct]
+\centering
+\includegraphics[scale = 0.6]{\locimg mod4-fig2.pdf}
+\caption{Grafo $G'$ completo.}
+\label{mod4-fig2}
+\end{figure*}
+
+
+No entanto, o grafo anterior ainda possui caminhos proibidos de tamanho igual a dois. A remoção destes caminhos é feita de uma forma mais prática que nas abordagens anteriores, bastando apenas remover o arco intra-vértice, em $G'$, do vértice correspondente ao segundo vértice do caminho em $G$. No grafo original tomado como exemplo em todas as modelagens, o conjunto de caminhos proibidos é $F(G) = \{(v,w,z)\}$. Para eliminar este caminho proibido de $G'$ basta remover o arco intra-vértice de $w$ que une os vértices $v, w$ e $z$ de $G$, ou seja, remover $(\<w,v,w\>,\<w,w,z\>)$ de $A(G')$. A Figura \ref{mod4-fig3} mostra o grafo $G'$ já sem a presença de caminhos proibidos.
+
+\begin{figure*}[hct]
+\centering
+\includegraphics[scale = 0.6]{\locimg mod4-fig3.pdf}
+\caption{Grafo $G'$ já sem caminhos proibidos.}
+\label{mod4-fig3}
+\end{figure*}
+
+Agora resta apenas a inclusão dos vértices iniciais, que serão origens de qualquer caminho em $G'$. Para isso, cada vértice $v$ de $G$ gera um vértice $v$ em $G'$ e, para cada um dos vértices adicionados, deve-se criar arcos $(v,\<v,v,w\>)$ para todo vértice $\<v,v,w\>$ de $V'$. Ou seja, inserimos os vértices iniciais em $G'$ e criamos arcos unindo estes novos vértices aos vértices que são origem de arcos inter-vértices de $G'$. O custo dos novos arcos é zero e o grafo final, que permite caminhos entre qualquer par de vértices, é visto na Figura \ref{mod4-fig4}.
+
+\begin{figure*}[h!ct]
+ \centering
+ \includegraphics[scale = 0.65]{\locimg mod4-fig4.pdf}
+ \caption{Grafo $G'$ final.}
+ \label{mod4-fig4}
+\end{figure*}
+
+Uma vez encontrado um caminho mínimo $P'$ em $G'$ partindo de $s$ e chegando a $t$, a construção de um caminho $P$ correspondente em $G$ se dá através da seleção dos prefixos dos nomes dos vértices de $P'$, de forma que os prefixos que aparecem duas vezes consecutivas em $P'$ sejam selecionados apenas uma vez. Desta forma, dado o caminho mínimo $P' = \{s,\<s,s,u\>,\<u,s,u\>,\<u,u,w\>,\<w,u,w\>,\<w,w,z\>,\<z,w,z\>,\<z,z,t\>,\<t,z,t\>\}$, os prefixos selecionados segundo o critério mencionado anteriormente são os sublinhados em $\{\underline{s}, \<s,s,u\>,\<\underline{u},s,u\>,\<u,u,w\>.\<\underline{w},u,w\>,\<w,w,z\>,\<\underline{z},w,z\>,\<z,z,t\>,\<\underline{t},z,t\>\}$, o que nos leva ao caminho $P = \{s,u,w,z,t\}$ em $G$.
+
+
+%-----------------------------------------------------------------------------
+\subsection{Análise}
+\label{mod4-analise}
+
+A quantidade de vértices do grafo $G'$ resultante, como descrito no início desta Seção \ref{mod4}, é obtida através do número de arcos e de vértices em $G$. Cada arco neste grafo gera um par de vértices em $G'$ e cada vértice de $G$ é repetido em $G'$ para serem os vértices iniciais, o que nos leva a inferir a quantidade de vértices do grafo resultante como sendo:
+
+$$|V'| = |V| + 2|A|$$
+
+\
+
+Levando em consideração que existe um arco unindo cada par de vértices criados em $G'$ a partir dos arcos de $G$ sabemos, inicialmente, que a quantidade de arcos em $G'$ será $|A'| \geq |A|$. Outros arcos incluídos em $G'$ são os arcos intra-vértices, que, uma vez criados, simbolizam as conversões livres em $G$. Por último, temos os arcos que partem dos vértices iniciais. Assim chegamos a:
+
+$$|A'| = 2|A| + |L|$$
+
+
+

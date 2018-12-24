@@ -1,0 +1,164 @@
+\documentclass{beamer}
+
+% -------------------------------------------------------------------- %
+% Pacotes 
+\usepackage[T1]{fontenc}
+\usepackage[brazil]{babel}
+\usepackage[latin1]{inputenc}
+
+% usamos arquivos pdf/png como figuras
+%\usepackage[pdftex]{graphicx}
+
+% espaçamento flexível
+\usepackage{setspace}
+
+% indentação do primeiro parágrafo
+\usepackage{indentfirst}
+
+% acrescentamos a bibliografia/indice/conteudo no Table of Contents
+%\usepackage[nottoc]{tocbibind}
+
+% usa o Adobe Courier no lugar de Computer Modern Typewriter
+\usepackage{courier}
+
+% fontes realmente escaláveis
+\usepackage{type1cm}
+
+% para formatar código-fonte (ex. em Java)
+\usepackage{listings}
+
+%\usepackage{titletoc}
+
+% links coloridos
+%\usepackage[pdftex,plainpages=false,pdfpagelabels,pagebackref,colorlinks=true,citecolor=DarkGreen,linkcolor=NavyBlue,urlcolor=DarkRed,filecolor=green,bookmarksopen=true]{hyperref}
+
+% soluciona o problema com o hyperref e capitulos
+%\usepackage[all]{hypcap}
+
+% citação bibliográfica textual(plainnat-ime.bst)
+\usepackage[round,sort,nonamebreak]{natbib}
+
+\fontsize{60}{62}\usefont{OT1}{cmr}{m}{n}{\selectfont}
+
+\usepackage{amsfonts}
+
+\usepackage{latexsym} % defines \Box and \rhd
+\usepackage{ifthen}
+\usepackage{amsmath} % I use \tag{} (Latex Companion p.240) (amstex obsolete)
+%\usepackage{nicefrac} % nice fractions in text
+\usepackage{euscript} % fonte de letras cursivas
+\usepackage{epsf}
+\usepackage{epsfig}   % figuras
+% \usepackage[dvips]{graphicx,psfrag} %figuras
+\usepackage[dvips]{psfrag} %figuras
+
+
+
+% -------------------------------------------------------------------- %
+% Cabeçalhos similares ao TAOCP de Donald E. Knuth
+%\usepackage{fancyhdr}
+%\pagestyle{fancy}
+%\fancyhf{}
+%\renewcommand{\chaptermark}[1]{\markboth{\MakeUppercase{#1}}{}}
+%\renewcommand{\sectionmark}[1]{\markright{\MakeUppercase{#1}}{}}
+%\renewcommand{\headrulewidth}{0pt}
+
+% -------------------------------------------------------------------- %
+% caminho das figuras (recomendável)
+\graphicspath{{./figuras/}}
+
+% arruma o espaço: id est (i.e.) e exempli gratia (e.g.) 
+\frenchspacing
+
+% URL com o mesmo estilo do texto e não mono-spaced
+\urlstyle{same}
+
+% para não permitir espaços extra no texto
+\raggedbottom
+
+\fontsize{60}{62}\usefont{OT1}{cmr}{m}{n}{\selectfont}
+\cleardoublepage
+\normalsize
+
+% -------------------------------------------------------------------- %
+% Opções de listing usados para o código fonte
+% Ref: http://en.wikibooks.org/wiki/LaTeX/Packages/Listings
+\lstset{ %
+% choose the language of the code
+  language=Java,
+% the size of the fonts that are used for the code
+  basicstyle=\footnotesize,
+% where to put the line-numbers
+  numbers=left,
+% the size of the fonts that are used for the line-numbers
+  numberstyle=\footnotesize,
+% the step between two line-numbers. If it's 1 each line will be 
+% numbered
+  stepnumber=1,
+% how far the line-numbers are from the 
+  numbersep=5pt,
+% show spaces adding particular code
+  showspaces=false,
+% underline spaces within strings underscores
+  showstringspaces=false,
+% show tabs within strings adding particular underscores
+  showtabs=false,
+% adds a frame around the code
+  frame=single,
+  framerule=0.6pt,
+% sets default tabsize to 2 spaces
+  tabsize=2,
+% sets the caption-position to bottom
+  captionpos=b,
+% sets automatic line breaking
+  breaklines=true,
+% sets if automatic breaks should only
+  breakatwhitespace=false,
+% if you want to add a comment within happen at whitespace
+  escapeinside={\%*}{*)},
+% choose the background color. your code
+  backgroundcolor=\color[rgb]{1.0,1.0,1.0},
+  rulecolor=\color[rgb]{0.8,0.8,0.8},
+  extendedchars=true,
+  xleftmargin=10pt,
+  xrightmargin=10pt,
+  framexleftmargin=10pt,
+  framexrightmargin=10pt
+}
+
+%\usepackage{./joel}
+
+\title{Exemplo de Uso do Beamer}
+\author{Carlos Campani}
+
+\usetheme{Berkeley}
+
+\begin{document}
+
+\frame{\titlepage}
+\section{Sumário}
+\frame{\tableofcontents}
+
+\AtBeginSection[]
+{
+  \begin{frame}
+    \frametitle{Sumário}
+    \tableofcontents[currentsection, currentsubsection]
+  \end{frame}
+}
+
+
+\section{Usando Beamer}
+\frame
+{
+  \frametitle{Características}
+  \begin{itemize}
+    \item<1-> Classe \LaTeX;
+    \item<2-> Sobreposição (overlays);
+    \item<3-> Transições animadas.
+  \end{itemize}
+}
+
+\input apres/introducao
+
+\end{document}

@@ -1,0 +1,114 @@
+= IMPLEMENTAÇÃO
+http://www.ziegelmann.org/ziegelmann/CNOP.htm
+
+== IMPORTANTE ==
+Na definição do problema deve se fazer oscomentários sobre ciclos neagativos
+de custo ou ciclos nulos de recursos no grafo.
+
+= Abreviações para o problema
+
+  - RSP (An Improved FPTAS for Restricted Shortest Path, Funda Ergun, Rakesh
+    Sinha Lisa Zhang, April 4, 2002)
+  - CSPP (Lagrangian Relaxation and Enumeration for solving constrained
+    shortest-path-problem, W. Matthew Carlyle, Johannes O. Royset, R. Kevin
+    Wood)
+  - RCSP (An algorithm for the resource constrained shortest path problem, J.
+    E. Beasley, N. Christofides)
+  - CSP (Resource Constrained Shortest Paths, Kurt Mehlhorn, Mark Ziegelmann)
+  - ERCSPP (Accelerated label setting algorithms for the elementary resource
+    constrained shortes path problem, Natashia Boland, John Dethridge, Irina
+    Dumitrescu)
+  - Especialização para um único recurso: ?? WCSPP (Algorithms for the Weight 
+    Constrained Shortest Path Problem, Irina Dumitrescu, Natashia Boland)
+
+
+= Aplicações
+
+(An Improved FPTAS for Restricted Shortest Path, Funda Ergun, Rakesh Sinha 
+Lisa Zhang, April 4, 2002)
+RSP, embora seja de interesse teórico, é também uma abstração de vários
+problemas de "path provisioning" surgidos em "Quality of Service (QoS)
+routing" em redes de alta velocidade. Dado os "QoS requeriments" de uma
+aplicação e os recursos disponíveis na rede, a meta é a identificação rotas
+viáveis satisfazendo esses "requeriments" enquanto otimiza outro parâmetro,
+como custo. Neste contexto, os vértices podem ser "IP routers" ou "intelligent
+optical switches" rodando algum protocolo similar ao "Generalized
+Multiprotocol Label Switching (GMPLS)".
+
+(Resource Constrained Shortest Paths, Kurt Mehlhorn, Mark Ziegelmann)
+CSP tem aplicações em "mission planning" e "operations research".
+
+(Accelerated label setting algorithms for the elementary resource
+constrained shortes path problem, Natashia Boland, John Dethridge, Irina
+Dumitrescu)
+Nossa motivação para estudar o ERCSPP vem da sua aplicação em métodos de
+"column generation". Por exemplo, o subproblema para a "column generation"
+para o problema "short-haul aircraft rotation" (Flight string models for
+aircraft fleeting and routing, C. Barnhart, N. Boland, L. Clarke, E.L.
+Johnson, G.L. Nemhauser, R.G. Shenoi, 1998) procura caminhos no rede de
+conexão dos vôos (em que os vértices representam vôos) que tem custo reduzido
+negativo e tempo total de vôo não mais que o permitido para uma aeronave
+entre paradas de manutenção. Outro critério, como o número de dias, ou número
+de vôos, podem também ser limitados. Isto pode ser modelado como um ERCSPP em
+que "arc costs model reduced costs and resources" são usados para modelar o
+tempo de vôo, "elapsed time", ou número de vôos. Como o período de
+escalonamento é tipicamente um dia, que é muito menor que intervalo máximo
+entre manutenções, ciclos de custo negativo podem aparecer no grafo.
+Um outro exemplo, é o subproblema para o problema "vehicle routing" com janela
+de tempo (VRPTW), que consiste em procurar uma rota de custo reduzido negativo
+que respeita a capacidade do veículo e as restrições de janela de tempo (A new
+optimization algorithm for the vehicle routing problem with time windows, M.
+Desroches, J. Desrosiers, M. Solomon, 1992).
+Isto pode ser modelado como uma "general resource constrained form of the
+ERCSPP" em que o modelo de custo reduz custos e o modelo de recursos "customer
+demands and travel times".
+
+(Lagrangian Relaxation and Enumeration for solving constrained
+shortest-path-problem, W. Matthew Carlyle, Johannes O. Royset, R. Kevin Wood)
+O CSPP surge em muitos contextos no mundo real. Um bem conhecido é aplicado a
+column-generation for generalized set-partitioning models of crew-scheduling
+and crew-rostering problems, especialmente in the airline industry (e.g. [4.
+25, 26, 38]), signal routing in communications networks having
+quality-of-service guarantees (see [36]), signal compression [30] and numerous
+tranportation problems (e.g. [20, 29]).
+
+(Algorithms for the Weight 
+    Constrained Shortest Path Problem, Irina Dumitrescu, Natashia Boland)
+Por exemplo, Halpern e Priess em [Halpern, 1974], descrevem uma aplicação para
+gerenciamento de "railroads".
+
+(The Network Inhibition Problem, Cyntia A. Philips)
+
+= Complexidade
+
+Jaffe (Algorithms for finding paths with multiple constraints, J. M. Jaffe,
+1984) apresentou uma análise da versão de decisão do problema (decidir se
+existe um caminho de tamanho no máximo L, e que satisfaz as restrições dos
+recursos existe ou não) provando que o mesmo é NP-completo.
+
+(Note on the complexity of the shortest path models for column generation in
+VRPTW, M. Dror, 1994)
+O ERCSPP é NP-difícil "in the strong sence" (uma simples tranformação do
+problema para o problema de maior caminho prova).
+
+(Lagrangian Relaxation and Enumeration for solving constrained
+shortest-path-problem, W. Matthew Carlyle, Johannes O. Royset, R. Kevin
+Wood)
+O CSPP é NP-completo "in the weak sense for a fixed number of side
+constraints" e admite uma solução por programação dinâmica. (The shortest
+route problem with constraints, H. Joksch, 1966).
+
+(Algorithms for the Weight Constrained Shortest Path Problem, Irina
+Dumitrescu, Natashia Boland)
+O WCSPP é NP-difícil mesmo se considerarmos um único recurso, o grafo acíclico
+e todos os pesos e custos positivos. (ver Garey,1979, página 214).
+
+= Palavras Chaves
+  - Combinatorial Optimization
+  - Networks
+  - Routing
+  - path enumeration
+  - lagrangian relaxation
+  - constrained shortest paths
+  - dynamic programming
+  - approxamation algorithms

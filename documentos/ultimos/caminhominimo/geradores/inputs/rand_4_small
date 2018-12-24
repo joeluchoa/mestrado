@@ -1,0 +1,8 @@
+#Modified from oridinal for DIMACS Challenge 5 ccm 7/96
+# 
+ 
+../bin/sprand 8192 32768 561 -cl1 | ../bin/$1 > ../results/$0.8192.1
+../bin/sprand 8192 32768 563 -cl1 | ../bin/$1 > ../results/$0.8192.2
+../bin/sprand 8192 32768 565 -cl1 | ../bin/$1 > ../results/$0.8192.3
+../bin/sprand 8192 32768 567 -cl1 | ../bin/$1 > ../results/$0.8192.4
+../bin/sprand 8192 32768 569 -cl1 | ../bin/$1 > ../results/$0.8192.5

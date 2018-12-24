@@ -1,0 +1,77 @@
+% ================================
+% Modelagem 1
+% ================================
+
+A Modelagem 1 constrói um grafo $G'$ através do mapeamento de arcos em vértices: cada arco $(u,v)$ em $G$ se torna um vértice $\<u,v\>$ em $G'$. Desta forma, cada conversão livre $\ell=(u,v,w)$ em $G$ gera um arco $(\<u,v\>, \<v,w\>)$ em $G'$. O custo $c'$ do arco em $G'$ é dado por $c'(\<u,v\>, \<v,w\>)=(c(u,v)+c(v,w))/2$, que corresponde à metade do custo do caminho $(u,v,w)$ em $G$. 
+
+Para exemplificar a descrição da modelagem será utilizado o grafo exibido na Figura \ref{grafooriginal}. Nele temos o conjunto de vértices $V(G) = \{ s, u, v, w, z, t \}$,  o conjunto de arcos $A(G) = \{ (s,u), (u,w), (w,z), (z,t), (s,v), (v,w) \}$, o conjunto de conversões livres $L(G) = \{ (s,u,w), (s,v,w), (u,w,z), (w,z,t) \}$ e a função de custo $c(s,t)$. O conjunto de caminhos proibidos $F(G) = \{(v,w,z)\}$ pode ser encontrado através da eliminação de $L(G)$ do conjunto que contém todos os caminhos de $G$ com comprimento dois, uma vez que $L(G) \bigcup F(G) = C_2(G)$ e $L(G) \bigcap F(G) = \emptyset$.
+
+\begin{figure*}[hct]
+\centering
+\includegraphics[scale=0.75]{\locimg grafooriginal.pdf}
+\caption{Grafo original.}
+\label{grafooriginal}
+\end{figure*}
+
+A Figura \ref{mod1-fig1} nos mostra como fica o grafo $G'$ após a geração dos primeiros vértices, e a Figura \ref{mod1-fig2} nos mostra como fica o grafo $G'$ após inclusão dos primeiros arcos.
+
+\begin{figure*}[hct]
+  \centering
+  \includegraphics[scale = 0.75]{\locimg mod1-fig1.pdf}
+  \caption{Mapeamento de arcos em $G$ para vértices em $G'$.}
+  \label{mod1-fig1}
+\end{figure*}
+
+\begin{figure*}[hct]
+  \centering
+  \includegraphics[scale = 0.75]{\locimg mod1-fig2.pdf}
+  \caption{Inclusão dos primeiros arcos em $G'$.}
+  \label{mod1-fig2}
+\end{figure*}
+
+Todos os vértices originais de $G$ são também adicionados a $G'$ (vide Figura \ref{mod1-fig3}). Enquanto os primeiros vértices adicionados a $G'$ (aqueles gerados a partir de arcos de $G$) serão partes internas de qualquer caminho, estes últimos vértices adicionados (os vértices \textit{herdados} do grafo inicial $G$) serão  a origem e o destino \footnote{Dado um caminho $s \leadsto t$, que se inicia em $s$ e termina em $t$, dizemos que $s$ é o vértice origem (ou vértice inicial) e $t$ é o vértice destino (ou vértice final) do caminho.} de qualquer caminho em $G'$. Um caminho em $G'$ sempre irá começar em um dos vértices \textit{herdados} de $G$, passará por um ou mais vértices gerados a partir dos arcos de $G$, e terminará em outro vértice \textit{herdado} de $G$. Para que isso seja possível todos os vértices de $G$ são incluídos em $G'$ e, dado $s$ como o vértice inicial de um caminho em $G$, todo arco $(s,v)$ em $G$ gera um arco $(s,\<s,v\>)$ em $G'$, com custo $c'$ dado por $c'(s,\<s,v\>)=c(s,v)/2$. Isso garante que qualquer caminho em $G'$ seja iniciado em um vértice ``externo'' (que possui um vértice correspondente em $G$) e então os vértices ``internos'' de $G'$ (os vértices que originaram de arcos em $G$) serão percorridos, garantindo apenas os caminhos permitidos.
+
+\begin{figure*}[hct]
+  \centering
+  \includegraphics[scale = 0.6]{\locimg mod1-fig3.pdf}
+  \caption{Inclusão dos vértices ``externos'' de $G'$.}
+  \label{mod1-fig3}
+\end{figure*}
+
+De modo semelhante, para que os vértices destinos possam ser alcançados, todo arco $(u,v)$ em $G$ gera também um arco $(\<u,v\>,v)$ em $G'$, com a mesma função de custo $c'$ definida por $c'(\<u,v\>,v)=c(u,v)/2$. Com a inclusão destes arcos os caminhos em $G'$ podem alcançar os vértices ``externos'' do mesmo grafo, resultando assim em um caminho em $G'$ e também, após uma fácil tradução de vértices, em um caminho em $G$.
+
+Podemos notar que a modelagem foi definida pressupondo caminhos do tipo $s \leadsto x$, onde $s$ é o vértice de interesse inicial e $x$ é todo outro vértice pertencente ao grafo. Contudo, ela pode ser alterada para tratar caminhos entre quaisquer pares de vértices. Isso não é feito de forma direta, pois, para todo e qualquer $(u,v) \in A$, a criação de $(u,\<u,v\>)$ e $(\<u,v\>,v)$ em $A'$ gera caminhos adicionais que podem ser proibidos. Uma solução encontrada foi a replicação de todos os vértices $x$ de $V'$, criando os vértices $x'$ de $V'$, de forma que os vértices $x$ sejam apenas origens de arcos e os vértices $x'$ sejam apenas destinos de arcos. Assim, todo e qualquer $(u,v) \in A$ irá gerar $(u,\<u,v\>)$ e $(\<u,v\>,v')$ em $A'$, fazendo com que nenhum caminho inicie em $v'$ nem termine em $u$. Isso evita que caminhos adicionais sejam gerados e deixa o grafo resultante preparado para encontrar caminhos entre todos os pares de vértices (Figura \ref{mod1-fig4}).
+
+\begin{figure*}[hct]
+  \centering
+  \includegraphics[scale = 0.6, angle = 270]{\locimg mod1-fig4.pdf}
+  \caption{Atribuindo arcos aos vértices ``externos'' de $G'$.}
+  \label{mod1-fig4}
+\end{figure*}
+
+\
+
+Agora, com o grafo auxiliar já bem definido, precisamos saber como mapear os caminhos de $G'$ para $G$. Uma vez encontrado um caminho $P'$ em $G'$, partindo de $s$ e terminando em um vértice $t'$, é possível construir um caminho $P$ correspondente em $G$ eliminando o segundo identificador de um vértice em uma ocorrência consecutiva do identificador em $P$. Supondo $P=\{s,\<s,u\>,\<u,w\>,\<w,z\>,\<z,t\>,t'\}$ do grafo da Figura \ref{mod1-fig4}, obtemos o caminho correspondente em $G$ (grafo da Figura \ref{grafooriginal}) ao subtrair de $P$ os identificadores sublinhados em ${\{s,\<\underline{s},u\>,\<\underline{u},w\>,\<\underline{w},z\>,\<\underline{z},t\>,\underline{t'}\}}$. O caminho em $G$ é, portanto, $\{s,u,w,z,t\}$, e o custo do caminho correspondente em $G$ é o mesmo custo do caminho em $G'$.
+
+
+%-----------------------------------------------------------------------------
+\subsection{Análise}
+\label{mod1-analise}
+
+Considerando $|A|$ como sendo a quantidade de arcos em $G$, $|V|$ sendo a quantidade de vértices em $G$, $|A'|$ e $|V'|$ os respectivos de $G'$, e $|L|$ a quantidade de caminhos livres em $G$, podemos inferir a complexidade desta modelagem.
+
+\label{mod1-vertices}
+Na parte inicial, todos os arcos $(u,v)$ de $G(V,A)$ são transformados em vértices $\<u,v\>$ de $G'(V',A')$ (vide Figura \ref{mod1-fig1}). Isso nos leva a $|V'| = |A|$. O grafo $G'$ possui ainda todos os vértices de $G$, que servem como origem nos caminhos percorridos em $G'$ (o que pode ser verificado na Figura \ref{mod1-fig3}). Completando os chamados vértices ``externos'', temos as réplicas dos vértices de $G$, que servem como destinos dos caminhos de $G'$ (vide Figura \ref{mod1-fig4}). Somando o número de vértices ``externos'' à quantidade já calculada, temos que:
+$$|V'| = 2|V| + |A|$$
+
+\
+
+Na primeira fase os arcos são criados apenas entre os vértices $\<u,v\>$ de $G'$. A criação de um arco entre os vértices $\<u,v\>$ e $\<v,w\>$ significa que o subcaminho $(u,v,w)$ em $G$ é uma conversão livre e que $|A'| \geq |L|$. Na próxima etapa da modelagem são criados todos os arcos que partem do vértice origem do caminho. Supondo $s$ tal vértice e $x$ um vértice qualquer em $G$, todos os vértices do tipo $\<s,x\>$ em $G'$ recebem um arco de $s$ em $G'$. Com isso adicionamos a $|A'|$ o grau de saída de $s$. Na última etapa são gerados arcos $(\<u,v\>,v')$ para todos os vértices do tipo $\<u,v\>$ em $G'$. Tais arcos correspondem aos arcos de $G$ e temos mais $|A|$ arcos em $|A'|$. Assim:
+$$|A'| = |L| + d^+(s) + |A|$$
+
+\
+
+Isso considerando que teremos apenas $s$ como vértice inicial de qualquer caminho em $G$. Em outras palavras, essa análise leva em consideração, até agora, somente os caminhos que iniciam em $s$. Se quisermos considerar todos os caminhos em $G$ que comecem em qualquer vértice e não somente os iniciados em $s$ -- o que é verdade no mundo real -- , também as arestas do tipo $(v,\<v,w\>)$ devem ser criadas para todos os outros vértices $v \neq s$ pertencentes ao grafo. Tenha em mente que $v \neq v'$ e que $v'$ não é origem de nenhum arco. Assim, adicionando-se as arestas agora citadas com as arestas do vértice $s$ já presentes em $G'$, temos que todas as arestas que saem de algum vértice de $G$ são agora acrescentadas também em $G'$. Sabendo que $d^+(s) + \sum (d^+(v)) \forall v \in \{V(G)-\{s\}\} = |A|$ temos agora que:
+$$|A'| = |L| + 2|A|$$
+
+

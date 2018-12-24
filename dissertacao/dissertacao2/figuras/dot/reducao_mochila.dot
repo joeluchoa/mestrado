@@ -1,0 +1,27 @@
+digraph G {
+  rankdir="LR";
+  orientation="landscape";
+  ranksep=1.2;
+
+  node [shape=circle, texmode="math"];
+
+  edge [lblstyle=auto]
+
+  0 [texlbl="$0$"]
+  1 [texlbl="$1$"]
+  2 [texlbl="$2$"]
+  i [texlbl="$\cdots$", shape=none]
+  n [texlbl="$n$"]
+
+  root=n;
+  leaf=0;
+
+  0 -> 1 [topath="bend left", label=" ", texlbl="$M-v_1$ / $w_1$"];
+  0 -> 1 [topath="bend right", label=" ", style=dashed, texlbl="$M$ / $0$"];
+  1 -> 2 [topath="bend left", label=" ", texlbl="$M-v_2$ / $w_2$"];
+  1 -> 2 [topath="bend right", label=" ", style=dashed, texlbl="$M$ / $0$"];
+  2 -> i [topath="bend left", label=" ", texlbl="$M-v_3$ / $w_3$"];
+  2 -> i [topath="bend right", label=" ", style=dashed, texlbl="$M$ / $0$"];
+  i -> n [topath="bend left", label=" ", texlbl="$M-v_n$ / $w_n$"];
+  i -> n [topath="bend right", label=" ", style=dashed, texlbl="$M$ / $0$"];
+}

@@ -1,0 +1,87 @@
+\relax 
+\citation{katoh:n-12-411}
+\citation{yen:ms-17-712}
+\citation{hershberger:acmta-3-??}
+\@writefile{toc}{\contentsline {chapter}{\numberline {4}Algoritmo de Katoh, Ibaraki e Mine}{51}}
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cap:algoritmo-kim}{{4}{51}}
+\@writefile{brf}{\backcite{katoh:n-12-411}{{51}{4}{}}}
+\@writefile{brf}{\backcite{yen:ms-17-712}{{51}{4}{}}}
+\@writefile{brf}{\backcite{hershberger:acmta-3-??}{{51}{4}{}}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.1}Caminhos derivados}{52}}
+\newlabel{sec:caminhosDerivados}{{4.1}{52}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.2}\'Arvores $Ts$ e $Tt$}{53}}
+\newlabel{sec:arvores}{{4.2}{53}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.1}{\ignorespaces A partir do menor caminho, $P1$, calculamos o segundo menor caminho, $P2$. $P1$ e $P2$ formam a base para a obten\c c\~ao do pr\'oximo caminho, $P3$. O caminho $Pa$ corresponde ao menor caminho que se desvia do caminho $P2$ em algum momento depois que o caminho $P2$ se desviou do $P1$. O caminho $Pb$ corresponde ao menor caminho que se desvia do caminho $P1$ depois do v\'ertice comum a $P1$ e $P2$. O caminho $Pc$ corresponde ao menor caminho que se desvia de P1 antes do v\'ertice comum a $P1$ e $P2$. Tomando-se estes tr\^es caminhos candidatos para $P3$, basta analisar o de menor custo o qual ser\'a o $P3$. }}{55}}
+\newlabel{fig:caminhosDerivados}{{4.1}{55}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.2}{\ignorespaces  Em (a) temos o grafo de exemplo a partir do qual geraremos \'arvores com raiz em $s$=$a$ e $t$=$e$. Em vermelho est\'a marcado o menor caminho de $a$ a $e$. Em (b) temos a \'arvore de menores caminhos com raiz em $a$. Em (c) temos a \'arvore de menores caminhos com raiz em $e$. Em ambas as \'arvores a linha vermelha corresponde ao menos caminho de $a$ a $e$ e este \'e o mesmo que o assinalado no grafo~\ref  {fig:rotulacao}(a).}}{55}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {Grafo}}}{55}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {\'Arvore Ts}}}{55}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(c)}{\ignorespaces {\'Arvore Tt}}}{55}}
+\newlabel{fig:rotulacao}{{4.2}{55}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.3}Arestas com custo zero}{56}}
+\newlabel{fig:arvoresComZero}{{4.3}{56}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.3}{\ignorespaces  Em (a) temos o grafo de exemplo a partir do qual geraremos \'arvores com raiz em $s$=$a$ e $t$=$e$. Em vermelho est\'a marcado o menor caminho de $a$ a $e$. Em (b) temos a \'arvore de menores caminhos com raiz em $a$. Em (c) temos a \'arvore de menores caminhos com raiz em $e$. Em ambas as \'arvores a linha vermelha corresponde ao menor caminho de $a$ a $e$ e este \'e o mesmo que o assinalado no grafo~\ref  {fig:grafoComZero}(a). Observe que na \'arvore $Ts$ $\epsilon (c)=3$ e na \'arvore $Tt$ $\zeta (c)=2$, ou seja, $\epsilon (c) > \zeta (c)$, o que viola a regra b\'asica do algoritmo. }}{56}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {Grafo}}}{56}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {\'Arvore Ts}}}{56}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(c)}{\ignorespaces {\'Arvore Tt}}}{56}}
+\newlabel{fig:grafoComZero}{{4.3}{56}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.4}Simula\c c\~ao}{57}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.4}{\ignorespaces  Em (a) temos o grafo base usado na simula\c c\~ao. Em vermelho temos o caminho $P1$ gerado a partir de uma chamada ao algoritmo Dijkstra com origem $a$ e destino $d$. Em (b) temos a \'arvore de menores caminhos com raiz em $a$. Em (c) temos a \'arvore de menores caminhos com raiz em $e$. Em ambas as \'arvores a linha vermelha corresponde ao menor caminho de $a$ a $e$ e este \'e o mesmo que o assinalado no grafo em (a).}}{57}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {Grafo}}}{57}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {\'Arvore Ts}}}{57}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(c)}{\ignorespaces {\'Arvore Tt}}}{57}}
+\newlabel{fig:simulacao1}{{4.4}{57}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.5}{\ignorespaces Esquema de gera\c c\~ao do caminho $Pa$ derivado do caminho $P2=\delimiter "426830A a, f, g, d \delimiter "526930B $}}{58}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {Grafo}}}{58}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {\'Arvore Ts}}}{58}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(c)}{\ignorespaces {\'Arvore Tt}}}{58}}
+\newlabel{fig:simulacao2}{{4.5}{58}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.6}{\ignorespaces Esquema de gera\c c\~ao do caminho $Pb$ derivado do caminho $P1 = \delimiter "426830A a, b, g, d \delimiter "526930B $}}{59}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {Grafo}}}{59}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {\'Arvore Ts}}}{59}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(c)}{\ignorespaces {\'Arvore Tt}}}{59}}
+\newlabel{fig:simulacao3}{{4.6}{59}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.5}Implementa\c c\~ao}{61}}
+\newlabel{getPaths}{{4.1}{61}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {4.1}Rotina getPaths respons\'avel por calcular e retornar os $k$-menores caminhos}{61}}
+\newlabel{FSP}{{4.2}{63}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {4.2}Rotina FSP, dado um caminho base retorna o menor caminho diferente deste.}{63}}
+\newlabel{SEP}{{4.3}{64}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {4.3}Considerando os r\'otulos $\epsilon $ e $\zeta $, testa caminhos do tipo I e II, retornando o menor dentre eles.}{64}}
+\newlabel{getSons}{{4.4}{64}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {4.4}Retorna todos os v\'ertices filhos do v\'ertice $u$ na \'arvore $T$ enraizada pelo v\'ertice $s$}{64}}
+\newlabel{getPa}{{4.5}{65}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {4.5}Calcula o menor caminho $Pa$, vide figura~\ref  {fig:caminhosDerivados}.}{65}}
+\newlabel{getPb}{{4.6}{65}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {4.6}Calcula o menor caminho $Pb$, vide figura~\ref  {fig:caminhosDerivados}.}{65}}
+\newlabel{getPc}{{4.7}{66}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {4.7}Calcula o menor caminho $Pc$, vide figura~\ref  {fig:caminhosDerivados}.}{66}}
+\@setckpt{07-kim}{
+\setcounter{page}{67}
+\setcounter{equation}{0}
+\setcounter{enumi}{3}
+\setcounter{enumii}{0}
+\setcounter{enumiii}{0}
+\setcounter{enumiv}{0}
+\setcounter{footnote}{0}
+\setcounter{mpfootnote}{0}
+\setcounter{part}{0}
+\setcounter{chapter}{4}
+\setcounter{section}{5}
+\setcounter{subsection}{0}
+\setcounter{subsubsection}{0}
+\setcounter{paragraph}{0}
+\setcounter{subparagraph}{0}
+\setcounter{figure}{6}
+\setcounter{table}{0}
+\setcounter{theoremnumber}{0}
+\setcounter{SC@C}{0}
+\setcounter{lstnumber}{23}
+\setcounter{subfigure}{0}
+\setcounter{lofdepth}{1}
+\setcounter{subtable}{0}
+\setcounter{lotdepth}{1}
+\setcounter{lstlisting}{7}
+}

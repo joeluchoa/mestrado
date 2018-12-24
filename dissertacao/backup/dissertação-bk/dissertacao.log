@@ -1,0 +1,710 @@
+This is pdfTeX, Version 3.1415926-1.40.11 (TeX Live 2010/Arch Linux) (format=pdflatex 2011.4.27)  29 APR 2011 03:47
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**dissertacao.tex
+(./dissertacao.tex
+LaTeX2e <2009/09/24>
+Babel <v3.8l> and hyphenation patterns for english, dumylang, nohyphenation, ge
+rman-x-2009-06-19, ngerman-x-2009-06-19, afrikaans, ancientgreek, ibycus, arabi
+c, armenian, basque, bulgarian, catalan, pinyin, coptic, croatian, czech, danis
+h, dutch, ukenglish, usenglishmax, esperanto, estonian, farsi, finnish, french,
+ galician, german, ngerman, swissgerman, monogreek, greek, hungarian, icelandic
+, assamese, bengali, gujarati, hindi, kannada, malayalam, marathi, oriya, panja
+bi, tamil, telugu, indonesian, interlingua, irish, italian, kurmanji, lao, lati
+n, latvian, lithuanian, mongolian, mongolianlmc, bokmal, nynorsk, polish, portu
+guese, romanian, russian, sanskrit, serbian, slovak, slovenian, spanish, swedis
+h, turkish, turkmen, ukrainian, uppersorbian, welsh, loaded.
+(/usr/share/texmf-dist/tex/latex/base/book.cls
+Document Class: book 2007/10/19 v1.4h Standard LaTeX document class
+(/usr/share/texmf-dist/tex/latex/base/bk11.clo
+File: bk11.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
+)
+\c@part=\count79
+\c@chapter=\count80
+\c@section=\count81
+\c@subsection=\count82
+\c@subsubsection=\count83
+\c@paragraph=\count84
+\c@subparagraph=\count85
+\c@figure=\count86
+\c@table=\count87
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+)
+(/usr/share/texmf-dist/tex/latex/base/fontenc.sty
+Package: fontenc 2005/09/27 v1.99g Standard LaTeX package
+
+(/usr/share/texmf-dist/tex/latex/base/t1enc.def
+File: t1enc.def 2005/09/27 v1.99g Standard LaTeX file
+LaTeX Font Info:    Redeclaring font encoding T1 on input line 43.
+))
+(/usr/share/texmf-dist/tex/generic/babel/babel.sty
+Package: babel 2008/07/06 v3.8l The Babel package
+
+(/usr/share/texmf-dist/tex/generic/babel/portuges.ldf
+Language: portuges 2008/03/18 v1.2q Portuguese support from the babel system
+
+(/usr/share/texmf-dist/tex/generic/babel/babel.def
+File: babel.def 2008/07/06 v3.8l Babel common definitions
+\babel@savecnt=\count88
+\U@D=\dimen103
+)
+\l@brazil = a dialect from \language\l@portuges 
+Package babel Info: Making " an active character on input line 145.
+))
+(/usr/share/texmf-dist/tex/latex/base/inputenc.sty
+Package: inputenc 2008/03/30 v1.1d Input encoding file
+\inpenc@prehook=\toks14
+\inpenc@posthook=\toks15
+
+(/usr/share/texmf-dist/tex/latex/base/latin1.def
+File: latin1.def 2008/03/30 v1.1d Input encoding file
+))
+(/usr/share/texmf-dist/tex/latex/graphics/graphicx.sty
+Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
+
+(/usr/share/texmf-dist/tex/latex/graphics/keyval.sty
+Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
+\KV@toks@=\toks16
+)
+(/usr/share/texmf-dist/tex/latex/graphics/graphics.sty
+Package: graphics 2009/02/05 v1.0o Standard LaTeX Graphics (DPC,SPQR)
+
+(/usr/share/texmf-dist/tex/latex/graphics/trig.sty
+Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
+)
+(/usr/share/texmf-dist/tex/latex/latexconfig/graphics.cfg
+File: graphics.cfg 2010/04/23 v1.9 graphics configuration of TeX Live
+)
+Package graphics Info: Driver file: pdftex.def on input line 91.
+
+(/usr/share/texmf-dist/tex/latex/pdftex-def/pdftex.def
+File: pdftex.def 2011/01/28 v0.05d Graphics/color for pdfTeX
+\Gread@gobject=\count89
+))
+\Gin@req@height=\dimen104
+\Gin@req@width=\dimen105
+)
+(/usr/share/texmf-dist/tex/latex/setspace/setspace.sty
+Package: setspace 2000/12/01 6.7 Contributed and Supported LaTeX2e package
+
+Package: `setspace' 6.7 <2000/12/01>
+) (/usr/share/texmf-dist/tex/latex/tools/indentfirst.sty
+Package: indentfirst 1995/11/23 v1.03 Indent first paragraph (DPC)
+)
+(/usr/share/texmf-dist/tex/latex/base/makeidx.sty
+Package: makeidx 2000/03/29 v1.0m Standard LaTeX package
+)
+(/usr/share/texmf-dist/tex/latex/tocbibind/tocbibind.sty
+Package: tocbibind 2010/10/13 v1.5k extra ToC listings
+Package tocbibind Info: The document has chapter divisions on input line 50.
+
+
+Package tocbibind Note: Using chapter style headings, unless overridden.
+
+) (/usr/share/texmf-dist/tex/latex/psnfss/courier.sty
+Package: courier 2005/04/12 PSNFSS-v9.2a (WaS) 
+)
+(/usr/share/texmf-dist/tex/latex/type1cm/type1cm.sty
+Package: type1cm 2002/09/05 v0.04 BlueSky/Y&Y Type1 CM font definitions (DPC, p
+atched RF)
+)
+(/usr/share/texmf-dist/tex/latex/listings/listings.sty
+\lst@mode=\count90
+\lst@gtempboxa=\box26
+\lst@token=\toks17
+\lst@length=\count91
+\lst@currlwidth=\dimen106
+\lst@column=\count92
+\lst@pos=\count93
+\lst@lostspace=\dimen107
+\lst@width=\dimen108
+\lst@newlines=\count94
+\lst@lineno=\count95
+\lst@maxwidth=\dimen109
+
+(/usr/share/texmf-dist/tex/latex/listings/lstmisc.sty
+File: lstmisc.sty 2007/02/22 1.4 (Carsten Heinz)
+\c@lstnumber=\count96
+\lst@skipnumbers=\count97
+\lst@framebox=\box27
+)
+(/usr/share/texmf-dist/tex/latex/listings/listings.cfg
+File: listings.cfg 2007/02/22 1.4 listings configuration
+))
+Package: listings 2007/02/22 1.4 (Carsten Heinz)
+
+(/usr/share/texmf-dist/tex/latex/titlesec/titletoc.sty
+Package: titletoc 2007/08/12 v1.6 TOC entries
+\ttl@leftsep=\dimen110
+)
+(/usr/share/texmf-dist/tex/latex/babelbib/babelbib.sty
+Package: babelbib 2009/10/10 v1.29 babelbib: multilingual bibliographies (HH)
+)
+(/usr/share/texmf-dist/tex/latex/caption/caption.sty
+Package: caption 2010/01/09 v3.1m Customizing captions (AR)
+
+(/usr/share/texmf-dist/tex/latex/caption/caption3.sty
+Package: caption3 2010/01/14 v3.1m caption3 kernel (AR)
+\captionmargin=\dimen111
+\captionmargin@=\dimen112
+\captionwidth=\dimen113
+\caption@indent=\dimen114
+\caption@parindent=\dimen115
+\caption@hangindent=\dimen116
+)
+\c@ContinuedFloat=\count98
+Package caption Info: listings package is loaded.
+)
+(/usr/share/texmf-dist/tex/latex/xcolor/xcolor.sty
+Package: xcolor 2007/01/21 v2.11 LaTeX color extensions (UK)
+
+(/usr/share/texmf-dist/tex/latex/latexconfig/color.cfg
+File: color.cfg 2007/01/18 v1.5 color configuration of teTeX/TeXLive
+)
+Package xcolor Info: Package option `usenames' ignored on input line 216.
+Package xcolor Info: Driver file: pdftex.def on input line 225.
+Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1337.
+Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1341.
+Package xcolor Info: Model `RGB' extended on input line 1353.
+Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1355.
+Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1356.
+Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1357.
+Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1358.
+Package xcolor Info: Model `Gray' substituted by `gray' on input line 1359.
+Package xcolor Info: Model `wave' substituted by `hsb' on input line 1360.
+
+(/usr/share/texmf-dist/tex/latex/graphics/dvipsnam.def
+File: dvipsnam.def 1999/02/16 v3.0i Driver-dependant file (DPC,SPQR)
+)
+(/usr/share/texmf-dist/tex/latex/xcolor/svgnam.def
+File: svgnam.def 2007/01/21 v2.11 Predefined colors according to SVG 1.1 (UK)
+))
+(/usr/share/texmf-dist/tex/latex/geometry/geometry.sty
+Package: geometry 2010/09/12 v5.6 Page Geometry
+
+(/usr/share/texmf-dist/tex/generic/oberdiek/ifpdf.sty
+Package: ifpdf 2011/01/30 v2.3 Provides the ifpdf switch (HO)
+Package ifpdf Info: pdfTeX in PDF mode is detected.
+)
+(/usr/share/texmf-dist/tex/generic/oberdiek/ifvtex.sty
+Package: ifvtex 2010/03/01 v1.5 Switches for detecting VTeX and its modes (HO)
+Package ifvtex Info: VTeX not detected.
+)
+(/usr/share/texmf-dist/tex/generic/ifxetex/ifxetex.sty
+Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
+)
+\Gm@cnth=\count99
+\Gm@cntv=\count100
+\c@Gm@tempcnt=\count101
+\Gm@bindingoffset=\dimen117
+\Gm@wd@mp=\dimen118
+\Gm@odd@mp=\dimen119
+\Gm@even@mp=\dimen120
+\Gm@layoutwidth=\dimen121
+\Gm@layoutheight=\dimen122
+\Gm@layouthoffset=\dimen123
+\Gm@layoutvoffset=\dimen124
+\Gm@dimlist=\toks18
+)
+(/usr/share/texmf-dist/tex/latex/hyperref/hyperref.sty
+Package: hyperref 2011/04/17 v6.82g Hypertext links for LaTeX
+
+(/usr/share/texmf-dist/tex/generic/oberdiek/hobsub-hyperref.sty
+Package: hobsub-hyperref 2011/04/18 v1.3 Bundle oberdiek, subset hyperref (HO)
+
+(/usr/share/texmf-dist/tex/generic/oberdiek/hobsub-generic.sty
+Package: hobsub-generic 2011/04/18 v1.3 Bundle oberdiek, subset generic (HO)
+Package: hobsub 2011/04/18 v1.3 Subsetting bundle oberdiek (HO)
+Package: infwarerr 2010/04/08 v1.3 Providing info/warning/message (HO)
+Package: ltxcmds 2011/04/18 v1.20 LaTeX kernel commands for general use (HO)
+Package: ifluatex 2010/03/01 v1.3 Provides the ifluatex switch (HO)
+Package ifluatex Info: LuaTeX not detected.
+Package hobsub Info: Skipping package `ifvtex' (already loaded).
+Package: intcalc 2007/09/27 v1.1 Expandable integer calculations (HO)
+Package hobsub Info: Skipping package `ifpdf' (already loaded).
+Package: etexcmds 2011/02/16 v1.5 Prefix for e-TeX command names (HO)
+Package etexcmds Info: Could not find \expanded.
+(etexcmds)             That can mean that you are not using pdfTeX 1.50 or
+(etexcmds)             that some package has redefined \expanded.
+(etexcmds)             In the latter case, load this package earlier.
+Package: kvsetkeys 2011/04/07 v1.13 Key value parser (HO)
+Package: kvdefinekeys 2011/04/07 v1.3 Defining keys (HO)
+Package: pdftexcmds 2011/04/16 v0.15 Utilities of pdfTeX for LuaTeX (HO)
+Package pdftexcmds Info: LuaTeX not detected.
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode found.
+Package: pdfescape 2011/04/04 v1.12 Provides string conversions (HO)
+Package: bigintcalc 2011/01/30 v1.2 Expandable big integer calculations (HO)
+Package: bitset 2011/01/30 v1.1 Data type bit set (HO)
+Package: uniquecounter 2011/01/30 v1.2 Provides unlimited unique counter (HO)
+)
+Package hobsub Info: Skipping package `hobsub' (already loaded).
+Package: letltxmacro 2010/09/02 v1.4 Let assignment for LaTeX macros (HO)
+Package: hopatch 2011/01/30 v1.0 Wrapper for package hooks (HO)
+Package: xcolor-patch 2011/01/30 xcolor patch
+Package: atveryend 2011/04/15 v1.6 Hooks at very end of document (HO)
+Package atveryend Info: \enddocument detected (standard).
+Package: atbegshi 2011/01/30 v1.15 At begin shipout hook (HO)
+Package: refcount 2010/12/01 v3.2 Data extraction from references (HO)
+Package: hycolor 2011/01/30 v1.7 Color options of hyperref/bookmark (HO)
+)
+(/usr/share/texmf-dist/tex/latex/oberdiek/kvoptions.sty
+Package: kvoptions 2010/12/23 v3.10 Keyval support for LaTeX options (HO)
+)
+\@linkdim=\dimen125
+\Hy@linkcounter=\count102
+\Hy@pagecounter=\count103
+
+(/usr/share/texmf-dist/tex/latex/hyperref/pd1enc.def
+File: pd1enc.def 2011/04/17 v6.82g Hyperref: PDFDocEncoding definition (HO)
+)
+\Hy@SavedSpaceFactor=\count104
+
+(/usr/share/texmf-dist/tex/latex/latexconfig/hyperref.cfg
+File: hyperref.cfg 2002/06/06 v1.2 hyperref configuration of TeXLive
+)
+Package hyperref Info: Option `plainpages' set `false' on input line 3905.
+Package hyperref Info: Option `pdfpagelabels' set `true' on input line 3905.
+Package hyperref Info: Option `colorlinks' set `true' on input line 3905.
+Package hyperref Info: Option `bookmarksopen' set `true' on input line 3905.
+Package hyperref Info: Hyper figures OFF on input line 4026.
+Package hyperref Info: Link nesting OFF on input line 4031.
+Package hyperref Info: Hyper index ON on input line 4034.
+Package hyperref Info: Plain pages OFF on input line 4041.
+Package hyperref Info: Backreferencing ON on input line 4044.
+Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
+Package hyperref Info: Bookmarks ON on input line 4264.
+
+(/usr/share/texmf-dist/tex/latex/hyperref/backref.sty
+Package: backref 2010/08/30 v1.36 Bibliographical back referencing
+
+(/usr/share/texmf-dist/tex/latex/oberdiek/rerunfilecheck.sty
+Package: rerunfilecheck 2011/04/15 v1.7 Rerun checks for auxiliary files (HO)
+Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
+82.
+))
+\c@Hy@tempcnt=\count105
+
+(/usr/share/texmf-dist/tex/latex/url/url.sty
+\Urlmuskip=\muskip10
+Package: url 2006/04/12  ver 3.3  Verb mode for urls, etc.
+)
+LaTeX Info: Redefining \url on input line 4617.
+\Fld@menulength=\count106
+\Field@Width=\dimen126
+\Fld@charsize=\dimen127
+Package hyperref Info: Hyper figures OFF on input line 5701.
+Package hyperref Info: Link nesting OFF on input line 5706.
+Package hyperref Info: Hyper index ON on input line 5709.
+Package hyperref Info: backreferencing ON on input line 5714.
+Package hyperref Info: Link coloring ON on input line 5719.
+Package hyperref Info: Link coloring with OCG OFF on input line 5726.
+Package hyperref Info: PDF/A mode OFF on input line 5731.
+LaTeX Info: Redefining \ref on input line 5771.
+LaTeX Info: Redefining \pageref on input line 5775.
+\Hy@abspage=\count107
+\c@Item=\count108
+\c@Hfootnote=\count109
+)
+
+Package hyperref Message: Driver: hpdftex.
+
+(/usr/share/texmf-dist/tex/latex/hyperref/hpdftex.def
+File: hpdftex.def 2011/04/17 v6.82g Hyperref driver for pdfTeX
+\Fld@listcount=\count110
+\c@bookmark@seq@number=\count111
+\Hy@SectionHShift=\skip43
+)
+(/usr/share/texmf-dist/tex/latex/oberdiek/hypcap.sty
+Package: hypcap 2011/02/16 v1.11 Adjusting anchors of captions (HO)
+)
+(/usr/share/texmf-dist/tex/latex/natbib/natbib.sty
+Package: natbib 2010/09/13 8.31b (PWD, AO)
+\bibhang=\skip44
+\bibsep=\skip45
+LaTeX Info: Redefining \cite on input line 694.
+\c@NAT@ctr=\count112
+)
+(/usr/share/texmf-dist/tex/latex/fancyhdr/fancyhdr.sty
+\fancy@headwidth=\skip46
+\f@ncyO@elh=\skip47
+\f@ncyO@erh=\skip48
+\f@ncyO@olh=\skip49
+\f@ncyO@orh=\skip50
+\f@ncyO@elf=\skip51
+\f@ncyO@erf=\skip52
+\f@ncyO@olf=\skip53
+\f@ncyO@orf=\skip54
+)
+\@indexfile=\write3
+\openout3 = `dissertacao.idx'.
+
+
+Writing index file dissertacao.idx
+(/usr/share/texmf-dist/tex/latex/listings/lstlang1.sty
+File: lstlang1.sty 2004/09/05 1.3 listings language file
+) (./dissertacao.aux
+(./ape-conjuntos.aux))
+\openout1 = `dissertacao.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 87.
+LaTeX Font Info:    ... okay on input line 87.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 87.
+LaTeX Font Info:    ... okay on input line 87.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 87.
+LaTeX Font Info:    ... okay on input line 87.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 87.
+LaTeX Font Info:    ... okay on input line 87.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 87.
+LaTeX Font Info:    ... okay on input line 87.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 87.
+LaTeX Font Info:    ... okay on input line 87.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 87.
+LaTeX Font Info:    ... okay on input line 87.
+ (/usr/share/texmf-dist/tex/context/base/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count113
+\scratchdimen=\dimen128
+\scratchbox=\box28
+\nofMPsegments=\count114
+\nofMParguments=\count115
+\everyMPshowfont=\toks19
+\MPscratchCnt=\count116
+\MPscratchDim=\dimen129
+\MPnumerator=\count117
+\everyMPtoPDFconversion=\toks20
+) (/usr/share/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
+Package: epstopdf-base 2010/02/09 v2.5 Base part for package epstopdf
+
+(/usr/share/texmf-dist/tex/latex/oberdiek/grfext.sty
+Package: grfext 2010/08/19 v1.1 Managing graphics extensions (HO)
+)
+Package grfext Info: Graphics extension search list:
+(grfext)             [.png,.pdf,.jpg,.mps,.jpeg,.jbig2,.jb2,.PNG,.PDF,.JPG,.JPE
+G,.JBIG2,.JB2,.eps]
+(grfext)             \AppendGraphicsExtensions on input line 452.
+
+(/usr/share/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
+e
+))
+\c@lstlisting=\count118
+
+babelbib: Set bibliography fall-back language to brazil
+(/usr/share/texmf-dist/tex/latex/babelbib/portuguese.bdf
+File: portuguese.bdf 2009/10/10 v1.29 babelbib: multilingual bibliographies (HH
+)
+
+babelbib extension \btxifchangecaseoff added to \extrasbrazil
+)
+babelbib: Load BibTeX extensions \bibsbrazil for brazil
+babelbib: Set language for keywords in the bibliography fixed to brazil
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: hyperref package is loaded.
+Package caption Info: hypcap package is loaded.
+Package caption Info: End \AtBeginDocument code.
+*geometry* driver: auto-detecting
+*geometry* detected driver: pdftex
+*geometry* verbose mode - [ preamble ] result:
+* driver: pdftex
+* paper: a4paper
+* layout: <same size as paper>
+* layoutoffset:(h,v)=(0.0pt,0.0pt)
+* modes: twoside 
+* h-part:(L,W,R)=(56.9055pt, 468.33257pt, 72.2698pt)
+* v-part:(T,H,B)=(72.2698pt, 715.87154pt, 56.9055pt)
+* \paperwidth=597.50787pt
+* \paperheight=845.04684pt
+* \textwidth=468.33257pt
+* \textheight=715.87154pt
+* \oddsidemargin=-15.36449pt
+* \evensidemargin=-0.00018pt
+* \topmargin=-31.87398pt
+* \headheight=12.0pt
+* \headsep=19.8738pt
+* \topskip=11.0pt
+* \footskip=27.46295pt
+* \marginparwidth=106.0pt
+* \marginparsep=7.0pt
+* \columnsep=10.0pt
+* \skip\footins=10.0pt plus 4.0pt minus 2.0pt
+* \hoffset=0.0pt
+* \voffset=0.0pt
+* \mag=1000
+* \@twocolumnfalse
+* \@twosidetrue
+* \@mparswitchtrue
+* \@reversemarginfalse
+* (1in=72.27pt=25.4mm, 1cm=28.453pt)
+
+\AtBeginShipoutBox=\box29
+Package backref Info: ** backref set up for natbib ** on input line 87.
+Package hyperref Info: Link coloring ON on input line 87.
+(/usr/share/texmf-dist/tex/latex/hyperref/nameref.sty
+Package: nameref 2010/04/30 v2.40 Cross-referencing by name of section
+
+(/usr/share/texmf-dist/tex/generic/oberdiek/gettitlestring.sty
+Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
+)
+\c@section@level=\count119
+)
+LaTeX Info: Redefining \ref on input line 87.
+LaTeX Info: Redefining \pageref on input line 87.
+LaTeX Info: Redefining \nameref on input line 87.
+
+(./dissertacao.out) (./dissertacao.out)
+\@outlinefile=\write4
+\openout4 = `dissertacao.out'.
+
+ [1
+
+
+
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 168.
+ [2]pdfTeX warning (ext4): destination with the same identifier (name{page.i}) 
+has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.185 \chapter
+              *{Resumo} [1
+
+]pdfTeX warning (ext4): destination with the same identifier (name{page.ii}) ha
+s been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.185 \chapter
+              *{Resumo} [2
+
+] [3] [4
+
+] [5] [6
+
+] (./dissertacao.toc)
+\tf@toc=\write5
+\openout5 = `dissertacao.toc'.
+
+ [7] [8
+
+]
+[9] [10
+
+] [11] [12
+
+] (./dissertacao.lof)
+\tf@lof=\write6
+\openout6 = `dissertacao.lof'.
+
+ [13] [14
+
+] (./dissertacao.lot)
+\tf@lot=\write7
+\openout7 = `dissertacao.lot'.
+
+ [15]
+[16
+
+] (./cap-introducao.tex
+Cap\'{\i }tulo 1.
+
+Package natbib Warning: Citation `eco:09' on page 1 undefined on input line 7.
+
+
+Package natbib Warning: Citation `zobel:04' on page 1 undefined on input line 1
+2.
+
+
+Package natbib Warning: Citation `waz:09' on page 1 undefined on input line 14.
+
+
+
+Package natbib Warning: Citation `Higham:98' on page 1 undefined on input line 
+16.
+
+
+Package natbib Warning: Citation `Knuth:96' on page 1 undefined on input line 1
+8.
+
+LaTeX Font Info:    Try loading font information for T1+pcr on input line 24.
+(/usr/share/texmf-dist/tex/latex/psnfss/t1pcr.fd
+File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
+)
+Overfull \hbox (5.66743pt too wide) in paragraph at lines 31--31
+[]\T1/pcr/m/n/10 certo : Andrew e Foster introduziram o algoritmo ótimo (Andrew
+ e Foster, 1983).[] 
+ []
+
+[1
+
+]) (./cap-conceitos.tex
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[2]
+Cap\'{\i }tulo 2.
+<./figuras/escalograma.pdf, id=213, 555.07375pt x 419.5675pt>
+File: ./figuras/escalograma.pdf Graphic file (type pdf)
+
+<use ./figuras/escalograma.pdf> [3
+
+ <./figuras/escalograma.pdf>]
+
+Package natbib Warning: Citation `JW82' on page 4 undefined on input line 114.
+
+
+Package natbib Warning: Citation `MenaChalco08' on page 4 undefined on input li
+ne 124.
+
+[4]
+
+Package natbib Warning: Citation `alves03:simi' on page 5 undefined on input li
+ne 138.
+
+
+Package natbib Warning: Citation `bobaoglu93:concepts' on page 5 undefined on i
+nput line 154.
+
+
+Package natbib Warning: Citation `bronevetsky02' on page 5 undefined on input l
+ine 168.
+
+
+Package natbib Warning: Citation `garcia01:PhD' on page 5 undefined on input li
+ne 181.
+
+
+Package natbib Warning: Citation `schmidt03:MSc' on page 5 undefined on input l
+ine 192.
+
+
+Package natbib Warning: Citation `alvisi99:analysisCIC' on page 5 undefined on 
+input line 203.
+
+[5]
+
+Package natbib Warning: Citation `CORBA:spec' on page 6 undefined on input line
+ 216.
+
+
+Package natbib Warning: Citation `gridftp' on page 6 undefined on input line 22
+7.
+
+
+Package natbib Warning: Citation `fowler04:designDead' on page 6 undefined on i
+nput line 237.
+
+
+Package natbib Warning: Citation `FSF:GNU-GPL' on page 6 undefined on input lin
+e 249.
+
+) (./cap-conclusoes.tex [6]
+Cap\'{\i }tulo 3.
+) [7
+
+]
+\openout2 = `ape-conjuntos.aux'.
+
+ (./ape-conjuntos.tex [8
+
+
+]
+Ap\^endice A.
+) [9] [10] (./dissertacao.bbl
+No file dissertacao.brf.
+\tf@brf=\write8
+\openout8 = `dissertacao.brf'.
+
+[11
+
+
+
+]) (./dissertacao.ind [12] [13
+
+
+])
+
+Package natbib Warning: There were undefined citations.
+
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 260.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 260.
+(./dissertacao.aux (./ape-conjuntos.aux)
+
+Package natbib Warning: Citation(s) may have changed.
+(natbib)                Rerun to get citations correct.
+
+
+! Package natbib Error: Bibliography not compatible with author-year citations.
+
+(natbib)                Press <return> to continue in numerical citation style.
+
+
+See the natbib package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.106 ...and\NAT@force@numbers{}\NAT@force@numbers
+                                                  
+? 
+)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 260.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 260.
+
+
+Package rerunfilecheck Warning: File `dissertacao.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `dissertacao.out':
+(rerunfilecheck)             Before: 4D580F9743695DA9C7BA02F0DCE3157E;1173
+(rerunfilecheck)             After:  09CA77C52457A20281A83C49413DFFEB;1300.
+
+Package rerunfilecheck Warning: File `dissertacao.brf' has changed.
+(rerunfilecheck)                Rerun to get bibliographical references right.
+
+Package rerunfilecheck Info: Checksums for `dissertacao.brf':
+(rerunfilecheck)             Before: <no file>
+(rerunfilecheck)             After:  D41D8CD98F00B204E9800998ECF8427E;0.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 260.
+ ) 
+Here is how much of TeX's memory you used:
+ 10630 strings out of 493772
+ 152524 string characters out of 3150564
+ 310330 words of memory out of 3000000
+ 13661 multiletter control sequences out of 15000+200000
+ 25875 words of font info for 59 fonts, out of 3000000 for 9000
+ 715 hyphenation exceptions out of 8191
+ 36i,12n,43p,324b,1203s stack positions out of 5000i,500n,10000p,200000b,50000s
+{/usr/share/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}{/usr/share/t
+exmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texmf-dist/fonts/type1/public
+/amsfonts/cm/cmmi10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/c
+mr10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr
+/share/texmf-dist/fonts/type1/public/cm-super/sfbx0900.pfb></usr/share/texmf-di
+st/fonts/type1/public/cm-super/sfbx1000.pfb></usr/share/texmf-dist/fonts/type1/
+public/cm-super/sfbx1095.pfb></usr/share/texmf-dist/fonts/type1/public/cm-super
+/sfbx1200.pfb></usr/share/texmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb><
+/usr/share/texmf-dist/fonts/type1/public/cm-super/sfbx2074.pfb></usr/share/texm
+f-dist/fonts/type1/public/cm-super/sfbx2488.pfb></usr/share/texmf-dist/fonts/ty
+pe1/public/cm-super/sfcc1440.pfb></usr/share/texmf-dist/fonts/type1/public/cm-s
+uper/sfrm0600.pfb></usr/share/texmf-dist/fonts/type1/public/cm-super/sfrm0800.p
+fb></usr/share/texmf-dist/fonts/type1/public/cm-super/sfrm0900.pfb></usr/share/
+texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb></usr/share/texmf-dist/font
+s/type1/public/cm-super/sfrm1095.pfb></usr/share/texmf-dist/fonts/type1/public/
+cm-super/sfrm1440.pfb></usr/share/texmf-dist/fonts/type1/public/cm-super/sfti09
+00.pfb></usr/share/texmf-dist/fonts/type1/public/cm-super/sfti1000.pfb></usr/sh
+are/texmf-dist/fonts/type1/public/cm-super/sfti1095.pfb></usr/share/texmf-dist/
+fonts/type1/urw/courier/ucrr8a.pfb>
+Output written on dissertacao.pdf (31 pages, 525566 bytes).
+PDF statistics:
+ 410 PDF objects out of 1000 (max. 8388607)
+ 344 compressed objects within 4 object streams
+ 82 named destinations out of 1000 (max. 500000)
+ 158 words of extra memory for PDF output out of 10000 (max. 10000000)
+

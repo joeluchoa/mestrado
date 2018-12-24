@@ -1,0 +1,54 @@
+% -------------------------------------------------------------------- %
+\chapter*{Resumo}
+
+\begin{center}
+  \Large{Caminhos mínimos com recursos limitados}
+\end{center}
+
+O problema de caminhos mínimos (\spp~-- \emph{shortest path problem}) é 
+um dos problemas fundamentais da computação. Vem sendo estudado com 
+profundidade e há uma grande quantidade de publicações a respeito do 
+mesmo. Inclusive, são conhecidos várias soluções eficientes (algoritmos 
+de tempo polinomial) para o problema. O \spp~é frequentemente colocado 
+em prática em uma grande variedade de aplicações em diversas áreas, não 
+somente em computação. Nessas aplicações geralmente se deseja realizar 
+algum tipo de deslocamento ou transporte entre dois ou mais pontos 
+específicos em uma rede. Tal ação deve ser executada de forma ótima em 
+relação a algum critério, por exemplo o menor custo possível, ou o menor 
+gasto de tempo ou o máximo de confiabilidade/segurança.
+
+Conforme essas soluções para o \spp~foram sendo apresentadas, novas 
+necessidades foram levantadas e surgiram variações do problema para 
+modelar tais necessidades. Uma dessas variantes, advém do fato de que, 
+na prática, muitas vezes não desejamos apenas o menor custo ou o menor 
+tempo, mas desejamos otimizar uma combinação de diferentes critérios, 
+por exemplo, um caminho que seja rápido e barato. Este é conhecido como 
+o problema de caminhos mínimos multi-objetivo. Como não é possível 
+otimizar sobre todos os critérios de uma só vez, nós escolhemos um dos 
+critérios para representar a função custo, que será minimizada, e para 
+os demais critérios representamos como recursos e definimos os limites 
+que julgamos aceitáveis para o consumo de cada um desses recursos.  Esta 
+variação é chamada de problema de caminhos mínimos com restrições por 
+recursos, ou como preferimos chamar, {\bf problema de caminhos mínimos 
+com recursos limitados} (\rcsp~-- \emph{resource constrained shortest 
+path problem}), o qual será o objeto de estudo neste trabalho.
+
+A adição de restrições por recursos no \spp, infelizmente torna o 
+problema $\mathcal{NP}$-difícil, mesmo em grafos acíclicos, com 
+restrições sobre um único recurso, e com todos os consumos de recursos 
+positivos. Temos reduções dos famosos problemas $\mathcal{NP}$-difíceis 
+\mochila~e \particao~para o nosso problema. 
+
+Em contextos diversos são encontrados problemas de cunho teórico e 
+prático que podem ser formulados como problemas de caminhos mínimos com 
+recursos limitados, o que nos motivou a estudá-lo a fim de desenvolver 
+um trabalho que resumisse informações suficientes para auxiliar 
+pesquisadores ou desenvolvedores que tenham interesse no problema.
+Nós apresentamos aqui, uma detalhada revisão bibliográfica do \rcsp, 
+tendo como foco o desenvolvimento de algoritmos exatos para o caso onde 
+possuímos um único recurso e a implementação e comparação dos principais 
+algoritmos conhecidos, observando-os em situações práticas.
+
+\noindent \textbf{Palavras-chave:} Otimização combinatória, caminhos 
+mínimos com restrições.
+

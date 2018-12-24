@@ -1,0 +1,297 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%                  Dissertação de mestrado de
+%%
+%%                      Fábio Pisaruk
+%%
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\P}{} % tira os Ps incômodos
+
+\documentclass[12pt,twoside]{book}
+
+
+%\documentclass[language=brazil,structure=hiearchic,12pt]{book}
+
+%% Colocando identação no primeiro parágrafo de cada tópico
+\usepackage{indentfirst}
+%% Escrevendo em português:
+\usepackage[brazil]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[latin1]{inputenc}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% packages
+
+
+\usepackage[dvips]{graphicx,psfrag}
+\usepackage{palatino}
+\usepackage{mathpazo}
+\usepackage{multicol}
+\usepackage{ifthen}
+\usepackage{makeidx}
+\usepackage{enumerate}
+\usepackage{fancyhdr}
+\usepackage{amsmath}
+\usepackage{amssymb} 
+
+%% definicao personalizada
+\usepackage{./estilo/estilo}
+\usepackage{wrapfig}
+\usepackage{sidecap}
+\usepackage{listings} 
+\usepackage{subfigure}	
+
+%\usepackage[pdftex,pdfauthor={Andrew Roberts},pdftitle={Hyperref demonstration},colorlinks]{hyperref}
+%\usepackage[pdfauthor={Fábio Pisaruk},%     % autor  
+%            pdftitle={$k-$menores caminhos},%                        % título, ...
+%            bookmarks,colorlinks]{hyperref}       % marcadores e hyperlinks        
+
+\usepackage[pagebackref]{hyperref}
+
+
+\usepackage{tikz}
+\usetikzlibrary{arrows,petri,trees,decorations.pathmorphing,backgrounds,positioning,fit}
+
+%configurando hyperlinks PDF
+\hypersetup{
+				colorlinks=true,%           % configurando hyperlinks para aparecerem em preto...
+            citecolor=green,%      % ...ficando mais legível na impressão
+            filecolor=black,%
+            linkcolor=blue,%
+            urlcolor=red,%
+            pdftitle={k-menores caminhos},%
+				pdfauthor={Fábio Pisaruk},%
+				pdfkeywords={caminhos mínimos, k-menores caminhos},%
+				pdfsubject={k-menores caminhos},%
+				%pdfcreator={Fábio Pisaruk}
+				%pdfproducer
+            pdftex}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Floating package
+\usepackage{floatflt}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Dimensão da página
+\setlength{\parskip}{.5pc}
+\setlength{\paperwidth}{216mm}
+\setlength{\paperheight}{279mm}
+\setlength{\textwidth}{38pc}
+\setlength{\textheight}{52pc}
+\setlength{\topmargin}{0cm}
+
+% margens impar e par da pagina
+\setlength\oddsidemargin{.2cm}
+\setlength\evensidemargin{.2cm}
+
+%\setlength\oddsidemargin{.6cm}
+%\setlength\evensidemargin{-.5cm}
+
+\linespread{1.2}
+
+% Fontes menores nos captions (para figuras e tabelas)
+\newcommand{\captionfonts}{\small}
+
+\makeatletter
+\makeatother
+\setcounter{tocdepth}{2}
+\includeonly{
+capa, 
+capa-corrigida, 
+agradecimentos,
+01-resumo, 
+abstract,
+02-introducao, 
+03-preliminares,
+04-caminhos-minimos,
+05-k-caminhos,
+06-hershberger,
+07-kim,
+08-resultados,
+09-final,
+05-katoh,
+2.7-Dijkstra}
+
+%\includeonly{capa, 08-facilitylocation}
+
+\makeindex
+
+% Aqui começa o documento
+\begin{document}
+
+%\normalsize
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%    CAPA
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\thispagestyle{empty}
+\include{capa}
+\newpage
+
+\thispagestyle{empty}
+\include{capa-corrigida}
+\pagebreak
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%    BANCA
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%\thispagestyle{empty}
+%%\input{banca.tex}
+%%\newpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%    DEDICATÓRIA
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newpage
+\thispagestyle{empty}
+\vspace*{19cm}
+\begin{flushright}
+Aos meus pais Paulo e Roseli \\
+e meu irmão Marcos.
+\end{flushright}
+\newpage
+\clearemptydoublepage
+
+%\newpage
+%\cleardoublepage
+\pagestyle{plain}
+\pagenumbering{roman}
+%\setcounter{page}{1} 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%    AGRADECIMENTOS
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\newpage
+\input{agradecimentos.tex}
+\cleardoublepage
+%\newpage
+%\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%    RESUMO E ABSTRACT
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\thispagestyle{empty}
+%\pagenumbering{arabic}
+%\setcounter{page}{1}
+\include{01-resumo}
+\cleardoublepage
+%\newpage
+%\newpage
+\include{abstract}
+\cleardoublepage
+%\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%    Lista de figuras
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%{\baselineskip=.9\baselineskip 
+
+% acho melhor o espaçamento entre linhas dos
+% tables  diminuído.
+
+%%%%%%% SAID %%%%%%%%
+
+%%% \newpage
+%%% \pagestyle{plain}
+%%% \pagenumbering{arabic}
+%%% \setcounter{page}{1}
+\tableofcontents
+%\clearemptydoublepage
+% Este e' para comecar a pagina de um capitulo
+% em pagina impar. Tambem deixa a pagina
+% anterior sem estilo, se for vazia.
+\newpage
+\clearemptydoublepage
+\addcontentsline{toc}{chapter}{\listfigurename}
+\listoffigures
+\addcontentsline{toc}{chapter}{\lstlistlistingname}
+\lstlistoflistings
+%\clearemptydoublepage
+%\addcontentsline{toc}{chapter}{\listtablename}
+%\listoftables
+%}
+\newpage
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{\nouppercase{\bfseries\rightmark}}
+\lhead{\nouppercase{\bfseries\leftmark}}
+\renewcommand{\chaptermark}[1]{\markboth{\thechapter.\ #1}{}}
+\fancyhead[LE,RO]{\bfseries\thepage}
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%    INTRODUÇÃO
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\include{02-introducao}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%    CAPÍTULOS
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%% Preliminares.
+\include{03-preliminares}
+
+%%% Descricao do Dijkstra implementado no JUNG
+\include{04-caminhos-minimos}
+
+%%% 
+\include{05-k-caminhos}
+
+%% Algoritmo de Hershberger,...
+\include{06-hershberger}
+
+%% Algoritmo de Katoh, Ibaraki e Mine.
+\include{07-kim}
+
+\include{08-resultados}
+
+\include{09-final}
+
+
+
+%%% Implementações.
+%\appendix
+%@i ap-implementacoes.w
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%    BIBLIOGRAFIA
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\clearemptydoublepage
+\bibliographystyle{joseplain}
+\addcontentsline{toc}{chapter}{Refer\^{e}ncias Bibliográficas}
+\bibliography{./refs}%{Referencias}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%    ÍNDICE
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\clearemptydoublepage
+\addcontentsline{toc}{chapter}{Índice Remissivo}
+\printindex
+
+\end{document}

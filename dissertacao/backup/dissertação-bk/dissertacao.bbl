@@ -1,0 +1,106 @@
+\newcommand{\etalchar}[1]{$^{#1}$}
+\begin{thebibliography}{MCCZCJ08}
+
+\bibitem[ACDS03]{alves03:simi}
+Carlos E.~R. Alves, Edson~N. Cáceres, Frank Dehne, e Siang~W. Song.
+\newblock A parallel wavefront algorithm for efficient biological sequence
+  comparison.
+\newblock Em {\em ICCSA '03: The 2003 International Conference on Computational
+  Science and its Applications}, p\'{a}ginas 249--258. Springer-Verlag, Maio
+  2003.
+
+\bibitem[AER{\etalchar{+}}99]{alvisi99:analysisCIC}
+Lorenzo Alvisi, Elmootazbellah Elnozahy, Sriram~S. Rao, Syed~A. Husain, e
+  Asanka~Del Mel.
+\newblock An analysis of comunication-induced checkpointing.
+\newblock Relat{\'o}rio T{\'e}cnico TR-99-01, Department of Computer Science,
+  University of Texas at Austin, Austin, {USA}, 1999.
+
+\bibitem[All03]{gridftp}
+William Allcock.
+\newblock {GridFTP} protocol specification. {Global Grid Forum} recommendation
+  ({GFD}.20), 2003.
+
+\bibitem[BM93]{bobaoglu93:concepts}
+Ozalp Babaoglu e Keith Marzullo.
+\newblock Consistent global states of distributed systems: Fundamental concepts
+  and mechanisms.
+\newblock Em Sape Mullender, editor, {\em Distributed Systems}, p\'{a}ginas
+  55--96. segunda edi\c{c}\~{a}o, 1993.
+
+\bibitem[BMPS03]{bronevetsky02}
+Greg Bronevetsky, Daniel Marques, Keshav Pingali, e Paul Stodghill.
+\newblock Automated application-level checkpointing of {MPI} programs.
+\newblock Em {\em PPoPP '03: Proceedings of the 9th ACM SIGPLAN Symposium on
+  Principles and Practice of Parallel Programming}, p\'{a}ginas 84--89, 2003.
+
+\bibitem[Eco09]{eco:09}
+Umberto Eco.
+\newblock {\em Como se Faz uma Tese}.
+\newblock Perspectiva, 22º edi\c{c}\~{a}o, 2009.
+\newblock Tradução Gilson Cesar Cardoso de Souza.
+
+\bibitem[Fou]{FSF:GNU-GPL}
+Free~Software Foundation.
+\newblock Gnu general public license.
+\newblock \url{http://www.gnu.org/copyleft/gpl.html}.
+\newblock Último acesso em 30/1/2010.
+
+\bibitem[Fow04]{fowler04:designDead}
+Martin Fowler.
+\newblock Is design dead?
+\newblock \url{http://martinfowler.com/articles/designDead.html}, Maio 2004.
+\newblock Último acesso em 30/1/2010.
+
+\bibitem[Gar01]{garcia01:PhD}
+Islene~C. Garcia.
+\newblock {\em Visões Progressivas de Computações Distribuídas}.
+\newblock Tese de Doutorado, Instituto de Computação, Universidade de Campinas,
+  Brasil, Dezembro 2001.
+
+\bibitem[Hig98]{Higham:98}
+Nicholas~J. Higham.
+\newblock {\em Handbook of Writing for the Mathematical Sciences}.
+\newblock SIAM: Society for Industrial and Applied Mathematics, segunda
+  edi\c{c}\~{a}o, Agosto 1998.
+
+\bibitem[JW83]{JW82}
+Richard~A. Johnson e Dean~W. Wichern.
+\newblock {\em Applied Multivariate Statistical Analysis}.
+\newblock Prentice-Hall, 1983.
+
+\bibitem[KLR96]{Knuth:96}
+Donald~E. Knuth, Tracy Larrabee, e Paul~M. Roberts.
+\newblock {\em Mathematical Writing}.
+\newblock The Mathematical Association of America, Setembro 1996.
+
+\bibitem[MCCZCJ08]{MenaChalco08}
+Jesús~P. Mena-Chalco, Helaine Carrer, Yossi Zana, e Roberto~M. Cesar-Jr.
+\newblock Identification of protein coding regions using the modified
+  {G}abor-wavelet transform.
+\newblock {\em IEEE/ACM Transactions on Computational Biology and
+  Bioinformatics}, 5:198--207, 2008.
+
+\bibitem[{Obj}02]{CORBA:spec}
+{Object Management Group}.
+\newblock {\em {CORBA v3.0 Specification}}, Julho 2002.
+\newblock {OMG Document 02-06-33}.
+
+\bibitem[Sch03]{schmidt03:MSc}
+Rodrigo~M. Schmidt.
+\newblock Coleta de lixo para protocolos de \emph{Checkpointing}.
+\newblock Disserta\c{c}\~ao de Mestrado, Instituto de Computação, Universidade
+  de Campinas, Brasil, Outubro 2003.
+
+\bibitem[Waz09]{waz:09}
+Raul~S. Wazlawick.
+\newblock {\em Metodologia de Pesquisa em Ciencia da Computação}.
+\newblock Campus, primeira edi\c{c}\~{a}o, 2009.
+
+\bibitem[Zob04]{zobel:04}
+Justin Zobel.
+\newblock {\em Writing for Computer Science: The art of effective
+  communication}.
+\newblock Springer, segunda edi\c{c}\~{a}o, 2004.
+
+\end{thebibliography}

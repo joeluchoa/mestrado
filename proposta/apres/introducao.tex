@@ -1,0 +1,89 @@
+
+\subsection{Problema}
+\begin{frame}
+    \frametitle{Introdução}
+    \begin{itemize}
+        \item Caminho Mínimo\\
+            \begin{figure}[h!]
+                \centering
+                \includegraphics[scale=0.5]{figuras/grafo1_caminho_minimo.pdf}
+            \end{figure}
+        \item E se existir outro parâmetro a considerar?
+            \begin{figure}[h!]
+                \centering
+                \includegraphics[scale=0.5]{figuras/grafo1_rcsp.pdf}
+            \end{figure}
+        \item Caminho Mínimo com Recursos Limitados\\ ({\it resource constrained shortest path} - {\bf RCSP}) \cite{BC89}\\
+    \end{itemize}
+\end{frame}
+
+\subsection{Definição}
+\begin{frame}
+    \frametitle{Definição Formal}
+            \begin{problema}{\rcsp($G, s, t, k, r, l, c$)} 
+                Dados
+                {\small
+                \begin{itemize}
+                    \item\ um digrafo $G=(V,A)$,
+                    \item\ uma origem $s \in V$ e um destino $t \in V$, $s \neq t$,
+                    \item\ um número $k \in \mathbb{N}$ de recursos disponíveis $\{1,\dots,k\}$,
+                    \item\ o consumo de cada $a \in A$ sobre os recursos, $r^i_a \in \mathbb{N}_0$, $i = 1, \dots, k$,
+                    \item\ o limite $l^i \in \mathbb{N}_0$ que dispomos de cada recurso, 
+                            $i = 1, \dots, k$,
+                    \item\ o custo $c_a \in \mathbb{N}_0$, para cada arco, $a \in A$.
+                \end{itemize}
+                }
+
+                Para um $st$-caminho $P$:
+                {\small
+                \begin{itemize}
+                    \item\ Seu consumo é $r^i(P) = \sum_{a \in P}{r^i_a}$, $i = 1, \dots, k$.\\ 
+                    \item\ É dito limitado pelos recursos se $ r^i(P) \leq l^i$, $i = 1, \dots, k$.\\
+                    \item\ Seu custo é $c(P) = \sum_{a \in P}{c_a}$.\\
+                \end{itemize}
+                }
+                O problema \rcsp\ consiste em encontrar um caminho limitado pelos recursos de
+                menor custo.
+            \end{problema}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Variações}
+    \begin{itemize}
+        \item {\it the vertex constrained shortest path problem (VCSP)} - encontrar o menor 
+                caminho que contem um subconjunto específico de vértices.
+        \item {\it the time constrained shortest path problem (TCSP)} - encontrar o menor 
+                caminho quando os tamanho dos arcos são dependentes do tempo e/ou existem 
+                janelas de tempo para o uso dos vértices.
+    \end{itemize}
+\end{frame}
+
+\subsection{Histórico}
+\begin{frame}
+    \frametitle{Histórico}
+    \begin{itemize}
+        \item Witzgall e Gouldman 1965 \cite{WG65}, Joksch 1966 \cite{JO66}, e 
+                Lawler 1976 \cite{LA76} - algoritmo baseado em programação dinâmica pseudopolinomial.
+        \item Aneja e Nair 1978 - algoritmo baseado em uma abordagem
+                paramétrica (algoritmo incorreto \cite{AAN83}).
+        \item Handler e Zang 1980 - algoritmo baseado em uma relaxação lagrangiana de uma 
+                formulação do problema, resolvida com caminhos mínimos irestritos \cite{HZ80}.
+                Resolveram instâncias com $500$ vértices e $2500$ arcos (apenas um único recurso).
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Histórico}
+    \begin{itemize}
+        \item Beasley e Christofides 1989 - algoritmo baseado em uma relaxação lagrangiana de uma
+                formulação do problema, usada como limite inferior para procedimento de árvore de 
+                busca \cite{BC89} (com duas inequações para cada recurso). 
+                Resolveram instâncias com $500$ vértices, $5000$ arcos e $10$ recursos. 
+        \item Hassin 1992 - algoritmo de aproximação (FPTAS) 
+                $O(\log{\log{B (|A|(n / \epsilon) + \log{\log{B}})}})$, 
+                baseado na técnica de ``escalar e arredondar''.
+        \item Mehlhorn e Ziegelmann 2000 - algoritmo baseado em uma relaxação
+        de uma formulação do problema por programação linear, técnica denominada de
+        ``abordagem do envoltório'' \cite{KM00}.
+    \end{itemize}
+\end{frame}

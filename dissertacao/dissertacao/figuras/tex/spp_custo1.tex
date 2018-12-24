@@ -1,0 +1,57 @@
+\documentclass{article}
+\usepackage[x11names, rgb]{xcolor}
+\usepackage[utf8]{inputenc}
+\usepackage{tikz}
+\usetikzlibrary{snakes,arrows,shapes}
+\usepackage{amsmath}
+%
+%
+
+\usepackage[active,tightpage]{preview}
+\PreviewEnvironment{tikzpicture}
+\setlength\PreviewBorder{0pt}%
+
+%
+
+\begin{document}
+\pagestyle{empty}
+%
+%
+%
+
+\enlargethispage{100cm}
+% Start of code
+\begin{tikzpicture}[>=latex',line join=bevel,]
+%%
+\coordinate (6) at (106.94bp,110.03bp);
+  \coordinate (3) at (99.412bp,19bp);
+  \coordinate (1) at (28bp,91.006bp);
+  \node (s) at (42.327bp,93.702bp) [draw,circle] {$s$};
+  \coordinate (2) at (76.117bp,182.66bp);
+  \node (u) at (81.711bp,169.2bp) [draw,circle] {$u$};
+  \node (t) at (177.41bp,70.844bp) [draw,circle] {$t$};
+  \node (w) at (117.35bp,101.33bp) [draw,circle] {$w$};
+  \node (v) at (101.91bp,33.362bp) [draw,circle] {$v$};
+  \coordinate (5) at (176.57bp,163.92bp);
+  \node (z) at (165.35bp,154.61bp) [draw,circle] {$z$};
+  \coordinate (4) at (190.28bp,64.001bp);
+  \draw [->] (s) to[bend right] node[auto] {$7$} (v);
+  \draw [->] (s) to[bend left] node[auto] {$3$} (w);
+  \draw [->,very thick] (u) to[bend left] node[auto] {$1$} (w);
+  \draw [->,very thick] (z) to[bend left] node[auto] {$5$} (t);
+  \draw [->,very thick] (w) to[bend right] node[auto] {$3$} (z);
+  \draw [->] (v) to[bend left] node[auto] {$1$} (w);
+  \draw [->] (t) to[bend left] node[auto] {$3$} (v);
+  \draw [->] (w) to[bend left] node[auto] {$1$} (t);
+  \draw [->,very thick] (s) to[bend left] node[auto] {$5$} (u);
+  \draw [->] (u) to[bend left] node[auto] {$2$} (z);
+%
+\end{tikzpicture}
+% End of code
+
+%
+\end{document}
+%
+
+
+

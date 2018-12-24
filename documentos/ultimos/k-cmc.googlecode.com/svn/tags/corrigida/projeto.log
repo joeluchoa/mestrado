@@ -1,0 +1,585 @@
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.6.20)  19 JUL 2012 00:55
+entering extended mode
+ %&-line parsing enabled.
+**projeto.tex
+(./projeto.tex
+LaTeX2e <2009/09/24>
+Babel <v3.8l> and hyphenation patterns for english, usenglishmax, dumylang, noh
+yphenation, farsi, arabic, croatian, bulgarian, ukrainian, russian, czech, slov
+ak, danish, dutch, finnish, french, basque, ngerman, german, german-x-2009-06-1
+9, ngerman-x-2009-06-19, ibycus, monogreek, greek, ancientgreek, hungarian, san
+skrit, italian, latin, latvian, lithuanian, mongolian2a, mongolian, bokmal, nyn
+orsk, romanian, irish, coptic, serbian, turkish, welsh, esperanto, uppersorbian
+, estonian, indonesian, interlingua, icelandic, kurmanji, slovenian, polish, po
+rtuguese, spanish, galician, catalan, swedish, ukenglish, pinyin, loaded.
+(/usr/share/texmf-texlive/tex/latex/amscls/amsart.cls
+Document Class: amsart 2009/07/02 v2.20.1
+\linespacing=\dimen102
+\normalparindent=\dimen103
+\normaltopskip=\skip41
+(/usr/share/texmf-texlive/tex/latex/amsmath/amsmath.sty
+Package: amsmath 2000/07/18 v2.13 AMS math features
+\@mathmargin=\skip42
+
+For additional information on amsmath, use the `?' option.
+(/usr/share/texmf-texlive/tex/latex/amsmath/amstext.sty
+Package: amstext 2000/06/29 v2.01
+
+(/usr/share/texmf-texlive/tex/latex/amsmath/amsgen.sty
+File: amsgen.sty 1999/11/30 v2.0
+\@emptytoks=\toks14
+\ex@=\dimen104
+))
+(/usr/share/texmf-texlive/tex/latex/amsmath/amsbsy.sty
+Package: amsbsy 1999/11/29 v1.2d
+\pmbraise@=\dimen105
+)
+(/usr/share/texmf-texlive/tex/latex/amsmath/amsopn.sty
+Package: amsopn 1999/12/14 v2.01 operator names
+)
+\inf@bad=\count79
+LaTeX Info: Redefining \frac on input line 211.
+\uproot@=\count80
+\leftroot@=\count81
+LaTeX Info: Redefining \overline on input line 307.
+\classnum@=\count82
+\DOTSCASE@=\count83
+LaTeX Info: Redefining \ldots on input line 379.
+LaTeX Info: Redefining \dots on input line 382.
+LaTeX Info: Redefining \cdots on input line 467.
+\Mathstrutbox@=\box26
+\strutbox@=\box27
+\big@size=\dimen106
+LaTeX Font Info:    Redeclaring font encoding OML on input line 567.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 568.
+\macc@depth=\count84
+\c@MaxMatrixCols=\count85
+\dotsspace@=\muskip10
+\c@parentequation=\count86
+\dspbrk@lvl=\count87
+\tag@help=\toks15
+\row@=\count88
+\column@=\count89
+\maxfields@=\count90
+\andhelp@=\toks16
+\eqnshift@=\dimen107
+\alignsep@=\dimen108
+\tagshift@=\dimen109
+\tagwidth@=\dimen110
+\totwidth@=\dimen111
+\lineht@=\dimen112
+\@envbody=\toks17
+\multlinegap=\skip43
+\multlinetaggap=\skip44
+\mathdisplay@stack=\toks18
+LaTeX Info: Redefining \[ on input line 2666.
+LaTeX Info: Redefining \] on input line 2667.
+)
+LaTeX Font Info:    Try loading font information for U+msa on input line 388.
+
+(/usr/share/texmf-texlive/tex/latex/amsfonts/umsa.fd
+File: umsa.fd 2009/06/22 v3.00 AMS symbols A
+)
+(/usr/share/texmf-texlive/tex/latex/amsfonts/amsfonts.sty
+Package: amsfonts 2009/06/22 v3.00 Basic AMSFonts support
+\symAMSa=\mathgroup4
+\symAMSb=\mathgroup5
+LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 96.
+)
+\copyins=\insert233
+\abstractbox=\box28
+\listisep=\skip45
+\c@part=\count91
+\c@section=\count92
+\c@subsection=\count93
+\c@subsubsection=\count94
+\c@paragraph=\count95
+\c@subparagraph=\count96
+\c@figure=\count97
+\c@table=\count98
+\abovecaptionskip=\skip46
+\belowcaptionskip=\skip47
+\captionindent=\dimen113
+\thm@style=\toks19
+\thm@bodyfont=\toks20
+\thm@headfont=\toks21
+\thm@notefont=\toks22
+\thm@headpunct=\toks23
+\thm@preskip=\skip48
+\thm@postskip=\skip49
+\thm@headsep=\skip50
+\dth@everypar=\toks24
+)
+(/var/lib/texmf/tex/generic/babel/babel.sty
+Package: babel 2008/07/06 v3.8l The Babel package
+
+(/usr/share/texmf-texlive/tex/generic/babel/portuges.ldf
+Language: portuges 2008/03/18 v1.2q Portuguese support from the babel system
+
+(/usr/share/texmf-texlive/tex/generic/babel/babel.def
+File: babel.def 2008/07/06 v3.8l Babel common definitions
+\babel@savecnt=\count99
+\U@D=\dimen114
+)
+\l@brazil = a dialect from \language\l@portuges 
+Package babel Info: Making " an active character on input line 145.
+))
+(/usr/share/texmf-texlive/tex/latex/base/inputenc.sty
+Package: inputenc 2008/03/30 v1.1d Input encoding file
+\inpenc@prehook=\toks25
+\inpenc@posthook=\toks26
+
+(/usr/share/texmf-texlive/tex/latex/base/latin1.def
+File: latin1.def 2008/03/30 v1.1d Input encoding file
+))
+(/usr/share/texmf-texlive/tex/latex/graphics/graphicx.sty
+Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
+
+(/usr/share/texmf-texlive/tex/latex/graphics/keyval.sty
+Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
+\KV@toks@=\toks27
+)
+(/usr/share/texmf-texlive/tex/latex/graphics/graphics.sty
+Package: graphics 2009/02/05 v1.0o Standard LaTeX Graphics (DPC,SPQR)
+
+(/usr/share/texmf-texlive/tex/latex/graphics/trig.sty
+Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
+)
+(/etc/texmf/tex/latex/config/graphics.cfg
+File: graphics.cfg 2009/08/28 v1.8 graphics configuration of TeX Live
+)
+Package graphics Info: Driver file: dvips.def on input line 91.
+
+(/usr/share/texmf-texlive/tex/latex/graphics/dvips.def
+File: dvips.def 1999/02/16 v3.0i Driver-dependant file (DPC,SPQR)
+))
+\Gin@req@height=\dimen115
+\Gin@req@width=\dimen116
+)
+(/usr/share/texmf-texlive/tex/latex/psfrag/psfrag.sty
+Package: psfrag 1998/04/11 v3.04 PSfrag (MCG)
+\pfg@pcount=\count100
+\pfg@scount=\count101
+\pfg@temp=\write3
+)
+(/usr/share/texmf-texlive/tex/latex/tools/multicol.sty
+Package: multicol 2008/12/05 v1.6h multicolumn formatting (FMi)
+\c@tracingmulticols=\count102
+\mult@box=\box29
+\multicol@leftmargin=\dimen117
+\c@unbalance=\count103
+\c@collectmore=\count104
+\doublecol@number=\count105
+\multicoltolerance=\count106
+\multicolpretolerance=\count107
+\full@width=\dimen118
+\page@free=\dimen119
+\premulticols=\dimen120
+\postmulticols=\dimen121
+\multicolsep=\skip51
+\multicolbaselineskip=\skip52
+\partial@page=\box30
+\last@line=\box31
+\mult@rightbox=\box32
+\mult@grightbox=\box33
+\mult@gfirstbox=\box34
+\mult@firstbox=\box35
+\@tempa=\box36
+\@tempa=\box37
+\@tempa=\box38
+\@tempa=\box39
+\@tempa=\box40
+\@tempa=\box41
+\@tempa=\box42
+\@tempa=\box43
+\@tempa=\box44
+\@tempa=\box45
+\@tempa=\box46
+\@tempa=\box47
+\@tempa=\box48
+\@tempa=\box49
+\@tempa=\box50
+\@tempa=\box51
+\@tempa=\box52
+\c@columnbadness=\count108
+\c@finalcolumnbadness=\count109
+\last@try=\dimen122
+\multicolovershoot=\dimen123
+\multicolundershoot=\dimen124
+\mult@nat@firstbox=\box53
+\colbreak@box=\box54
+)
+(/usr/share/texmf-texlive/tex/latex/tools/enumerate.sty
+Package: enumerate 1999/03/05 v3.00 enumerate extensions (DPC)
+\@enLab=\toks28
+) (./estilo/estilo.sty
+\c@teorema=\count110
+\c@lema=\count111
+\c@corolario=\count112
+)
+
+! LaTeX Error: File `floatflt.sty' not found.
+
+Type X to quit or <RETURN> to proceed,
+or enter new name. (Default extension: sty)
+
+Enter file name: 
+No file projeto.aux.
+\openout1 = `projeto.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 62.
+LaTeX Font Info:    ... okay on input line 62.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 62.
+LaTeX Font Info:    ... okay on input line 62.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 62.
+LaTeX Font Info:    ... okay on input line 62.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 62.
+LaTeX Font Info:    ... okay on input line 62.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 62.
+LaTeX Font Info:    ... okay on input line 62.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 62.
+LaTeX Font Info:    ... okay on input line 62.
+LaTeX Font Info:    Try loading font information for U+msa on input line 62.
+(/usr/share/texmf-texlive/tex/latex/amsfonts/umsa.fd
+File: umsa.fd 2009/06/22 v3.00 AMS symbols A
+)
+LaTeX Font Info:    Try loading font information for U+msb on input line 62.
+
+(/usr/share/texmf-texlive/tex/latex/amsfonts/umsb.fd
+File: umsb.fd 2009/06/22 v3.00 AMS symbols B
+)
+No file projeto.toc.
+\tf@toc=\write4
+\openout4 = `projeto.toc'.
+
+
+! LaTeX Error: Environment floatingfigure undefined.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.99 \begin{floatingfigure}
+                           [l]{30mm}
+? 
+File: ./figs/rede.eps Graphic file (type eps)
+<./figs/rede.eps>
+
+! LaTeX Error: \begin{document} ended by \end{floatingfigure}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.105 \end{floatingfigure}
+                          
+? q
+OK, entering \batchmode...
+ [1
+Non-PDF special ignored!{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
+Non-PDF special ignored!
+Non-PDF special ignored!
+Non-PDF special ignored!
+Non-PDF special ignored!
+Non-PDF special ignored!
+Non-PDF special ignored!
+Non-PDF special ignored!
+Non-PDF special ignored!
+Non-PDF special ignored!]
+File: ./figs/introducaoTeleMax.eps Graphic file (type eps)
+ <./figs/introducaoTeleMax.eps> [2
+Non-PDF special ignored!
+Non-PDF special ignored!
+Non-PDF special ignored!
+Non-PDF special ignored!
+Non-PDF special ignored!
+Non-PDF special ignored!
+Non-PDF special ignored!
+Non-PDF special ignored!
+Non-PDF special ignored!
+Non-PDF special ignored!
+Non-PDF special ignored!
+Non-PDF special ignored!
+Non-PDF special ignored!
+Non-PDF special ignored!
+Non-PDF special ignored!
+Non-PDF special ignored!
+Non-PDF special ignored!
+Non-PDF special ignored!
+Non-PDF special ignored!
+Non-PDF special ignored!
+Non-PDF special ignored!]
+
+LaTeX Warning: Citation `katoh:n-12-411' on page 3 undefined on input line 191.
+
+
+
+LaTeX Warning: Citation `pf:aula' on page 3 undefined on input line 241.
+
+
+LaTeX Warning: Reference `fig:grafo' on page 3 undefined on input line 259.
+
+File: ./figs/grafo.eps Graphic file (type eps)
+ <./figs/grafo.eps>
+
+LaTeX Warning: Reference `fig:grafo' on page 3 undefined on input line 295.
+
+
+LaTeX Warning: Reference `fig:grafo' on page 3 undefined on input line 311.
+
+
+Overfull \hbox (17.99657pt too wide) in paragraph at lines 307--314
+\OT1/cmr/m/n/12 passeio ser^^Sa dito um \OT1/cmr/bx/n/12 pre-fixo \OT1/cmr/m/n/
+12 de $\OML/cmm/m/it/12 P$\OT1/cmr/m/n/12 . Na fi-gura []$[]$ a seq^^?u^encia $
+\OMS/cmsy/m/n/12 h\OML/cmm/m/it/12 a; ab; b; be; e; ef; f; fd; d\OMS/cmsy/m/n/1
+2 i$
+ []
+
+
+LaTeX Warning: Reference `fig:grafo' on page 3 undefined on input line 321.
+
+ [3]
+Overfull \hbox (6.2995pt too wide) in paragraph at lines 356--363
+[]\OT1/cmr/bx/n/12 Problema \OT1/cmr/m/n/12 CM$(\OML/cmm/m/it/12 V; A; c; s; t\
+OT1/cmr/m/n/12 )$: Dado um grafo $(\OML/cmm/m/it/12 V; A\OT1/cmr/m/n/12 )$, uma
+ fun^^Xc~ao custo $\OML/cmm/m/it/12 c$
+ []
+
+
+LaTeX Warning: Citation `dijkstra59:note' on page 4 undefined on input line 366
+.
+
+
+LaTeX Warning: Citation `FredTarjan:Fibonacci' on page 4 undefined on input lin
+e 378.
+
+
+LaTeX Warning: Citation `thorup:sssp-1999' on page 4 undefined on input line 38
+1.
+
+ [4
+Non-PDF special ignored!
+Non-PDF special ignored!
+Non-PDF special ignored!
+Non-PDF special ignored!
+Non-PDF special ignored!
+Non-PDF special ignored!
+Non-PDF special ignored!
+Non-PDF special ignored!
+Non-PDF special ignored!
+Non-PDF special ignored!
+Non-PDF special ignored!
+Non-PDF special ignored!
+Non-PDF special ignored!
+Non-PDF special ignored!
+Non-PDF special ignored!
+Non-PDF special ignored!
+Non-PDF special ignored!
+Non-PDF special ignored!
+Non-PDF special ignored!
+Non-PDF special ignored!
+Non-PDF special ignored!
+Non-PDF special ignored!
+Non-PDF special ignored!
+Non-PDF special ignored!
+Non-PDF special ignored!]
+
+LaTeX Warning: Reference `fig:grafo' on page 5 undefined on input line 407.
+
+
+LaTeX Warning: Reference `fig:prefixo' on page 5 undefined on input line 443.
+
+
+LaTeX Warning: Reference `fig:prefixo' on page 5 undefined on input line 445.
+
+File: ./figs/prefixo.eps Graphic file (type eps)
+ <./figs/prefixo.eps> [5] [6
+Non-PDF special ignored!
+Non-PDF special ignored!
+Non-PDF special ignored!
+Non-PDF special ignored!
+Non-PDF special ignored!
+Non-PDF special ignored!
+Non-PDF special ignored!
+Non-PDF special ignored!
+Non-PDF special ignored!
+Non-PDF special ignored!
+Non-PDF special ignored!
+Non-PDF special ignored!
+Non-PDF special ignored!
+Non-PDF special ignored!
+Non-PDF special ignored!
+Non-PDF special ignored!
+Non-PDF special ignored!
+Non-PDF special ignored!
+Non-PDF special ignored!
+Non-PDF special ignored!
+Non-PDF special ignored!
+Non-PDF special ignored!
+Non-PDF special ignored!
+Non-PDF special ignored!
+Non-PDF special ignored!
+Non-PDF special ignored!
+Non-PDF special ignored!
+Non-PDF special ignored!
+Non-PDF special ignored!
+Non-PDF special ignored!
+Non-PDF special ignored!
+Non-PDF special ignored!
+Non-PDF special ignored!]
+
+LaTeX Warning: Citation `yen:ms-17-712' on page 7 undefined on input line 539.
+
+ [7]
+
+LaTeX Warning: Citation `hershberger:acmta-3-??' on page 8 undefined on input l
+ine 633.
+
+
+LaTeX Warning: Reference `fig:prefixo' on page 8 undefined on input line 641.
+
+
+LaTeX Warning: Marginpar on page 8 moved.
+
+
+LaTeX Warning: Reference `fig:prefixo' on page 8 undefined on input line 653.
+
+ [8]
+
+LaTeX Warning: Citation `yen:ms-17-712' on page 9 undefined on input line 730.
+
+
+LaTeX Warning: Citation `eppstein:siamjc-28-652' on page 9 undefined on input l
+ine 734.
+
+
+LaTeX Warning: Citation `katoh:n-12-411' on page 9 undefined on input line 734.
+
+
+
+LaTeX Warning: Citation `hershberger:acmta-3-??' on page 9 undefined on input l
+ine 734.
+
+
+LaTeX Warning: Citation `brander:370' on page 9 undefined on input line 736.
+
+
+LaTeX Warning: Citation `eleni:n-34-88' on page 9 undefined on input line 736.
+
+
+LaTeX Warning: Citation `martins:qjbfiors-1-121' on page 9 undefined on input l
+ine 736.
+
+
+LaTeX Warning: Citation `martins:relatorio' on page 9 undefined on input line 7
+36.
+
+
+LaTeX Warning: Citation `perko:n-16-149' on page 9 undefined on input line 736.
+
+
+
+LaTeX Warning: Citation `lawler:ms-18-401' on page 9 undefined on input line 73
+9.
+
+
+Overfull \hbox (3.38501pt too wide) in paragraph at lines 746--753
+[]\OT1/cmr/bx/n/12 Problema \OT1/cmr/m/n/12 SCM$(\OML/cmm/m/it/12 V; A; c; s; t
+; P; F\OT1/cmr/m/n/12 )$: Dado um grafo $(\OML/cmm/m/it/12 V; A\OT1/cmr/m/n/12 
+)$, uma fun^^Xc~ao
+ []
+
+ [9]
+
+LaTeX Warning: Citation `katoh:n-12-411' on page 10 undefined on input line 848
+.
+
+
+LaTeX Warning: Citation `hershberger:acmta-3-??' on page 10 undefined on input 
+line 885.
+
+ [10]
+
+LaTeX Warning: Citation `yen:ms-17-712' on page 11 undefined on input line 902.
+
+
+
+LaTeX Warning: Citation `eleni:n-34-88' on page 11 undefined on input line 917.
+
+
+
+LaTeX Warning: Citation `nardelli:a-35-56' on page 11 undefined on input line 9
+21.
+
+
+LaTeX Warning: Citation `marchetti:n-16-149' on page 11 undefined on input line
+ 927.
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [11]
+
+LaTeX Warning: Citation `yen:ms-17-712' on page 12 undefined on input line 964.
+
+
+
+LaTeX Warning: Citation `hershberger:acmta-3-??' on page 12 undefined on input 
+line 967.
+
+
+LaTeX Warning: Citation `katoh:n-12-411' on page 12 undefined on input line 970
+.
+
+
+LaTeX Warning: Citation `nardelli:a-35-56' on page 12 undefined on input line 9
+74.
+
+
+LaTeX Warning: Citation `eppstein:siamjc-28-652' on page 12 undefined on input 
+line 998.
+
+ [12]
+No file projeto.bbl.
+ [13] (./projeto.aux)
+
+LaTeX Warning: There were undefined references.
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+ ) 
+Here is how much of TeX's memory you used:
+ 2490 strings out of 493848
+ 28466 string characters out of 1152823
+ 93475 words of memory out of 3000000
+ 5578 multiletter control sequences out of 15000+50000
+ 16271 words of font info for 61 fonts, out of 3000000 for 9000
+ 875 hyphenation exceptions out of 8191
+ 34i,8n,31p,590b,292s stack positions out of 5000i,500n,10000p,200000b,50000s
+</usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/sha
+re/texmf-texlive/fonts/type1/public/amsfonts/cm/cmbx8.pfb></usr/share/texmf-tex
+live/fonts/type1/public/amsfonts/cm/cmbxsl10.pfb></usr/share/texmf-texlive/font
+s/type1/public/amsfonts/cm/cmcsc10.pfb></usr/share/texmf-texlive/fonts/type1/pu
+blic/amsfonts/cm/cmmi10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfon
+ts/cm/cmmi12.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi7
+.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/s
+hare/texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/share/texmf-t
+exlive/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-texlive/fonts
+/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texmf-texlive/fonts/type1/publi
+c/amsfonts/cm/cmr8.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm
+/cmr9.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsl12.pfb><
+/usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/
+texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/share/texmf-texliv
+e/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texmf-texlive/fonts/type
+1/public/amsfonts/cm/cmti10.pfb></usr/share/texmf-texlive/fonts/type1/public/am
+sfonts/cm/cmti12.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/c
+mtt10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/symbols/msbm10.
+pfb>
+Output written on projeto.pdf (13 pages, 298968 bytes).
+PDF statistics:
+ 129 PDF objects out of 1000 (max. 8388607)
+ 0 named destinations out of 1000 (max. 500000)
+ 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+

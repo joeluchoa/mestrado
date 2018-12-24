@@ -1,0 +1,120 @@
+% ================================
+% Modelagem 3
+% ================================
+
+Diferentemente do proposto nas Modelagens anteriores, na Modelagem 3, oriunda de \cite{Walid:2008}, os vértices iniciais serão formados a partir das próprias conversões livres de $G$. Assim, toda conversão livre $(u,v,w)$ pertencente a $L(G)$ gerará um vértice $\<u,v,w\>$ em $G'$ e basta a informação contida no próprio vértice para saber qual conversão livre ele representa -- o que não acontece nas outras Modelagens. Cada par de conversões livres $(u,v,w)$ e $(v,w,z)$ de $L(G)$ gera um arco $(\<u,v,w\>,\<v,w,z\>)$ em $G'$, e o seu custo $c'$ é dado por $c'(\<u,v,w\>, \<v,w,z\>) = c(w,z)$, o que, em $G$, seria dizer que o custo é equivalente ao custo do arco entre os dois últimos vértices da última conversão livre. Tomando o grafo da Figura \ref{grafooriginal} como grafo original e aplicando estes passos sobre o mesmo, o grafo da Figura \ref{mod3-fig1} exibe como ficaria o grafo resultante após esta etapa inicial da modelagem.
+
+\begin{figure*}[hct]
+\centering
+\includegraphics[scale = 0.75]{\locimg mod3-fig1.pdf}
+\caption{Criação dos vértices iniciais e custos de seus arcos.}
+\label{mod3-fig1}
+\end{figure*}
+
+
+Todo vértice $s$ de $G$ que é origem de arcos mas não é destino de nenhum também pertence a $G'$ e é gerado um arco $(s,\<s,u,v\>)$ para cada conversão livre $(s,u,v)$ em $G$ na qual $s$ é o vértice inicial, com custo $c'$ definido por $c'(s,\<s,u,v\>) = c(s,u) + c(u,v)$ (vide exemplo na Figura \ref{mod3-fig2}).
+
+\begin{figure*}[hct]
+\centering
+\includegraphics[scale = 0.75]{\locimg mod3-fig2.pdf}
+\caption{Adicionando o vértice origem e custo de suas arestas.}
+\label{mod3-fig2}
+\end{figure*}
+
+Para inserção dos outros vértices é considerado o caso no qual o caminho em $G$ possui tamanho menor que dois. Devido ao fato de os vértices $\<u,v,w\>$ em $G'$ serem formados a partir de conversões livres de $G$, os caminhos em $G$ menores que o tamanho de uma conversão livre -- ou seja, caminhos menores que dois -- não estariam presentes em $G'$ caso todos os vértices de $G$ fossem criados no grafo auxiliar conforme descrito no parágrafo anterior. Para resolver esta questão é necessário, para todo $v \in V$ que é origem e destino de arcos, inserir $v$ em $G'$ e criar arcos $(v,\<u,v,w\>)$ para todo vértice de $G'$ que possui $v$ como identificador central, atribuindo seu custo como $c'(v,\<u,v,w\>)=c(v,w)$. Para os vértices $v$ de $G$ que não são vértices centrais de nenhuma conversão livre, é necessário criar vértices auxiliares $w'$ de seus vizinhos e atribuir arcos que os unam, sendo a função de custo $c'(v,w')=c(v,w)$. Este é o caso do vértice $s$ de nosso grafo original de exemplo, e o grafo $G'$ final é visto na Figura \ref{mod3-fig2b}.
+
+\begin{figure*}[hct]
+ \centering
+ \includegraphics[scale = 0.56]{\locimg mod3-fig2b.pdf}
+ \caption{Grafo auxiliar final.}
+ \label{mod3-fig2b}
+\end{figure*}
+
+Para encontar um caminho não trivial \footnote{Para este caso, consideramos um caminho trivial $u \leadsto v$ em $G'$ aquele formado apenas por um arco do tipo $(u,v')$.} $P' = s \rightsquigarrow t$ em um grafo $G'$ já construído, basta iniciar a busca a partir do vértice $s$ e percorrer o grafo até encontrar o vértice na forma $\<u,v,t\>$ que possui $t$ como sufixo. Utilizemos o grafo da Figura \ref{mod3-fig2b} para encontar um caminho de $s$ a $t$, ambos pertencentes a  $G$. Iniciando no vértice $s$ escolhemos a aresta que nos leva ao vértice $\<s,u,w\>$, e deste escolhemos a aresta que nos leva ao vértice $\<u,w,z\>$. A próxima aresta escolhida nos leva ao vértice $\<w,z,t\>$ onde podemos observar o sufixo $t$. Como $t$ é o vértice final do caminho em $G$ e é o sufixo do vértice $\<w,z,t\>$ em $G'$ constatamos que este é o vértice destino em $G'$ e o caminho está construído neste grafo.
+
+Dado um caminho $P'$ em $G'$, partindo de $s$ e terminando em um vértice $\<u,v,t\>$, é possivel construir um caminho correspondente $P$ em $G$ que inicia em $s$ e termina em $t$, mas essa operação é um pouco mais complicada que a da Modelagem 1. Na Modelagem 1 os vértices origem e destino de qualquer caminho em $G$ e $G'$ são tanto vértices de $G$ quanto de $G'$, facilitando a construção de caminhos correspondentes de um grafo para o outro. Isso não acontece nesta Modelagem 3, pois os vértices destino em $G'$ são do tipo $\<u,v,t\>$, enquanto os vértices destino em $G$ são vértices originais, do tipo $t$. 
+
+Desta forma, para obter $P$ de $P'$, devemos considerar, de $P'$, o seu vértice inicial, o(s) índice(s) à direita do identificador do vértice inicial no primeiro vértice do tipo $\<u,v,w\>$ e apenas o último índice de todos os outros vértices do caminho. Seguindo o grafo da Figura \ref{mod3-fig2b} e tomando o caminho $P'$ como $s,\<s,u,w\>,\<u,w,z\>,\<w,z,t\>$, o caminho $P$ em $G$ é formado pelo vértice inicial $s$, seguido por $u$ e $w$ que são os dois últimos índices do primeiro vértice diferente da origem. O próximo vértice do caminho em $G$ é $z$, pois é o sufixo de $\<u,x,z\>$, seguido por $t$, sufixo de $\<w,z,t\>$. Assim, o caminho correspondente a $P'$ em $G$ é $s,u,w,z,t$ e pode ser verificado no grafo da Figura \ref{grafooriginal}.
+
+
+%-----------------------------------------------------------------------------
+\subsection{Análise}
+\label{mod3-analise}
+
+É simples iniciar o cálculo da quantidade de vértices $|V'|$ de $G'$, uma vez que a maioria dos vértices gerados são procedentes do conjunto $L$ de conversões livres de $G$, adicionando a eles o vértice inicial $s$ do caminho. Assim, temos que:
+
+$$|V'| \geq |L| + 1$$
+
+\
+
+Mas como, geralmente, não se tem apenas um possível vértice inicial em um grafo $G$, esse número deve ser extendido, adicionando um vértice em $G'$ para todos os vértices em $G$ que são origem de pelo menos um arco. A inclusão de tais vértices nos leva a:
+
+$$|V'| = |L| + \sum \delta(v) $$
+
+\begin{equation*}
+\text{tal que, }\forall v \in G(V)\text{, }\delta(v) =
+\begin{cases}
+1 & \text{se } d^+ > 0,\\
+0 & \text{se } d^+ = 0.\\
+\end{cases}
+\end{equation*}
+
+\
+
+Continuando cálculo, temos que incluir os vértices auxiliares para aqueles que não são vértices centrais de nenhuma conversão livre, caso onde o caminho mínimo é formado apenas por um arco. Assim, chegamos a:
+
+$$|V'| = |L| + \sum \delta(v) + \sum \theta(v) $$
+
+\begin{equation*}
+ \text{tal que, }\forall v \in G(V)\text{, }\theta(v) =
+ \begin{cases}
+ 0 & \text{se } \exists (u,v,w) \in C,\\
+ d^+(v) & \text{se } \nexists (u,v,w) \in C.\\
+ \end{cases}
+\end{equation*}
+
+\
+
+Essa conta pode ser simplificada se consideramos que o grafo $G$ a ser analisado é um mapeamento de uma rede de trânsito urbana, no qual todos os vértices são tanto origens de arcos quanto elementos centrais em conversões livres. Devido à essas características, a quantidade de vértices para este tipo de grafo é obtida, simplesmente, através do seguinte cálculo:
+
+$$|V'| = |L| + |V|$$
+
+\
+
+A quantidade de arcos também não é tão simples de ser encontrada, pois ela depende diretamente da quantidade de pares de conversões livres consecutivas, no formato $(u,v,w) $ e $(v,w,z)$, e tal quantidade não pode ser calculada de um modo genérico como feito nas modelagens anteriores. Adicionalmente devem ser levados em consideração também os arcos que unem os vértices iniciais às conversões livres e os arcos dos vértices iniciais que não são elementos centrais de nenhuma conversão livre. Assim:
+
+$$|A'| = |L_c| + |L| + \sum \delta(v)$$
+
+\begin{equation*}
+ \text{tal que, }\forall v \in G(V)\text{, }\delta(v) =
+ \begin{cases}
+ 0 & \text{se } \exists(u,v,w) \in L(G),\\
+ d^+(v) + |L(v)| & \text{se } \nexists(u,v,w) \in L(G).\\
+ \end{cases}
+\end{equation*}
+
+\
+
+Se considerarmos, novamente, que o grafo $G$ a ser analisado é um mapeamento de uma rede de trânsito urbana, o último fator do cálculo anterior terá sempre o valor zero, uma vez que, neste tipo de grafo, todo vértice é elemento central de ao menos uma conversão livre, ou seja, $\forall v \in V, \ \exists (u,v,w) \in L$. Assim, temos:
+
+$$|A'| = |L_c| + |L|$$
+
+\
+
+Essa dependência de classes específicas de conversões livres pode resultar em uma quantidade de arcos de $G'$ menor que a quantidade de arcos de $G$. Esse é o caso do grafo da Figura \ref{grafooriginal}, onde $|A'| = 4$ e $|A| = 6$. Verifique esse fato comparando aquele grafo com o da Figura \ref{mod3-fig2}. Mas em outros casos, $|A'|$ pode ser maior que $|A|$, como no grafo $H$ da Figura \ref{mod3-fig3}, formado apenas por caminhos livres, e no seu grafo $H'$ resultante\footnote{Este grafo resultante apresenta apenas $s$ como vértice inical a fim de facilitar a visualização.}, na Figura \ref{mod3-fig4}, onde $|A(H)| = 10$ e $|A(H')| = 15$.
+
+\begin{figure*}[hct]
+\centering
+\includegraphics[scale = 0.7]{\locimg mod3-fig3.pdf}
+\caption{Grafo $H$.}
+\label{mod3-fig3}
+\end{figure*}
+
+\begin{figure*}[hct]
+\centering
+\includegraphics[scale = 0.7]{\locimg mod3-fig4.pdf}
+\caption{Grafo $H'$, com uma quantidade maior de arcos que $H$.}
+\label{mod3-fig4}
+\end{figure*}
+
+

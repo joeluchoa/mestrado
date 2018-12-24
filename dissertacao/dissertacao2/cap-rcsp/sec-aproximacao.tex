@@ -1,0 +1,97 @@
+\section{$\epsilon$-Aproximação}
+\label{sec:aproximacao}
+
+\citet{hassin:92} aplicou a técnica de escalar e arredondar para obter 
+um esquema de aproximação totalmente polinomial (\fptas~-- \emph{fully 
+polynomial $\epsilon$-approximation scheme}) para o \srcsp.  Vamos 
+rever, resumidamente, este método agora.
+
+Na sessão~\ref{sec:dp} nós vimos alguns procedimentos baseados em 
+programação dinâmica. Para nossos propósitos aqui, a programação 
+dinâmica dual~(\ref{subsec:dp-dual}) é bastante útil. Nela iteramos 
+sobre o valor de custo $c$ até o primeiro valor $c'$ tal que $g_t(c') 
+\le R$.  Assim, temos o conhecimento do valor $OPT = c'$. 
+
+Agora, digamos que $V$ seja um certo valor, e suponha que queremos 
+testar se $OPT \ge V$ ou não. Um procedimento polinomial que responde 
+essa questão pode ser estendido em um algoritmo polinomial parar 
+encontrar $OPT$ simplesmente usando uma uma busca binária. Como nosso 
+problema é $\mathcal{NP}$-difícil, temos que nos satisfazer com um teste 
+mais fraco.
+
+Tomemos um $\epsilon$ fixo, $0 < \epsilon < 1$. Agora, nós iremos 
+descrever um teste polinomial $\epsilon$-aproximado com as seguintes 
+propriedades: se tal teste devolve uma saída positiva, então 
+definitivamente $OPT \ge V$.  Se ele revolver uma saída negativa, então 
+nós sabemos que $OPT < (V + \epsilon)$.
+
+O teste arrendonda o custo $c_{ij}$ dos arcos, substituindo seu valor 
+por:
+
+$$ \left\lfloor \frac{ c_{ij} }{ \epsilon V / (n-1) } \right\rfloor 
+\cdot \frac{\epsilon V}{(n-1)} $$.
+
+Isto diminui todos os custos de arcos em no máximo $\epsilon V / (n-1)$, 
+e todos os custos de caminhos em no máximo $\epsilon V$. Agora o 
+problema pode ser resolvido aplicando o algoritmo anterior ao grafo com 
+os custo dos arcos escalados para $\lfloor c_{ij} / (\epsilon V / (n-1)) 
+\rfloor$. Os valores de $g_j(c)$ para $j = 2, ..., n$, são primeiro 
+computados para $c=1$, depois para $c=1,2,\cdots$ até que
+$g_n(c) \le R$ para algum $c=\hat{c}<(n-1)/\epsilon$, ou $c \ge 
+(n-1)/\epsilon$.
+
+No primeiro caso, um caminho de custo de no máximo
+$$ \frac{V\epsilon}{n - 1} \hat{c} + V\epsilon < V(1+\epsilon)$$
+foi encontrado, e segue que $OPT < V(1+\epsilon)$. No segundo caso, cada 
+caminho tem $c' \ge (n-1)/\epsilon$ ou $c \ge V$, então $OPT \ge V$.  
+Assim, o teste funciona como queríamos.
+
+A complexidade de tempo é polinomial cara fixado o $\epsilon$ é 
+explicada em seguida: Tomar a parte inteira de um número não negativo no 
+intervalo $\{0, \cdots, U\}$ pode ser feito em tempo $O(\lg(U))$ usando 
+busca binária. Arrendondar o custo dos arcos toma tempo 
+$O(mlg(n/\epsilon))$ desde que nós escalamos somente os arcos com custo 
+menor que $V$ (o resultado é no máximo $(n-1)/\epsilon)$. Depois 
+executamos $O(n\epsilon)$ iterações do algoritmo acima que novamente 
+toma tempo $O(|E|\lg(n/\epsilon))$. E essa é também a complexidade do 
+procedimento de teste inteiro.
+
+Agora nós usamos este teste para chegar a um \fptas~baseado em escalar e 
+arrendondar: Para aproximar $OPT$ nós primeiramente determinamos um 
+limite superior ($UB$) e um limite inferior ($LB$).  O limite superior 
+$UB$ pode ser setado como a soma das $n-1$ arcos com maior custo, ou o 
+custo da caminho que consome menos recursos. O limite inferior $LB$ pode 
+ser setado como $0$ ou o caminho de menor custo.
+
+Se $UB \le (1 + \epsilon)LB$, então $UB$ é uma $\epsilon$-aproximação de 
+$OPT$. Suponha que $UB > (1+\epsilon)LB$. Seja $V$ um dado valor $LB < V 
+< UB/(1+\epsilon)$. O procedimento \textsc{Teste} pode agora ser 
+aplicado para melhorar os limites para $OPT$. Especificamente, ou $LB$ é 
+aumentado ou $UB$ é diminuído para $V(1+\epsilon)$. Executando uma 
+sequência de testes, a razão $UB/LB$ pode ser reduzida. Uma vez que a 
+razão atinga o valor de uma constante predefinida, digamos $2$, então 
+uma $\epsilon$-aproximação pode ser obtida aplicando-se o algoritmo por 
+programação dinâmica para o grafo com os custo dos arcos escalados para 
+$\lfloor c_{ij} / (LB/(n-1)) \rfloor$. O erro final é no máximo 
+$\epsilon LB < \epsilon OPT$.
+
+A complexidade de tempo para o último passo é $O(|E|n/\epsilon)$. A 
+redução da razão $UB/LB$ é melhor alcançada por busca binária no 
+intervalo $(LB, UB)$ em escala logarítmica. Depois de cada teste nós 
+atualizamos os limites. Para garantir uma rápida redução de razão nós 
+executamos o teste com o valor $x$ tal que $UB/x=x/LB$, que é $x = 
+(LB\cdot UB)^{1/2}$. O número de testes necessários para reduzir a razão 
+para abaixo de $2$ é $O(\lg\lg(UB/LB))$ e cada teste toma tempo 
+$O(|E|n/\epsilon)$. \citet{hassin:92} mostrou como computar um valor 
+inteiro próximo a $O(UB\cdot LB)^{1/2}$ em tempo $O(\lg\lg(UB/LB))$.  
+Isto dá uma complexidade de tempo, total de 
+$O(\lg\lg(UB/LB)(|E|(n\epsilon) + \lg\lg(UB/LB)))$ para este algoritmo 
+$\epsilon$-aproximado como um \fptas~para o \emph{CSP}.
+
+\citet{hassin:92} também mostrou uma \fptas~cuja a complexidade depende 
+somente do número de variáveis e $1/\epsilon$ e possui complexidade de 
+tempo de $O(|E|(n^2/\epsilon)\lg(n/\epsilon))$.
+O melhor \fptas~foi obtido por \citet{phillips:93} que atingiu a 
+complexidade de tempo de $O(|E|(n/\epsilon) + 
+(n^2/\epsilon)\lg(n/\epsilon))$.
+

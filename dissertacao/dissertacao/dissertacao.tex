@@ -1,0 +1,307 @@
+% Arquivo LaTeX de dissertação a ser apresentados à CPG do IME-USP
+% 
+% Versão 1: Thu May 04 05:27:00 BRST 2011
+% Autor: Joel Silva Uchoa
+%
+% Baseado no exemplo de disertação do IME-USP
+% Criação: Jesús P. Mena-Chalco
+% Revisão: Fabio Kon e Paulo Feofiloff
+
+\documentclass[12pt,twoside,a4paper]{book}
+
+% -------------------------------------------------------------------- %
+% Pacotes 
+\usepackage[T1]{fontenc}
+\usepackage[brazil]{babel}
+\usepackage[latin1]{inputenc}
+
+% usamos arquivos pdf/png como figuras
+\usepackage[pdftex]{graphicx}
+
+% espaçamento flexível
+\usepackage{setspace}
+
+% indentação do primeiro parágrafo
+\usepackage{indentfirst}
+
+% índice remissivo
+\usepackage{makeidx}
+
+% acrescentamos a bibliografia/indice/conteudo no Table of Contents
+\usepackage[nottoc]{tocbibind}
+
+% usa o Adobe Courier no lugar de Computer Modern Typewriter
+\usepackage{courier}
+
+% fontes realmente escaláveis
+\usepackage{type1cm}
+
+% para formatar código-fonte (ex. em Java)
+\usepackage{listings}
+
+\usepackage{titletoc}
+
+% cabeçalhos dos títulos: menores e compactos
+%\usepackage[bf,small,compact]{titlesec}
+
+\usepackage[fixlanguage]{babelbib}
+\usepackage[font=small,format=plain,labelfont=bf,up,textfont=it,up]{caption}
+\usepackage[usenames,svgnames,dvipsnames]{xcolor}
+
+% margens
+\usepackage[a4paper,top=2.54cm,bottom=2.0cm,left=2.0cm,right=2.54cm]{geometry}
+
+% links em preto
+%\usepackage[pdftex,plainpages=false,pdfpagelabels,pagebackref,colorlinks=true,citecolor=black,linkcolor=black,urlcolor=black,filecolor=black,bookmarksopen=true]{hyperref}
+
+% links coloridos
+\usepackage[pdftex,plainpages=false,pdfpagelabels,pagebackref,colorlinks=true,citecolor=DarkGreen,linkcolor=NavyBlue,urlcolor=DarkRed,filecolor=green,bookmarksopen=true]{hyperref}
+
+% soluciona o problema com o hyperref e capitulos
+\usepackage[all]{hypcap}
+
+% citação bibliográfica textual(plainnat-ime.bst)
+\usepackage[round,sort,nonamebreak]{natbib}
+
+\fontsize{60}{62}\usefont{OT1}{cmr}{m}{n}{\selectfont}
+
+\usepackage{amsfonts}
+
+\usepackage{latexsym} % defines \Box and \rhd
+\usepackage{ifthen}
+\usepackage{amsmath} % I use \tag{} (Latex Companion p.240) (amstex obsolete)
+%\usepackage{nicefrac} % nice fractions in text
+\usepackage{euscript} % fonte de letras cursivas
+\usepackage{epsf}
+\usepackage{epsfig}   % figuras
+% \usepackage[dvips]{graphicx,psfrag} %figuras
+\usepackage[dvips]{psfrag} %figuras
+
+
+
+% -------------------------------------------------------------------- %
+% Cabeçalhos similares ao TAOCP de Donald E. Knuth
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\chaptermark}[1]{\markboth{\MakeUppercase{#1}}{}}
+\renewcommand{\sectionmark}[1]{\markright{\MakeUppercase{#1}}{}}
+\renewcommand{\headrulewidth}{0pt}
+
+% -------------------------------------------------------------------- %
+% caminho das figuras (recomendável)
+\graphicspath{{./figuras/}}
+
+% arruma o espaço: id est (i.e.) e exempli gratia (e.g.) 
+\frenchspacing
+
+% URL com o mesmo estilo do texto e não mono-spaced
+\urlstyle{same}
+
+% para o índice remissivo
+\makeindex
+
+% para não permitir espaços extra no texto
+\raggedbottom
+
+\fontsize{60}{62}\usefont{OT1}{cmr}{m}{n}{\selectfont}
+\cleardoublepage
+\normalsize
+
+% -------------------------------------------------------------------- %
+% Opções de listing usados para o código fonte
+% Ref: http://en.wikibooks.org/wiki/LaTeX/Packages/Listings
+\lstset{ %
+% choose the language of the code
+language=Java,
+% the size of the fonts that are used for the code
+basicstyle=\footnotesize,
+% where to put the line-numbers
+numbers=left,
+% the size of the fonts that are used for the line-numbers
+numberstyle=\footnotesize,
+% the step between two line-numbers. If it's 1 each line will be 
+% numbered
+stepnumber=1,
+% how far the line-numbers are from the 
+numbersep=5pt,
+% show spaces adding particular code
+showspaces=false,
+% underline spaces within strings underscores
+showstringspaces=false,
+% show tabs within strings adding particular underscores
+showtabs=false,
+% adds a frame around the code
+frame=single,
+framerule=0.6pt,
+% sets default tabsize to 2 spaces
+tabsize=2,
+% sets the caption-position to bottom
+captionpos=b,
+% sets automatic line breaking
+breaklines=true,
+% sets if automatic breaks should only
+breakatwhitespace=false,
+% if you want to add a comment within happen at whitespace
+escapeinside={\%*}{*)},
+% choose the background color. your code
+backgroundcolor=\color[rgb]{1.0,1.0,1.0},
+rulecolor=\color[rgb]{0.8,0.8,0.8},
+extendedchars=true,
+xleftmargin=10pt,
+xrightmargin=10pt,
+framexleftmargin=10pt,
+framexrightmargin=10pt
+}
+
+\usepackage{joel}
+
+
+% -------------------------------------------------------------------- %
+% Corpo do texto
+\begin{document}
+\frontmatter 
+% cabeçalho para as páginas das seções anteriores ao capítulo 1 
+% (frontmatter)
+\fancyhead[RO]{{\footnotesize\rightmark}\hspace{2em}\thepage}
+\setcounter{tocdepth}{2}
+\fancyhead[LE]{\thepage\hspace{2em}\footnotesize{\leftmark}}
+\fancyhead[RE,LO]{}
+\fancyhead[RO]{{\footnotesize\rightmark}\hspace{2em}\thepage}
+
+\onehalfspacing  % espaçamento
+
+% ---------------------------------------------------------------------------- %
+% CAPA
+% Nota: O título para as teses/dissertações do IME-USP devem caber em um 
+% orifício de 10,7cm de largura x 6,0cm de altura que há na capa fornecida pela SPG.
+\thispagestyle{empty}
+\begin{center}
+    \vspace*{2.3cm}
+    \textbf{\Large{Caminhos mínimos com\\
+                   recursos limitados}}\\
+    
+    \vspace*{1.2cm}
+    \Large{Joel Silva Uchoa}
+    
+    \vskip 2cm
+    \textsc{
+    Dissertação apresentada\\[-0.25cm] 
+    ao\\[-0.25cm]
+    Instituto de Matemática e Estatística\\[-0.25cm]
+    da\\[-0.25cm]
+    Universidade de São Paulo\\[-0.25cm]
+    para\\[-0.25cm]
+    obtenção do título\\[-0.25cm]
+    de\\[-0.25cm]
+    Mestre}
+    
+    \vskip 1.5cm
+    Programa: Ciência da Computação\\
+    Orientador: Prof. Dr. Carlos Eduardo Ferreira\\
+
+   	\vskip 1cm
+    \normalsize{Durante o desenvolvimento deste trabalho o autor recebeu auxílio
+    financeiro da CAPES}
+    
+    \vskip 0.5cm
+    \normalsize{São Paulo, agosto de 2012}
+\end{center}
+
+% ---------------------------------------------------------------------------- %
+% Página de rosto (SÓ PARA A VERSÃO DEPOSITADA - ANTES DA DEFESA)
+% Resolução CoPGr 5890 (20/12/2010)
+%
+% Nota: O título para as teses/dissertações do IME-USP devem caber em um 
+% orifício de 10,7cm de largura x 6,0cm de altura que há na capa fornecida pela SPG.
+
+\newpage
+\thispagestyle{empty}
+   \begin{center}
+        \vspace*{2.3 cm}
+        \textbf{\Large{Caminhos mínimos com\\
+                       recursos limitados}}\\
+        \vspace*{2 cm}
+    \end{center}
+
+    \vskip 2cm
+
+    \begin{flushright}
+	Esta dissertação trata-se da versão original\\
+  do aluno (Joel Silva Uchoa).
+    \end{flushright}
+
+\pagebreak
+
+
+
+\pagenumbering{roman}     % começamos a numerar 
+
+% -------------------------------------------------------------------- %
+% Agradecimentos
+\input cap-agradecimentos
+
+% -------------------------------------------------------------------- %
+% Resumo
+\input cap-resumo
+
+% -------------------------------------------------------------------- %
+% Abstract
+\input cap-abstract
+
+% -------------------------------------------------------------------- %
+% Sumário
+\tableofcontents    % imprime o sumário
+
+% -------------------------------------------------------------------- %
+% Lista de Abreviaturas
+\input cap-abreviaturas
+
+% -------------------------------------------------------------------- %
+% Lista de Símbolos
+\input cap-simbolos
+
+% -------------------------------------------------------------------- %
+% Listas de figuras e tabelas criadas automaticamente
+\listoffigures            
+\listoftables            
+
+% -------------------------------------------------------------------- %
+% Capítulos do trabalho
+\mainmatter
+
+% cabeçalho para as páginas de todos os capítulos
+\fancyhead[RE,LO]{\thesection}
+
+%\singlespacing              % espaçamento simples
+\onehalfspacing            % espaçamento um e meio
+
+\input cap-introducao
+
+\input cap-spp
+
+\input cap-rcsp/cap 
+
+\input cap-experimentos
+
+%\input cap-conclusoes
+
+% cabeçalho para os apêndices
+\renewcommand{\chaptermark}[1]{\markboth{\MakeUppercase{\appendixname\ 
+\thechapter}} {\MakeUppercase{#1}} }
+\fancyhead[RE,LO]{}
+\appendix
+
+\include{ape-conjuntos}      % associado ao arquivo: 'ape-conjuntos.tex'
+
+% -------------------------------------------------------------------- %
+% Bibliografia
+\backmatter \singlespacing   % espaçamento simples
+\bibliographystyle{plainnat-ime} % citação bibliográfica textual
+\bibliography{bibliografia}  % associado ao arquivo: 'bibliografia.bib'
+
+% -------------------------------------------------------------------- %
+% Índice remissivo
+\input cap-indice
+
+\end{document}

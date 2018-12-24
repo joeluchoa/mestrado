@@ -1,0 +1,1813 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%  CAPÍTULO. CAMINHO MÏNIMO 
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\chapter{Caminhos mínimos e Dijkstra}
+\label{cap:problema-CM}
+
+Estão descritos neste capítulo os elementos básicos que envolvem o
+problema do caminho mínimo, tais como: função custo, função potencial,
+função-predecessor, critério de otimalidade e o celebrado algoritmo de
+Edsger Wybe Dijkstra~\cite{dijkstra59:note} que resolve o problema do
+caminho mínimo.  As referências básicas para este capítulo são as notas
+de aula de Paulo Feofiloff~\cite{pf:fluxos} e a dissertação de Shigueo
+Isotani~\cite{shigueo}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%  SEÇÃO: Descrição
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\section{Descrição}
+\label{sec:problema-descricao-CM}
+
+%
+% função-custo
+%
+
+Uma \defi{função-custo}\index{funcao@função!custo}\index{custo!funcao@função}
+em $(V,A)$ é uma função de $A$ em $\NonnegInt$. Se $c$ for uma função-custo 
+em $(V,A)$ e $uv$ estiver em $A$, então
+$c(uv)$ será o valor de $c$ em $uv$. 
+%
+% Custo de um passeio e passeio de custo mínimo.
+% 
+Se $P$ for um caminho em um grafo $(V,A)$ e $c$ uma função-custo, 
+então $c(P)$ é o \defi{custo do caminho}\index{custo!caminho} $P$%
+\index{custo!caminho}, ou seja, $c(P)$ é o soma dos custos
+de todos os arcos em $P$. 
+ Um caminho $P$ tem \defi{custo mínimo} se
+$c(P) \leq c(P')$ para todo caminho $P'$ com o mesmo início e término
+que~$P$ (figura~\ref{fig:custo1}). 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[htbp]
+\begin{center}
+  \psfrag{0}{\red $1$}
+  \psfrag{1}{\red $1$}
+  \psfrag{2}{\red $2$}
+  \psfrag{3}{\red $3$}
+  \psfrag{4}{\red $4$}
+  \psfrag{5}{\red $5$}
+  \psfrag{6}{\red $6$}
+  \psfrag{7}{\red $7$}
+  \psfrag{8}{\red $8$}
+  \psfrag{9}{\red $9$}
+  \psfrag{s}{$\scor$}
+  \psfrag{t}{$\tcor$}
+  \psfrag{v}{$\black v$}
+  \psfrag{u}{$\black u$}
+  \psfrag{w}{$\black w$}
+  \psfrag{z}{$\black z$}
+  \psfrag{(a)}{(a)}
+  \psfrag{(b)}{(b)}
+  \includegraphics[scale=0.9]{./figs/caminho-custo2.eps}
+  \quad \quad
+  \includegraphics[scale=0.9]{./figs/caminho-custo3.eps}
+ \caption[Exemplo de um caminho mínimo num grafo com custos nos arcos.]{\label{fig:custo1} Um grafo com custos nos arcos. 
+   O custo do caminho $\seq{s,u,w,z,t}$ é 14. À direita o  caminho de
+custo mínimo $\seq{s,w,t}$ está em destaque.}
+ \end{center}
+\end{figure}
+
+Como a nossa função-custo é não-negativa, 
+então no grafo há sempre um passeio de custo mínimo que é um caminho. 
+Por esta razão, um passeio de custo mínimo 
+é simplesmente chamado de \defi{caminho mínimo}\index{caminho!minimo@mínimo}.
+
+
+
+%Uma \defi{função comprimento}\index{funcao@@função!comprimento} %
+%\index{comprimento!funcao@@função} em
+%$(V,A)$ é uma função de $A$ em $\NonnegInt$. Se $c$ é uma função
+%comprimento em $(V,A)$ e $uv$ está em $A$, então, denotaremos por
+%$c(u,v)$ o valor de $c$ em $uv$. 
+
+
+Se $(V,A)$ é um grafo simétrico e $c$ é 
+uma função custo em $(V,A)$, então $c$ é 
+\defi{simétrica}\index{funcao@função!custo simétrica} se
+$c(uv) = c(vu)$ para todo arco $uv$. 
+%%%% CZAO
+O \defi{maior custo}\index{arco!maior custo} de um arco será denotado 
+por $C$\mar{$C$}, ou seja, 
+$C := \max\{c(uv) \tq uv \in A \}$.
+No grafo da figura~\ref{fig:custo1} temos que $C=7$.
+
+%%% Comprimento de um passeio e passei de comprimento minimo.
+%% Se $P$ é um passeio em um grafo $(V,A)$ e $c$ é uma função comprimento, 
+%% denotaremos por $c(P)$ o \defi{comprimento do caminho} $P$%
+%% \index{comprimento!do caminho}, ou seja, $c(P)$ é o somatório dos comprimentos
+%% de todos os arcos em $P$.  Um passeio $P$ tem \defi{comprimento mínimo} se
+%% $c(P) \leq c(P')$ para todo passeio $P'$ que tenha o mesmo início e término
+%% que $P$.  
+
+A \defi{distância}\index{distancia@@distância} de um vértice $s$ a um
+vértice $t$ é o menor custo de um caminho de $s$ a~$t$. 
+A distância de $s$ a $t$ em relação a $c$ será denotada por 
+$\distc{s,t}$\index{$\distc{s,t}$}\mar{$\distc{s,t}$}, ou  
+quando a função
+custo estiver subentendida, simplesmente por
+$\dist{s,t}$\index{$\dist{s,t}$}\mar{$\dist{s,t}$}.
+
+Na figura~\ref{fig:custo1} a distância de $s$ a $t$ é 4.
+ 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%  DEFINIÇÃO
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+ 
+%\section{Definição do problema}
+%
+% Problema dos menores caminhos 
+% 
+ 
+Um problema fundamental em otimização combinatória que tem um papel de
+destaque nesta dissertação é o 
+\defi{problema do caminho mínimo}, denotado por
+\PCM:\index{problema!do caminho mínimo@do caminho mínimo}
+ \begin{quote}
+   \textbf{Problema} \PCM$(V,A,c,s,t)$: 
+   \index{problema!CM@\PCM}\mar{\PCM}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+   Dado um grafo $(V,A)$, uma função
+   custo~$c$ e dois vértice $s$ e $t$, 
+   encontrar um caminho de custo mínimo 
+   de $s$ a~$t$.
+ \end{quote}
+Na literatura essa versão é conhecida como \textit{single-pair shortest 
+path problem}%
+\index{single-pair shortest path}.  O celebrado algoritmo de Edsger Wybe
+Dijkstra~\cite{dijkstra59:note}, apresentado na
+seção~\ref{sec:dijkstra}, resolve o problema do caminho mínimo.
+
+
+%\newpage 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%  SEÇÃO: FUNÇÕES POTENCIAL
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+ 
+\section{Funções potenciais e critério de otimalidade}
+\label{sec:criterio-otimalidade}
+
+Como é possível provar que um dado caminho de um vértice 
+$s$ a um vértice $t$ é de custo mínimo?
+Algoritmos para o \PCM{} fornecem certificados de otimalidade de 
+suas respostas. Esses certificados vêm de dualidade de programação linear.
+De fato, o seguinte programa linear, que chamamos de primal, é uma
+relaxação do pro\-ble\-ma do caminho mínimo: encontrar um vetor
+$x$ indexado por $A$ que
+\begin{eqnarray*}
+\begin{array}{rrlrl}
+\mbox{minimize} & cx \hfill\\
+\mbox{sob as restrições} & x(\sai(s)) - x(\entra(s)) \hfill & = & 1 \\
+& x(\sai(t)) -  x(\entra(t)) \hfill & = & -1 \\
+& x(\sai(v)) - x(\entra(v)) \hfill & = & 0 & \mbox{para cada $v$
+em $V \setminus \{s,t\}$} \\
+& x(uv) & \geq & 0 & \mbox{para cada $uv$ em $A$.}
+\end{array}
+\end{eqnarray*}
+onde $\sai(u)$ representa o conjunto de arcos com ponta inicial no vértice $u$ e \\ 
+$\entra(u)$ representa o conjunto de arcos com ponta final no vértice $u$.
+Cada vetor característico de um caminho se $s$ a $t$ é
+uma solução viável do problema primal.
+
+O respectivo problema dual consiste em encontrar um vetor $y$
+indexado por $V$ que
+\begin{eqnarray*}
+\begin{array}{rllll}
+\mbox{maximize} & y(t)-y(s) \\
+\mbox{sob as restrições} & y(v) -  y(u) & \leq & c(uv) &
+\mbox{para cada $uv$ em $A$.}
+\end{array}
+\end{eqnarray*}
+
+
+
+Se um vértice $t$ não
+é acessível a partir de $s$, um algoritmo pode, para comprovar este fato,
+devolver uma parte $S$ de $V$ tal que $s \in S$, $t \not\in S$ e não existe
+$uv$ com $u$ em $S$ e $v$ em $V\setminus S$, ou seja $A(S)= \emptyset$. Este
+seria um certificado combinatório de \defi{não-acessibilidade}\index{nao-acessibilidade@não-acessibilidade} de $t$ por $s$.
+Entretanto, os certificados fornecidos pelos algoritmos, baseados em funções
+potencial, serão um atestado compacto para certificar ambos: a otimalidade
+dos caminhos fornecidos, e a não acessibilidade de alguns vértices por $s$.
+
+Uma \defi{função potencial}\index{funcao@função!potencial}%
+\index{potencial!funcao@@função} é uma função de $V$ em $\Int$.
+Se $y$ é uma função-potencial e $c$ é uma função-custo, 
+então, dizemos que $y$ é um \defi{$c$-potencial}\index{c-potencial@$c$-potencial}
+se 
+ \begin{center}
+   $y(v) - y(u) \leq c(uv)$ para cada arco $uv$ em $A$ (figura~\ref{fig:potencial}).
+ \end{center}
+
+
+\begin{figure}
+\begin{center}
+  \psfrag{0}{\red $1$}
+  \psfrag{1}{\red $1$}
+  \psfrag{2}{\red $1$}
+  \psfrag{3}{\red $1$}
+  \psfrag{4}{\red $2$}
+  \psfrag{5}{\red $2$}
+  \psfrag{6}{\red $6$}
+  \psfrag{7}{\red $7$}
+  \psfrag{s}{$\scor$}
+  \psfrag{t}{$\tcor$}
+  \psfrag{v}{$\black v$}
+  \psfrag{u}{$\black u$}
+  \psfrag{w}{$\black w$}
+  \psfrag{z}{$\black z$}
+  \psfrag{c}{$c$}
+  \psfrag{ps}{\blue $2$}
+  \psfrag{pt}{\blue $3$}
+  \psfrag{pv}{\blue $4$}
+  \psfrag{pu}{\blue $4$}
+  \psfrag{pw}{\blue $3$}
+  \psfrag{pz}{\blue $4$}
+  \includegraphics[scale=1]{./figs/c-potencial.eps}
+\end{center}
+\caption[Exemplo de um grafo com c-potencias em seus vértices.]{\label{fig:potencial} (a) Um grafo com custos nos arcos. 
+   e um c-potencial. Os números próximos aos vértices são os seus potenciais.}
+\end{figure}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Se $y$ respeita $c$ em $A$ então diz-se que $y$ é 
+%\defi{viável}\index{funcao@@função!potencial viavel@@potencial viável}. 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Limitantes inferiores para custo de
+caminhos são obtidos através de $c$-potenciais. 
+Este fato está no lema a seguir, que 
+é uma particularização do conhecido lema da dualidade de 
+programação linear~\cite{pf:proglin}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+%Suponha que $c$ é uma função-custo em $(V,A)$ e que $P$ é um
+%caminho de um vértice $s$ a um vértice $t$. Suponha ainda que $y$ é um
+%$c$-potencial. Vale que
+%\[
+%c(P) \geq y(t) - y(s).
+%\]
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{lema}{lema da dualidade}\index{lema!da dualidade}\index{dualidade}
+ \label{lema:dualidade}
+  Seja $(V,A)$ um grafo e $c$ uma função-custo sobre $V$. 
+Para todo caminho $P$ com início em $s$ e término em $t$ e todo $c$-potencial $y$ 
+vale que 
+\[
+c(P) \geq y(t) - y(s). 
+\]
+\end{lema}
+
+\begin{prova}
+Suponha que $P$ é o caminho $\seq{s = v_{0}, v_{1}, \ldots,
+  v_{k} = t }$. 
+Temos que
+\[
+\begin{array}{ccl}
+ c(P)& =    & c(v_{0}v_{1}) + \ldots + c (v_{k-1}v_{k})\\
+     & \geq & (y(v_{1}) - y(v_{0})) + (y(v_{2}) - y(v_{1})) 
+              + \ldots + (y(v_{k}) - y(v_{k-1}))\\
+     & =    & y(v_{k}) - y(v_{0}) = y(t) - y(s).
+\end{array}
+\]
+\end{prova}
+
+% Se $y$ é uma função-potencial al que $y(s) = 0$, então para cada
+% vértice $t$ o valor de $y(t)$ pode ser interpretada como uma distância
+% tentativa de $s$ a $t$.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% A seguir estão dois corolários imediatos do lema da dualidade.
+ 
+% Um conseqüência i
+%  \begin{prova}
+
+%  Seja $y$ uma função-potencial viável sobre $V$ e 
+
+%  $P = \seq{s = v_{0}, \alpha_{1}, v_{1}, \ldots, \alpha_{k}, v_{k} = t }$ 
+%  um caminho em $(V,A)$.
+
+%  Tem-se que
+% \[
+% \begin{array}{ccl}
+%  c(P)& =    & c_{\alpha_{1}} + \ldots + c_{\alpha_{k}}\\
+%      & \geq & y(v_{1}) - y(v_{0}) + y(v_{2}) - y(v_{1}) 
+%               + \ldots +y(v_{k}) - y(v_{k-1})\\
+%      & =    & y(v_{k}) - y(v_{0}) = y(t) - y(s)
+% \end{array}
+% \]
+% Portanto, $y(t) - y(s) \leq c(P)$.
+% \end{prova}
+% \end{lema}
+
+ Do lema~\ref{lema:dualidade} tem-se imediatamente os seguintes corolários.
+
+\begin{corolario}{condição de inacessibilidade}%
+\index{condicao de@condição de!inacessibilidade}\index{inacessibilidade}
+\label{corolario:inacessabilidade}
+Se $(V,A)$ é um grafo, $c$ é uma função-custo, $y$ é um $c$-potencial
+ e $s$ e $t$ são vértices tais que 
+\[
+y(t) - y(s) \geq nC + 1
+\]
+então, $t$ não é acessível a partir de $s$
+\fimprova
+\end{corolario}
+
+
+\begin{corolario}{condição de otimalidade}%
+\index{condicao de@condição de!otimalidade}\index{otimalidade}
+\label{corolario:otimalidade}
+Seja $(V,A)$ um grafo e $c$ é uma função-custo.
+Se $P$ é um caminho de $s$ a $t$ e $y$ é um $c$-potencial tais que 
+$y(t) - y(s) = c(P)$, então $P$ é um 
+caminho que tem custo mínimo.
+\fimprova
+\end{corolario}
+
+\begin{figure}
+\begin{center}
+  \psfrag{0}{\red $1$}
+  \psfrag{1}{\red $1$}
+  \psfrag{2}{\red $2$}
+  \psfrag{3}{\red $3$}
+  \psfrag{4}{\red $4$}
+  \psfrag{5}{\red $5$}
+  \psfrag{6}{\red $6$}
+  \psfrag{7}{\red $7$}
+  \psfrag{s}{$\scor$}
+  \psfrag{t}{$\tcor$}
+  \psfrag{v}{\black $v$}
+  \psfrag{u}{\black $u$}
+  \psfrag{w}{\black $w$}
+  \psfrag{z}{\black $z$}
+  \psfrag{c}{$c$}
+  \psfrag{ps}{\blue $0$}
+  \psfrag{pt}{\blue $3$}
+  \psfrag{pv}{\blue $5$}
+  \psfrag{pu}{\blue $4$}
+  \psfrag{pw}{\blue $3$}
+  \psfrag{pz}{\blue $1$}
+  \includegraphics{./figs/potencial-otimo.eps}
+\end{center}
+\caption[Exemplo de um c-potencial que certifica que um caminho é mínimo.]{\label{fig:potencial-otimo} Um grafo com custos nos arcos e um 
+potencial que certifica que qualquer um dos caminhos com 
+arcos em destaque têm custo mínimo.}
+\end{figure}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%  SEÇÃO:  FUNÇÃO-PREDECESSOR 
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+ 
+\section{Representação de caminhos}
+\label{sec:predecessor}
+
+Uma maneira compacta de representar caminhos de um dado vértice até cada um dos
+demais vértices de um grafo é através de uma função-predecessor.
+%%% FUNÇÃO-PREDECESSOR 
+Uma \defi{função-pre\-de\-ces\-sor}
+\index{funcao@função!predecessor}\index{predecessor!funcao@função} 
+ é uma função ``parcial'' 
+$\pred$ de $V$ em $V$ tal que, para cada $v$ em $V\,$,
+\[
+\pred(v) = \nil \quad \mbox{ou} \quad (\pred(v),v) \in A
+\] 
+
+
+Se $(V,A)$ é um grafo, $\pred$ uma função
+predecessor sobre $V$ e $v_{0}, v_{1}, \ldots,v_{k}$ são vértices distintos
+tais que
+\begin{enumerate}
+\item[$\iten{1}$] $\nil = \pred(v_{0}), v_{0} = \pred(v_{1}), v_{2} = \pred(v_{3}),
+  \ldots, v_{k-1} = \pred(v_{k})$; e
+          
+\item[$\iten{2}$] $v_{i-1}v_{i}$ está em $A$ para $i =
+  1, \ldots, k$.
+\end{enumerate}
+então dizemos que $\seq{v_{0}, v_{1}, \ldots, v_{k}}$ é um \defi{caminho determinado por
+$\pred$}\index{caminho!determinado por $\pred$}. 
+
+Seja $\pred$ uma função-predecessor e $\Psi := \{ uv \in A \tq u =
+\pred(v)\}$. Dizemos em $(V,\Psi)$ é o \defi{grafo de
+  predecessores}\index{grafo!de predecessores}. 
+
+%e que $\psi$
+%\defi{determina uma
+%  arborescência}\index{arborescencia@@arborescência!determinada por
+%  $\pred$} quando o grafo $(V,\Psi)$ é uma arborescência.
+
+Os algoritmos descritos neste texto utilizam funções predecessor para,
+compactamente, representarem todos os caminhos de custos mínimos a partir
+de um dado vértice. Conforme ilustrado na figura~\ref{fig:pred}.
+
+\begin{figure}[htbp]
+ \begin{center}
+  \psfrag{0}{$ $}
+  \psfrag{1}{$ $}
+  \psfrag{2}{$ $}
+  \psfrag{3}{$ $}
+  \psfrag{4}{$ $}
+  \psfrag{5}{$ $}
+  \psfrag{6}{$ $}
+  \psfrag{7}{$ $}
+  \psfrag{8}{$ $}
+  \psfrag{9}{$ $}
+  \psfrag{s}{$\scor$}
+  \psfrag{t}{$\tcor$}
+  \psfrag{v}{$v$}
+  \psfrag{u}{$u$}
+  \psfrag{w}{$w$}
+  \psfrag{z}{$z$}
+  \psfrag{TABELA}{
+    \begin{tabular}{c ^^7c c}
+      vértice & $\pred$ \\ \hline
+      $\scor$ & \scor  \\
+      $w$      & $s$ \\
+      $u$      & $s$ \\
+      $\tcor$  & $w$ \\
+      $z$      & $w$ \\
+      $v$      & $t$ \\
+    \end{tabular}
+     }
+  \includegraphics{./figs/caminho-custo4.eps}
+  %\caption[{\sf Representação de caminhos através da função-predecessor}]
+  \caption[Representação de caminhos através da função-predecessor]
+  {\label{fig:pred} Representação de caminhos através da
+    função-predecessor $\pred$ com vértice inicial $\scor$. 
+%Os   números próximo aos arcos representam o custo do arco. 
+Os arcos
+    em destaque formam uma arborescência. A tabela ao lado mostra
+    os valores de $\pred$.}
+ \end{center}
+ \end{figure}
+
+  
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%  SEÇÃO: EXAMINANDO UM VÉRTICE
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Examinando arcos e vértices}
+\label{sec:examinar}
+
+%%%% Blá inicial
+Algoritmos para encontrar caminhos mínimos mantém, tipicamente, além de uma
+função-predecessor, uma função-potencial. 
+O valor desta função-potencial para cada vértice é um limitante inferior para
+o custo dos caminhos que tem como origem o vértice $s$, como mostra 
+o lema da dualidade.  
+Esta função é
+intuitivamente interpretada como uma \defi{distância
+  tentativa}\index{distancia@@distância!tentativa} a  partir de $s$. 
+
+%%% Examinar arco
+Seja $y$ uma função-potencial e $\pred$ uma função-predecessor.
+Uma operação básica envolvendo as funções $\pred$ e $y$ é
+\defi{examinar um arco}\index{examinar um/uma!arco}
+(\textit{relaxing}~\cite{clrs:introalg-2001},
+ \textit{labeling step}~\cite{tarjan:data}). E\-xa\-mi\-nar um arco $uv$ consiste em
+ verificar se $y$ respeita  $c$ em $uv$ e, caso não respeite, ou seja,
+\[
+y(v) - y(u) > c(uv) \ \ \mbox{ou, equivalentemente} \ \ 
+y(v) > y(u) + c(uv)
+\]
+fazer 
+\[
+y(v) \larr y(u) + c(uv) \ \ \mbox{e} \ \ \pred(v) \larr u.
+\]
+Intuitivamente, ao  examinar um arco $uv$ tenta-se encontrar um "atalho" 
+para o caminho de $s$ a $v$ no grafo de predecessores, passando por
+$uv$.
+O passo de examinar $uv$ pode diminuir o valor da distância
+tentativa dos vértices $v$  e atualizar o predecessor, também tentativa,
+de $v$ no caminho de custo mínimo de $s$ a $v$. 
+
+
+
+\begin{algoritmo}
+\ExamineArco{} $(uv)$ \quad $\rhd$ examina o arco $uv$%
+\index{ExamineArco@\ExamineArco}
+
+1 \x \se{} $y(v) > y(u) + c(u,v)$ 
+
+
+2 \xx \entao\ $y(v) \larr y(u) + c(uv)$ 
+
+3 \xx \phentao{}  $\pred(v) \larr u$
+%
+%Para cada arco $uv$ tal que $d(v) > d(u) + c(u,v)$ faça \\
+%\x $d(v) := d(u) + c(u,v)$ e $\pred(v) := u$. 
+\end{algoritmo}
+
+
+O consumo de tempo para examinar um arco é constante.
+
+
+%%%% Examinar vértice
+Outra operação básica é \defi{examinar um vértice}%
+\index{examinar um/uma!vertice@@vértice}. 
+Se $u$ é um vértice, examiná-lo consiste em examinar todos os arcos da forma $uv$. Em
+linguagem algorítmica tem-se
+\begin{algoritmo}
+\ExamineVertice{} $(u)$ \quad $\rhd$ examina o vértice $u$%
+\index{ExamineVertice@\ExamineVertice}
+
+1\x   \para{} \cada{} $uv$ em $A(u)$ \faca{}
+
+2 \xx \ExamineArco{} $(uv)$
+%
+%Para cada arco $uv$ tal que $d(v) > d(u) + c(u,v)$ faça \\
+%\x $d(v) := d(u) + c(u,v)$ e $\pred(v) := u$. 
+\end{algoritmo}
+
+ou ainda, de uma maneira expandida
+
+\begin{algoritmo}
+\ExamineVertice{} $(u)$ \quad $\rhd$ examina o vértice $u$
+
+1\x   \para{} \cada{} $uv$ em $A(u)$ \faca{}
+
+2 \xx \se{} $y(v) > y(u) + c(uv)$ 
+
+
+3 \xxx \entao\ $y(v) \larr y(u) + c(uv)$ 
+
+4 \xxx \phentao{}  $\pred(v) \larr u$
+%
+%Para cada arco $uv$ tal que $d(v) > d(u) + c(u,v)$ faça \\
+%\x $d(v) := d(u) + c(u,v)$ e $\pred(v) := u$. 
+\end{algoritmo}
+O consumo de tempo para examinar um vértice é proporcional ao número de arcos
+com ponta inicial no vértice $u$.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%  SEÇÃO: DIJKSTRA 
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Algoritmo de Dijkstra}
+\label{sec:dijkstra}
+
+
+Nesta seção é descrito o celebrado algoritmo de
+Edsger Wybe Dijkstra~\cite{dijkstra59:note} que resolve o problema do caminho mínimo
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Para cada vértice de $t$ acessível a partir de um dado vértice $s$ o algoritmo
+%% de Dijkstra encontra um caminho de $s$ a $t$ que tem custo mínimo.  Da
+%% condição de otimalidade (corolário~\ref{corolario:otimalidade}) tem-se que
+%% para certificar que um caminho $P$ de $s$ a $t$ tem
+%% custo mínimo basta exibir um $c$-potencial $y$ tal que $c(P)
+%% = y(t) - y(s)$. Por outro lado, a condição de inacessabilidade
+%% (corolário~\ref{corolario:inacessabilidade}) diz que se $y$ é um $c$-potencial
+%% com $y(t) - y(s) = nC + 1$, então $t$ não existe caminho de $s$ a $t$,
+%% onde $n$ é o número de vértices do grafo e $C := \max\{c(uv)
+%% \tq uv \in A\}$. A correção do algoritmo de Dijkstra
+%% fornecerá a recíproca dessas condições.
+
+
+A idéia geral do algoritmo de Dijkstra para resolver o problema é a seguinte.
+O algoritmo é iterativo.  No início de cada iteração tem-se uma partição $S$, $Q$ 
+do  conjunto de vértices. O algoritmo conhece caminhos de $\scor$ a cada
+vértice em $S$ e a uma parte dos vértices em $\Qcor$. Para os vértices em $S$ 
+o caminho conhecido tem custo mínimo. Cada iteração consiste em remover um vértice
+apropriado de $Q$, incluí-lo em $S$ e examiná-lo, atualizando, eventualmente,
+o custo dos caminhos a alguns vértices em $Q$.
+
+
+O algoritmo recebe um grafo $(V,A)$, uma função-custo $c$ de $A$ 
+em $\NonnegInt$ e um vértice~$s$ e devolve uma
+função-predecessor $\pred$ e uma função-potencial~$y$ que respeita~$c$
+tais que, para cada vértice $t$, se $t$ é acessível a partir de $s$, então
+$\pred$ determina um caminho de $s$ a $t$ que tem comprimento $y(t) - y(s)$, caso contrário $y(t)-y(s) = nC+1$, 
+onde $C := \max\{ c(uv) \tq uv \in A\}.$
+Da condição de otimalidade (corolário~\ref{corolario:otimalidade}) tem-se que se 
+$\pred$ determina um caminho de $s$ a um vértice $t$, então este caminho tem custo mínimo.
+Por outro lado, a condição de inacessibilidade
+(corolário~\ref{corolario:inacessabilidade}) diz que se $y$ é um $c$-potencial
+com $y(t) - y(s) = nC + 1$, então não existe caminho de $s$ a $t$.
+A correção do algoritmo de Dijkstra
+fornecerá a recíproca dessas condições.
+
+
+A descrição a seguir é a mesma das notas de aula de Feofiloff~\cite{pf:fluxos}.
+
+\newpage
+
+\begin{algoritmo}
+\Dijkstra{} $(V, A, c, \scor)$ \quad {$\rhd$  $c \geq 0$}%
+\index{Dijkstra@\Dijkstra}\index{algoritmo!Dijkstra@\Dijkstra}
+
+1\x \para{} \cada{} $v$ em $V$ \faca
+
+2\xx    $y(v) \larr nC+1$ \quad {$\rhd$  $nC+1$ faz o papel de $\infty$} 
+
+3\xx    $\pred(v) \larr \nil$
+
+4\x  $y(\scor) \larr 0$
+
+5\x $Q \larr N$  \quad {$\rhd$  $Q$ func. como uma fila de
+  prioridades} 
+
+6\x \enquanto{} $Q \neq \seq{}$ \faca
+
+7\xx retire de $Q$ um vértice $u$ com $y(u)$ mínimo
+
+%\d7\xx escolha $\icor$ em $\Qcor$ de modo que $\ycor(\icor)$ seja mínimo
+
+%\d8\xx $\Qcor \larr \Qcor - \{\icor\}$ 
+
+8\xx \ExamineVertice~$(u)$
+
+%\d\ph{2}\xxxx {\gray $\rhd$ é possível que $\jcor$ já esteja em $\Qcor$}\\[2mm]
+9\x \devolva{} $\pred$ e $y$
+\end{algoritmo}
+
+
+A versão mais expandida é 
+
+\begin{algoritmo}
+\Dijkstra{} $(V, A, c, \scor)$ \quad {$\rhd$  $c \geq 0$}%
+\index{Dijkstra@\Dijkstra}\index{algoritmo!Dijkstra@\Dijkstra}
+
+\d1\x \para{} \cada{} $v$ em $V$ \faca
+
+\d2\xx    $y(v) \larr nC+1$ \quad {$\rhd$  $nC+1$ faz o papel de $\infty$} 
+
+\d3\xx    $\pred(v) \larr \nil$
+
+\d4\x  $y(\scor) \larr 0$
+
+\d5\x $Q \larr N$  \quad {$\rhd$  $Q$ func. como uma fila de
+  prioridades} 
+
+\d6\x \enquanto{} $Q \neq \seq{}$ \faca
+
+\d7\xx retire de $Q$ um vértice $u$ com $y(u)$ mínimo
+
+%\d7\xx escolha $\icor$ em $\Qcor$ de modo que $\ycor(\icor)$ seja mínimo
+
+%\d8\xx $\Qcor \larr \Qcor - \{\icor\}$ 
+
+\d8\xx \para{} \cada{} $uv$ em $A(u)$ \faca{}
+
+\d9\xxx \se{} $y(v) > y(u) + c(uv)$ \entao{}
+
+10\xxxx $y(v) \larr y(u)+ c(uv) $
+
+11\xxxx $\pred(v) \larr u$
+
+%12\xxxx acrescente $\jcor$ a $\Qcor$ 
+
+%\d\ph{2}\xxxx {\gray $\rhd$ é possível que $\jcor$ já esteja em $\Qcor$}\\[2mm]
+12\x \devolva{} $\pred$ e $y$
+\end{algoritmo}
+
+
+
+\subsection*{Simulação}
+
+A seguir vemos ilustrada a simulação do algoritmo para a chamada
+\Dijkstra~$(s)$.  Na figura~(a) vemos o grafo $(V,A)$ dado, onde o número em {\red vermelho} próximo a cada arco indica o seu custo. Por exemplo, $c(tv) = 0$ e $c(sw) = 4$.
+Nas ilustrações os vértices com interior azul claro são aqueles que estão em
+$Q$. Assim, na figura~(b) vemos que todos os vértices foram inseridos em $Q$.
+A função-potencial $y$ é indicada pelos números em {\blue azul} 
+próximos cada vértice. Assim, na figura~(b), vemos que $y(\scor)=0$ 
+e o potencial dos demais vértices é 
+$n \times C + 1 = 6 \times 7 + 1 = 43$.
+
+Durante a simulação, o vértice sendo examinado têm a cor rosa no seu
+interior, enquanto o arco sendo examinado é mais espesso e tem a cor
+azul.  Por exemplo, na figura~(c) o vértice sendo examinado é $\scor$ e
+o arco sendo examinado é $\scor v$.
+
+Os vértices que já foram examinados e, portanto estão em $S$ têm a cor
+verde em seu interior. Na figura~(j) vemos que $w$ está sendo examinado, $\scor$ e $u$ são os vértices em $S$ e os demais estão em $\Qcor$.
+
+
+Os arcos já examinados são espessos e têm a cor vermelha ou são finos e
+têm a cor azul escura. Na figura~(k) vemos que o arco $wz$ está sendo
+examinado e os arcos já examinados são $\scor v$, $\scor w$, $\scor u$, $u w$, $u z$  
+e $wt$.
+
+Os arcos em vermelho são os que formam o grafo de predecessores
+com raiz $\scor$. Na figura~(k) os arcos do grafo de predecessores são 
+$\scor v$, $\scor u$, $u w$, e  $wt$.
+ 
+\begin{center}
+  \psfrag{0}{\red $0$}
+  \psfrag{1}{\red $7$}
+  \psfrag{2}{\red $4$}
+  \psfrag{3}{\red $2$}
+  \psfrag{4}{\red $0$}
+  \psfrag{5}{\red $1$}
+  \psfrag{6}{\red $1$}
+  \psfrag{7}{\red $3$}
+  \psfrag{8}{\red $4$}
+  \psfrag{9}{\red $1$}
+  \psfrag{10}{\red $2$}
+  \psfrag{s}{$\scor$}
+  \psfrag{t}{$\tcor$}
+  \psfrag{v}{\black $v$}
+  \psfrag{u}{\black $u$}
+  \psfrag{w}{\black $w$}
+  \psfrag{z}{\black $z$}
+  \psfrag{ps}{\blue $ $}
+  \psfrag{pt}{\blue $ $}
+  \psfrag{pv}{\blue $ $}
+  \psfrag{pu}{\blue $ $}
+  \psfrag{pw}{\blue $ $}
+  \psfrag{pz}{\blue $ $}
+  \includegraphics[scale=0.65]{./figs/dijkstra01.eps}
+  \quad\quad
+  \psfrag{0}{\red $0$}
+  \psfrag{1}{\red $7$}
+  \psfrag{2}{\red $4$}
+  \psfrag{3}{\red $2$}
+  \psfrag{4}{\red $0$}
+  \psfrag{5}{\red $1$}
+  \psfrag{6}{\red $1$}
+  \psfrag{7}{\red $3$}
+  \psfrag{8}{\red $4$}
+  \psfrag{9}{\red $1$}
+  \psfrag{10}{\red $2$}
+  \psfrag{s}{$\scor$}
+  \psfrag{t}{$\tcor$}
+  \psfrag{v}{\black $v$}
+  \psfrag{u}{\black $u$}
+  \psfrag{w}{\black $w$}
+  \psfrag{z}{\black $z$}
+  \psfrag{ps}{\blue $0$}
+  \psfrag{pt}{\blue $43$}
+  \psfrag{pv}{\blue $43$}
+  \psfrag{pu}{\blue $43$}
+  \psfrag{pw}{\blue $43$}
+  \psfrag{pz}{\blue $43$}
+  \includegraphics[scale=0.65]{./figs/dijkstra02.eps}
+
+  \vspace*{-3mm}
+  \hspace*{1cm}(a)\hspace*{7cm}(b) 
+%\end{center}
+%\begin{center}
+
+  \psfrag{0}{\red $0$}
+  \psfrag{1}{\red $7$}
+  \psfrag{2}{\red $4$}
+  \psfrag{3}{\red $2$}
+  \psfrag{4}{\red $0$}
+  \psfrag{5}{\red $1$}
+  \psfrag{6}{\red $1$}
+  \psfrag{7}{\red $3$}
+  \psfrag{8}{\red $4$}
+  \psfrag{9}{\red $1$}
+  \psfrag{10}{\red $2$}
+  \psfrag{s}{$\scor$}
+  \psfrag{t}{$\tcor$}
+  \psfrag{v}{\black $v$}
+  \psfrag{u}{\black $u$}
+  \psfrag{w}{\black $w$}
+  \psfrag{z}{\black $z$}
+  \psfrag{ps}{\blue $0$}
+  \psfrag{pt}{\blue $43$}
+  \psfrag{pv}{\blue $43$}
+  \psfrag{pu}{\blue $43$}
+  \psfrag{pw}{\blue $43$}
+  \psfrag{pz}{\blue $43$}
+  \includegraphics[scale=0.65]{./figs/dijkstra03.eps}
+  \quad\quad
+  \psfrag{0}{\red $0$}
+  \psfrag{1}{\red $7$}
+  \psfrag{2}{\red $4$}
+  \psfrag{3}{\red $2$}
+  \psfrag{4}{\red $0$}
+  \psfrag{5}{\red $1$}
+  \psfrag{6}{\red $1$}
+  \psfrag{7}{\red $3$}
+  \psfrag{8}{\red $4$}
+  \psfrag{9}{\red $1$}
+  \psfrag{10}{\red $2$}
+  \psfrag{s}{$\scor$}
+  \psfrag{t}{$\tcor$}
+  \psfrag{v}{\black $v$}
+  \psfrag{u}{\black $u$}
+  \psfrag{w}{\black $w$}
+  \psfrag{z}{\black $z$}
+  \psfrag{ps}{\blue $0$}
+  \psfrag{pt}{\blue $43$}
+  \psfrag{pv}{\blue $7$}
+  \psfrag{pu}{\blue $43$}
+  \psfrag{pw}{\blue $43$}
+  \psfrag{pz}{\blue $43$}
+  \includegraphics[scale=0.65]{./figs/dijkstra04.eps}
+
+  \vspace*{-3mm}
+  \hspace*{1cm}(c)\hspace*{7cm}(d)
+
+%\end{center}
+%\begin{center}
+
+  \psfrag{0}{\red $0$}
+  \psfrag{1}{\red $7$}
+  \psfrag{2}{\red $4$}
+  \psfrag{3}{\red $2$}
+  \psfrag{4}{\red $0$}
+  \psfrag{5}{\red $1$}
+  \psfrag{6}{\red $1$}
+  \psfrag{7}{\red $3$}
+  \psfrag{8}{\red $4$}
+  \psfrag{9}{\red $1$}
+  \psfrag{10}{\red $2$}
+  \psfrag{s}{$\scor$}
+  \psfrag{t}{$\tcor$}
+  \psfrag{v}{\black $v$}
+  \psfrag{u}{\black $u$}
+  \psfrag{w}{\black $w$}
+  \psfrag{z}{\black $z$}
+  \psfrag{ps}{\blue $0$}
+  \psfrag{pt}{\blue $43$}
+  \psfrag{pv}{\blue $7$}
+  \psfrag{pu}{\blue $43$}
+  \psfrag{pw}{\blue $4$}
+  \psfrag{pz}{\blue $43$}
+  \includegraphics[scale=0.65]{./figs/dijkstra05.eps}
+  \quad\quad
+  \psfrag{0}{\red $0$}
+  \psfrag{1}{\red $7$}
+  \psfrag{2}{\red $4$}
+  \psfrag{3}{\red $2$}
+  \psfrag{4}{\red $0$}
+  \psfrag{5}{\red $1$}
+  \psfrag{6}{\red $1$}
+  \psfrag{7}{\red $3$}
+  \psfrag{8}{\red $4$}
+  \psfrag{9}{\red $1$}
+  \psfrag{10}{\red $2$}
+  \psfrag{s}{$\scor$}
+  \psfrag{t}{$\tcor$}
+  \psfrag{v}{\black $v$}
+  \psfrag{u}{\black $u$}
+  \psfrag{w}{\black $w$}
+  \psfrag{z}{\black $z$}
+  \psfrag{ps}{\blue $0$}
+  \psfrag{pt}{\blue $43$}
+  \psfrag{pv}{\blue $7$}
+  \psfrag{pu}{\blue $2$}
+  \psfrag{pw}{\blue $4$}
+  \psfrag{pz}{\blue $43$}
+  \includegraphics[scale=0.65]{./figs/dijkstra06.eps}
+
+  \vspace*{-3mm}
+  \hspace*{1cm}(e)\hspace*{7cm}(f)
+
+%\end{center}
+%\begin{center}
+
+  \psfrag{0}{\red $0$}
+  \psfrag{1}{\red $7$}
+  \psfrag{2}{\red $4$}
+  \psfrag{3}{\red $2$}
+  \psfrag{4}{\red $0$}
+  \psfrag{5}{\red $1$}
+  \psfrag{6}{\red $1$}
+  \psfrag{7}{\red $3$}
+  \psfrag{8}{\red $4$}
+  \psfrag{9}{\red $1$}
+  \psfrag{10}{\red $2$}
+  \psfrag{s}{$\scor$}
+  \psfrag{t}{$\tcor$}
+  \psfrag{v}{\black $v$}
+  \psfrag{u}{\black $u$}
+  \psfrag{w}{\black $w$}
+  \psfrag{z}{\black $z$}
+  \psfrag{ps}{\blue $0$}
+  \psfrag{pt}{\blue $43$}
+  \psfrag{pv}{\blue $7$}
+  \psfrag{pu}{\blue $2$}
+  \psfrag{pw}{\blue $4$}
+  \psfrag{pz}{\blue $43$}
+  \includegraphics[scale=0.65]{./figs/dijkstra07.eps}
+  \quad\quad
+  \psfrag{0}{\red $0$}
+  \psfrag{1}{\red $7$}
+  \psfrag{2}{\red $4$}
+  \psfrag{3}{\red $2$}
+  \psfrag{4}{\red $0$}
+  \psfrag{5}{\red $1$}
+  \psfrag{6}{\red $1$}
+  \psfrag{7}{\red $3$}
+  \psfrag{8}{\red $4$}
+  \psfrag{9}{\red $1$}
+  \psfrag{10}{\red $2$}
+  \psfrag{s}{$\scor$}
+  \psfrag{t}{$\tcor$}
+  \psfrag{v}{\black $v$}
+  \psfrag{u}{\black $u$}
+  \psfrag{w}{\black $w$}
+  \psfrag{z}{\black $z$}
+  \psfrag{ps}{\blue $0$}
+  \psfrag{pt}{\blue $43$}
+  \psfrag{pv}{\blue $7$}
+  \psfrag{pu}{\blue $2$}
+  \psfrag{pw}{\blue $3$}
+  \psfrag{pz}{\blue $43$}
+  \includegraphics[scale=0.65]{./figs/dijkstra08.eps}
+
+  \vspace*{-3mm}
+  \hspace*{1cm}(g)\hspace*{7cm}(h)
+
+%\end{center}
+%\begin{center}
+
+  \psfrag{0}{\red $0$}
+  \psfrag{1}{\red $7$}
+  \psfrag{2}{\red $4$}
+  \psfrag{3}{\red $2$}
+  \psfrag{4}{\red $0$}
+  \psfrag{5}{\red $1$}
+  \psfrag{6}{\red $1$}
+  \psfrag{7}{\red $3$}
+  \psfrag{8}{\red $4$}
+  \psfrag{9}{\red $1$}
+  \psfrag{10}{\red $2$}
+  \psfrag{s}{$\scor$}
+  \psfrag{t}{$\tcor$}
+  \psfrag{v}{\black $v$}
+  \psfrag{u}{\black $u$}
+  \psfrag{w}{\black $w$}
+  \psfrag{z}{\black $z$}
+  \psfrag{ps}{\blue $0$}
+  \psfrag{pt}{\blue $43$}
+  \psfrag{pv}{\blue $7$}
+  \psfrag{pu}{\blue $2$}
+  \psfrag{pw}{\blue $3$}
+  \psfrag{pz}{\blue $5$}
+  \includegraphics[scale=0.65]{./figs/dijkstra09.eps}
+  \quad\quad
+  \psfrag{0}{\red $0$}
+  \psfrag{1}{\red $7$}
+  \psfrag{2}{\red $4$}
+  \psfrag{3}{\red $2$}
+  \psfrag{4}{\red $0$}
+  \psfrag{5}{\red $1$}
+  \psfrag{6}{\red $1$}
+  \psfrag{7}{\red $3$}
+  \psfrag{8}{\red $4$}
+  \psfrag{9}{\red $1$}
+  \psfrag{10}{\red $2$}
+  \psfrag{s}{$\scor$}
+  \psfrag{t}{$\tcor$}
+  \psfrag{v}{\black $v$}
+  \psfrag{u}{\black $u$}
+  \psfrag{w}{\black $w$}
+  \psfrag{z}{\black $z$}
+  \psfrag{ps}{\blue $0$}
+  \psfrag{pt}{\blue $43$}
+  \psfrag{pv}{\blue $7$}
+  \psfrag{pu}{\blue $2$}
+  \psfrag{pw}{\blue $3$}
+  \psfrag{pz}{\blue $5$}
+  \includegraphics[scale=0.65]{./figs/dijkstra10.eps}
+
+  \vspace*{-3mm}
+  \hspace*{1cm}(i)\hspace*{7cm}(j)
+
+%\end{center}
+%\begin{center}
+
+  \psfrag{0}{\red $0$}
+  \psfrag{1}{\red $7$}
+  \psfrag{2}{\red $4$}
+  \psfrag{3}{\red $2$}
+  \psfrag{4}{\red $0$}
+  \psfrag{5}{\red $1$}
+  \psfrag{6}{\red $1$}
+  \psfrag{7}{\red $3$}
+  \psfrag{8}{\red $4$}
+  \psfrag{9}{\red $1$}
+  \psfrag{10}{\red $2$}
+  \psfrag{s}{$\scor$}
+  \psfrag{t}{$\tcor$}
+  \psfrag{v}{\black $v$}
+  \psfrag{u}{\black $u$}
+  \psfrag{w}{\black $w$}
+  \psfrag{z}{\black $z$}
+  \psfrag{ps}{\blue $0$}
+  \psfrag{pt}{\blue $7$}
+  \psfrag{pv}{\blue $7$}
+  \psfrag{pu}{\blue $2$}
+  \psfrag{pw}{\blue $3$}
+  \psfrag{pz}{\blue $5$}
+  \includegraphics[scale=0.65]{./figs/dijkstra11.eps}
+  \quad\quad
+  \psfrag{0}{\red $0$}
+  \psfrag{1}{\red $7$}
+  \psfrag{2}{\red $4$}
+  \psfrag{3}{\red $2$}
+  \psfrag{4}{\red $0$}
+  \psfrag{5}{\red $1$}
+  \psfrag{6}{\red $1$}
+  \psfrag{7}{\red $3$}
+  \psfrag{8}{\red $4$}
+  \psfrag{9}{\red $1$}
+  \psfrag{10}{\red $2$}
+  \psfrag{s}{$\scor$}
+  \psfrag{t}{$\tcor$}
+  \psfrag{v}{\black $v$}
+  \psfrag{u}{\black $u$}
+  \psfrag{w}{\black $w$}
+  \psfrag{z}{\black $z$}
+  \psfrag{ps}{\blue $0$}
+  \psfrag{pt}{\blue $7$}
+  \psfrag{pv}{\blue $7$}
+  \psfrag{pu}{\blue $2$}
+  \psfrag{pw}{\blue $3$}
+  \psfrag{pz}{\blue $4$}
+  \includegraphics[scale=0.65]{./figs/dijkstra12.eps}
+
+ \vspace*{-3mm}
+  \hspace*{1cm}(k)\hspace*{7cm}(l)
+
+%\end{center}
+%\begin{center}
+
+  \psfrag{0}{\red $0$}
+  \psfrag{1}{\red $7$}
+  \psfrag{2}{\red $4$}
+  \psfrag{3}{\red $2$}
+  \psfrag{4}{\red $0$}
+  \psfrag{5}{\red $1$}
+  \psfrag{6}{\red $1$}
+  \psfrag{7}{\red $3$}
+  \psfrag{8}{\red $4$}
+  \psfrag{9}{\red $1$}
+  \psfrag{10}{\red $2$}
+  \psfrag{s}{$\scor$}
+  \psfrag{t}{$\tcor$}
+  \psfrag{v}{\black $v$}
+  \psfrag{u}{\black $u$}
+  \psfrag{w}{\black $w$}
+  \psfrag{z}{\black $z$}
+  \psfrag{ps}{\blue $0$}
+  \psfrag{pt}{\blue $7$}
+  \psfrag{pv}{\blue $7$}
+  \psfrag{pu}{\blue $2$}
+  \psfrag{pw}{\blue $3$}
+  \psfrag{pz}{\blue $4$}
+  \includegraphics[scale=0.65]{./figs/dijkstra13.eps}
+  \quad\quad
+  \psfrag{0}{\red $0$}
+  \psfrag{1}{\red $7$}
+  \psfrag{2}{\red $4$}
+  \psfrag{3}{\red $2$}
+  \psfrag{4}{\red $0$}
+  \psfrag{5}{\red $1$}
+  \psfrag{6}{\red $1$}
+  \psfrag{7}{\red $3$}
+  \psfrag{8}{\red $4$}
+  \psfrag{9}{\red $1$}
+  \psfrag{10}{\red $2$}
+  \psfrag{s}{$\scor$}
+  \psfrag{t}{$\tcor$}
+  \psfrag{v}{\black $v$}
+  \psfrag{u}{\black $u$}
+  \psfrag{w}{\black $w$}
+  \psfrag{z}{\black $z$}
+  \psfrag{ps}{\blue $0$}
+  \psfrag{pt}{\blue $6$}
+  \psfrag{pv}{\blue $7$}
+  \psfrag{pu}{\blue $2$}
+  \psfrag{pw}{\blue $3$}
+  \psfrag{pz}{\blue $4$}
+  \includegraphics[scale=0.65]{./figs/dijkstra14.eps}
+
+  \vspace*{-3mm}
+  \hspace*{1cm}(m)\hspace*{7cm}(n)
+
+%\end{center}
+%\begin{center}
+
+  \psfrag{0}{\red $0$}
+  \psfrag{1}{\red $7$}
+  \psfrag{2}{\red $4$}
+  \psfrag{3}{\red $2$}
+  \psfrag{4}{\red $0$}
+  \psfrag{5}{\red $1$}
+  \psfrag{6}{\red $1$}
+  \psfrag{7}{\red $3$}
+  \psfrag{8}{\red $4$}
+  \psfrag{9}{\red $1$}
+  \psfrag{10}{\red $2$}
+  \psfrag{s}{$\scor$}
+  \psfrag{t}{$\tcor$}
+  \psfrag{v}{\black $v$}
+  \psfrag{u}{\black $u$}
+  \psfrag{w}{\black $w$}
+  \psfrag{z}{\black $z$}
+  \psfrag{ps}{\blue $0$}
+  \psfrag{pt}{\blue $6$}
+  \psfrag{pv}{\blue $7$}
+  \psfrag{pu}{\blue $2$}
+  \psfrag{pw}{\blue $3$}
+  \psfrag{pz}{\blue $4$}
+  \includegraphics[scale=0.65]{./figs/dijkstra15.eps}
+  \quad\quad
+  \psfrag{0}{\red $0$}
+  \psfrag{1}{\red $7$}
+  \psfrag{2}{\red $4$}
+  \psfrag{3}{\red $2$}
+  \psfrag{4}{\red $0$}
+  \psfrag{5}{\red $1$}
+  \psfrag{6}{\red $1$}
+  \psfrag{7}{\red $3$}
+  \psfrag{8}{\red $4$}
+  \psfrag{9}{\red $1$}
+  \psfrag{10}{\red $2$}
+  \psfrag{s}{$\scor$}
+  \psfrag{t}{$\tcor$}
+  \psfrag{v}{\black $v$}
+  \psfrag{u}{\black $u$}
+  \psfrag{w}{\black $w$}
+  \psfrag{z}{\black $z$}
+  \psfrag{ps}{\blue $0$}
+  \psfrag{pt}{\blue $6$}
+  \psfrag{pv}{\blue $6$}
+  \psfrag{pu}{\blue $2$}
+  \psfrag{pw}{\blue $3$}
+  \psfrag{pz}{\blue $4$}
+  \includegraphics[scale=0.65]{./figs/dijkstra16.eps}
+
+  \vspace*{-3mm}
+  \hspace*{1cm}(o)\hspace*{7cm}(p)
+
+%\end{center}
+%\begin{center}
+
+  \psfrag{0}{\red $0$}
+  \psfrag{1}{\red $7$}
+  \psfrag{2}{\red $4$}
+  \psfrag{3}{\red $2$}
+  \psfrag{4}{\red $0$}
+  \psfrag{5}{\red $1$}
+  \psfrag{6}{\red $1$}
+  \psfrag{7}{\red $3$}
+  \psfrag{8}{\red $4$}
+  \psfrag{9}{\red $1$}
+  \psfrag{10}{\red $2$}
+  \psfrag{s}{$\scor$}
+  \psfrag{t}{$\tcor$}
+  \psfrag{v}{\black $v$}
+  \psfrag{u}{\black $u$}
+  \psfrag{w}{\black $w$}
+  \psfrag{z}{\black $z$}
+  \psfrag{ps}{\blue $0$}
+  \psfrag{pt}{\blue $6$}
+  \psfrag{pv}{\blue $6$}
+  \psfrag{pu}{\blue $2$}
+  \psfrag{pw}{\blue $3$}
+  \psfrag{pz}{\blue $4$}
+  \includegraphics[scale=0.65]{./figs/dijkstra17.eps}
+  \quad\quad
+  \psfrag{0}{\red $0$}
+  \psfrag{1}{\red $7$}
+  \psfrag{2}{\red $4$}
+  \psfrag{3}{\red $2$}
+  \psfrag{4}{\red $0$}
+  \psfrag{5}{\red $1$}
+  \psfrag{6}{\red $1$}
+  \psfrag{7}{\red $3$}
+  \psfrag{8}{\red $4$}
+  \psfrag{9}{\red $1$}
+  \psfrag{10}{\red $2$}
+  \psfrag{s}{$\scor$}
+  \psfrag{t}{$\tcor$}
+  \psfrag{v}{\black $v$}
+  \psfrag{u}{\black $u$}
+  \psfrag{w}{\black $w$}
+  \psfrag{z}{\black $z$}
+  \psfrag{ps}{\blue $0$}
+  \psfrag{pt}{\blue $6$}
+  \psfrag{pv}{\blue $6$}
+  \psfrag{pu}{\blue $2$}
+  \psfrag{pw}{\blue $3$}
+  \psfrag{pz}{\blue $4$}
+  \includegraphics[scale=0.65]{./figs/dijkstra18.eps}
+
+  \vspace*{-3mm}
+  \hspace*{1cm}(q)\hspace*{7cm}(r)
+\end{center}
+
+
+
+
+
+\subsection*{Correção}
+
+
+A correção do algoritmo de Dijkstra baseia-se nas demonstrações da validade de
+uma série de relações invariantes, enunciadas a seguir. 
+Estas relações são
+afirmações envolvendo os dados do problema $V,A,c$ e $s$ e os objetos $y,
+\pred, S$ e $Q$. As afirmações são válidas no início de cada iteração do
+algoritmo e dizem como estes objetos se relacionam entre si e com os dados do
+problema.
+
+
+Na linha~6, antes da verificação da condição  ``$Q \neq \seq{}$'' 
+valem as seguintes invariantes:
+\begin{enumerate}
+\item[(dk0)] para cada arco $pq$ no {\red grafo de
+    predecessores} tem-se $y(q) - y(p) = c(pq)$;
+
+\item[(dk1)] $\pred(s) = \nil$ e $y(s) = 0$;
+
+\item[(dk2)] para cada vértice $v$ distinto de $s$,
+$
+y(v) < n C+1 \Leftrightarrow  \pred(v) \neq \nil;
+$ 
+
+\item[(dk3)] para cada vértice $v$, se $\pred(v) \neq \nil$ então 
+{\red existe} um caminho de $s$ a $v$ no {\red grafo de predecessores}.
+
+\item[(dk4)] para cada arco $pq$ com $y(q) -
+  y(p) > c(pq)$ tem-se que $p$~e $q$
+  estão~$Q$;
+
+\item[(dk5)] ({\red monotonicidade}) para quaisquer $u$ em $V - Q$ e $v$ em $Q$, vale que
+$$y(u) \leq y(v).$$ 
+\end{enumerate}
+
+
+
+\begin{figure}[htbp]
+\begin{center}
+  \psfrag{s}{\large $\scor$}
+  \psfrag{S}{\large $S$}
+  \psfrag{v}{\large $u$}
+  \psfrag{Q}{\large $Q$}
+  \psfrag{U}{\large $Q$}
+
+
+\includegraphics[scale=1.2]{./figs/iteracao.eps}
+
+
+\includegraphics[scale=1.2]{./figs/iteracao1.eps}
+
+
+\includegraphics[scale=1.2]{./figs/iteracao2.eps}
+%  \caption[{\sf Ilustração de uma iteração de \Dijkstra}]
+    \caption[Ilustração de uma iteração de \Dijkstra]
+  {\label{fig:iteracao} Ilustração de uma iteração do algoritmo \Dijkstra.
+    O arcos em vermelho formam o grafo de predecessores. }
+\end{center}
+\end{figure}
+
+%\item[{\verde (i5)}] se $\Lcor = \seq{\icor_1, \icor_2, \ldots, \icor_{\lcor}}$ estão
+%\[
+%\ycor(\icor_1) \leq \ycor(\icor_2) \leq \cdots \leq \ycor(\icor_{\lcor});
+%\]
+
+\begin{teorema}{da correção de \Dijkstra}%
+\index{teorema!da correcao de Dijkstra@da correção de \Dijkstra}%
+\index{Dijkstra@\Dijkstra!correcao@correção}
+\label{teorema:correcao}
+   Dado um grafo $(V,A)$, uma função
+   custo~$c$ e um vértice $s$, o algoritmo \Dijkstra\ corretamente
+   encontra um caminho de custo mínimo 
+   de $s$ a~$t$, para todo vértice $t$ acessível a partir de $s$.
+
+\end{teorema}
+
+
+\begin{prova}
+%Suponha que no início da última iteração valham as invariantes (dk1) a (dk5).
+%Assim temos que, 
+Como $\Qcor$ é vazio no início da última iteração, 
+então devido a (dk4) a função $y$ é um 
+$c$-potencial. Se $y(t) < n C+1$ então, por (dk2), vale que 
+$\pred(t) \neq \nil$. Logo, de (dk3), segue  que existe um $st$-caminho $P$ 
+no grafo de predecessores. Desta forma, (dk0) e (dk1)  implicam que 
+\[
+c(P) \geq y(t) - y(s) = y(t).
+\]
+Da condição de otimalidade, concluímos que $P$ é
+um $st$-caminho (de custo) mínimo.
+
+Já, se $y(t) = nC+1$, então 
+(dk1) implica que $y(t) - y(s) = nC+1$
+e  da condição de inexistência  concluímos que não existe caminho
+de $s$ a $t$ no grafo (V,A).
+
+Concluímos portanto que o algoritmo faz o que promete.
+\end{prova}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%  SEÇÃO: CONSUMO DE TEMPO 
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Consumo de tempo}
+\label{sec:consumo-dijkstra}
+
+As duas seguintes operações são as principais responsáveis pelo consumo de
+tempo assintótico do algoritmo:
+\begin{description}
+\item{Escolha de um vértice com potencial mínimo.}  Cada
+ execução desta operação gasta tempo $O(n)$.  Como o número de ocorrências do
+ caso~2 é no máximo $n$, então o tempo total gasto 
+ pelo algoritmo para realizar essa operação é $O(n^{2})$.
+
+\item{Atualização do potencial.} Ao examinar um arco o algoritmo
+ eventualmente diminui o potencial da ponta final. Essa atualização de
+potencial é realizada não mais que $^^7c A(u)^^7c$ para examinar o vértice $u$. 
+%
+%\footnote{conjunto do arcos com ponta inicial em $u$} vezes para  cada
+%  vértice $u$ em $V$. 
+Ao todo, o algoritmo pode realizar essa operação não mais que 
+$\sum_{u \in V} ^^7c A(u) ^^7c = m$ 
+vezes. Desde que cada atualização seja feita em tempo constante, o algoritmo
+  requer uma quantidade de tempo proporcional a $m$ para atualizar potenciais.
+\end{description}
+
+
+O número de iterações é ${\red < n}$.
+
+
+\begin{center}
+\begin{tabular}{ll}
+linha & consumo de {\red todas} as execuções da linha\\
+\hline
+\rule[0ex]{0ex}{8mm}%
+1-3   & $\Oh(n)$\\
+4     & $\Oh(1)$ \\
+5     & $\Oh(n)$ \\
+6     & $n\,\Oh(1) = \Oh(n)$ \\
+7     & $n\, \Oh(n) = \Oh(n^2)$ \\
+8-11  & $m\,\Oh(1)= \Oh(m)$\\
+12    & $\Oh(n)$\\
+\hline
+\rule[0mm]{0mm}{8mm}%
+{\red total} & $\Oh(1) + 4\,\Oh(n) + \Oh(m) + \Oh(n^2)$\\
+      & \x   $ = \Oh(n^2)$ 
+\end{tabular}
+\end{center}
+
+
+Assim, o consumo de tempo do algoritmo no pior caso é $O(n^{2} + m) = O(n^{2})$.
+O teorema abaixo resume a discussão.
+
+\begin{teorema}{do consumo de tempo de \Dijkstra}%
+\index{teorema!do consumo de tempo de Dijkstra@do consumo de tempo de \Dijkstra}%
+\index{Dijkstra@\Dijkstra!consumo de tempo}
+\label{teorema:consumo-de-tempo}
+O algoritmo \Dijkstra{} quando executado em
+um grafo com $n$ vértices e $m$ arcos, consome tempo $O(n^2)$. \fimprova
+\end{teorema}
+ 
+Para grafos densos, ou seja, grafos onde $m = \Omega(n^{2})$, o consumo de
+tempo de $O(n^{2})$ do algoritmo de Dijkstra é ótimo, pois, é
+necessário que todos os arcos do grafo sejam examinados. Entretanto, se $m =
+O(n^{2-\epsilon})$ para algum $\epsilon$ positivo, existem métodos
+sofisticados, como o heap de Donald B. Johnson~\cite{johnson:heap}, o Fibonacci
+heap de Michael L. Fredman e Robert Endre Tarjan~\cite{FredTarjan:Fibonacci}, 
+que permitem
+diminuir o tempo gasto para encontrar um vértice com 
+potencial mínimo, gerando assim implementações que consomem menos tempo para
+resolver o problema.
+   
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%  SEÇÃO: FILAS DE PRIORIDADE
+%%
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Dijkstra e filas de prioridades}
+\label{sec:dijkstraFilas}
+
+A maneira mais popular para implementar o algoritmo de Dijkstra é
+utilizando uma fila de prioridades para representar $\Qcor$, onde a
+prioridade de cada vértice $v$ é o seu potencial $y(v)$. 
+A fila de prioridades é implementada na forma de um \defi{min-heap}\index{min-heap}, onde 
+quanto menor o potencial maior a prioridade.
+A descrição do algoritmo de Dijkstra logo a seguir faz uso das operações
+\ExtractMin\ e \DecreaseKey, especificadas na secão~\ref{sec:filadeprioridade}, 
+e \BuildMinHeap\ que recebe o conjunto $V$ de vértices em que
+cada vértice $v$ tem prioridade $y(v)$ e constrói uma fila de prioridades.
+
+\begin{algoritmo}
+{\blue \HeapDijkstra{}} $(V, A, c, s)$ \quad {\gray $\rhd$  $c \geq 0$}%
+\index{HeapDijkstra@\HeapDijkstra}\index{algoritmo!HeapDijkstra@\HeapDijkstra}
+
+
+\d1\x \para{} \cada{} $v$ em $V$ \faca
+
+\d2\xx    $y(v) \larr nC+1$ \quad $\rhd$  $nC+1$ faz o papel de $\infty$ 
+
+\d3\xx    $\pred(v) \larr \nil$
+
+\d4\x  $y(s) \larr 0$
+
+\d5\x $Q \larr \BuildMinHeap\,(\Ncor)$  \quad $\rhd$ $Q$ é um min-heap
+
+\d6\x \enquanto{} $Q \neq \seq{}$ \faca
+
+\d7\xx $u \larr \ExtractMin\,(Q)$
+
+\d8\xx \para{} \cada{} $uv$ em $A(u)$ \faca{}
+
+\d9\xxx $\valor \larr y(u) + c(uv)$ 
+
+10\xxx \se{} $y(v) > \valor$ \entao{}
+
+11\xxxx $\DecreaseKey(\valor,v,Q)$
+
+12\xxxx $\pred(u) \larr v$\\[2mm]
+
+%12\xxxx acrescente $\jcor$ a $\Qcor$ 
+
+%\d\ph{2}\xxxx {\gray $\rhd$ é possível que $\jcor$ já esteja em $\Qcor$}\\[2mm]
+13\x \devolva{} $\pred$ e $y$
+\end{algoritmo}
+
+
+O número de iterações é ${\red < \ncor}$.
+
+
+\begin{center}
+\begin{tabular}{ll}
+linha & número de execuções da linha\\
+\hline
+\rule[0ex]{0ex}{8mm}%
+1		& $n+1$ \\
+2-3   & $n$\\
+4-5   & $1$ \\
+6     & $n+1$ \\
+7     & $n$ \\
+8-10  & $m$\\
+11-12 & $m$\\
+13    & $1$\\
+\hline
+%\rule[0mm]{0mm}{8mm}%
+%{\red total} & $4\,\Oh(\ncor) + 2\, \Oh(\mcor) + \Oh(\ncor \lg \ncor) +
+%      \Oh(\mcor\, \lg \ncor)$\\
+%      & \x   $ = \Oh(\mcor \lg \ncor)$ (supondo $(\Ncor,\Acor)$ conexo) 
+\end{tabular}
+\end{center}
+
+
+
+
+O teorema a seguir resume o número de operação feitas pela
+implementação acima para  manipular a fila de
+prioridades que representa $Q$.
+
+\begin{teorema}{número de operações de \Dijkstra}%
+\index{teorema!do numero de operacoes@do número de operações de \Dijkstra}%
+\index{Dijkstra@\Dijkstra!numero de operacoes@número de operações}
+\label{teorema:no-operacoes}
+O algoritmo de Dijkstra, quando executado em um grafo com $n$ vértices e 
+$m$ arcos, realiza uma seqüência de $n$ operações \Insert, $n$ 
+operações \ExtractMin{}
+e no máximo $m$ operações \DecreaseKey. \fimprova
+\end{teorema}
+
+O consumo de tempo  do algoritmo Dijkstra
+pode variar conforme a implementação de cada uma dessas operações da
+fila de prioridade:  \Insert{}, 
+\Delete{} e \DecreaseKey{}.
+
+%% O algoritmo de Dijkstra, segundo o teorema~\ref{teorema:no-operacoes}, 
+%% realiza uma seqüência de $n$ \Insert{}, $n$ \ExtractMin{} e \Delete{}
+%% e no máximo $m$ \DecreaseKey{} operações, em um grafo com $n$
+%% vértices e $m$ arcos. Logo, o consumo de tempo  Dijkstra
+%% pode variar conforme a implementação de cada uma dessas operações da
+%% fila de prioridade.
+
+ % Logo, para melhorar a complexidade desse algoritmo
+ %é preciso ``acelerar'' o processo de escolher o vértice com o menor
+ %potencial.
+
+ %Uma maneira de se fazer isso é guardar os vértices de maneira organizada, tal
+ %que, encontrar o vértice com o menor potencial seja rápido, e ainda 
+ %não gaste muito tempo para examinar os arcos. Isso pode ser feito
+ %fazendo-se uso da uma fila de prioridade.
+ 
+Existem muitos trabalhos envolvendo implementações de filas de
+ prioridade com o intuito de melhorar a complexidade do algoritmo 
+de Dijkstra. Para citar alguns e\-xem\-plos temos
+~\cite{ahuja:radixheap, boris:buckets, FredTarjan:Fibonacci}.
+
+
+ As estruturas de dados utilizadas na implementação das filas de
+prioridade podem ser divididas em duas categorias, conforme as
+operações elementares utilizadas:
+\begin{enumerate}[(1)]
+\item (modelo de comparação) estruturas baseadas em comparações; e
+\item (modelo RAM) estruturas baseadas em ``bucketing''.
+\end{enumerate}
+
+\defi{Bucketing}\index{bucketing} é um método de
+ organização dos dados que particiona um conjunto em partes chamadas
+ \defi{buckets}\index{bucket}. No que diz respeito ao algoritmo de
+ Dijkstra, cada bucket agrupa vértices de um grafo relacionados
+ através de prioridades, que nesse caso, são os potenciais.
+
+A tabela a seguir resumo o consumo de tempo de várias implementações de
+um min-heap e o respectivo consumo de resultante para o algoritmo de
+Dijkstra~\cite{clrs:introalg-2001}.
+
+\footnotesize
+\noindent
+  \begin{tabular}{^^7cl^^7c^^7cc^^7cc^^7cc^^7cc^^7cc^^7c}\hline
+   & heap & \dheap & Fibonacci heap & bucket heap & radix heap\\\hline\hline
+\BuildMinHeap  & $\Oh(\log n)$& $\Oh(\log_{D} n)$
+  &$\Oh(1)$&$\Oh(1)$&$\Oh(\log (nC))$ \\\hline
+\textsf{\ExtractMin}  & $\Oh(\log n)$& $\Oh(\log_{D} n)$ &$\Oh(\log n)$&$\Oh(C)$&$\Oh(\log (nC))$\\\hline
+\textsf{\DecreaseKey}& $\Oh(\log n)$& $\Oh(\log_{D} n)$ &$\Oh(1)$&$\Oh(1)$&$\Oh(1)$
+  \\ \hline \hline
+   Dijkstra & $\Oh(m \log n)$ & $\Oh(m\log_{D} n)$ &$\Oh(m + n \log n)$&$\Oh(m
+  + nC)$&$\Oh(m +n\log (nC))$ \\ \hline 
+  \end{tabular}
+
+\normalsize
+
+Lembramos que no Fibonacci heap o consumo de tempo é amortizado.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%  SEÇÃO: CONSUMO DE TEMPO 
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Dijkstra e ordenação}
+\label{sec:complexidade}
+
+O problema do caminho mínimo, na sua forma mais geral, ou seja, aceitando 
+custos negativos, é NP-difícil; o problema do caminho hamiltoniano pode
+facilmente ser reduzido a este problema.  
+Devido a relação invariante da {\red monotonicidade} {\red (dk5)} tem-se que:
+\begin{quote} 
+O algoritmo \Dijkstra{} retira os nós da fila $Q$ na linha~7 do algoritmo
+em {\red ordem não-decrescente} das suas distância a partir de $\scor$. 
+\end{quote}
+
+
+%{\red Conclusão:} o consumo de tempo do algoritmo \Dijkstra{} é~$\Omega(n \log
+%n)$  
+
+
+Fredman e Tarjan~\cite{FredTarjan:Fibonacci} observaram que como o algoritmo
+de Dijkstra examina os vértices em ordem de distância a partir de $s$
+(invariante~\iten{dk3}) então o algoritmo está, implicitamente, ordenando estes
+valores. Assim, qualquer implementação do algoritmo de Dijkstra para o \textit{modelo comparação-adição} realiza,
+ no pior caso, $\Omega(n \log n)$ comparações. Portanto,
+qualquer implementação do algoritmo para o modelo de com\-paração-adição faz
+$\Omega(m + n \log n)$ operações elementares. 
+%(ver figura~\ref{fig:liminferior}). 
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%  SEÇÃO: Implementacao 
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Implementação de Dijkstra no JUNG}
+\label{sec:dijkstraJUNG}
+
+Como dissemos anteriormente, a biblioteca JUNG contém implementados
+algoritmos para diversos problemas em grafos.  Um desses algoritmos é
+o desenvolvido por Dijkstra, para resolver o problema do caminho
+mínimo em grafos sem custos negativos.  Participam da implementação
+uma série de classes e interfaces que permitem ao usuário reaproveitar
+parte do código na criação de versões modificadas do mesmo.
+
+\subsection*{Interface \lstinline{Distance}}
+Começaremos pela interface \lstinline{Distance} cujo objetivo é
+definir métodos para classes que calculam distância entre dois
+vértices.  Ela possui dois métodos:
+
+\lstinline{Number getDistance(ArchetypeVertex source, ArchetypeVertex target):} responsá\-vel\\ por retornar a distância de um caminho
+ligando o vértice \lstinline{source} ao \lstinline{target}.  O retorno
+na forma de \lstinline{Number} permite que os tipos numéricos:
+\lstinline{byte, double, float, int, long e short}, sejam usados
+indistintamente.  Fica a cargo do usuário saber o tipo de dado
+armazenado para posterior obtenção;
+
+\lstinline{Map getDistanceMap(ArchetypeVertex source):} responsável
+por retornar um mapeamento onde a chave representa um vértice
+acessível a partir do \lstinline{source} e o valor corresponde à
+distância de um caminho até ele partindo de \lstinline{source}.
+
+\subsection*{Interface \lstinline{DijkstraDistance}}
+A interface \lstinline{Distance} é implementada pela classe
+\lstinline{DijkstraDistance} cujo objetivo é calcular distâncias entre
+os vértices usando o algoritmo de Dijkstra. Além disso, permite que
+resultados parciais, -- caminhos e distâncias, sejam armazenados para
+reutilização posterior.  Descreveremos os seus métodos principais bem
+como os derivados da interface \lstinline{Distance}.  Métodos
+derivados da interface \lstinline{Distance}:
+
+\lstinline{Number getDistance(ArchetypeVertex source, ArchetypeVertex target):} retorna a distância do menor caminho de \lstinline{source}
+a \lstinline{target}.  Caso \lstinline{target} não seja acessível
+retorna \lstinline{null}.
+
+\lstinline{Map getDistanceMap(ArchetypeVertex source):} retorna o
+mapeamento como descrito na interface \lstinline{Distance}, com a
+diferença de que os vértices do mapeamento, quando percorridos por um
+\lstinline{iterator} serão obtidos em ordem não-decrescente de distância.
+
+
+Além dos métodos acima, há implementados métodos para melhorar o
+desempenho através do uso de certas restrições:
+
+\lstinline{LinkedHashMap getDistanceMap(ArchetypeVertex source, int  n):} subrotina do mé\-to\-do \\
+\lstinline{getDistanceMap} 
+cujo objetivo
+é calcular as distâncias entre o vértice \lstinline{source} e os
+\lstinline{n} vértices mais próximos dele, retornando esta informação
+na forma de um mapeamento, como o do método 
+\lstinline{Map getDistanceMap(ArchetypeVertex source)};
+
+\lstinline{setMaxDistance(double maxDist):}
+limita a distância máxima para alcançar um vértice no valor de \lstinline{maxDist}.
+Desta maneira, vértices cujas menores distâncias para serem alcançados a partir de um vértice forem superiores a \lstinline{maxDist},
+serão considerados inacessíveis;
+
+\lstinline{setMaxTargets(int maxDestinos):} limita o número de
+vértices cujas distâncias mínimas devem ser calculadas.  Retornando à
+descrição do algoritmo de Dijkstra da seção 2.5, isto equivale a
+limitar o número de elementos do conjunto $S$ ao valor de 
+\lstinline{maxDestinos}.
+
+\subsection*{Fila de prioridades}
+
+O algoritmo \Dijkstra\ está implementado em duas partes
+complementares: uma rotina iterativa, como a descrita na
+seção~\ref{sec:dijkstra}, e algumas estruturas de dados.  Como dito
+anteriormente, o consumo de tempo do algoritmo depende fortemente da
+estrutura de dados utilizada no armazenamento dos vértices ainda não
+analisados, ou seja, no conjunto $Q$ (secão~\ref{sec:dijkstraFilas}).
+
+No JUNG, a estrutura utilizada foi um \emph{heap} binário armazenado na forma de um \emph{array}.
+Os principais métodos usados na manipulação de um \emph{heap} estão implementados nas seguintes rotinas:
+
+\lstinline{add(Object o):} insere o objeto \lstinline{o} no \emph{heap};
+
+\lstinline{Object pop():} retorna e retira o menor elemento do \emph{heap};
+
+\lstinline{Object peek():} apenas retorna o menor elemento;
+
+\lstinline{update(Object o):} informa ao \emph{heap} que a chave do elemento \lstinline{o} foi alterada, 
+de modo que o \emph{heap} precisa ser atualizado.
+
+
+Para que o \emph{heap} possa ser construído e atualizado é preciso que os seus elementos tenham uma ordenação.
+Por isso, a classe \lstinline{MapBinaryHeap}, a qual implementa a estrutura de \emph{heap} no JUNG, 
+possui construtores que permitem definir um \lstinline{Comparator}  a ser utilizado.
+Caso nenhum \emph{comparator} seja passado, utiliza-se o padrão, 
+que nada mais faz que tentar comparar os objetos, devendo estes implementarem a interface \lstinline{Comparable}.
+Lembramos que muitas classes do JavaSDK já implementam a interface \lstinline{Comparable}, 
+por exemplo: \lstinline{Integer, Double, BigInteger}, entre outras.
+Assim, poderíamos criar um \emph{heap} com elas sem a necessidade de informar um \lstinline{Comparator}.
+
+
+O \emph{heap} no JUNG não é implementado apenas com o uso de um \emph{array}. 
+O autor optou por armazenar referências dos objetos contidos no \emph{heap} num \lstinline{HashMap}, 
+onde a chave é o próprio objeto e o valor associado corresponde à posição do objeto no \emph{heap}, permitindo
+que o método \lstinline{update} localize em $\Oh(1)$ (consumo de tempo para a localização de um elemento num \emph{hash}) 
+a posição no \emph{heap} do objeto cuja chave fora alterada, para em seguida atualizar o \emph{heap}.
+
+Agora, vamos nos ater ao método principal, aquele que realmente calcula as menores distâncias de uma origem aos outros vértices:
+
+\lstset{tabsize=2,caption=,basicstyle=\footnotesize,showstringspaces=false}
+\begin{lstlisting}[label={}, caption={}]
+    LinkedHashMap singleSourceShortestPath(ArchetypeVertex source, 
+													Set targets, int numDests).
+\end{lstlisting}
+O primeiro parâmetro indica o vértice de origem, a partir do qual as distâncias aos demais serão calculadas.
+O segundo corresponde a uma lista de vértices de destino. 
+Caso a opção de \emph{cache} esteja habilitada, todos os destinos informados ao método, cujas distâncias 
+já tenham sido calculadas e armazenadas em chamadas anteriores, serão automaticamente excluídos da lista de 
+destinos a serem calculados na chamada corrente.  
+
+Usar ou não \emph{cache} para armazenar resultados previamente calculados é opcional e pode ser definido
+tanto nos construtores da classe quanto alterados através do método \lstinline{enableCaching}.
+O seu uso garante melhores desempenhos em chamadas sucessivas para obtenção de diversas distâncias ou 
+predecessores, sempre mantendo fixa a origem.
+No entanto, vale ressaltar que alterações do grafo, como
+exclusão/adição de arestas e/ou vértices, ou até mesmo mudanças 
+no comprimento das arestas, podem invalidar as distâncias previamente calculadas, 
+sendo que fica a cargo do usuário da classe 
+executar uma chamada do método \emph{reset} para que as novas distâncias possam ser retornadas corretamente.
+
+As estruturas de dados utilizadas pelo algoritmo estão centralizadas numa classe chamada \lstinline{SourceData}.
+Os principais dados armazenados são: 
+
+\lstinline{LinkedHashMap distances:} mapeamento contendo as menores distâncias a partir da origem.
+A chave é o vértice e o valor armazenado é a menor distância para alcançá-lo a partir do vértice de origem.
+O conjunto de todas as chaves corresponde ao conjunto $S$ (seção~\ref{sec:dijkstra}) e os valores 
+a $y(v), v \in S$.
+
+\lstinline{Map estimatedDistances:} semelhante ao \lstinline{distances}, com a diferença de guardar a menor 
+distância até o momento, ou seja, esta distância pode diminuir. 
+O conjunto formado pelas chaves corresponde ao conjunto $Q$, cujas distâncias sejam diferentes de $nC+1$,
+apresentado na secão~\ref{sec:dijkstraFilas} e o valores correspondem a $y(v), v \in Q$.
+
+\lstinline{MapBinary unknownVertices:} conjunto de vértices que ainda não foram analisados.
+Corresponde a todos os elementos do conjunto $Q$, cujas distâncias sejam diferentes de $nC+1$.
+
+O uso de uma outra classe no armazenamento desses dados~\footnote{Embora haja outros dados, 
+salientamos que, ou são auxiliares, ou estão relacionados às restrições que visam 
+melhorar empiricamente o desempenho do algoritmo e, por isso, serão omitidas na nossa descrição.} 
+permite que as estruturas utilizadas sejam 
+alteradas através da especialização da classe \lstinline{SourceData}. 
+Isso será de extrema importância quando estudarmos o algoritmo de geração de $k$-menores caminhos.
+A rotina começa obtendo o \lstinline{SourceData}, o qual é indexado pelo vértice de origem.
+Podem haver tantos quanto o número de vértices do grafo e o seu armazenamento em memória entre chamadas sucessivas está vinculado ao 
+uso ou não do \lstinline{cache}.
+Caso não exista \lstinline{SourceData} para o vértice de origem, um novo será criado: as
+ estruturas citadas acima são inicializadas, a distância à origem definida como zero e
+a origem adicionada a lista \lstinline{unknowVertices}.
+
+Uma iteração da implementação do algoritmo de Dijkstra, feita no JUNG, pode ser resumida nos seguintes passos:
+
+%A seguir o funcionamento, \emph{grosso modo}, segue a descrição feita na seção~\ref{sec:dijkstra}:
+
+\begin{enumerate}
+\item O vértice com menor custo é retirado da lista de vértices não analisados \\ (\lstinline{unknownVertices});
+\item Para cada aresta partindo dele, a nova distância é comparada com a anteriormente armazenada em \lstinline{estimatedDistances}.
+Se for menor, o método \lstinline{update}, da classe \lstinline{SourceData}, é chamado.
+Caso não exista distância previamente calculada, o método \lstinline{createRecord} é invocado;
+\item Uma vez que todas as arestas de um vértice tenham sido analisadas, este entra na lista de vértices 
+cujas distância mínimas já foram calculadas: \lstinline{distances}.
+\end{enumerate}
+A descrição acima segue a apresentada na seção~\ref{sec:dijkstra}.
+Ao final, temos a estrutura \lstinline{distance} devidamente preenchida, e 
+podemos obter as distâncias, a partir da origem, a todos os vértices acessíveis.
+
+\subsection*{Representação de caminhos}
+
+A classe \lstinline{DijkstraDistance}, no entanto, não armazena uma lista de predecessores, não permitindo assim 
+que caminhos sejam reconstruídos. 
+Para, além de informar distâncias, permitir reconstrução de caminhos, 
+o autor especializou a classe \lstinline{DijkstraDistance}, criando
+a classe \lstinline{DijkstraShortestPath}, cujas principais mudanças 
+se referem a adição de quatro novos métodos:
+
+\lstinline{Map getIncomingEdgeMap(Vertex origem):} retorna um mapeamento indexado pelos vértices acessíveis a partir
+do vértice \lstinline{origem} e, para cada um destes vértices, armazena o correspondente arco incidente 
+pertencente ao caminho de custo mínimo até ele. 
+O mapeamento é armazenado na forma de um \lstinline{LinkedHashMap} cuja iteração retorna 
+os vértices em ordem não-decrescente dos custos. 
+Este mapeamento corresponde ao grafo de predecessores apresentado na seção~\ref{sec:predecessor};
+
+\lstinline{Edge getIncomingEdge(Vertex source, Vertex target):} retorna o arco incidente em \lstinline{target} pertencente ao caminho
+de custo mínimo cuja ponta inicial é \lstinline{source}. Usa o método acima como base.
+A função tratada corresponde à aplicação da função predecessor ao vértice \lstinline{target}, ou seja $\pred($~\lstinline{target}~$)$,
+definida no grafo de predecessores retornado pela função \\ \lstinline{Map getIncomingEdgeMap(Vertex source)};
+
+\lstinline{List getPath(Vertex source, Vertex target):} Retorna uma lista de arcos que fazem parte do caminho de custo mínimo com ponta final 
+\lstinline{source} e ponta final \lstinline{target}. 
+A lista encontra-se ordenada de acordo com a ordem e que os arcos aparecem no caminho.
+A função retorna o caminho definido pela função predecessor definida no grafo de predecessores obtido pela chamada à função
+\lstinline{Map getIncomingEdgeMap(Vertex source)}.
+
+Para que esses métodos pudessem funcionar foi preciso especializar a clas\-se \\
+\lstinline{SourceData}, a qual passou a 
+armazenar duas novas estruturas de dados:
+
+\lstinline{Map tentativeIncomingEdges:} um mapeamento indexado pelos vértices acessíveis e os seus respectivos 
+arcos incidentes pertencentes ao caminho de custo mínimo corrente. 
+Este arco pode vir a ser substituído caso exista um outro pertencente a um caminho de custo menor que venha a ser calculado
+posteriormente. Suas entradas são alteradas durante a chamada da função \lstinline{update};
+
+\lstinline{LinkedHashMap incomingEdges:} um mapeamento semelhante ao anterior, mas contendo valores definitivos.  	
+Uma vez que um vértice é analisado, uma entrada definitiva é criada em \lstinline{incomingEdges} contendo a entrada
+correspondente a este vértice no mapeamento \lstinline{tentativeIncomingEdges}.
+
+Para maiores detalhes recomendamos a leitura direta do código do JUNG. 
+
+% LocalWords:  monotonicidade consome heap Johnson fibonacci Fredman Tarjan min
+% LocalWords:  consomem secão bucketing buckets bucket radix NP hamiltoniano
+% LocalWords:  paração Implementacao Distance Number getDistance target vel int
+% LocalWords:  ArchetypeVertex responsá byte double float long short Map
+% LocalWords:  getDistanceMap DijkstraDistance

@@ -1,0 +1,27 @@
+\select@language {brazil}
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Grafo para o Problema da Mochila.\relax }}{17}{figure.caption.6}
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Mapa com caminho proibido no centro de Goi\^ania.\relax }}{21}{figure.caption.11}
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Grafo com caminho proibido no centro de Goi\^ania.\relax }}{21}{figure.caption.12}
+\contentsline {figure}{\numberline {3.3}{\ignorespaces Grafo original.\relax }}{23}{figure.caption.14}
+\contentsline {figure}{\numberline {3.4}{\ignorespaces Mapeamento de arcos em $G$ para v\'ertices em $G'$.\relax }}{24}{figure.caption.15}
+\contentsline {figure}{\numberline {3.5}{\ignorespaces Inclus\~ao dos primeiros arcos em $G'$.\relax }}{24}{figure.caption.16}
+\contentsline {figure}{\numberline {3.6}{\ignorespaces Inclus\~ao dos v\'ertices ``externos'' de $G'$.\relax }}{25}{figure.caption.18}
+\contentsline {figure}{\numberline {3.7}{\ignorespaces Atribuindo arcos aos v\'ertices ``externos'' de $G'$.\relax }}{25}{figure.caption.19}
+\contentsline {figure}{\numberline {3.8}{\ignorespaces Grafo $G'$ ap\'os inclus\~ao dos primeiros v\'ertices e dos primeiros arcos.\relax }}{27}{figure.caption.22}
+\contentsline {figure}{\numberline {3.9}{\ignorespaces Grafo $G'$ ap\'os inclus\~ao do v\'ertice origem e seus arcos.\relax }}{27}{figure.caption.23}
+\contentsline {figure}{\numberline {3.10}{\ignorespaces Grafo $G'$ com todos os v\'ertices e arcos.\relax }}{28}{figure.caption.24}
+\contentsline {figure}{\numberline {3.11}{\ignorespaces Cria\c c\~ao dos v\'ertices iniciais e custos de seus arcos.\relax }}{30}{figure.caption.27}
+\contentsline {figure}{\numberline {3.12}{\ignorespaces Adicionando o v\'ertice origem e custo de suas arestas.\relax }}{30}{figure.caption.28}
+\contentsline {figure}{\numberline {3.13}{\ignorespaces Grafo auxiliar final.\relax }}{31}{figure.caption.29}
+\contentsline {figure}{\numberline {3.14}{\ignorespaces Grafo $H$.\relax }}{34}{figure.caption.33}
+\contentsline {figure}{\numberline {3.15}{\ignorespaces Grafo $H'$, com uma quantidade maior de arcos que $H$.\relax }}{34}{figure.caption.34}
+\contentsline {figure}{\numberline {3.16}{\ignorespaces Cria\c c\~ao dos v\'ertices e dos arcos inter-v\'ertices.\relax }}{35}{figure.caption.36}
+\contentsline {figure}{\numberline {3.17}{\ignorespaces Grafo $G'$ completo.\relax }}{36}{figure.caption.37}
+\contentsline {figure}{\numberline {3.18}{\ignorespaces Grafo $G'$ j\'a sem caminhos proibidos.\relax }}{36}{figure.caption.38}
+\contentsline {figure}{\numberline {3.19}{\ignorespaces Grafo $G'$ final.\relax }}{37}{figure.caption.39}
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Grafo $G$ utilizado para compara\c c\~oes entre as modelagens.\relax }}{41}{figure.caption.45}
+\contentsfinish 

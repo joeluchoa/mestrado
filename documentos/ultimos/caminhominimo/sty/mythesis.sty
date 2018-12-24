@@ -1,0 +1,556 @@
+%%----------------------------------------------------------------------------
+%% (shigueo)
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\defi}{\textbf}
+\newcommand{\fp}{d{}}
+\newcommand{\pred}{\psi}
+\newcommand{\word}{\omega}
+\newcommand{\dheap}{\textsc{d}-heap{}}
+\newcommand{\Dheap}{\textsf{Dheap}{}}
+\newcommand{\heap}{\textsf{Heap}{}}
+\newcommand{\fheap}{\textsf{Fheap}{}}
+\newcommand{\bheap}{\textsf{Bheap}{}}
+\newcommand{\rheap}{\textsf{Rheap}{}}
+\newcommand{\thorup}{\textsf{Thorup}{}}
+\newcommand{\agm}{\textsf{AGM}{}}
+\newcommand{\D}{\textsc{d}}
+\newcommand{\iten}[1]{\textrm{(#1)}}
+\newcommand{\dist}[1]{\mathrm{dist}(#1)}
+\newcommand{\distc}[1]{\mathrm{dist_c}(#1)}
+\newcommand{\SGB}{\textsc{sgb}{}}
+\newcommand{\CWEB}{\textsc{cweb}{}}
+\newcommand{\tipo}[1]{\textbf{#1}} %% tipos
+\newcommand{\var}[1]{\textit{#1}} %% variáveis
+\newcommand{\sprand}{\textsc{sprand}}
+\newcommand{\spgrid}{\textsc{spgrid}}
+\newcommand{\spbad}{\textsc{spbad}}
+\renewcommand{\L}{Q{}} %lista dos vértices visitados
+
+\newcommand{\longpage}{\enlargethispage*{\baselineskip}}
+\newcommand{\shortpage}{\enlargethispage*{-\baselineskip}}
+\newcommand{\veryshortpage}{\enlargethispage*{-2\baselineskip}}
+
+% MATHEMATICS
+%%%%%%%%%%%%%
+\newcommand{\floor}[1]{\lfloor #1 \rfloor} % \floor{n/2}
+\newcommand{\ceil}[1]{\lceil #1 \rceil}
+\newcommand{\seq}[1]{\langle #1 \rangle}
+\newcommand{\conjunto}[1]{\{\,#1\,\}}
+\newcommand{\conj}[1]{\{#1\}}
+\newcommand{\twodots}{\,.\,.\,} % in place of \ldots
+\newcommand{\tq}{:} % tal que
+ %\newcommand{\tq}{\ :\ } % tal que
+
+%% alguns simbolos para os tipos de conjuntos.
+\newcommand{\Lcal}{\mathcal{L}}
+\newcommand{\Acal}{\mathcal{A}}
+\newcommand{\Pcal}{\mathcal{P}}
+\newcommand{\Tcal}{\mathcal{T}}
+\newcommand{\Fcal}{\mathcal{F}}
+\newcommand{\Hcal}{\mathcal{H}}
+\newcommand{\Int}{\mathbb{Z}}% inteiros
+\newcommand{\NonnegInt}{\Int_{\scriptscriptstyle\,\geq}}% inteiros>=0
+\newcommand{\PosInt}{\Int_{\scriptscriptstyle\, >}}% inteiros> 0
+
+%% ambiente para a descrição de um algoritmo
+\newenvironment{algoritmo}%
+        {\begin{list}%
+               {}%
+               {%
+                \addtolength{\partopsep}{1ex}% =theorem
+                \addtolength{\topsep}{0ex}% =theorem
+                \setlength{\parsep}{1ex}% B
+                \setlength{\itemsep}{1ex}% A (was 1.5ex)
+                \setlength{\leftmargin}{\parindent}%
+                }%
+        \slshape }% experimental
+        {\end{list}}
+\newcommand{\balgor}{\begin{description}}
+\newcommand{\ealgor}{\end{description}}
+\newcommand{\bsubalgor}{\begin{algoritmo}}
+\newcommand{\esubalgor}{\end{algoritmo}}
+
+\newcommand{\paragraph}[1]{\noindent\textbf{#1}}
+
+\newcommand{\phentao}{\phantom{então}} 
+\newcommand{\phsenao}{\phantom{senão}}
+\newcommand{\x}{\hspace*{4ex}}
+\newcommand{\xx}{\hspace*{8ex}}
+\newcommand{\xxx}{\hspace*{12ex}}
+\newcommand{\xxxx}{\hspace*{16ex}}
+\newcommand{\xxxxx}{\hspace*{20ex}}
+\newcommand{\xxxxxx}{\hspace*{24ex}}
+\newcommand{\xxxxxxx}{\hspace*{28ex}}
+
+% THEOREMS, PROBLEMS, AND STATMENTS-OF-ALGORITHMS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newenvironment{baretheorem}%
+         {\begin{list}%
+                {}%
+                {%
+                 %\addtolength{\partopsep}{0.5ex}%
+                 \setlength{\partopsep}{1ex}% igual em prova
+%                \addtolength{\topsep}{-0.5ex}%
+                 \setlength{\topsep}{0.8ex}% igual prova
+                 \setlength{\leftmargin}{\parindent}%
+                 \setlength{\rightmargin}{\parindent}%
+                 \setlength{\itemindent}{0ex}%
+                 \setlength{\labelsep}{\itemindent}%
+                 \setlength{\labelwidth}{0ex}%
+                 \setlength{\parsep}{1ex}% parskip is 1.5ex
+                 \setlength{\listparindent}{0ex}%
+                }%
+          \item%
+         }%
+         {\end{list}%
+         }
+
+\newcounter{theoremnumber}[chapter]
+\renewcommand{\thetheoremnumber}{\thechapter.\arabic{theoremnumber}}
+\newenvironment{taggednumberedtheorem}[2]%
+               {%
+                \refstepcounter{theoremnumber}%
+                \begin{baretheorem}%
+                \textbf{#1\hspace{0.7ex}\thetheoremnumber}%
+                \ifthenelse{\equal{#2}{}}% Lamport p.195
+                        {\hspace{1pt}:\hspace{1ex}\ignorespaces}%
+                        {\hspace{1ex}\textup{(#2)}:\hspace{1ex}\ignorespaces}%
+                \slshape%
+               }%
+               {\end{baretheorem}%
+               }
+% Example:
+% \begin{taggednumberedtheorem}{Lema}{da dualidade canônica}
+% Para\label{lema:dualidade}
+% todo  $x$  em $X(A,b)$ e todo $y$ em $Y(A,c)$ tem-se $cx \geq yb$.
+% \end{taggednumberedtheorem}
+
+% alguns ambientes auxiliares usando o ambiente do paulo %fkm
+\newenvironment{lema}[1]%
+         {\begin{taggednumberedtheorem}{Lema}{#1}%
+         }%
+         {\end{taggednumberedtheorem}%
+         }
+\newenvironment{teorema}[1]%
+         {\begin{taggednumberedtheorem}{Teorema}{#1}%
+         }%
+         {\end{taggednumberedtheorem}%
+         }
+\newenvironment{proposicao}[1]%
+         {\begin{taggednumberedtheorem}{Proposição}{#1}%
+         }%
+         {\end{taggednumberedtheorem}%
+         }
+\newenvironment{corolario}[1]%
+         {\begin{taggednumberedtheorem}{Corolário}{#1}%
+         }%
+         {\end{taggednumberedtheorem}%
+         }
+\newenvironment{fato}[1]%
+         {\begin{taggednumberedtheorem}{Fato}{#1}%
+         }%
+         {\end{taggednumberedtheorem}%
+         }
+\newenvironment{propriedade}[1]%
+         {\begin{taggednumberedtheorem}{Propriedade}{#1}%
+         }%
+         {\end{taggednumberedtheorem}%
+         }
+\newenvironment{exemplo}[1]%
+         {\begin{taggednumberedtheorem}{Exemplo}{#1}%
+         }%
+         {\end{taggednumberedtheorem}%
+         }
+\newenvironment{problema}[1]%
+       {\begin{baretheorem}%
+        \textbf{Problema}\hspace{1ex}{#1}:\hspace{1ex}\ignorespaces%
+        \slshape%
+       }%
+       {\end{baretheorem}%
+       }
+
+% PROOFS OF THEOREMS
+%%%%%%%%%%%%%%%%%%%%
+\newenvironment{bareproof}%
+         {\begin{list}%
+                {}%
+                {%
+                 \setlength{\partopsep}{1ex}% como em baretheorem
+                 \setlength{\topsep}{0.8ex}% como em baretheorem
+                 \setlength{\leftmargin}{0ex}%
+                 \setlength{\labelwidth}{0ex}% 
+                 \setlength{\labelsep}{1ex}%
+                 \setlength{\itemindent}{\parindent}% 
+                 \addtolength{\itemindent}{\labelsep}%
+                 \setlength{\parsep}{1ex}% parskip is 1.5ex
+                 \setlength{\listparindent}{\parindent}%
+                }%
+         }%
+         {\end{list}}
+% \newenvironment{proof}[1]%
+%          {\begin{bareproof}%
+%           %\item[\textsc{#1:}]%
+%           \item[#1:]%
+%          }%
+%          {\qed%
+%           \end{bareproof}}
+
+% % facilitar a prova %fkm
+% \newenvironment{prova}[1]
+%          {\begin{proof}{Demonstração}
+%          #1}{\end{proof}}
+
+\newenvironment{prova}[1]
+         {\begin{bareproof}%
+          \item[Demonstração:]%
+          #1%
+         }%
+         {\hspace*{\fill}\rule{0.15cm}{0.3cm}%\qed%
+          \end{bareproof}%
+         }
+
+
+\newenvironment{provainv}[2]
+         {\begin{bareproof}%
+          \item[Demonstração de #1:]%
+          #2%
+         }%
+         {\hspace*{\fill}\rule{0.15cm}{0.3cm}%\qed%
+          \end{bareproof}%
+         }
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Definição de comandos
+% começo de uma prova
+%\newcommand{\prova}{\noindent
+%                     \textit{Demonstração.}
+%                    }%
+%% fim de uma prova
+ \newcommand{\fimprova}{\hspace*{\fill}\rule{0.15cm}{0.3cm}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+% REFERÊNCIAS CRUZADAS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{backref}
+% Inclui os [] dentro do backref.sty
+\renewcommand{\backrefpagesname}{Citado na(s) página(s)} 
+
+
+
+% MARGINAL NOTES
+%%%%%%%%%%%%%%%%
+\setlength{\marginparsep}{0.5cm} % era 4ex
+\setlength{\marginparwidth}{1.5cm} 
+% para efeito de cálculo de largura de página,
+% pode supor que \marginparwidth vale 1.5cm
+\newcommand{\mar}[1]%
+           {\marginpar[{\scriptsize\raggedleft #1}]%
+                      {{\scriptsize\raggedright #1}}%
+           }
+%           {\marginpar[{\footnotesize\raggedleft #1}]%
+%                      {{\footnotesize\raggedright #1}}%
+%           }
+
+
+%%----------------------------------------------------------------------------
+%% Algumas alteracoes sobre o tipo book.cls que prefiro.
+%% Flavio Keidi Miyazawa.
+%% Se vc tiver alguma sugestao interessante, envie para
+%% keidi (at) ime.usp.br
+%% Para cada nova alteracao, coloque identificacao.
+%%
+%% Última atualização: 15/08/1997
+%%
+%%----------------------------------------------------------------------------
+%%
+%%
+
+%%----------------------------------------------------------------------------
+%%  (keidi)
+%% Questao de estilo. Se uma pagina antes da entrada do capitulo for vazia,
+%% faz com que ela nao contenha nem running head nem numeracao de pagina, ...
+\newcommand{\clearemptydoublepage}{\newpage{\pagestyle{empty}\cleardoublepage}}
+
+
+%%----------------------------------------------------------------------------
+%%  (keidi)
+%% 
+%% Este environment e' igual `a declaracao de thebibliography em book.cls
+%% com a excecao que este nao coloca em uppercase no mkboth.
+%% Flavio Keidi Miyazawa
+%%
+
+\renewenvironment{thebibliography}[1]
+     {\chapter*{\bibname
+        \@mkboth{\bibname}{\bibname}}%
+      \list{\@biblabel{\@arabic\c@enumiv}}%
+           {\settowidth\labelwidth{\@biblabel{#1}}%
+            \leftmargin\labelwidth
+            \advance\leftmargin\labelsep
+            \@openbib@code
+            \usecounter{enumiv}%
+            \let\p@enumiv\@empty
+            \renewcommand\theenumiv{\@arabic\c@enumiv}}%
+      \sloppy\clubpenalty4000\widowpenalty4000%
+      \sfcode`\.\@m}
+     {\def\@noitemerr
+       {\@latex@warning{Empty `thebibliography' environment}}%
+      \endlist}
+
+%%----------------------------------------------------------------------------
+%%  (keidi)
+%% 
+%% Este environment e' igual `a declaracao de listoffigures em book.cls
+%% com a excecao que este nao coloca em uppercase no mkboth.
+%% Flavio Keidi Miyazawa
+%%
+
+\renewcommand\listoffigures{%
+    \if@twocolumn
+      \@restonecoltrue\onecolumn
+    \else
+      \@restonecolfalse
+    \fi
+    \chapter*{\listfigurename
+      \@mkboth{\listfigurename}{\listfigurename}}%
+    \@starttoc{lof}%
+    \if@restonecol\twocolumn\fi
+    }
+
+
+%%----------------------------------------------------------------------------
+%%  (keidi)
+%% 
+%% Este environment e' igual `a declaracao de listoftables em book.cls
+%% com a excecao que este nao coloca em uppercase no mkboth.
+%% Flavio Keidi Miyazawa
+%%
+
+\renewcommand\listoftables{%
+    \if@twocolumn
+      \@restonecoltrue\onecolumn
+    \else
+      \@restonecolfalse
+    \fi
+    \chapter*{\listtablename
+      \@mkboth{\listtablename}{\listtablename}}%
+    \@starttoc{lot}%
+    \if@restonecol\twocolumn\fi
+    }
+
+
+%%----------------------------------------------------------------------------
+%%  (keidi)
+%% 
+%% Este comando e' igual `a declaracao do comando \tableofcontents do book.cls
+%% com a excecao que este nao coloca em uppercase no mkboth.
+%% Flavio Keidi Miyazawa
+%%
+\newcommand\myname{Carlos R. Pantaleón Dionisio}
+
+\renewcommand\tableofcontents{%
+    \if@twocolumn
+      \@restonecoltrue\onecolumn
+    \else
+      \@restonecolfalse
+    \fi
+    \chapter*{\contentsname
+        \@mkboth{\contentsname}{\contentsname}}%
+    \@starttoc{toc}%
+    \if@restonecol\twocolumn\fi
+    }
+
+\newcommand\temporarytableofcontents{%
+\ifnum \@ptsize=0  % 10pt
+    \if@twocolumn
+      \@restonecoltrue\onecolumn
+    \else
+      \@restonecolfalse
+    \fi
+    % colocar o meu nome e a data logo acima da linha do chapter*
+    \chapter*{{\contentsname}\hfill \raisebox{19mm}[0pt][0pt]{\Large
+      \myname \ \ \today}
+        \@mkboth{\contentsname}{\contentsname}}%
+    \@starttoc{toc}%
+    \if@restonecol\twocolumn\fi 
+\fi
+\ifnum \@ptsize=1  % 11pt
+    \if@twocolumn
+      \@restonecoltrue\onecolumn
+    \else
+      \@restonecolfalse
+    \fi
+    % colocar o meu nome e a data logo acima da linha do chapter*
+    \chapter*{{\contentsname}\hfill \raisebox{19mm}[0pt][0pt]{\Large
+      \myname \ \ \today}
+        \@mkboth{\contentsname}{\contentsname}}%
+    \@starttoc{toc}%
+    \if@restonecol\twocolumn\fi 
+\fi
+\ifnum \@ptsize=2  % 11pt
+    \if@twocolumn
+      \@restonecoltrue\onecolumn
+    \else
+      \@restonecolfalse
+    \fi
+    % colocar o meu nome e a data logo acima da linha do chapter*
+    \chapter*{{\contentsname}\hfill \raisebox{32mm}[0pt][0pt]{\Large
+      \myname \ \ \today}
+        \@mkboth{\contentsname}{\contentsname}}%
+    \@starttoc{toc}%
+    \if@restonecol\twocolumn\fi 
+\fi
+}
+%%----------------------------------------------------------------------------
+%%  (keidi)
+%% Este comando e' igual `a declaracao do comando \theindex do book.cls
+%% com a excecao que este nao coloca em uppercase no mkboth.
+%% Flavio Keidi Miyazawa
+%%
+
+
+\renewenvironment{theindex}
+               {\if@twocolumn
+                  \@restonecolfalse
+                \else
+                  \@restonecoltrue
+                \fi
+                \columnseprule \z@
+                \columnsep 35\p@
+                \twocolumn[\@makeschapterhead{\indexname}]%
+                \@mkboth{\indexname}%
+                        {\indexname}%
+                \thispagestyle{plain}\parindent\z@
+                \parskip\z@ \@plus .3\p@\relax
+                \let\item\@idxitem}
+               {\if@restonecol\onecolumn\else\clearpage\fi}
+
+%%----------------------------------------------------------------------------
+%%  (keidi)
+%%  Aqui a modificacao foi para colocar as linhas e mudar tipo de letra de
+%%  chapapp
+
+\def\@makechapterhead#1{%
+\ifnum \@ptsize=0  % 10pt
+  \vspace*{52\p@}%
+  {\parindent \z@ \raggedright \normalfont
+    \ifnum \c@secnumdepth >\m@ne
+      \if@mainmatter
+        \hfill\Large {\sc \@chapapp\space \thechapter}
+        \par\nobreak
+        \vskip 4\p@
+        \hrule
+        \hrule
+        \vskip 20\p@
+      \fi
+    \fi
+    \interlinepenalty\@M
+    \Huge \bfseries #1\par\nobreak
+    \vskip 40\p@
+  }
+\fi
+\ifnum \@ptsize=1  % 11pt
+  \vspace*{53\p@}%
+  {\parindent \z@ \raggedright \normalfont
+    \ifnum \c@secnumdepth >\m@ne
+      \if@mainmatter
+        \hfill\Large {\sc \@chapapp\space \thechapter}
+        \par\nobreak
+        \vskip 4\p@
+        \hrule
+        \hrule
+        \vskip 20\p@
+      \fi
+    \fi
+    \interlinepenalty\@M
+    \Huge \bfseries #1\par\nobreak
+    \vskip 40\p@
+  }
+\fi
+\ifnum \@ptsize=2  % 12pt
+  \vspace*{56\p@}%
+  {\parindent \z@ \raggedright \normalfont
+    \ifnum \c@secnumdepth >\m@ne
+      \if@mainmatter
+        \hfill\Large {\sc \@chapapp\space \thechapter}
+        \par\nobreak
+        \vskip 4\p@
+        \hrule
+        \hrule
+        \vskip 20\p@
+      \fi
+    \fi
+    \interlinepenalty\@M
+    \Huge \bfseries #1\par\nobreak
+    \vskip 40\p@
+  }
+\fi
+}
+%%----------------------------------------------------------------------------
+%%  (keidi)
+%%  Aqui a modificacao foi para colocar as linhas em chapter*
+\def\@makeschapterhead#1{%
+  \ifnum \@ptsize=0
+  \vspace*{83.5\p@}%
+  \hrule
+  \hrule
+  \vspace*{20\p@}%
+  {\parindent \z@ \raggedright
+    \normalfont
+    \interlinepenalty\@M
+    \Huge \bfseries  #1\par\nobreak
+    \vskip 40\p@
+  }
+\fi
+  \ifnum \@ptsize=1 
+  \vspace*{83.8\p@}%
+  \hrule
+  \hrule
+  \vspace*{20\p@}%
+  {\parindent \z@ \raggedright
+    \normalfont
+    \interlinepenalty\@M
+    \Huge \bfseries  #1\par\nobreak
+    \vskip 40\p@
+  }
+\fi
+  \ifnum \@ptsize=2
+  \vspace*{92.5\p@}%
+  \hrule
+  \hrule
+  \vspace*{20\p@}%
+  {\parindent \z@ \raggedright
+    \normalfont
+    \interlinepenalty\@M
+    \Huge \bfseries  #1\par\nobreak
+    \vskip 40\p@
+  }
+\fi
+}
+%%----------------------------------------------------------------------------
+
+
+%%----------------------------------------------------------------------------
+%%  (keidi)
+%%  Mudando o (Sumario) (padrao no [brazil/babel]) para (Índice) e 
+%%          o (Índice) para (Índice Remissivo)
+%%
+\addto\captionsbrazil{%
+\def\indexname{\'Indice Remissivo}%
+\def\contentsname{\'Indice}%
+}%
+
+
+%%----------------------------------------------------------------------------
+%%  (keidi)
+%%  O trecho abaixo é para que a pagina vazia antes da abertura do capítulo
+%%  seja realmente uma pagina vazia, sem estilo nenhum, i.e., sem running heads,...
+%%
+
+\renewcommand\chapter{\if@openright\clearemptydoublepage\else\clearpage\fi
+                    \thispagestyle{plain}%
+                    \global\@topnum\z@
+                    \@afterindentfalse
+                    \secdef\@chapter\@schapter}

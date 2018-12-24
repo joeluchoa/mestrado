@@ -1,0 +1,363 @@
+\usepackage{latexsym} % \Box, \leadsto, \rhd
+%\usepackage[usenames]{color}
+\renewcommand{\d}{\hspace{2.5mm}}
+
+\newcommand{\red}{\color{Red}}
+\newcommand{\blue}{\color{Blue}}
+\newcommand{\black}{\color{Black}}
+
+\newcommand{\scor}{{\red s}}
+\newcommand{\tcor}{\blue t}
+\newcommand{\ncor}{n}
+\newcommand{\mcor}{m}
+\newcommand{\Ncor}{V}
+\newcommand{\Qcor}{Q}
+\newcommand{\gray}{}
+\newcommand{\valor}{{\mbox{\textup{custo}}}}
+\newcommand{\Acor}{A}
+%%%%
+%%%%
+\newcommand{\ExamineArco}{\textsc{Examine-Arco}}
+\newcommand{\nil}{{\scriptstyle\mathrm{\blue NIL}}}
+\newcommand{\tdots}{\,.\,.\,} % in place of \ldots
+\newcommand{\Dijkstra}{\textsc{Dijkstra}}%{\mbox{D{\small IJKSTRA}}}}
+\newcommand{\ExamineVertice}{\textsc{Examine-Vértice}}
+
+\newcommand{\HeapDijkstra}{\textsc{Heap-Dijkstra}}%{\mbox{H{\small EAP-}D{\small IJKSTRA}}}}
+
+\newcommand{\BuildMinHeap}{\textsc{Build-Min-Heap}}%{\mbox{{B{\small UILD-}M{\small IN-}H{\small EAP}}}}}
+\newcommand{\ExtractMin}{\textsc{Extract-Min}}%\mbox{{E{\small XTRACT-}M{\small IN}}}}
+\newcommand{\DecreaseKey}{\textsc{Decrease-Key}}%\mbox{{D{\small ECREASE-}K{\small EY}}}}
+\newcommand{\Insert}{\textsc{Insert}}%\mbox{{I{\small NSERT}}}}
+\newcommand{\Delete}{\textsc{Delete}}%\mbox{{D{\small ELETE}}}}
+\newcommand{\val}{{\mbox{\textup{val}}}}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Pseudocode
+\newcommand{\se}{\textbf{se}} 
+\newcommand{\iif}{\textbf{if}} 
+\newcommand{\entao}{\textbf{então}} 
+\newcommand{\tthen}{\textbf{then}} 
+\newcommand{\senao}{\textbf{senão}} 
+\newcommand{\eelse}{\textbf{else}} 
+\newcommand{\enquanto}{\textbf{enquanto}} 
+\newcommand{\escolha}{\textbf{escolha}} 
+\newcommand{\wwhile}{\textbf{while}} 
+\newcommand{\para}{\textbf{para}}
+\newcommand{\cada}{\textbf{cada}} 
+%\newcommand{\for}{\textbf{for}} 
+\newcommand{\ate}{\textbf{até}}
+\newcommand{\que}{\textbf{que}}
+\newcommand{\tto}{\textbf{to}} 
+\newcommand{\decrescendoate}{\textbf{decrescendo até}} 
+\newcommand{\repita}{\textbf{repita}} 
+\newcommand{\ateque}{\textbf{até que}} 
+\newcommand{\faca}{\textbf{faça}} 
+\newcommand{\leia}{\textbf{leia}} 
+\newcommand{\ddo}{\textbf{do}} 
+\newcommand{\e}{\textbf{e}} 
+\newcommand{\aand}{\textbf{and}} 
+\newcommand{\ou}{\textbf{ou}} 
+\newcommand{\oor}{\textbf{or}} 
+\newcommand{\pare}{\textbf{pare}} 
+\newcommand{\devolva}{\textbf{devolva}} 
+\newcommand{\return}{\textbf{return}} 
+\newcommand{\phentao}{\phantom{então}} 
+\newcommand{\phsenao}{\phantom{senão}}
+\newcommand{\ph}{\phantom}
+
+\newcommand{\larr}{\leftarrow}
+\newcommand{\lrarr}{\leftrightarrow}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\Generico}{\textsc{Genérico}}
+\newcommand{\YenGenerico}{\textsc{Yen-Genérico}}
+\newcommand{\Yen}{\textsc{Yen}}
+\newcommand{\AtualizeGenerico}{\textsc{Atualize-Genérico}}
+\newcommand{\Atualize}{\textsc{Atualize}}
+
+% Definicao de problemas
+%%%%%%%%%%%%%%%%%
+
+\newcommand{\PCM}{\textup{CM}}
+\newcommand{\PSM}{\textup{SCM}}
+\newcommand{\kCM}{$k$-\textup{CM}}
+\newcommand{\KCM}{$K$-\textup{CM}}
+\newcommand{\kesimo}{$k$-\textup{\textsc{ésimo}}}
+
+\newcommand{\nao}{\textsc{não}}
+\newcommand{\yes}{\textsc{sim}}
+
+%% alguns simbolos para os tipos de conjuntos.
+\newcommand{\Pcal}{\mathcal{P}}
+\newcommand{\Qcal}{\mathcal{Q}}
+\newcommand{\Rcal}{\mathcal{R}}
+\newcommand{\Scal}{\mathcal{S}}
+\newcommand{\Tcal}{\mathcal{T}}
+\newcommand{\Fcal}{\mathcal{F}}
+\newcommand{\Lcal}{\mathcal{L}}
+
+\newcommand{\Int}{\mathbb{Z}}% inteiros
+\newcommand{\NonnegInt}{\Int_{\scriptscriptstyle\,\geq}}% inteiros>=0
+
+
+%% notacao assintotica 
+\newcommand{\Oh}{\textup{O}}
+
+
+\newcommand{\defi}{\textbf}
+\newcommand{\fp}{y{}}
+\newcommand{\pred}{\psi}
+\newcommand{\word}{\omega}
+\newcommand{\dheap}{\textsc{d}-heap{}}
+\newcommand{\Dheap}{\textsf{Dheap}{}}
+\newcommand{\heap}{\textsf{Heap}{}}
+\newcommand{\fheap}{\textsf{Fheap}{}}
+\newcommand{\bheap}{\textsf{Bheap}{}}
+\newcommand{\rheap}{\textsf{Rheap}{}}
+\newcommand{\thorup}{\textsf{Thorup}{}}
+\newcommand{\agm}{\textsf{AGM}{}}
+\newcommand{\D}{\textsc{d}}
+\newcommand{\iten}[1]{\textrm{(#1)}}
+\newcommand{\dist}[1]{\mathrm{dist}(#1)}
+\newcommand{\distc}[1]{\mathrm{dist_c}(#1)}
+\newcommand{\SGB}{\textsc{sgb}{}}
+\newcommand{\CWEB}{\textsc{cweb}{}}
+\newcommand{\tipo}[1]{\textbf{#1}} %% tipos
+\newcommand{\var}[1]{\textit{#1}} %% variáveis
+\newcommand{\sprand}{\textsc{sprand}}
+\newcommand{\spgrid}{\textsc{spgrid}}
+\newcommand{\spbad}{\textsc{spbad}}
+\renewcommand{\L}{Q{}} %lista dos vértices visitados
+
+\newcommand{\longpage}{\enlargethispage*{\baselineskip}}
+\newcommand{\shortpage}{\enlargethispage*{-\baselineskip}}
+\newcommand{\veryshortpage}{\enlargethispage*{-2\baselineskip}}
+
+\newcommand{\sai}[1]{\delta^+{#1}}
+\newcommand{\entra}[1]{\delta^-{#1}}
+\newcommand{\MaxF}{{\textsc{MaxF}}}
+\newcommand{\MinCC}{{\textsc{MinCC}}}
+\newcommand{\MinCV}{{\textsc{MinCV}}}
+\newcommand{\MinC}{{\textsc{MinC}}}
+\newcommand{\MinT}{{\textsc{MinT}}}
+\newcommand{\MinLI}{{\textsc{MinLI}}}
+\newcommand{\MinMLI}{{\textsc{MinMLI}}}
+\newcommand{\MST}{{\textsc{MST}}}
+
+\newcommand{\opt}{\mathrm{ opt}}
+\newcommand{\sol}{\mathrm{ sol}}
+%\newcommand{\val}{\mathrm{ val}}
+\newcommand{\custo}{\textup{custo}}
+
+% MATHEMATICS
+%%%%%%%%%%%%%
+\newcommand{\floor}[1]{\lfloor #1 \rfloor} % \floor{n/2}
+\newcommand{\ceil}[1]{\lceil #1 \rceil}
+\newcommand{\seq}[1]{\langle #1 \rangle}
+\newcommand{\conjunto}[1]{\{\,#1\,\}}
+\newcommand{\conj}[1]{\{#1\}}
+\newcommand{\twodots}{\,.\,.\,} % in place of \ldots
+\newcommand{\tq}{:} % tal que
+ %\newcommand{\tq}{\ :\ } % tal que
+
+%% alguns simbolos para os tipos de conjuntos.
+\newcommand{\Acal}{\mathcal{A}}
+\newcommand{\Hcal}{\mathcal{H}}
+\newcommand{\Ecal}{\mathcal{E}}
+\newcommand{\Rac}{\mathbb{Q}}% racionais
+\newcommand{\NonnegRac}{\Rac_{\scriptscriptstyle\,\geq}}% racionais >=0
+\newcommand{\PosInt}{\Int_{\scriptscriptstyle\, >}}% inteiros> 0
+
+%% %% ambiente para a descrição de um algoritmo
+%% \newenvironment{algoritmo}%
+%%         {\begin{list}%
+%%                {}%
+%%                {%
+%%                 \addtolength{\partopsep}{1ex}% =theorem
+%%                 \addtolength{\topsep}{0ex}% =theorem
+%%                 \setlength{\parsep}{1ex}% B
+%%                 \setlength{\itemsep}{1ex}% A (was 1.5ex)
+%%                 \setlength{\leftmargin}{\parindent}%
+%%                 }%
+%%         \slshape }% experimental
+%%         {\end{list}}
+
+\newenvironment{algoritmo}%
+               {\begin{list}%
+		   {}%
+		   {%
+                     \addtolength{\partopsep}{1ex}% =theorem
+                     \addtolength{\topsep}{0ex}% =theorem
+                     \setlength{\parsep}{0.7ex}% B (was 1.0)
+                     \setlength{\itemsep}{1ex}% A (was 1.5ex)
+                     \setlength{\leftmargin}{\parindent}%
+                   }%
+		   \item \slshape} % experimental
+                {\end{list}}
+
+\newcommand{\balgor}{\begin{description}}
+\newcommand{\ealgor}{\end{description}}
+\newcommand{\bsubalgor}{\begin{algoritmo}}
+\newcommand{\esubalgor}{\end{algoritmo}}
+
+%\newcommand{\paragraph}[1]{\noindent\textbf{#1}}
+\newcommand{\x}{\hspace*{4ex}}
+\newcommand{\xx}{\hspace*{8ex}}
+\newcommand{\xxx}{\hspace*{12ex}}
+\newcommand{\xxxx}{\hspace*{16ex}}
+\newcommand{\xxxxx}{\hspace*{20ex}}
+\newcommand{\xxxxxx}{\hspace*{24ex}}
+\newcommand{\xxxxxxx}{\hspace*{28ex}}
+
+% THEOREMS, PROBLEMS, AND STATMENTS-OF-ALGORITHMS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newenvironment{baretheorem}%
+         {\begin{list}%
+                {}%
+                {%
+                 %\addtolength{\partopsep}{0.5ex}%
+                 \setlength{\partopsep}{1ex}% igual em prova
+%                \addtolength{\topsep}{-0.5ex}%
+                 \setlength{\topsep}{0.8ex}% igual prova
+                 \setlength{\leftmargin}{\parindent}%
+                 \setlength{\rightmargin}{\parindent}%
+                 \setlength{\itemindent}{0ex}%
+                 \setlength{\labelsep}{\itemindent}%
+                 \setlength{\labelwidth}{0ex}%
+                 \setlength{\parsep}{1ex}% parskip is 1.5ex
+                 \setlength{\listparindent}{0ex}%
+                }%
+          \item%
+         }%
+         {\end{list}%
+         }
+
+\newcounter{theoremnumber}[chapter]
+\renewcommand{\thetheoremnumber}{\thechapter.\arabic{theoremnumber}}
+\newenvironment{taggednumberedtheorem}[2]%
+               {%
+                \refstepcounter{theoremnumber}%
+                \begin{baretheorem}%
+                \textbf{#1\hspace{0.7ex}\thetheoremnumber}%
+                \ifthenelse{\equal{#2}{}}% Lamport p.195
+                        {\hspace{1pt}:\hspace{1ex}\ignorespaces}%
+                        {\hspace{1ex}\textup{(#2)}:\hspace{1ex}\ignorespaces}%
+                \slshape%
+               }%
+               {\end{baretheorem}%
+               }
+% Example:
+% \begin{taggednumberedtheorem}{Lema}{da dualidade canônica}
+% Para\label{lema:dualidade}
+% todo  $x$  em $X(A,b)$ e todo $y$ em $Y(A,c)$ tem-se $cx \geq yb$.
+% \end{taggednumberedtheorem}
+
+% alguns ambientes auxiliares usando o ambiente do paulo %fkm
+\newenvironment{lema}[1]%
+         {\begin{taggednumberedtheorem}{Lema}{#1}%
+         }%
+         {\end{taggednumberedtheorem}%
+         }
+\newenvironment{teorema}[1]%
+         {\begin{taggednumberedtheorem}{Teorema}{#1}%
+         }%
+         {\end{taggednumberedtheorem}%
+         }
+\newenvironment{proposicao}[1]%
+         {\begin{taggednumberedtheorem}{Proposição}{#1}%
+         }%
+         {\end{taggednumberedtheorem}%
+         }
+\newenvironment{corolario}[1]%
+         {\begin{taggednumberedtheorem}{Corolário}{#1}%
+         }%
+         {\end{taggednumberedtheorem}%
+         }
+\newenvironment{fato}[1]%
+         {\begin{taggednumberedtheorem}{Fato}{#1}%
+         }%
+         {\end{taggednumberedtheorem}%
+         }
+\newenvironment{propriedade}[1]%
+         {\begin{taggednumberedtheorem}{Propriedade}{#1}%
+         }%
+         {\end{taggednumberedtheorem}%
+         }
+\newenvironment{exemplo}[1]%
+         {\begin{taggednumberedtheorem}{Exemplo}{#1}%
+         }%
+         {\end{taggednumberedtheorem}%
+         }
+\newenvironment{problema}[1]%
+       {\begin{baretheorem}%
+        \textbf{Problema}\hspace{1ex}{#1}:\hspace{1ex}\ignorespaces%
+        \slshape%
+       }%
+       {\end{baretheorem}%
+       }
+
+% PROOFS OF THEOREMS
+%%%%%%%%%%%%%%%%%%%%
+\newenvironment{bareproof}%
+         {\begin{list}%
+                {}%
+                {%
+                 \setlength{\partopsep}{1ex}% como em baretheorem
+                 \setlength{\topsep}{0.8ex}% como em baretheorem
+                 \setlength{\leftmargin}{0ex}%
+                 \setlength{\labelwidth}{0ex}% 
+                 \setlength{\labelsep}{1ex}%
+                 \setlength{\itemindent}{\parindent}% 
+                 \addtolength{\itemindent}{\labelsep}%
+                 \setlength{\parsep}{1ex}% parskip is 1.5ex
+                 \setlength{\listparindent}{\parindent}%
+                }%
+         }%
+         {\end{list}}
+% \newenvironment{proof}[1]%
+%          {\begin{bareproof}%
+%           %\item[\textsc{#1:}]%
+%           \item[#1:]%
+%          }%
+%          {\qed%
+%           \end{bareproof}}
+
+% % facilitar a prova %fkm
+% \newenvironment{prova}[1]
+%          {\begin{proof}{Demonstração}
+%          #1}{\end{proof}}
+
+\newenvironment{prova}[1]
+         {\begin{bareproof}%
+          \item[Demonstração:]%
+          #1%
+         }%
+         {\hspace*{\fill}\rule{0.15cm}{0.3cm}%\qed%
+          \end{bareproof}%
+         }
+
+
+\newenvironment{provainv}[2]
+         {\begin{bareproof}%
+          \item[Demonstração de #1:]%
+          #2%
+         }%
+         {\hspace*{\fill}\rule{0.15cm}{0.3cm}%\qed%
+          \end{bareproof}%
+         }
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Definição de comandos
+% começo de uma prova
+%\newcommand{\prova}{\noindent
+%                     \textit{Demonstração.}
+%                    }%
+%% fim de uma prova
+ \newcommand{\fimprova}{\hspace*{\fill}\rule{0.15cm}{0.3cm}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+

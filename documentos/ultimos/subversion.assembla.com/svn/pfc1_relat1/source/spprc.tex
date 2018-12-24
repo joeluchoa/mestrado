@@ -1,0 +1,33 @@
+% ================================
+% Problema do Caminho Mí­nimo com Restrição de Recursos
+% ================================
+
+O Problema do Caminho Mí­nimo com Restrição de Recursos (SPPRC -- \textit{Shortest Path Problem with Resource Constraints}) é uma variante do Problema do Caminho Mí­nimo na qual deseja-se encontrar um caminho de menor custo possível entre uma origem e um  destino, obedecendo os limites de consumo de um conjunto de recursos.
+
+Um recurso é um bem, com um valor, que é consumido ao longo de um percurso. Por vezes, deseja-se que um recurso seja consumido o mínimo possível, demonstrando eficiência e evitando desperdícios. Em outros casos o recurso é um limitador e deseja-se obter o maior número possível de um determinado bem -- ou de um conjunto de bens -- até que o recurso chegue a um limite mínimo. Por exemplo, o combustível de um veículo de uma transportadora de cargas é  um recurso para aquele veículo, pois o combustível será consumido ao longo do seu percurso e a quantidade dele limita a distância que pode ser percorrida por tal veículo.
+
+O SPPRC pode ser definido em um grafo $G=(V,A)$, onde $V = \left\{v_1, v_2, \dots, v_n\right\}$ é o conjunto de vértices e $A = \{(v_i, v_j), \ldots \}$ é o conjunto de arestas, incluindo um vértice origem $s$ e um vértice destino $t$. Cada aresta $(v_i, v_j) \in A$ tem um custo $c_{ij} \in \mathbb{R}$ e uma quantidade $d^{\ell}_{ij}\geq 0$, referente ao consumo do recurso $\ell \in \{1, \dots, L \}$, associados ao percurso
+da aresta. $L$ é o total de recursos disponíveis. Assume-se que os valores $d^{\ell}_{ij}$ satisfazem a desigualdade triangular para cada recurso $\ell$, ou seja, $d^{\ell}_{ij} < d^{\ell}_{ik} + d^{\ell}_{kj}$, $\forall \ v_i,v_j,v_k\in V$. Para cada vértice $v_i\in V$ e cada recurso $\ell$, associam-se dois valores não negativos $a^\ell_i$ e $b^\ell_i$, tal que o consumo do recurso $\ell$ ao longo de um caminho de $s$ para $v_i$ deve pertencer ao intervalo $[a^\ell_i, b^\ell_i]$. O objetivo é encontrar um caminho elementar, de custo mínimo, do vértice origem $s$ ao vértice destino $t$ que satisfaça todas as restrições de recursos ao longo de seu trajeto \cite{Pecin:2010}.
+
+Portanto, ao adicionar ao SPP limites de recursos -- como tempo e orçamento -- o problema se torna $\mathcal{NP}$-Completo \cite{Kjerrstrom:2001,Shima:2006,Ziegelmann:2001}. Uma forma de demonstrar tal complexidade é fazer uma redução do Problema da Mochila (KP -- \textit{Knapsack Problem}) para o SPPRC \cite{Shima:2006,Ziegelmann:2001}, uma vez que o KP é um problema $\mathcal{NP}$-Completo conhecido.
+
+Conforme apresentado por Ziegelmann em \cite{Ziegelmann:2001}, o Problema da Mochila consiste em, dado um conjunto $I$ com uma quantidade $n$ de itens, cada item $i \in I$ com um peso $w_i \in \mathbb{Z}^+$ e valor $v_i \in \mathbb{Z}^+$ encontrar um subcojunto $I' \subseteq I$ tal que $\displaystyle\sum_{i \in I'} w_i \leq W$ e $\displaystyle\sum_{i \in I'}v_i$ seja o maior possível. Este problema pode ser formulado como um problema de Programação Linear Inteira (PLI) como segue:
+
+$$\begin{array}{rl}
+ \text{Maximizar:} & \displaystyle\sum_{i=1}^{n} v_ix_i \\
+ \text{Sujeito a:} \\
+ & \displaystyle\sum_{i=1}^{n} w_ix_i \leq W \\
+ & x_i \in \{0,1\}, i=1, \ldots, n
+\end{array}$$
+onde $v_i$, $w_i$, $W$ são inteiros positivos e $x_i$ é uma variável que recebe o valor $1$ se o item $i$ for incluído no conjunto $I'$ e recebe o valor $0$ caso o item $i$ não seja incluído em $I'$. Para torná-lo um problema de Caminho Mínimo é construído um grafo de $n+1$ vértices com dois arcos paralelos de cada vértice $i$ para o vértice $i+1$, para $i = 1,\ldots,n$ (vide Figura \ref{spprc-grafo}). Escolhido $M$ como o maior valor dentre todos os valores dos itens -- ou seja, o valor do item mais ``caro'' -- e, para o primeiro arco de cada vértice, a função de custo e de peso são definidas, respectivamente, como $c(i,i+1) = M - v_i$ e $r(i,i+1) = w_i$. Para o segundo arco de cada vértice as mesmas funções são definidas como $c(i,i+1) = M$ e $r(i,i+1) = 0$. Assim, caso um item seja incluído no conjunto de itens que irão para a mochila, o primeiro arco é escolhido e, caso contrário, o arco selecionado é o segundo.
+
+Isto torna evidente que o Problema da Mochila pode ser solucionado através da descoberta de um caminho mínimo (levando em consideração a função de custo $c$) do vértice $1$ ao vértice $n+1$, sujeito à restrição de um recurso (considerando a função $r$) que deve ser menor ou igual a $W$. Uma vez que o Problema da Mochila é $\mathcal{NP}$-Completo pode ser deduzido que o Problema do Caminho Mínimo com Restrição de Recursos é também $\mathcal{NP}$-Completo.
+
+\begin{figure*}[hct]
+\centering
+\includegraphics[scale = 0.7]{\locimg spprc-grafo.pdf}
+\caption{Grafo para o Problema da Mochila.}
+\label{spprc-grafo}
+\end{figure*}
+
+

@@ -1,0 +1,37 @@
+digraph G {
+  graph [label="(16)", lblstyle="below=-1cm"];
+  node [style="fill=blue!20", shape=circle, texmode="math"];
+  edge [label=" ", lblstyle=auto, topath="bend left"];
+
+  s -> v [texlbl="$7$", color=black, style=dashed, topath="bend right"];
+  s -> w [texlbl="$4$", color=black, style=dashed];
+  s -> u [texlbl="$2$", color=red, style=bold];
+  v -> w [texlbl="$1$"];
+  u -> w [texlbl="$1$", color=red, style=bold];
+  u -> z [texlbl="$3$", color=black, style=dashed];
+  w -> t [texlbl="$4$", color=black, style=dashed];
+  w -> z [texlbl="$1$", color=red, style=bold, topath="bend right"];
+  z -> t [texlbl="$2$", color=red, style=bold];
+  t -> v [texlbl="$0$", color=red, style=bold];
+
+  node [style="", shape=none];
+  edge [style=invis, len=0.2, topath=""];
+  s -> ss;
+  u -> uu;
+  v -> vv;
+  t -> tt;
+  z -> zz;
+  w -> ww;
+  ss [texlbl="\color{blue}$0$"]
+  uu [texlbl="\color{blue}$2$"]
+  vv [texlbl="\color{blue}$6$"]
+  tt [texlbl="\color{blue}$6$"]
+  zz [texlbl="\color{blue}$4$"]
+  ww [texlbl="\color{blue}$3$"]
+
+  s [style="fill=green!20"]
+  u [style="fill=green!20"]
+  w [style="fill=green!20"]
+  z [style="fill=green!20"]
+  t [style="fill=green!20"]
+}

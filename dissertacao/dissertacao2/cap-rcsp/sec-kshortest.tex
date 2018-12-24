@@ -1,0 +1,24 @@
+\section{Ranqueamento de caminhos}
+\label{sec:ksp}
+
+O problema de ranqueamento de caminhos, mais conhecido como o problema 
+dos $k$ menores caminhos ($\textsc{KSP}$ -- \emph{$k$ shortest path}), 
+consiste me determinar o $k$-ésimo menor caminho em um grafo. Este 
+problema foi estudado primeiramente por \citet{hoffman:59}. Desde então, 
+o problema tem sido massivamente estudado e várias soluções foram 
+propostas.
+
+Muitos desses métodos tem complexidade de tempo polinomial para um $k$ 
+fixo. \citet{eppstein:94} descreveu um algoritmo com complexidade de 
+tempo $O(m + n \lg{n} + k)$ que resolve o problema quando ciclos são 
+permitidos.  Podemos usar o $\textsc{KSP}$ para resolver o \rcsp.  Neste 
+caso, ignoramos o $k$ e enumeramos os caminhos em ordem não decrescente 
+de custo até encontrar um caminho viável, tal abordagem resulta em um 
+algoritmo de complexidade exponencial para o \rcsp.
+
+O \textsc{KSP} não é recomendado para ser usado diretamente para 
+resolver o \rcsp. Porem, ele tem sido usado com sucesso como 
+sub-problema para métodos mais sofisticados como a relaxação lagrangiana 
+proposta por \citet{zang:80}. Uma extensa bibliografia para o problema 
+dos $k$ menores caminhos pode ser encontrada em \citet{eppstein:12}.
+

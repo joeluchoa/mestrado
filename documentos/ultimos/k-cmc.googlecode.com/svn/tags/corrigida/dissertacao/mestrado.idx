@@ -1,0 +1,148 @@
+\indexentry{$\Int$|hyperpage}{5}
+\indexentry{$\NonnegInt$|hyperpage}{5}
+\indexentry{parte|hyperpage}{5}
+\indexentry{lista|hyperpage}{5}
+\indexentry{intervalo|hyperpage}{5}
+\indexentry{$[j\tdots k]$|hyperpage}{5}
+\indexentry{grafo|hyperpage}{5}
+\indexentry{v\'ertice@v\'ertice|hyperpage}{5}
+\indexentry{arco|hyperpage}{5}
+\indexentry{ponta!inicial|hyperpage}{5}
+\indexentry{ponta!final|hyperpage}{5}
+\indexentry{grau!entrada|hyperpage}{6}
+\indexentry{grau!saida@sa\IeC {\'\i }da|hyperpage}{6}
+\indexentry{grafo!sim\'etrico@sim\'etrico|hyperpage}{6}
+\indexentry{arco!reverso|hyperpage}{6}
+\indexentry{aresta|hyperpage}{6}
+\indexentry{passeio|hyperpage}{6}
+\indexentry{passeio!inicio@in\IeC {\'\i }cio|hyperpage}{6}
+\indexentry{passeio!ponta inicial|hyperpage}{6}
+\indexentry{passeio!termino@t\'ermino|hyperpage}{6}
+\indexentry{passeio!ponta final|hyperpage}{6}
+\indexentry{subpasseio|hyperpage}{7}
+\indexentry{prefixo|hyperpage}{7}
+\indexentry{subpasseio!prefixo|hyperpage}{7}
+\indexentry{sufixo|hyperpage}{7}
+\indexentry{subpasseio!sufixo|hyperpage}{7}
+\indexentry{caminho|hyperpage}{7}
+\indexentry{circuito|hyperpage}{7}
+\indexentry{matriz de!adjacencia@adjac\^encia|hyperpage}{7}
+\indexentry{matriz de!incidencia@incid\^encia|hyperpage}{8}
+\indexentry{listas de!adjacencia@adjac\^encia|hyperpage}{8}
+\indexentry{tipo!de dado|hyperpage}{9}
+\indexentry{tipo!abstrato de dados|hyperpage}{9}
+\indexentry{estrutura de dados|hyperpage}{9}
+\indexentry{fila de!prioridades|hyperpage}{10}
+\indexentry{Insert@\Insert|hyperpage}{10}
+\indexentry{Delete@\Delete|hyperpage}{10}
+\indexentry{ExtractMin@\ExtractMin|hyperpage}{10}
+\indexentry{DecreaseKey@\DecreaseKey|hyperpage}{10}
+\indexentry{operacoes monotona@opera\c c\~oes mon\'otonas|hyperpage}{10}
+\indexentry{funcao@fun\c c\~ao!custo|hyperpage}{25}
+\indexentry{custo!funcao@fun\c c\~ao|hyperpage}{25}
+\indexentry{custo!caminho|hyperpage}{25}
+\indexentry{custo!caminho|hyperpage}{25}
+\indexentry{caminho!minimo@m\IeC {\'\i }nimo|hyperpage}{25}
+\indexentry{funcao@fun\c c\~ao!custo sim\'etrica|hyperpage}{25}
+\indexentry{arco!maior custo|hyperpage}{25}
+\indexentry{distancia@@dist\^ancia|hyperpage}{25}
+\indexentry{$\distc{s,t}$|hyperpage}{25}
+\indexentry{$\dist{s,t}$|hyperpage}{25}
+\indexentry{problema!do caminho m\IeC {\'\i }nimo@do caminho m\IeC {\'\i }nimo|hyperpage}{26}
+\indexentry{problema!CM@\PCM|hyperpage}{26}
+\indexentry{single-pair shortest path|hyperpage}{26}
+\indexentry{nao-acessibilidade@n\~ao-acessibilidade|hyperpage}{27}
+\indexentry{funcao@fun\c c\~ao!potencial|hyperpage}{27}
+\indexentry{potencial!funcao@@fun\c c\~ao|hyperpage}{27}
+\indexentry{c-potencial@$c$-potencial|hyperpage}{27}
+\indexentry{lema!da dualidade|hyperpage}{28}
+\indexentry{dualidade|hyperpage}{28}
+\indexentry{condicao de@condi\c c\~ao de!inacessibilidade|hyperpage}{28}
+\indexentry{inacessibilidade|hyperpage}{28}
+\indexentry{condicao de@condi\c c\~ao de!otimalidade|hyperpage}{28}
+\indexentry{otimalidade|hyperpage}{28}
+\indexentry{funcao@fun\c c\~ao!predecessor|hyperpage}{28}
+\indexentry{predecessor!funcao@fun\c c\~ao|hyperpage}{28}
+\indexentry{caminho!determinado por $\pred$|hyperpage}{29}
+\indexentry{grafo!de predecessores|hyperpage}{29}
+\indexentry{distancia@@dist\^ancia!tentativa|hyperpage}{29}
+\indexentry{examinar um/uma!arco|hyperpage}{29}
+\indexentry{ExamineArco@\ExamineArco|hyperpage}{30}
+\indexentry{examinar um/uma!vertice@@v\'ertice|hyperpage}{30}
+\indexentry{ExamineVertice@\ExamineVertice|hyperpage}{30}
+\indexentry{Dijkstra@\Dijkstra|hyperpage}{32}
+\indexentry{algoritmo!Dijkstra@\Dijkstra|hyperpage}{32}
+\indexentry{Dijkstra@\Dijkstra|hyperpage}{32}
+\indexentry{algoritmo!Dijkstra@\Dijkstra|hyperpage}{32}
+\indexentry{teorema!da correcao de Dijkstra@da corre\c c\~ao de \Dijkstra|hyperpage}{36}
+\indexentry{Dijkstra@\Dijkstra!correcao@corre\c c\~ao|hyperpage}{36}
+\indexentry{teorema!do consumo de tempo de Dijkstra@do consumo de tempo de \Dijkstra|hyperpage}{38}
+\indexentry{Dijkstra@\Dijkstra!consumo de tempo|hyperpage}{38}
+\indexentry{min-heap|hyperpage}{39}
+\indexentry{HeapDijkstra@\HeapDijkstra|hyperpage}{39}
+\indexentry{algoritmo!HeapDijkstra@\HeapDijkstra|hyperpage}{39}
+\indexentry{teorema!do numero de operacoes@do n\'umero de opera\c c\~oes de \Dijkstra|hyperpage}{40}
+\indexentry{Dijkstra@\Dijkstra!numero de operacoes@n\'umero de opera\c c\~oes|hyperpage}{40}
+\indexentry{bucketing|hyperpage}{40}
+\indexentry{bucket|hyperpage}{40}
+\indexentry{funcao@fun\c c\~ao!custo|hyperpage}{47}
+\indexentry{custo|hyperpage}{47}
+\indexentry{grafo!com custos|hyperpage}{48}
+\indexentry{custo!caminho|hyperpage}{48}
+\indexentry{passeio!custo minimo@custo m\IeC {\'\i }nimo|hyperpage}{48}
+\indexentry{caminho!minimo@m\IeC {\'\i }nimo|hyperpage}{48}
+\indexentry{problema!do caminho m\IeC {\'\i }nimo@do caminho m\IeC {\'\i }nimo|hyperpage}{48}
+\indexentry{problema!CM@\PCM|hyperpage}{48}
+\indexentry{single-pair shortest path|hyperpage}{48}
+\indexentry{problema!do k-esimo@\kesimo|hyperpage}{48}
+\indexentry{k-menores caminhos@$k$-menores caminhos|hyperpage}{49}
+\indexentry{problema!dos k-menores caminhos@dos $k$-menores caminhos|hyperpage}{49}
+\indexentry{problema!k-MC@\kCM|hyperpage}{49}
+\indexentry{arborescencia@@arboresc\^encia|hyperpage}{50}
+\indexentry{raiz da arboresc\^encia@@raiz da arboresc\^encia|hyperpage}{50}
+\indexentry{folha de uma arboresc\^encia@@folha de uma arboresc\^encia|hyperpage}{50}
+\indexentry{funcao@fun\c c\~ao!rotulo@r\'otulo|hyperpage}{50}
+\indexentry{teorema!da arvore dos prefixos@da \'arvore dos prefixos|hyperpage}{51}
+\indexentry{metodo@m\'etodo!Generico@\Generico|hyperpage}{55}
+\indexentry{Generico@\Generico|hyperpage}{55}
+\indexentry{metodo@m\'etodo!YenGenerico@\YenGenerico|hyperpage}{55}
+\indexentry{YenGenerico@\YenGenerico|hyperpage}{55}
+\indexentry{teorema!da correcao de YenGenerico@da corre\c c\~ao de \YenGenerico|hyperpage}{56}
+\indexentry{YenGenerico@\YenGenerico!correcao@corre\c c\~ao|hyperpage}{56}
+\indexentry{$\Pi$|hyperpage}{57}
+\indexentry{particao associada@parti\c c\~ao associada|hyperpage}{57}
+\indexentry{teorema!da particao@da parti\c c\~ao|hyperpage}{57}
+\indexentry{algoritmo!AtualizeGenerico@\AtualizeGenerico|hyperpage}{58}
+\indexentry{AtualizeGenerico@\AtualizeGenerico|hyperpage}{58}
+\indexentry{problema!do subcaminho m\IeC {\'\i }nimo@do subcaminhos m\IeC {\'\i }nimo|hyperpage}{59}
+\indexentry{problema!PSM@\PSM|hyperpage}{59}
+\indexentry{algoritmo!Yen@\Yen|hyperpage}{60}
+\indexentry{Yen@\Yen|hyperpage}{60}
+\indexentry{teorema!da correcao de Yen@da corre\c c\~ao de \Yen|hyperpage}{61}
+\indexentry{Yen@\Yen!correcao@corre\c c\~ao|hyperpage}{61}
+\indexentry{algoritmo!ArvorePrefixos@\ArvorePrefixos|hyperpage}{61}
+\indexentry{ArvorePrefixos@\ArvorePrefixos|hyperpage}{61}
+\indexentry{algoritmo!Atualize@\Atualize|hyperpage}{61}
+\indexentry{Atualize@\Atualize|hyperpage}{61}
+\indexentry{teorema!do consumo de tempo de Yen@do consumo de tempo de \Yen|hyperpage}{62}
+\indexentry{Yen@\Yen!consumo de tempo|hyperpage}{62}
+\indexentry{algoritmo@Pollacko@\Pollack|hyperpage}{63}
+\indexentry{Pollack@\Pollack|hyperpage}{63}
+\indexentry{particao@parti\c c\~ao!dos nos de uma arborescencia@dos n\'os de uma arboresc\^encia|hyperpage}{68}
+\indexentry{$\Gamma$|hyperpage}{68}
+\indexentry{particao associada@parti\c c\~ao associada|hyperpage}{68}
+\indexentry{teorema!da particao revista@da parti\c c\~ao revista|hyperpage}{68}
+\indexentry{metodo@m\'etodo!HMSGenerico@\HMSGenerico|hyperpage}{69}
+\indexentry{HMSGenerico@\HMSGenerico|hyperpage}{69}
+\indexentry{algoritmo!HMS@\HMS|hyperpage}{71}
+\indexentry{HMS@\HMS|hyperpage}{71}
+\indexentry{teorema!da correcao de HMS@da corre\c c\~ao de \HMS|hyperpage}{72}
+\indexentry{HMS@\HMS!correcao@corre\c c\~ao|hyperpage}{72}
+\indexentry{algoritmo!ArvorePrefixos@\ArvorePrefixos|hyperpage}{72}
+\indexentry{ArvorePrefixos@\ArvorePrefixos|hyperpage}{72}
+\indexentry{algoritmo!AtualizeHMS@\AtualizeHMS|hyperpage}{72}
+\indexentry{AtualizeHMS@\AtualizeHMS|hyperpage}{72}
+\indexentry{teorema!do consumo de tempo de HMS@do consumo de tempo de \HMS|hyperpage}{75}
+\indexentry{HMS@\HMS!consumo de tempo|hyperpage}{75}
+\indexentry{caminho!desvio|hyperpage}{76}
+\indexentry{problema!do desvio m\IeC {\'\i }nimo@do desvio m\IeC {\'\i }nimo|hyp

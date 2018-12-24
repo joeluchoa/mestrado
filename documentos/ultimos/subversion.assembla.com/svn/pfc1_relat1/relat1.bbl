@@ -1,0 +1,141 @@
+\begin{thebibliography}{10}
+
+\bibitem{Ahmed:2009}
+{\sffamily\scshape Ahmed, M.; Lubiw, A.}
+\newblock {\bfseries Shortest paths avoiding forbidden subpaths}.
+\newblock In: Albers, S.; Marion, J.-Y., editors, {\itshape 26th International
+  Symposium on Theoretical Aspects of Computer Science (STACS 2009)}, volume~3
+  de {\bfseries Leibniz International Proceedings in Informatics (LIPIcs)}, p.
+  63--74, Dagstuhl, Germany, 2009. Schloss Dagstuhl--Leibniz-Zentrum fuer
+  Informatik.
+
+\bibitem{Aho:1975}
+{\sffamily\scshape Aho, A.~V.; Corasick, M.~J.}
+\newblock {\bfseries {Efficient String Matching: an Aid to Bibliographic
+  Search}}.
+\newblock {\itshape Communications of the ACM}, 18(6):333--340, June 1975.
+
+\bibitem{Bellman:1958}
+{\sffamily\scshape Bellman, R.}
+\newblock {\bfseries On a routing problem}.
+\newblock {\itshape Quarterly of Applied Mathematics}, 16(1):87--90, 1958.
+
+\bibitem{Cormen:2001}
+{\sffamily\scshape Cormen, T.~H.; Leiserson, C.~E.; Rivest, R.~L.; Stein, C.}
+\newblock {\bfseries {Introduction to Algorithms}}.
+\newblock McGraw-Hill Science, second edition, September 2001.
+
+\bibitem{Dijkstra:1959}
+{\sffamily\scshape Dijkstra, E.~W.}
+\newblock {\bfseries A note on two problems in connexion with graphs}.
+\newblock {\itshape Numerische Mathematik}, 1(1):269--271, December 1959.
+
+\bibitem{Hugo:2008}
+{\sffamily\scshape do~Nascimento, H. A.~D.}
+\newblock {\bfseries Produção informal}, 2008.
+
+\bibitem{Dror:1994}
+{\sffamily\scshape Dror, M.}
+\newblock {\bfseries {Note on the Complexity of the Shortest Path Models for
+  Column Generation in VRPTW}}.
+\newblock {\itshape Operations Research}, 42(5):977--978, 1994.
+
+\bibitem{Floyd:1962}
+{\sffamily\scshape Floyd, R.~W.}
+\newblock {\bfseries Algorithm 97: Shortest path}.
+\newblock {\itshape Communications of the ACM}, 5(6):345, June 1962.
+
+\bibitem{Ford:1956}
+{\sffamily\scshape Ford~Jr., L.~R.}
+\newblock {\bfseries Network flow theory}.
+\newblock Paper P-923, The RAND Corperation, Santa Monica, California, August
+  1956.
+
+\bibitem{detal:10}
+{\sffamily\scshape Foulds, L.~R.}
+\newblock {\bfseries Produção informal}, 2010.
+
+\bibitem{Gabow:1976}
+{\sffamily\scshape Gabow, H.~N.; Maheshwari, S.~N.; Osterweil, L.~J.}
+\newblock {\bfseries On two problems in the generation of program test paths}.
+\newblock {\itshape IEEE Transactions on Software Engineering}, 2(3):227--231,
+  May 1976.
+
+\bibitem{Garey:1979}
+{\sffamily\scshape Garey, M.~R.; Johnson, D.~S.}
+\newblock {\bfseries Computers and Intractability: A Guide to the Theory of
+  NP-Completeness}.
+\newblock W. H. Freeman \& Company, New York, NY, USA, 1979.
+
+\bibitem{Walid:2008}
+{\sffamily\scshape Jradi, W. A.~R.}
+\newblock {\bfseries Uma arquitetura de software interativo para apoio à 
+  decisão na modelagem e análise do tráfego urbano}.
+\newblock Master's thesis, Instituto de Informática -- Universidade Federal de
+  Goiás, December 2008.
+
+\bibitem{Kjerrstrom:2001}
+{\sffamily\scshape Kjerrström, J.}
+\newblock {\bfseries The resource constrained shortest path problem}.
+\newblock {\itshape Resources}, June 2001.
+
+\bibitem{Kolman:2009}
+{\sffamily\scshape Kolman, P.; Pangrác, O.}
+\newblock {\bfseries {On the Complexity of Paths Avoiding Forbidden Pairs}}.
+\newblock {\itshape Discrete Applied Mathematics}, 157(13):2871--2876, July
+  2009.
+
+\bibitem{Machado:2002}
+{\sffamily\scshape Machado, P.; Tavares, J.; Pereira, F.~B.; Costa, E.}
+\newblock {\bfseries Vehicle routing problem: Doing it the evolutionary way}.
+\newblock In: {\itshape Proceedings of the Genetic and Evolutionary Computation
+  Conference}, GECCO 2002, p. 690, San Francisco, CA, USA, 2002. Morgan
+  Kaufmann Publishers Inc.
+
+\bibitem{Martins:1984}
+{\sffamily\scshape Martins, E. Q.~V.}
+\newblock {\bfseries An algorithm for ranking paths that may contain cycles}.
+\newblock {\itshape European Journal of Operational Research}, 18(1):123--130,
+  October 1984.
+
+\bibitem{Pecin:2010}
+{\sffamily\scshape Pecin, D.~G.}
+\newblock {\bfseries Uso de rotas elementares no cvrp}.
+\newblock Master's thesis, Universidade Federal de Goiás, 2010.
+
+\bibitem{Shima:2006}
+{\sffamily\scshape Shima, R.~B.}
+\newblock {\bfseries Caminhos mínimos sob restrições: Uma revisão e
+  aplicações}.
+\newblock Master's thesis, Universidade Federal de Santa Catarina, June 2006.
+
+\bibitem{Szeider:2003}
+{\sffamily\scshape Szeider, S.}
+\newblock {\bfseries Finding paths in graphs avoiding forbidden transitions}.
+\newblock {\itshape Discrete Applied Mathematics}, 126(2-3):261--273, March
+  2003.
+
+\bibitem{Uehara:2005}
+{\sffamily\scshape Uehara, R.; Uno, Y.}
+\newblock {\bfseries Efficient algorithms for the longest path problem}.
+\newblock In: Fleischer, R.; Trippen, G., editors, {\itshape Algorithms and
+  Computation}, volume 3341 de {\bfseries Lecture Notes in Computer Science},
+  p. 1547--1553. Springer Berlin/Heidelberg, 2005.
+
+\bibitem{Villeneuve:2005}
+{\sffamily\scshape Villeneuve, D.; Desaulniers, G.}
+\newblock {\bfseries The shortest path problem with forbidden paths}.
+\newblock {\itshape European Journal of Operational Research}, 165(1):97--107,
+  2005.
+
+\bibitem{West:2001}
+{\sffamily\scshape West, D.~B.}
+\newblock {\bfseries Introduction to Graph Theory}.
+\newblock Prentice Hall, second edition, 2001.
+
+\bibitem{Ziegelmann:2001}
+{\sffamily\scshape Ziegelmann, M.}
+\newblock {\bfseries Constrained Shortest Paths and Related Problems}.
+\newblock PhD thesis, Universit{\"a}t des Saarlandes, July 2001.
+
+\end{thebibliography}

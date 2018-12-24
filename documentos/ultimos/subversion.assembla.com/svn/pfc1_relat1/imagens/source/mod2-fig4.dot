@@ -1,0 +1,18 @@
+digraph G {
+	rankdir = LR
+	s -> <s,n,w>;
+	s -> <s,u,w>;
+	s -> <s,v,w>;
+	<s,n,w> -> <n,w,z>;
+	<s,u,w> -> <u,w,z>;
+	<s,v,w> -> <v,w,z>;
+	<n,w,z> -> <w,z,t>;
+	<n,w,z> -> <w,z,p>;
+	<n,w,z> -> <w,z,q>;
+	<u,w,z> -> <w,z,t>;
+	<u,w,z> -> <w,z,p>;
+	<u,w,z> -> <w,z,q>;
+	<v,w,z> -> <w,z,t>;
+	<v,w,z> -> <w,z,p>;
+	<v,w,z> -> <w,z,q>;
+}

@@ -1,0 +1,98 @@
+\usepackage{ifthen}
+\newcommand{\eqdef}{:=}
+\newcommand{\recebe}{\leftarrow}
+\newcommand{\Enqto}{\textbf{Enquanto~}}
+\newcommand{\enqto}{\textbf{enquanto~}}
+\newcommand{\Repita}{\textbf{Repita~}}
+\newcommand{\Ate}{\textbf{Até~}}
+\newcommand{\Para}{\textbf{Para~}}
+\newcommand{\faca}{\textbf{faça~}}
+\newcommand{\Se}{\textbf{Se~}}
+\newcommand{\Senao}{\textbf{Senão~}}
+\newcommand{\entao}{\textbf{então~}}
+\newcommand{\Devolva}{\textbf{Devolva~}}
+\newcommand{\comentario}[1]{/* \textit{#1} */}
+\newcommand{\entrada}[1]{\x\textsc{Entrada: }#1}
+\newcommand{\saida}[1]{\x\textsc{Saída: }#1}
+
+\newcommand{\lb}{\linebreak}
+
+% PSEUDOCODE for ALGORITHMS 
+\newenvironment{pseudoc}
+         {\begin{list}%
+                {}%
+                {%
+                 \sffamily%
+                 \setlength{\partopsep}{1ex}%
+                 \setlength{\topsep}{1ex}%
+                 \setlength{\leftmargin}{\parindent}%
+                 \setlength{\parsep}{0.5ex}%
+                }%
+          \item}%
+         {\end{list}%
+         }
+\newenvironment{pseudocode}%
+         {\begin{pseudoc}%
+          \textbf{\textrm{Algoritmo}}\hspace{0.7ex}\ignorespaces%
+         }%
+         {\end{pseudoc}}
+\newenvironment{pseudocodem}%
+         {\begin{pseudoc}%
+          \textbf{\textrm{Método}}\hspace{0.7ex}\ignorespaces%
+         }%
+         {\end{pseudoc}}
+\newenvironment{pseudocodeproc}%
+         {\begin{pseudoc}%
+          \textbf{\textrm{Procedimento}}\hspace{0.7ex}\ignorespaces%
+         }%
+         {\end{pseudoc}}
+\newenvironment{pseudocex}% dentro de exercícios
+         {\begin{small}%
+          \begin{list}%
+                {}%
+                {%
+                 \sffamily%
+                 \setlength{\partopsep}{0.5ex}%
+                 \setlength{\topsep}{1ex}%
+                 \setlength{\leftmargin}{8ex}%
+                 \setlength{\parsep}{0.2ex}%
+                }%
+          \item}%
+         {\end{list}%
+          \end{small}%
+         }
+\newenvironment{pseudocodeex}%
+         {\begin{pseudocex}%
+          \textbf{\textrm{Algoritmo}}\hspace{0.7ex}\ignorespaces%
+         }%
+         {\end{pseudocex}}
+
+\newcommand{\phentao}{\phantom{então}} 
+\newcommand{\phsenao}{\phantom{senão}} 
+\newcommand{\x}{\hspace*{4ex}} % era 3ex
+\newcommand{\xx}{\hspace*{8ex}}
+\newcommand{\xxx}{\hspace*{12ex}}
+\newcommand{\xxxx}{\hspace*{16ex}}
+\newcommand{\xxxxx}{\hspace*{20ex}}
+\newcommand{\xxxxxx}{\hspace*{24ex}}
+\newlength{\tsts}
+\settowidth{\tsts}{9}
+\newcommand{\ts}{\hspace{\tsts}}
+\newcommand{\RM}{\textrm}
+% Example:
+% \begin{pseudocode}
+% \max $(A, p, r)$
+%    
+% \RM{\ts1}\x se $p = r$
+% 
+% \RM{\ts2}\xx então devolva $A[p]$
+%    
+% \RM{\ts3}\xx senão $m\leftarrow \textsc{Máximo}\,(A,p+1,r)$
+% 
+% \RM{\ts9}\xx\phsenao se $m < A[p]$ \quad $\rhd$ comentário
+% 
+% \RM{10}\xxx\phsenao então $m\leftarrow A[p]$
+%  
+% \RM{11}\xx\phsenao devolva $m$
+% \end{pseudocode}s
+

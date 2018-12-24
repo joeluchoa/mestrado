@@ -1,0 +1,130 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%                  Fabio Pisaruk
+%%
+%%%%%%%%%%%%%%%%   Feito entre:  06/09/2007 a ????????    %%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\documentclass{amsart}
+
+\documentclass[12pt]{amsart}
+
+%% Escrevendo em português:
+\usepackage[brazil]{babel}
+\usepackage[latin1]{inputenc}
+\usepackage[dvips]{graphicx,psfrag}
+\usepackage{multicol}
+\usepackage{enumerate}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\contentsname}{2.\enspace Índice}
+\renewcommand{\refname}{Bibliografia}
+\renewcommand{\datename}{\textit{Data}:}
+\makeatletter 
+\renewcommand{\l@subsection}{\@tocline{2}{1pt}{2pc}{5pc}{}}
+\makeatother
+\setcounter{tocdepth}{2}
+
+%% definicao personalizadamy
+\usepackage{./estilo/estilo}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Floating package
+\usepackage{floatflt,epsfig,epsf}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Dimensão da página
+%\setlength{\topmargin}{-1.0cm}
+%\setlength{\textheight}{22.0cm}
+%\setlength{\textwidth}{15.0cm}
+
+%\setlength{\parskip}{.5pc}
+\setlength{\paperwidth}{216mm}
+\setlength{\paperheight}{279mm}
+\setlength{\textwidth}{150mm}
+\setlength{\textheight}{220mm}
+\setlength{\topmargin}{0cm}
+ 
+% margens impar e par da pagina
+%\setlength\oddsidemargin{.2cm}  
+%\setlength\evensidemargin{.2cm}  
+\setlength\oddsidemargin{.6cm}  
+\setlength\evensidemargin{.6cm}  
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\fimprova}{
+\hspace*{\fill}
+\rule{0.15cm}{0.3cm}
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\title[$k$-caminhos mínimos]% 
+{$k$-caminhos mínimos}
+\author{Fábio Pisaruk}
+\dedicatory{\small {\rm Orientador:} {\rm José Coelho de Pina}} 
+\address{Instituto de Matemática e Estatística, Universidade de São Paulo, Rua
+  do Matão 1010, 05508--900~São Paulo, SP}
+\email{pisaruk@ime.usp.br}
+\keywords{caminhos mínimos, otimização combinatória}
+\date{\today}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{abstract}
+Neste projeto fazemos um esboço geral de uma dissertação de mestrado que
+pretende estudar o algoritmo desenvolvido por Katoh, Ibaraki e Mine de geração de $k$-caminhos
+mínimos sem circuitos em grafos não-orientados com custos não-negativos, bem como algumas implementações deste.
+\end{abstract}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\maketitle
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\input{} 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\newpage
+\tableofcontents  
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\setcounter{section}0
+
+\newpage
+\input{01-introducao} 
+
+\newpage
+\input{02-problema}
+
+%\newpage
+%\input{03-...}
+
+%\newpage
+%\input{04-...}
+
+%\newpage
+%\input{05-...}
+
+%\newpage
+%\input{06-}
+
+%\newpage
+%\input{08-proposta}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Bibliografia %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\cite{*}
+\newpage 
+\bibliographystyle{./bib/joseplain} 
+\bibliography{./bib/refs}
+
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+

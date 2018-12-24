@@ -1,0 +1,48 @@
+This is BibTeX, Version 0.99c (TeX Live 2009/Debian)
+The top-level auxiliary file: relat1.aux
+The style file: inf-ufg.bst
+Database file #1: source/biblio.bib
+Warning--I'm ignoring Gabow:1976's extra "address" field
+--line 208 of file source/biblio.bib
+You've used 24 entries,
+            2158 wiz_defined-function locations,
+            693 strings with 7516 characters,
+and the built_in function-call counts, 7072 in all, are:
+= -- 646
+> -- 263
+< -- 6
++ -- 108
+- -- 80
+* -- 554
+:= -- 1184
+add.period$ -- 73
+call.type$ -- 24
+change.case$ -- 108
+chr.to.int$ -- 0
+cite$ -- 24
+duplicate$ -- 326
+empty$ -- 622
+format.name$ -- 80
+if$ -- 1453
+int.to.chr$ -- 0
+int.to.str$ -- 24
+missing$ -- 20
+newline$ -- 121
+num.names$ -- 52
+pop$ -- 84
+preamble$ -- 1
+purify$ -- 86
+quote$ -- 0
+skip$ -- 174
+stack$ -- 0
+substring$ -- 405
+swap$ -- 94
+text.length$ -- 6
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 90
+warning$ -- 0
+while$ -- 71
+width$ -- 26
+write$ -- 267
+(There was 1 warning)

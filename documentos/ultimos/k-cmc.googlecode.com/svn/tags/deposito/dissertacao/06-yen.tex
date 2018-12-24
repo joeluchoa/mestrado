@@ -1,0 +1,395 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%  CAPÍTULO. MÉTODO DE YEN
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\chapter{Método de Yen}
+\label{cap:metodo-yen}
+
+
+
+\section{\'Arvores dos prefixos}
+
+
+Descrevemos aqui uma ``arborescência rotulada'' que de certa forma
+codifica os prefixos dos caminhos em uma dada coleção.
+Esta representação será particularmente útil quando, mais
+adiante, discutirmos o método de Yen.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+No que segue $\Qcal$ é uma coleção de caminhos de um grafo e  
+$V(\Qcal)$ e $A(\Qcal)$ são o conjunto dos vértices e o
+conjunto dos arcos presentes nos caminhos, respectivamente.
+
+Um grafo acíclico $(N,E)$ com $|N| = |E| + 1$ é uma
+\defi{arborescência}\index{arborescencia@@arborescência} 
+se todo vértice, exceto um 
+vértice especial chamado de 
+\defi{raiz}\index{raiz da arborescência@@raiz da arborescência},
+ for ponta final de exatamente um arco. 
+Será conveniente tratarmos os vértices 
+de uma arborescência por \defi{n\'os}. 
+Uma arborescência está ilustrada na 
+figura~\ref{fig:grafo}(c). 
+A raiz dessa arborescência é o
+n\'o $a$. Uma \defi{folha}\index{folha de uma arborescência@@folha de uma
+arborescência}
+de uma arborescência é um n\'o
+que não é ponta inicial de nenhum arco. 
+
+
+Suponha que $(N,E)$ seja uma arborescência e  
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+$f$ uma \defi{função r\'otulo}\index{função@função!rotulo@r\'otulo} 
+que associa a cada n\'o em $N$ um vértice em $V(\Qcal)$ e a
+cada arco em $E$ um arco em $A(\Qcal)$. 
+Se 
+\begin{eqnarray*}
+ R=\seq{u_{0}, e_{1}, u_{1}, \ldots, e_{t}, u_{t}}
+\end{eqnarray*}
+for um caminho em  $(N,E)$, então
+\begin{eqnarray*}
+ f(R):=\seq{f(u_{0}), f(e_{1}), f(u_{1}), \ldots, f(e_{t}), f(u_{t})}
+\end{eqnarray*}
+será uma seqüência de vértices e arcos dos caminhos em $\Qcal$.
+Diremos que $(N,E,f)$ é \defi{árvore dos prefixos} de $\Qcal$ se 
+\begin{enumerate}[(p1)]
+\item para cada caminho $R$ em $(N,E)$ com início na
+      raiz, $f(R)$ for prefixo de algum caminho em $\Qcal$; e
+\item para cada prefixo $Q$ de algum caminho em $\Qcal$
+      existir um caminho $R$ em $(N,E)$ com início na
+      raiz tal que $f(R)=Q$; e
+\item o caminho $R$ do item anterior for único. 
+\end{enumerate}
+
+Não é verdade que para cada coleção $\Qcal$ de caminhos em
+um grafo existe uma árvore dos prefixos de $\Qcal$.
+No entanto, se todos os caminhos em $\Qcal$
+tiverem a mesma ponta inicial, então existe uma árvore dos prefixo de
+$\Qcal$ e esta é única. Na figura~\ref{fig:prefixo}(b) vemos 
+a ilustração da árvore dos prefixos de quatro caminhos de $s$ a~$t$ no grafo
+da figura~\ref{fig:prefixo}(a). Na árvore da ilustração $w,x,y$ 
+e $z$ são n\'os e $f(w)=s, f(x)=a, f(y)=d$ e $f(z)=d$.
+
+\begin{figure}[htbp]
+ \begin{center}
+    \psfrag{(a)}{$\iten{a}$}
+    \psfrag{(b)}{$\iten{b}$}
+    \psfrag{a}{{$s$}}
+    \psfrag{b}{{$a$}}
+    \psfrag{c}{{$b$}}
+    \psfrag{d}{{$c$}}
+    \psfrag{e}{{$d$}}   
+    \psfrag{f}{{$t$}}
+    \psfrag{x}{{$x$}}
+    \psfrag{y}{{$y$}}
+    \psfrag{z}{{$z$}}
+    \psfrag{w}{{$w$}}
+    \psfrag{grafo}{grafo}
+    \psfrag{arvore dos prefixos}{árvore dos prefixos}
+  \includegraphics{./figs/prefixo.eps}
+  \caption{\label{fig:prefixo} (b) mostra a árvore dos prefixos dos
+   caminhos
+   $\seq{s,a,c,t}$,
+   $\seq{s,a,d,t}$,
+   $\seq{s,b,a,c,t}$ e 
+   $\seq{s,b,a,d,c,t}$ no grafo em~(a).
+  Na árvore, um símbolo ao lado de um n\'o é o r\'otulo desse n\'o.
+  Os r\'otulos dos arcos não estão representados na figura. O símbolo 
+  dentro de um n\'o é o seu nome.
+  }
+ \end{center}
+ \end{figure}
+
+
+
+
+
+
+\section{Método genérico}
+
+A descrição que fazemos é, de certa forma, \textit{top-down}. 
+Começaremos com um método genérico que será refinado a cada passo incluindo,
+convenientemente, algumas subrotinas auxiliares.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+O nosso interesse aqui é numa descrição mais conceitual em que 
+a correção e o consumo de tempo polinomial do método sejam um tanto quanto
+evidentes. 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Não temos a intenção de descrever um algoritmo com o menor consumo de tempo. 
+
+O método abaixo recebe um grafo $(V,A)$, uma função custo, dois vértices $s$ e
+$t$ e um inteiro positivo $k$ e devolve uma lista $\seq{P_1,\ldots,P_k}$ de
+$k$-menores caminhos de $s$ a~$t$.
+
+\begin{algoritmo}
+
+\textbf{Método} \Generico{} $(V,A,c,s,t,k)$ %\\[2mm]
+   
+0\x $\Pcal \larr \mbox{conjunto dos caminhos de $s$ a~$t$}$ 
+
+1\x \para{} $i=1,\ldots,k$ \faca %\\[1mm]
+
+2\xx  $P_i \larr \mbox{caminho de custo mínimo em $\Pcal$}$ %\\[1mm]
+
+3\xx  $\Pcal \larr \Pcal - P_i$
+
+4\x \devolva{} $\seq{P_1,\ldots,P_k}$
+
+\end{algoritmo}
+
+No início de cada iteração da linha~1 o conjunto $\Pcal$ contém os
+candidatos a $i$-ésimo caminho mínimo de $s$ a~$t$. 
+O método de Yen é uma elaboração do método \Generico.
+Em vez do conjunto 
+$\Pcal$, Yen mantém, pelo menos conceitualmente, uma partição
+$\Pi$ de $\Pcal$.
+Em cada iteração, é escolhido o caminho mais barato
+dentre um conjunto $\Lcal$ formado por \textit{um} caminho 
+mínimo $P_{\pi}$ representante de
+cada parte $\pi$ de~$\Pi$ e depois a partição é atualizada. 
+
+\begin{algoritmo}
+
+\textbf{Método} \YenGenerico{} $(V,A,c,s,t,k)$ %\\[2mm]
+   
+0\x $\Pi \larr \{\{\mbox{conjunto dos caminhos de $s$ a~$t$}\}\}$
+
+1\x $\Qcal \larr \emptyset $
+
+2\x \para{} $i=1,\ldots,k$ \faca %\\[1mm]
+
+3\xx  $\Lcal  \larr \seq{P_{\pi} : P_{\pi} \ \mbox{é caminho mínimo da parte $\pi$
+de~$\Pi$}}$
+
+4\xx  $P_i \larr \mbox{caminho de custo mínimo em $\Lcal$}$ %\\[1mm]
+
+5\xx  $\Qcal \larr \Qcal \cup \{P_i\}$
+
+6\xx  $\Pi \larr \AtualizeGenerico~(V,A,\Qcal)$
+
+7\x \devolva{} $\seq{P_1,\ldots,P_k}$
+
+\end{algoritmo}
+
+Como veremos, a eficiência do método de Yen dependerá fortemente da estrutura
+restrita dos caminhos nas partes de~$\Pi$: cada parte é formada por
+caminhos que têm um certo prefixo comum. 
+
+Seja $\Pcal_{st}$ a coleção
+dos caminhos de $s$ a~$t$ em $(V,A)$.
+Suponha que $\Qcal$ seja a lista de 
+caminhos distintos de $s$ a~$t$ na linha~5 do método
+\YenGenerico{}.  Passamos a descrever a partição
+$\Pi$ dos caminhos em $\Pcal := \Pcal_{st} \setminus \Qcal$.
+Para isto é conveniente utilizarmos a 
+\textit{árvore dos prefixos} de
+$\Qcal$, como foi feito por John Hershberger,
+Matthew Maxel e Subhash Suri~\cite{hershberger:acmta-3-??}.
+
+No que segue suponha que $(N,E,f)$ seja 
+a árvore dos prefixos de $\Qcal$ e $u$ seja um n\'o em $N$.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Representaremos por $R_u$\mar{$R_u$} o
+caminho da raiz a $u$ na árvore. Assim,  $f(R_u)$\mar{$f(R_u)$} é
+o prefixo de um caminho em $\Qcal$. 
+Por exemplo, na árvore dos prefixos da figura~\ref{fig:prefixo}(b)
+temos que $R_y = \seq{w,wx,x,xy,y}$ e $f(R_y) = \seq{s,sa,a,ad,d}$.
+
+Seja\mar{$A_u$}
+%$A_u$ a
+%coleção dos arcos em $A$ com ponta inicial em $f(u)$ e
+%ponta final $f(w)$ para todo arco $uw$ em $E$, isto é,
+\begin{eqnarray*}
+A_u := \{ (f(u),f(w)) : uw \in E\}. 
+\end{eqnarray*}  
+e seja $\pi_u$\mar{$\pi_u$} o conjunto dos caminhos em $\Pcal$ com
+prefixo $f(R_u)$ e que não possuem arcos em~$A_u$.
+Para o exemplo na figura~\ref{fig:prefixo} temos que 
+\begin{eqnarray*}
+A_w = \{sa,sb\}, 
+A_x = \{ac,ad\}, 
+A_y = \{dt\} \ \mbox{e} \ 
+A_z = \{dc\} \\
+\pi_w = \emptyset, 
+\pi_x = \emptyset,
+\pi_y = \{\seq{s,a,d,c,t}\},  \ \mbox{e} \
+\pi_z = \{\seq{s,b,a,d,t}\}.  
+\end{eqnarray*}
+
+A partição~$\Pi$\mar{$\Pi$} é formada por uma parte $\pi_u$ para
+cada vértice $u$ em $N$, ou seja,
+\[
+\Pi := \{\pi_u : u \in N\}.
+\]
+No início de cada iteração da linha~2 o número de partes é certamente não
+superior a $n \times i$.
+O algoritmo \AtualizeGenerico{} resume toda a discussão acima.
+
+
+\begin{algoritmo}
+
+\textbf{Algoritmo} \AtualizeGenerico{} $(V,A,\Qcal)$ %\\[2mm]
+   
+0\x $\Pi \larr \emptyset \quad \quad \Pcal \larr \Pcal_{st} \setminus \Qcal$
+
+1\x $(N,E,f) \larr$ árvore dos prefixos de $\Qcal$
+
+2\x \para{} \cada{} $u \in N$ \faca %\\[1mm]
+
+3\xx  $\pi_u \larr \{\mbox{caminhos em $\Pcal$ com prefixo $f(R_u)$}$
+
+\xxxxx \quad e que não possuem arcos em $A_u \}$
+
+4\xx  $\Pi \larr  \Pi \cup \{\pi_u\}$ %\\[1mm]
+
+5\x \devolva{} $\Pi$
+
+\end{algoritmo}
+
+Podemos verificar que cada caminho em $\Qcal$ não pertence a
+nenhuma parte de~$\Pi$. Também podemos verificar que cada
+caminho $P$ em $\Pcal$ está em uma única 
+parte de~$\Pi$. De fato, seja $P'$ o maior prefixo de~$P$ 
+que é prefixo de algum caminho em $\Qcal$. Pela definição
+de árvore de prefixos, existe um único caminho $R'$ em 
+$(N,E)$ com início na raiz e tal que $P' = f(R')$. 
+Para o vértice $u$ término de $R'$ temos que $P$ está em
+$\pi_u$ e é a única parte que possui $P$. 
+
+Desta forma, no início de cada iteração das linhas
+2--6  do método \YenGenerico{}, $\Pi$ é uma partição de
+$\Pcal$, portanto a correção
+do método é evidente.
+
+
+%% ???Ainda utilizando a estrutura da árvore dos prefixos de  
+
+As árvores dos prefixos de duas
+execuç\~oes consecutivas do algoritmo \AtualizeGenerico{} são
+muito semelhantes: apenas um novo caminho é acrescentado à
+árvore anterior.  Isto, em particular, significa que as
+partiç\~oes de duas iteraç\~oes consecutivas das linhas 2--6 do
+método \YenGenerico{} são muitos semelhantes. Esta
+observação pode ser utilizada para o algoritmo
+\AtualizeGenerico{} obter mais eficientemente
+uma partição a partir da partição anterior.
+ 
+
+
+
+
+
+\section{Método de Yen}
+
+O método que Jin Y. Yen~\cite{yen:ms-17-712} desenvolveu para resolver
+o \kCM{} parece ter um papel central entre os algoritmos que foram
+posteriormente projetados para o \kCM\ ou mesmo para vers\~oes mais
+restritas do
+problema~\cite{eppstein:siamjc-28-652,katoh:n-12-411,hershberger:acmta-3-??}.
+Várias melhorias práticas do método de Yen têm sido implementadas e
+testadas~\cite{brander:370,eleni:n-34-88,martins:qjbfiors-1-121,martins:relatorio,perko:n-16-149}
+
+Antes de prosseguirmos, mencionamos que o método de Yen foi generalizado por
+Eugene L. Lawler~\cite{lawler:ms-18-401} para problemas de otimização
+combinat\'oria, contanto que seja fornecida uma subrotina para determinar uma
+solução \'otima sujeita a condição de que certas variáveis têm seus valores
+fixados. Por exemplo, no caso do método de Yen para o \kCM{} essa subrotina
+resolve o seguinte \defi{problema do sub-caminho mínimo}\index{problema!do
+sub-caminho mínimo@do sub-caminhos mínimo}, denotado por \PSM:
+ \begin{quote}
+   \textbf{Problema} \PSM$(V,A,c,s,t,P,F)$:%
+   \index{PSM@\PSM}\mar{\PSM}
+   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+   Dado um grafo $(V,A)$, uma função
+   custo $c$, dois vértice $s$ e $t$, um caminho $P$ e uma parte $F$ de $A$, 
+   encontrar um caminho de custo mínimo 
+   de $s$ a~$t$ que tem $P$ como prefixo e não contém arcos em $F$.
+ \end{quote}
+\'E evidente que se $P$ não tem início em $s$ então o problema é
+inviável. Do ponto de vista de método Lawler, o prefixo $P$ e o conjunto $F$
+são as `variáveis' com valores fixados. 
+ 
+Resolver o \PCM$(V,A,c,s,t)$ é o mesmo que resolver
+\PSM$(V,A,c,s,t,\seq{s},\emptyset)$.  Por outro lado, o
+\PSM{} pode ser solucionado aplicando-se um algoritmo para o
+\PCM{} em um sub-grafo apropriado de $(V,A)$.  Desta forma, o
+\PCM{} e o \PSM{} são computacionalmente equivalentes e
+podem ser resolvidos em tempo $T(n,m)$.
+
+
+Conceitualmente, o método de Yen é uma elaboração do método \YenGenerico.
+No início de cada iteração da linha~2, $\Lcal$ é uma lista dos
+candidatos a $i$-ésimo caminho mínimo de $s$ a~$t$. 
+Ao invés da partição  $\Pi$ 
+de $\Pcal$, Yen mantém em $\Lcal$ um caminho mínimo de
+cada parte de $\Pi$. 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%de $\Pcal$ em não mais do que $2i$ partes e uma lista $L$ com 
+%um caminho mais barato de cada uma das partes. 
+Em cada iteração é escolhido  o caminho mais barato entre 
+todos em $\Lcal$  e a partição é \textit{levemente} atualizada.
+
+\begin{algoritmo}
+
+\textbf{Método} \Yen{} $(V,A,c,s,t,k)$ %\\[2mm]
+   
+
+1\x $\Lcal \larr \{ \mbox{um caminho de custo mínimo de $s$ a $t$} \}$
+
+2\x $\Qcal \larr \emptyset$
+
+3\x \para{} $i=1,\ldots,k$ \faca %\\[1mm]
+
+4\xx  $P_i \larr \mbox{caminho de custo mínimo em $\Lcal$}$
+%\\[1mm]
+
+%4\xx  $\Lcal \larr \Lcal \setminus \{P_i\}$
+
+5\xx  $\Qcal \larr \Qcal \cup \{P_i\}$
+
+6\xx  $\Lcal \larr \Atualize~(V,A,c,\Qcal)$
+
+7\x \devolva{} $\seq{P_1,\ldots,P_k}$
+
+\end{algoritmo}
+
+
+%%Na verdade, com o número dos caminhos em $\Pcal$ é muito grande
+
+
+\begin{algoritmo}
+
+\textbf{Algoritmo} \Atualize{} $(V,A,c,\Qcal)$ %\\[2mm]
+   
+0\x $\Lcal \larr \emptyset$
+
+1\x $(N,E,f) \larr$ árvore dos prefixos de $\Qcal$
+
+2\x \para{} \cada{} $u \in N$ \faca %\\[1mm]
+
+3\xx  $P_u \larr \mbox{caminho de $s$ a~$t$ de custo mínimo com prefixo $f(R_u)$}$
+
+\xxxxx e que não possui arcos em $A_u$
+
+4\xx  $\Lcal \larr  \Lcal \cup \{P_u\}$ %\\[1mm]
+
+5\x \devolva{} $\Lcal$
+
+
+\end{algoritmo}
+
+
+Na linha~3 do algoritmo \Atualize{}, na verdade, 
+estamos resolvendo 
+o problema \PSM $(V,A,c,s,t,f(R_u),A_u)$. Assim, o consumo de tempo do
+  algoritmo resultante é $n \, i \, T(n,m))$. Em chamadas consecutivas do
+  algoritmo \Atualize{}, as árvores dos prefixos calculadas são muito
+  semelhantes.
+%Logo, é possível fazermos com que o consumo de tempo seja $n \, T(n,m)$.
+De fato, o algoritmo  pode ser implementado de tal maneira
+que o consumo o seu consumo de tempo seja $n \, T(n,m)$.
+
+O método de \Yen{} pode ser implementado de tal maneira que o seu consumo de
+tempo seja proporcional a $k \, n \, T(n,m)$.
+
+

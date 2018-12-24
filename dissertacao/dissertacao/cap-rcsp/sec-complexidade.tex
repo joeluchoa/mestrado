@@ -1,0 +1,139 @@
+\section{Complexidade}
+\label{sec:complexidade}
+
+\citet{zang:80} e \citet{jaffe:84} mostraram que o \rcsp~é 
+$\mathcal{NP}$-difícil, mesmo em grafos acíclicos, com restrições sobre 
+um único recurso, e com todos os consumos de recursos positivos 
+\citep{dumitrescu:03}.  \citet{garey:79} apresentaram uma redução do 
+problema da partição para o \rcsp, enquanto \citet{zang:80} reduziram o 
+problema da mochila para o nosso problema. 
+
+\citet{hassin:92} mostrou que o \srcsp~ tem solução polinomial se os 
+custos dos arcos e consumos de recursos são limitados.
+%Temos por \citet{beasley:89} que a solução do \rcsp~é garantidamente 
+%elementar (não passa por um mesmo vértice duas vezes) se os custos dos 
+%arcos são não-negativos e temos apenas restrições que limitam a 
+%quantidade máxima de recursos consumidos ou o grafo é acíclico.
+A seguir, mostraremos uma redução do {\bf problema da mochila} ({\it 
+knapsack}), definido a seguir, ao problema \rcsp (baseada em 
+\citet{zang:80}).
+
+\begin{problema}{\textsc{Mochila}(N,w,v,D)}
+Como parâmetros do problema são dados:
+\begin{itemize}
+\item\ um conjunto de itens $N = \{1, \dots, n\}$,
+\item\ pesos $w_i \in \mathbb{N}$, $i = 1, \dots, n$, para esses itens,
+\item\ valores $v_i \in \mathbb{N}$, $i = 1, \dots, n$, para esse itens,
+\item\ um peso limite $D \in \mathbb{N}_0$.
+\end{itemize}
+O peso de um subconjunto $I \subseteq N$ é
+$w(I) = \sum_{i \in I}{w_i}$, e seu valor é 
+$v(I) = \sum_{i \in I}{v_i}$. O problema \textsc{Mochila} consiste em
+encontrar um subconjunto de itens com valor máximo, cujo peso não excede
+o limite $D$.
+\end{problema}
+
+\begin{teorema}{} O \rcsp~é $\mathcal{NP}$-difícil.
+\end{teorema}
+
+\begin{prova} A prova se dá pela redução do problema \textsc{Mochila}~ao 
+  \rcsp.
+  Vamos tomar uma instância $I$ do problema \textsc{Mochila}. Nós 
+  podemos
+construir uma instância $I'$ para o \rcsp\ como se segue:
+\begin{itemize}
+\item $V = N \cup \{0\}$.
+\item Entre cada par de vértice $i-1$ e $i$, onde $i = 1, 2, \cdots, n$,  
+  teremos duas arestas paralelas $(i-1, i)$ que estarão separadas, uma 
+  em cada um dos dois subconjuntos $A_1$ e $A_2$ que compõem $A$.  
+  \begin{itemize}
+        \item $A = A_1 \cup A_2$,
+        \item $A_1 = \{(i-1,i): i=1,\dots,n\}$,
+        \item $A_2 = \{(i-1,i): i=1,\dots,n\}$.
+    \end{itemize}
+\item $
+r_{uv} = \left\{
+  \begin{array}{ll}
+		\begin{array}{ll}
+      w_i, & \mbox{se } uv \in A_1, \\
+			0, & \mbox{caso contrário}
+    \end{array} & \mbox{para todo } uv \in A.
+	\end{array}
+	\right.
+$
+\item
+$
+c_{uv} = \left\{
+  \begin{array}{ll}
+    \begin{array}{ll}
+      M - v_i, & \mbox{se } {uv} \in A_1, \\
+      M, & \mbox{caso contrário}
+    \end{array} & \mbox{para todo } {uv} \in A.
+	\end{array}
+	\right.
+$
+\item $\scor = 0$.
+\item $\tcor = n$.
+\item $k = 1$.
+\item $\lambda = D$.
+
+\end{itemize}
+
+A constante $M$ pode ser definida como um grande inteiro de tal forma 
+que $M-v_i$, para qualquer $i$, seja não negativo.
+Por questão de praticidade, vamos convencionar que representaremos um
+arco $(i-1,i) \in A_1$ como $a^1_i$ e um arco $(i-1,i) \in A_2$
+como $a^2_i$.
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[scale=1]{figuras/pdf/reducao_mochila.pdf}
+  \caption[Grafo da redução do problema \textsc{Mochila} para o 
+  problema \rcsp]{ Os arcos contínuos representam os arcos no 
+    conjunto $A_1$ e os arcos tracejados representam os arcos no 
+  conjunto $A_2$.  O rótulo de cada arco $uv$ representa o seu custo e o 
+seu consumo de recurso, respectivamente ($c_{uv}$ / $r_{uv}$).}
+  \label{fig:rscp_mochila}
+\end{figure}
+
+Como $\scor=0$ e $\tcor=n$; podemos ver que qualquer $\scor 
+\tcor$-caminho $P$ em $G = (V,A)$ contém ou $a^1_i$ ou $a^2_i$, 
+$i=1,\dots,n$. Vamos dividir
+os arcos de $P$ em dois conjuntos $X$ e $Y$, onde $X$ contém os arcos em
+$P$ que estão em $A_1$, e $Y$ contém os demais arcos. A partir 
+de $X$, vamos definir um subconjunto $S \subseteq N$,
+tal que $i \in S$ se e somente se $a^1_i \in X$. 
+Com isso,
+
+\begin{equation}
+\begin{array}{rcl}
+c(P) & = & \displaystyle\sum_{a^1_i \in X}{(M-v_i)} + \displaystyle\sum_{a^2_i \in Y}{M}\\
+     & = & n \cdot M - \displaystyle\sum_{a^1_i \in X}{v_i}\\
+     & = & n \cdot M - v(S)
+\end{array}
+\label{eq:reducao_custo}
+\end{equation}
+
+\begin{equation}
+\begin{array}{rcl}
+r(P) & = & \displaystyle\sum_{a^1_i \in X}{w_i} + \displaystyle\sum_{a^2_i \in Y}{0} \\
+     & = & \displaystyle\sum_{a^1_i \in X}{w_i} \\
+     & = & w(S)
+\end{array}
+\label{eq:reducao_recurso}
+\end{equation}
+
+Daí, concluímos que todo subconjunto $S \subseteq N$ contém um $st$-caminho $P$ associado, e 
+vice-versa, por meio da equivalência 
+$i \in S \Leftrightarrow a^1_i \in P$.
+Pelas equações \ref{eq:reducao_custo} e \ref{eq:reducao_recurso}, um 
+conjunto $S$ e um caminho $P$ associados, possuem $r(P)=w(S)$
+e $c(P) = n \cdot M - v(S)$. E daí temos dois resultados:
+\begin{displaymath}
+\begin{array}{rcl}
+r(P) \leq \lambda & \Longleftrightarrow & w(S) \le D$$\\
+\mbox{ minimizar } c(P) & \Longleftrightarrow & \mbox{ maximizar }v(S)
+\end{array}
+\end{displaymath}
+\end{prova}
+

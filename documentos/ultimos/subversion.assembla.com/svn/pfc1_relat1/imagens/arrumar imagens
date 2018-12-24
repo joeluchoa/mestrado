@@ -1,0 +1,15 @@
+figura mod1-fig1:
+remover todas as arestas desta figura.
+
+figura mod1-fig3:
+remover as arestas do tipo (v,<v,w>) e (<v,w>,w) da figura mod1-fig4b, deixando apenas as arestas do tipo (<v,w>,<w,z>).
+
+figura mod1-fig4:
+utilizar o programa 'dia' (linux) para gerar a figura a partir do arquivo mod1-fig4.dia
+
+figura mod4-fig1:
+remover as arestas "internas" de cada vertice de G e o vertice inicial de G'
+
+figura mod4-fig3:
+remover a aresta (<w,v,w>,<w,w,z>) da figura mod4-fig2.
+

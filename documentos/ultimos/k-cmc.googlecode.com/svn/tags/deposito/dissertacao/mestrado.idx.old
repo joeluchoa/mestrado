@@ -1,0 +1,86 @@
+\indexentry{$\Int$}{5}
+\indexentry{$\NonnegInt$}{5}
+\indexentry{parte}{5}
+\indexentry{lista}{5}
+\indexentry{intervalo}{5}
+\indexentry{$[j\tdots k]$}{5}
+\indexentry{grafo}{5}
+\indexentry{v\'ertices@v\'ertices}{5}
+\indexentry{arcos}{5}
+\indexentry{ponta!inicial}{6}
+\indexentry{ponta!final}{6}
+\indexentry{grau!entrada}{6}
+\indexentry{grau!saida@sa\IeC {\'\i }da}{6}
+\indexentry{grafo!sim\'etrico@sim\'etrico}{6}
+\indexentry{arco!reverso}{6}
+\indexentry{aresta}{6}
+\indexentry{passeio}{6}
+\indexentry{passeio!inicio@in\IeC {\'\i }cio}{7}
+\indexentry{passeio!termino@t\'ermino}{7}
+\indexentry{caminho}{7}
+\indexentry{matriz de!adjacencia@adjac\^encia}{7}
+\indexentry{matriz de!incidencia@incid\^encia}{8}
+\indexentry{listas de!adjacencia@adjac\^encia}{8}
+\indexentry{tipo!de dado}{9}
+\indexentry{tipo!abstrato}{9}
+\indexentry{estrutura de dados}{9}
+\indexentry{fila de!prioridades}{9}
+\indexentry{monotona@mon\'otona}{10}
+\indexentry{fun\c c\~ao@fun\c c\~ao!custo}{19}
+\indexentry{custo!funcao@fun\c c\~ao}{19}
+\indexentry{custo!caminho}{19}
+\indexentry{custo!caminho}{19}
+\indexentry{caminho!minimo@m\IeC {\'\i }nimo}{19}
+\indexentry{funcao@@fun\c c\~ao!comprimento sim\'etrica}{19}
+\indexentry{maior   custo}{19}
+\indexentry{distancia@@dist\^ancia}{19}
+\indexentry{$\distc{s,t}$}{19}
+\indexentry{$\dist{s,t}$}{19}
+\indexentry{problema!do caminho m\IeC {\'\i }nimo@do caminho m\IeC {\'\i }nimo}{20}
+\indexentry{\PCM}{20}
+\indexentry{single-pair shortest path@single-source   shortest path}{20}
+\indexentry{funcao@@fun\c c\~ao!potencial}{21}
+\indexentry{potencial!funcao@@fun\c c\~ao}{21}
+\indexentry{c-potencial@$c$-potencial}{21}
+\indexentry{lema!da dualidade}{21}
+\indexentry{dualidade}{21}
+\indexentry{condicao de@@condi\c c\~ao de!inacessabilidade}{22}
+\indexentry{inacessabilidade}{22}
+\indexentry{condicao de@@condi\c c\~ao de!otimalidade}{22}
+\indexentry{otimalidade}{22}
+\indexentry{funcao@@fun\c c\~ao!predecessor}{23}
+\indexentry{predecessor!funcao@@fun\c c\~ao}{23}
+\indexentry{caminho!determinado por $\pred$}{23}
+\indexentry{grafo!predecessores}{23}
+\indexentry{distancia@@dist\^ancia!tentativa}{24}
+\indexentry{examinar um/uma!arco}{24}
+\indexentry{examinar um/uma!vertice@@v\'ertice}{24}
+\indexentry{bucketing}{34}
+\indexentry{bucket}{34}
+\indexentry{fun\c c\~ao@fun\c c\~ao!custo}{41}
+\indexentry{custo}{41}
+\indexentry{custo do caminho}{41}
+\indexentry{problema!do caminho m\IeC {\'\i }nimo@do caminho m\IeC {\'\i }nimo}{41}
+\indexentry{\PCM}{41}
+\indexentry{single-pair shortest path@single-source shortest path}{41}
+\indexentry{funcao@@fun\c c\~ao!comprimento}{42}
+\indexentry{comprimento!funcao@@fun\c c\~ao}{42}
+\indexentry{funcao@@fun\c c\~ao!comprimento sim\'etrica}{42}
+\indexentry{maior   comprimento}{42}
+\indexentry{comprimento!do caminho}{42}
+\indexentry{distancia@@dist\^ancia}{42}
+\indexentry{$\distc{s,t}$}{42}
+\indexentry{$\dist{s,t}$}{42}
+\indexentry{\kesimo}{42}
+\indexentry{problema!dos k-menores caminhos@do $k$-menores caminhos}{43}
+\indexentry{\kCM}{43}
+\indexentry{\KCM}{43}
+\indexentry{problema!do caminho minimo@@do caminho m\IeC {\'\i }nimo}{43}
+\indexentry{PCM}{43}
+\indexentry{single source@@single-source shortest path}{43}
+\indexentry{arborescencia@@arboresc\^encia}{44}
+\indexentry{raiz da arboresc\^encia@@raiz da arboresc\^encia}{44}
+\indexentry{folha de uma arboresc\^encia@@folha de uma arboresc\^encia}{44}
+\indexentry{fun\c c\~ao@fun\c c\~ao!rotulo@r\'otulo}{44}
+\indexentry{problema!do sub-caminho m\IeC {\'\i }nimo@do sub-caminhos m\IeC {\'\i }nimo}{48}
+\indexentry{PSM@\PSM}{49}

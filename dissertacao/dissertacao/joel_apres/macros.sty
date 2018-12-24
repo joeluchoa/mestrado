@@ -1,0 +1,38 @@
+% Some macros to save typing time
+
+
+% -------- General purpose macros -------- %
+
+
+% Command \fig[proportional_width]{name}{Caption}
+% proportional_width: The figure width, default is .5
+% name: file name and label name to pe prepended by fig/ and fig:
+% Caption: figure caption
+\newcommand{\fig}[3][.5]{
+	\begin{figure}[htb]
+		\centering
+		\includegraphics[width=#1\textwidth]{fig/#2}
+		\caption{#3}
+		\label{fig:#2}
+	\end{figure}
+}
+
+% -------- Beamer Presentation macros --------- %
+
+\newcommand{\framet}[2][]{\begin{frame} \frametitle{#1} #2 \end{frame}}
+\newcommand{\framei}[2][]{\begin{frame} \frametitle{#1} \begin{itemize} #2 \end{itemize} \end{frame}}
+\newcommand{\framed}[2][]{\begin{frame} \frametitle{#1} \begin{description} #2 \end{description} \end{frame}}
+
+\newcommand{\sframet}[2]{\section{#1}\framet[#1]{#2}}
+\newcommand{\sframei}[2]{\section{#1}\framei[#1]{#2}}
+\newcommand{\sframed}[2]{\section{#1}\framed[#1]{#2}}
+
+\newcommand{\ssframet}[2]{\subsection{#1}\framet[#1]{#2}}
+\newcommand{\ssframei}[2]{\subsection{#1}\framei[#1]{#2}}
+\newcommand{\ssframed}[2]{\subsection{#1}\framed[#1]{#2}}
+
+% Commands for saving typing time
+\newcommand{\ize}[1]{\begin{itemize}#1\end{itemize}}
+\newcommand{\don}[1]{\begin{itemize}#1\end{itemize}}
+\newcommand{\alr}[2]{\begin{alertblock}{#1}#2\end{alertblock}}
+

@@ -1,0 +1,7 @@
+\beamer@endinputifotherversion {3.10pt}
+\select@language {brazil}
+\beamer@sectionintoc {1}{Introdu\IeC {\c c}\IeC {\~a}o}{3}{0}{1}
+\beamer@sectionintoc {2}{Algumas Aplica\IeC {\c c}\IeC {\~o}es}{22}{0}{2}
+\beamer@sectionintoc {3}{Caminhos m\IeC {\'\i }nimos}{52}{0}{3}
+\beamer@sectionintoc {4}{Caminhos m\IeC {\'\i }nimos com recursos limitados}{81}{0}{4}
+\beamer@sectionintoc {5}{Experimentos}{147}{0}{5}

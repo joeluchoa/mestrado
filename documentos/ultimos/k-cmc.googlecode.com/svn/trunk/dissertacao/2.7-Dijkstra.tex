@@ -1,0 +1,176 @@
+\chapter{Dijkstra}
+
+\section{Implementação do algoritmo Dijkstra no JUNG}
+
+Como dissemos anteriormente, a biblioteca JUNG contém implementados algoritmos 
+para diversos problemas em grafos.
+Um desses algoritmos é o desenvolvido por Dikstra para resolver o
+ problema do caminho mínimo em grafos sem custos negativos.
+Participam da implementação uma série de classes e interfaces que permitem
+ao usuário reaproveitar parte do código na criação de versões modificadas do mesmo.
+
+Começaremos pela interface \emph{Distance} cujo objetivo é definir métodos para
+ classes que calculam distãncia entre dois vértices.
+Possui dois métodos:
+\begin{description}
+\item[Number getDistance(ArchetypeVertex source, ArchetypeVertex target)]
+Responsável por retornar a distância de um caminho ligando o vértice \emph{source} ao \emph{target}. 
+O retorno na forma de \emph{Number} 
+permite que os tipos númericos: \emph{byte, double, float, int, long e short}, 
+sejam usados indistintamente.
+Fica a cargo do usuário saber o tipo de dado armazenado para posterior obtenção.
+\item[Map getDistanceMap(ArchetypeVertex source)]
+Responsável por retornar um mapeamento onde a chave 
+representa um vértice acessível a partir do \emph{source} e o valor corresponde 
+à distância de um caminho até ele partindo de \emph{source}.
+\end{description}
+
+A interface \emph{Distance} é implementada pela classe \emph{DijkstraDistance} cujo objetivo é 
+calcular distâncias entre os vértices usando o algortimo de Dijkstra. Além disso, permite que 
+resultados parcias, - caminhos e distâncias, sejam armazenados para reutilização posterior.
+Descreveremos os seus métodos principais bem como os derivados da interface \emph{Distance}.
+
+Métodos derivados da interface \emph{Distance}:
+\begin{description}
+\item[Number getDistance(ArchetypeVertex source, ArchetypeVertex target)]
+Retorna a distância do menor caminho de \emph{source} a \emph{target}. 
+Caso \emph{target} não seja acessível retorna \emph{null}.
+\item[Map getDistanceMap(ArchetypeVertex source)]
+Retorna o mapeamento como descrito na interface \emph{Distance}, 
+com a diferença de que os vértices do mapeamento, quando
+percorridos por um \emph{iterator} serão obtidos em 
+ordem crescente de distância.
+\end{description}
+
+Métodos usados para melhorar o desempenho pelo aplicação de certas restrições:
+\begin{description}
+\item[LinkedHashMap getDistanceMap(ArchetypeVertex source, int n)]
+Subrotina do método \emph{getDistanceMap} cujo objetivo é calcular as distâncias entre o vértice 
+\emph{source} e os \emph{n} vértices mais próximos dele, retornando esta informação na forma de um mapeamento, 
+como o do método \emph{Map getDistanceMap(ArchetypeVertex source)}.
+\item[setMaxDistance(double maxDist)]
+Limita a distância máxima para alcançar um vértice no valor de \emph{maxDist}.
+Desta maneira, vértices, cujas menores distâncias para serem alcançados a partir de um vértice sejam superiores a \emph{maxDist},
+serão considerados inalcançáveis.
+\item[setMaxTargets(int maxDestinos)]
+Limita o número de vértices cujas distâncias mínimas devam ser calculadas.
+Retornando à descrição do algoritmo de Dijkstra da seção 2.5, isto equivale a limitar o 
+número de elementos do conjunto $S$ ao valor \emph{maxDestinos}.
+\end{description}
+
+O algoritmo de Dijkstra está implementado em duas partes complementares: 
+uma rotina iterativa, como a descrita na seção 2.5, e algumas estruturas de dados. 
+Como dito anteriormente, o consumo de tempo do algoritmo depende fortemente 
+da estrutura de dados utilizada no armazenamento dos vértices ainda não analisados, 
+ou seja, no conjunto $Q$.
+No JUNG, a estrutura utilizada foi um \emph{heap} binário armazenada na forma de um \emph{array}.
+Os principais métodos usados na manipulação de um \emph{heap} estão implementados nas seguintes rotinas:
+\begin{description}
+\item[add(Object o)]
+Insere o obeto \emph{o} no \emph{heap}.
+\item[Object pop()]
+Retorna e retira o menor elemento do \emph{heap}.
+\item[Object peek()]
+Apenas retorna o menor elemento.
+\item[update(Object o)]
+Informa ao \emph{heap} que a chave do elemento \emph{o} foi alterada, de modo que o \emph{heap} precisa ser atualizado.
+\end{description}
+
+
+Para que o \emph{heap} possa ser construído e atualizado é preciso que os seus elementos tenham uma ordenação.
+Por isso, a classe \emph{MapBinaryHeap}(nome da classe que implementa a estrutura de \emph{heap} no JUNG), 
+possui construtores que permitem definir um \emph{Comparator}  a ser utilizado.
+Caso nenhum \emph{comparator} seja passado, utiliza-se o padrão, 
+que nada mais faz que tentar comparar os objetos, devendo estes implementarem a interface \emph{Comparable}.
+Lembramos que muitas classes do JavaSDK já implementam a interface \emph{Comparable}, 
+por exemplo: \emph{Integer, Double, BigInteger}, entre outras.
+Assim, poderíamos criar um \emph{heap} com elas sem a necessidade de informar um \emph{Comparator}.
+
+
+O \emph{heap} no JUNG não é implementado apenas com o uso de um \emph{array}. 
+O autor optou por armazenar referências dos objetos contidos no \emph{heap} num \emph{HashMap}, 
+onde a chave é o proprio objeto e o valor associado corresponde à posição do objeto no \emph{heap}, permitindo
+que o método \emph{update} localize em $\Oh(1)$(consumo de tempo para a localização de um elemento num \emph{hash}) 
+a posição no heap do objeto cuja chave fora alterada, para em seguida atualizar o \emph{heap}.
+
+Agora, vamos nos ater ao método principal, aquele que realmente calcula as menores distãncias de uma origem aos outros vértices:
+\emph{LinkedHashMap singleSourceShortestPath(ArchetypeVertex source, Set targets, int numDests)}.
+O primeiro parâmetro indica o vértice de origem, a parti do qual as distâncias aos demais serão calculadas.
+O segundo corresponde a uma lista de vértices de destino. 
+Caso a opção de \emph{cache} esteja habilitada, todos os destinos informados ao método, cujas distãncias 
+já tenham sido calculadas e armazenadas em chamadas anteriores, serão automaticamente excluídos da lista de 
+destinos a serem calculados na chamada corrente.  
+Usar ou não \emph{cache} para armazenar resultados previamente calculados é opcional e pode ser definido
+tanto nos construtores da classe quanto alterados através do método \emph{enableCaching}.
+O seu uso garante melhores desempenhos em chamadas sucessivas para obtenção de diversas distâncias ou 
+predecessores, sempre mantendo fixo a origem.
+No entanto, vale ressaltar que no caso de alterações do grafo, 
+exclusão/adição de arestas e/ou vértices ou até mesmo mudanças 
+no comprimento das arestas, podem invalidar as distâncias previamente calculadas, 
+sendo que fica a cargo do usuário da classe 
+executar uma chamada do método \emph{reset} para que as novas distâncias possam ser retornadas corretamente.
+As estruturas de dados utilizadas pelo algoritmo estão centralizadas numa classe chamada \emph{SourceData}.
+Os principais dados armazenados são: 
+\begin{description}
+\item[distances]: Mapeamento contendo as menores distâncias a artir da origem. 
+A chave é o vértice e o valor armazenado é a menor distância para alcançá-lo a partir do vértice de origem.
+\item[estimatedDistances]: semelhante ao \emph{distances}, com a diferença de guardar a menor distância até o momento, ou seja, 
+esta distància pode diminuir.
+\item[unknownVertices]: Conjunto de vértices que ainda não foram analisados.
+\end{description}
+\footnote{Embora haja outros dados, salientamos que ou são auxiliares ou estão relacionados às restrições que visam 
+melhorar empiricamente o desempenho do algoritmo e, por isso, serão omitidas na nossa descrição.}
+O uso de uma outra classe no armazenamento desses dados permite que as estruturas utilizadas sejam 
+alteradas através da especialização da classe \emph{SourceData}. 
+Isso será de extrema importância quando estudarmos o algoritmo de geracao de $k$-menores caminhos.
+A rotina começa obtendo o \emph{SourceData}, o qual é indexado pelo vértice de origem.
+Podem haver tantos quanto o número de vértices do grafo e o seu armazenmaneto em memória entre chamadas sucessivas está vinculado ao 
+uso ou não do \emph{cache}.
+Caso não exista \emph{SourceData} para o vértice de origem, um novo será criado: as
+ estruturas citadas acima são inicializadas, a distância à origem definida como zero e
+a origem adicionada a lista \emph{unknowVertices}.
+A seguir o funcionamento, \emph{grosso modo}, segue a descrição feita na seção 2.5:
+\begin{enumerate}
+\item O vértice com menor custo será retirado da lista de vértices não analisados(\emph{unknownVertices}).
+\item Para cada aresta partindo dele, a nova distância será comparada com a anteriormente armazenada em \emph{estimatedDistances}.
+Se for inferior, o método \emph{update}, da classe \emph{SourceData}, será chamado. 
+Caso não exista distância previamente calculada, o método \emph{createRecord} será invocado.
+\item Uma vez que todas as arestas de um vértice foram analisadas, este entra na lista de vértices 
+cujas distância mínimas já foram calculadas: \emph{distances}.
+\end{enumerate}
+Ao final, teremos a estrutura \emph{distance} devidamente preenchida, e 
+podemos obter as distâncias a partir da origem de todos os vértices alcançáveis.
+
+
+A classe \emph{DijkstraDistance}, no entanto, não armazena uma lista de predecessores, não permitindo assim 
+que caminhos sejam reconstruídos. Para, além de informar distâncias, permitir reconstrução de caminhos, 
+o autor especializou a classe \emph{DijkstraDistance}, criando
+a classe \emph{DijkstraShortestPath}. As principais mudanças se referem a quatro métodos que foram adicionados:
+\begin{description}
+\item[Map getIncomingEdgeMap(Vertex origem)]: Retorna um mapeamento indexado pelos vértices acessíveis a partir
+do vértice \emph{origem} e, para cada um destes vértices, armazena o correspondente arco incidente 
+pertencente ao caminho de custo mínimo até ele. O mapeamento é salvo na forma de um \emph{LinkedHashMap} cuja iteração respeita
+o retorno dos vértices com menores custos.
+\item[Edge getIncomingEdge(Vertex source, Vertex target)]: Retorna o arco incidente em \emph{target} pertencente ao caminho
+de custo mínimo cuja ponta inicial é \emph{source}. Usa o método acima como base.
+\item[List getPath(Vertex source, Vertex target)]: Retorna uma lista de arcos que fazem parte do caminho de custo mínimo com ponta final 
+\emph{source} e ponta final \emph{target}. A lista encontra-se ordenada de acordo com a ordem e que os arcos aparecem no caminho.
+\end{description}
+
+Para que esses métodos pudessem funcionar foi preciso mudar especializar a classe \emph{SourceData}, a qual passou a 
+armazenar duas novas estruturas de dados:
+\begin{description}
+\item[Map tentativeIncomingEdges]: Um mapeamento indexado pelos vértices acessíveis e os seus respectivos 
+arcos incidentes pertencente ao caminho de custo mínimo corrente. 
+Este arco pode vir a ser substituído caso exista um outro pertencente a um caminho de custo menor que venha a ser calculado
+posteriormente. Suas entradas sao alteradas durante a chamada da função \emph{update}.
+\item[LinkedHashMap incomingEdges]: Um mapeamento semelhante ao anterior, mas contendo valores definitivos.  	
+Uma vez que um vértice é analisado, uma entrada definitiva é criada em \emph{incomingEdges} contendo a entrada
+correspondente a este vértice no mapeamento \emph{tentativeIncomingEdges}.
+\end{description}
+
+Para maiores detalhes recomendamos a leitura direta do código do JUNG. 
+
+
+
+

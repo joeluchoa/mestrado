@@ -1,0 +1,13 @@
+% ================================
+% Problema do Caminho Evitando Pares Proibidos
+% ================================
+
+O problema surgiu com o nome de Problema do Caminho com Restrição de Pares Impossíveis (IPCPP -- \textit{Impossible Pairs Constrained Path Problem}) e sua aplicação era voltada para validação e teste automatizados de \textit{software}. A ideia era tornar os testes mais eficientes considerando apenas aqueles caminhos de um programa que continham no máximo um ramo de cada par de ramos mutuamente não-executáveis \cite{Kolman:2009}. Adicionalmente, era possível criar um conjunto de testes para percorrer todos os ramos de um programa, testando todas as suas saídas e validando assim seu funcionamento.
+
+O Problema do Caminho Evitando Pares Proibidos (PAFPP -- \textit{Path Avoiding Forbidden Pairs Problem}) é um problema no qual deseja-se encontrar, em um grafo direcionado, um caminho que inicie em um vértice origem e termine em um vértice destino, de tal forma que nenhum dos pares de vértices proibidos esteja presente neste caminho escolhido. Vale ressaltar que um caminho $P$ pode conter um vértice de um par proibido $f$, mas nunca os dois. Além disso, um vértice $v$ selecionado em um par proibido é marcado como utilizado também em todos os outros pares proibidos em que se mostra presente. Assim, tomemos os pares  $f_1 = (v,w)$ e $f_2 = (v,z)$ como pares proibidos, e um caminho $P$  contendo o vértice $w$ de $f_1$. Agora, olhando para $f_2$, $P$ não pode conter $v$, uma vez que a utilização deste vértice de $f_2$ implica sua utilização também em $f_1$ e o consequente aparecimento de $f_1$ em $P$. Entretanto, caso o vértice $v$ não esteja em $P$, os vértices $w$ e $z$ podem aparecer em $P$ sem nenhum problema.
+
+Seguindo a definição de \cite{Kolman:2009}, dado um grafo $G(V,A)$, onde $V$ é o conjunto de vértices e $A$ o conjunto de arcos, um vértice origem $s$, um vértice destino $t$, tal que $s,t \in V$, e um conjunto de pares de vértices proibidos $F =\{(a,b), (c,d), \ldots \}$, tal que $F \subset (VxV)$, o problema consiste em encontrar um caminho $s \leadsto t$ que contenha no máximo um vértice de cada par em $F$, ou reconheça que tal caminho não existe.
+
+Em \cite{Gabow:1976} foi provado que o problema é $\mathcal{NP}$-Completo em grafos direcionados acíclicos.
+
+ 

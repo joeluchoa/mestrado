@@ -1,0 +1,36 @@
+%% ------------------------------------------------------------------ %%
+\section{Definição do problema}
+\label{sec:definicao}
+
+\begin{problema}{\rcsp($G, \scor, \tcor, k, r, \lambda, c$)} Como parâmetros do 
+  problema são dados
+\begin{itemize}
+\item\ um grafo direcionado $G=(V,A)$,
+\item\ um vértice origem $\scor \in V$ e um vértice destino $\tcor \in V$, $\scor 
+\neq \tcor$,
+\item\ um número $k \in \mathbb{N}$ de recursos disponíveis 
+$\{1,\dots,k\}$,
+\item\ o consumo de recursos $r^i_{uv} \in \mathbb{N}_0$ de cada arco de 
+  $G$ sobre os  $k$ recursos disponíveis, $i = 1, \dots, k$, $uv \in A$,
+\item\ o limite $\lambda^i \in \mathbb{N}_0$ que dispomos de cada recurso, $i 
+= 1, \dots, k$,
+\item\ o custo $c_{uv} \in \mathbb{N}_0$, para cada arco, $uv \in A$.
+\end{itemize}
+
+O consumo de um recurso $i$, $i = 1, \dots, k$ em um $st$-caminho $P$ é 
+$r^i(P) = \sum_{uv \in P}{r^i_{uv}}$. Um $st$-caminho $P$ é limitado 
+pelos recursos $1, \dots, k$ se este consome não mais que o limite
+disponível de cada recurso, ou seja, se $ r^i(P) \leq \lambda^i$, $i = 1, 
+\dots, k$.
+O custo de um $st$-caminho $P$ é $c(P) = \sum_{uv \in P}{c_{uv}}$.
+O problema \rcsp\ consiste em encontrar o caminho limitado pelos 
+recursos de
+menor custo.
+
+\end{problema}
+
+Usaremos no decorrer deste trabalho $n = |V|$ e $m = |A|$. Quando
+estivermos tratando de um contexto onde existe apenas um recurso 
+(\srcsp), ou seja, $k = 1$, usaremos apenas $\lambda$ para representar 
+$\lambda^1$ e apenas $r_{uv}$ para representar $r^1_{uv}$. 
+

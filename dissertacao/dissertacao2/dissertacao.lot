@@ -1,0 +1,14 @@
+\select@language {brazil}
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {2.1}{\ignorespaces Complexidade do algoritmo de Dijkstra de acordo com as filas de prioridade.\relax }}{21}{table.caption.22}
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {3.1}{\ignorespaces Principais algoritmos dispon\IeC {\'\i }veis para o \textsc {RCSP}.\relax }}{26}{table.caption.23}
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {4.1}{\ignorespaces Casos de teste do tipo \textbf {DEM}\relax }}{48}{table.caption.28}
+\contentsline {table}{\numberline {4.2}{\ignorespaces Casos de teste do tipo \textbf {ROAD}\relax }}{48}{table.caption.29}
+\contentsline {table}{\numberline {4.3}{\ignorespaces Casos de teste do tipo \textbf {CURVE}\relax }}{48}{table.caption.30}
+\contentsline {table}{\numberline {4.4}{\ignorespaces Casos de teste do tipo \citet {beasley:89},\relax }}{49}{table.caption.31}
+\contentsline {table}{\numberline {4.5}{\ignorespaces Tempo de execu\c c\~ao para os testes \textbf {BC}\relax }}{50}{table.caption.32}
+\contentsfinish 

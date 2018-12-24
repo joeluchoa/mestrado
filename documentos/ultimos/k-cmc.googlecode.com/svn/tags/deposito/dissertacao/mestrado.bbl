@@ -1,0 +1,136 @@
+\providecommand{\bysame}{\leavevmode\hbox to3em{\hrulefill}\thinspace}
+\begin{thebibliography}{10}
+
+\bibitem{ahuja:netflows}
+Ravindra~K. Ahuja, Thomas~L. Magnanti e James~B. Orlin, \emph{Network flows:
+  Theory, algorithms, and applications}, Practice Hall, 1993.
+
+\bibitem{ahuja:radixheap}
+Ravindra~K. Ahuja, Kurt Mehlhorn, J.B. Orlin e R.E. Tarjan, Faster algorithms
+  for the shortest path problem, \emph{Journal of the ACM} \textbf{37} (1990),
+  213--223.
+
+\bibitem{brander:370}
+A.W. Brander e Mark~C. Sinclair, A comparative study of $k$-shortest path
+  algorithms, \emph{11th UK Performance Engineering Workshop for Computer and
+  Telecommunications Systems}, 1995, pp.~370--379.
+
+\bibitem{boris:experimental}
+B.V. Cherkassky, A.V. Goldberg e T.~Radzik, Shortest paths algorithms: Theory
+  and experimental evaluation, \emph{{{SODA}: {ACM}-{SIAM} Symposium on
+  Discrete Algorithms(A Conference on Theoretical and Experimental Analysis of
+  Discrete Algorithms)}}, 1994.
+
+\bibitem{boris:buckets}
+B.V. Cherkassky, A.V. Goldberg e C.~Silverstein, Buckets, heaps, lists and
+  monotone priority queues, \emph{SIAM J. Comput.} \textbf{28} (1999),
+  1326--1346.
+
+\bibitem{clr:introalg-1999}
+Thomas~H. Cormen, Charles~E. Leiserson e Ronald~L. Rivest, \emph{Introduction
+  to algorithms}, McGraw-Hill, 1999.
+
+\bibitem{clrs:introalg-2001}
+Thomas~H. Cormen, Charles~E. Leiserson, Ronald~L. Rivest e Clifford Stein,
+  \emph{Introduction to algorithms}, 2nd. ed., The MIT Press and McGraw-Hill,
+  2001.
+
+\bibitem{dijkstra59:note}
+Edsger~Wybe Dijkstra, A note on two problems in connection with graphs,
+  \emph{Numerische Mathematik} \textbf{1} (1959), 269--271.
+
+\bibitem{eppstein:siamjc-28-652}
+David Eppstein, Finding the $k$ shortest paths, \emph{SIAM Jounal on Computing}
+  \textbf{28} (1998), no.~2, 652--673.
+
+\bibitem{pf:aula}
+Paulo Feofiloff, \emph{Notas de aula de {MAC5781} otimização combinatória}, \\
+  \texttt{"http://www.ime.usp.br/\~\null pf/"}, 1997.
+
+\bibitem{pf:proglin}
+\bysame, \emph{Algoritmos de programação linear}, EDUSP, 2000.
+
+\bibitem{pf:fluxos}
+\bysame, \emph{Fluxo em redes}, \\ \texttt{"http://www.ime.usp.br/\~\null
+  pf/flows/"}, 2003.
+
+\bibitem{FredTarjan:Fibonacci}
+Michael~L. Fredman e Robert~Endre Tarjan, Fibonacci heap and their uses in
+  improved network optimization algorithms, \emph{Journal of the ACM}
+  \textbf{34} (1987), 596--615.
+
+\bibitem{goldberg:buckets}
+A.V. Goldberg e C.~Silverstein, \emph{Implementation of {D}ijkstra's algorithm
+  based on multi-level buckets}, Tech. report, {NEC} Research Institute,
+  Princeton, NJ, 1995.
+
+\bibitem{eleni:n-34-88}
+Eleni Hadjiconstantinou e Nicos Christofides, An efficient implementation of an
+  algorithm for finding $k$ shortest simple paths, \emph{Networks} \textbf{34}
+  (1999), no.~2, 88--101.
+
+\bibitem{hershberger:acmta-3-??}
+John Hershberger, Matthew Maxel e Subhash Suri, Finding the $k$ shortest simple
+  paths: A new algorithm and its implementation, \emph{ACM Transactions on
+  Algorithms} \textbf{3} (2007), no.~4, 19 pages.
+
+\bibitem{shigueo}
+Shigueo Isotani, \emph{Algoritmos para caminhos m\'{i}nimos}, Master's thesis,
+  Instituto de Matem\'{a}tica e Estat\'{i}stica, 2002.
+
+\bibitem{johnson:heap}
+D.B. Johnson, Efficient algorithms for shortest paths in sparse networks,
+  \emph{J. {ACM}} \textbf{24} (1977), 1--13.
+
+\bibitem{johnson:guide}
+D.S. Johnson, A theoretician's guide to the experimental analysis of
+  algorithms, \emph{To appear in Proceedings of the 5th and 6th {DIMACS}
+  Implementation Challenges}, 2002.
+
+\bibitem{katoh:n-12-411}
+Naoki Katoh, Toshihide Ibaraki e H.~Mine, An efficient algorithm for $k$
+  shortest simple paths, \emph{Networks} \textbf{12} (1982), no.~4, 411--427.
+
+\bibitem{lawler:ms-18-401}
+Eugene~L. Lawler, A procedure for computing the $k$ best solutions to discrete
+  optimization problems and its application to the shortest path problem,
+  \emph{Management Science} \textbf{18} (1972), no.~7, 401--405.
+
+\bibitem{marchetti:n-16-149}
+Alberto Marchetti-Spaccamela e Umberto Nanni, Fully dynamic algorithms for
+  maintaining shortest path trees, \emph{Journal of Algorithms} \textbf{34}
+  (2000), 251--281.
+
+\bibitem{martins:qjbfiors-1-121}
+Ernesto Martins e Marta Pascoal, A new implementation of {Y}en's ranking
+  loopless paths algorithm, \emph{4OR Quart. J. Belgian, French, Italian Oper.
+  Res. Soc.} \textbf{1} (2003), no.~2, 121--134.
+
+\bibitem{martins:relatorio}
+Ernesto Martins, Marta Pascoal e Jos\'{e} Santos, \emph{A new algorithm for
+  ranking loopless paths}, Tech. report, Universidade de Coimbra, May 1997.
+
+\bibitem{nardelli:a-35-56}
+Enrico Nardelli, Guido Proietti e Peter Widmayer, Swapping a falling edge of a
+  single source shortest paths tree is good and fast, \emph{Algorithmica}
+  \textbf{35} (2003), 56--74.
+
+\bibitem{perko:n-16-149}
+A.~Perko, Implementation of algorithms for $k$ shortest loopless paths,
+  \emph{Networks} \textbf{16} (1986), 149--160.
+
+\bibitem{tarjan:data}
+Robert~Endre Tarjan, \emph{Data structures and network algorithms}, BMS-NSF
+  Regional Conference Series in Applied Mathematics, SIAM, Philadelphia, PA,
+  1983.
+
+\bibitem{thorup:sssp-1999}
+Mikkel Thorup, Undirect single source shortest paths with positive integer
+  weights in linear time, \emph{Journal of the ACM} \textbf{46} (1999),
+  362--394.
+
+\bibitem{yen:ms-17-712}
+Jin~Y. Yen, Finding the $k$ shortest loopless paths in a network,
+  \emph{Management Science} \textbf{17} (1971), no.~11, 712--716.
+
+\end{thebibliography}

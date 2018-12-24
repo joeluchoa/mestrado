@@ -1,0 +1,122 @@
+\begin{theindex}
+
+  \item $[j\tdots k]$, 5
+  \item $\Int$, 5
+  \item $\NonnegInt$, 5
+  \item $\distc{s,t}$, 19, 42
+  \item $\dist{s,t}$, 19, 42
+  \item \KCM, 43
+  \item \PCM, 20, 41
+  \item \kCM, 43
+  \item \kesimo, 42
+
+  \indexspace
+
+  \item arco
+    \subitem reverso, 6
+  \item arcos, 5
+  \item aresta, 6
+
+  \indexspace
+
+  \item bucket, 34
+  \item bucketing, 34
+
+  \indexspace
+
+  \item $c$-potencial, 21
+  \item caminho, 7
+    \subitem determinado por $\pred$, 23
+    \subitem m\IeC {\'\i }nimo, 19
+  \item comprimento
+    \subitem do caminho, 42
+  \item custo, 41
+    \subitem caminho, 19
+    \subitem fun\c c\~ao, 19
+  \item custo do caminho, 41
+
+  \indexspace
+
+  \item dualidade, 21
+
+  \indexspace
+
+  \item estrutura de dados, 9
+  \item examinar um/uma
+    \subitem arco, 24
+
+  \indexspace
+
+  \item fila de
+    \subitem prioridades, 9
+  \item fun\c c\~ao
+    \subitem custo, 19, 41
+    \subitem r\'otulo, 44
+
+  \indexspace
+
+  \item grafo, 5
+    \subitem predecessores, 23
+    \subitem sim\'etrico, 6
+  \item grau
+    \subitem entrada, 6
+    \subitem sa\IeC {\'\i }da, 6
+
+  \indexspace
+
+  \item inacessabilidade, 22
+  \item intervalo, 5
+
+  \indexspace
+
+  \item lema
+    \subitem da dualidade, 21
+  \item lista, 5
+  \item listas de
+    \subitem adjac\^encia, 8
+
+  \indexspace
+
+  \item maior   comprimento, 42
+  \item maior   custo, 19
+  \item matriz de
+    \subitem adjac\^encia, 7
+    \subitem incid\^encia, 8
+  \item mon\'otona, 10
+
+  \indexspace
+
+  \item otimalidade, 22
+
+  \indexspace
+
+  \item parte, 5
+  \item passeio, 6
+    \subitem in\IeC {\'\i }cio, 7
+    \subitem t\'ermino, 7
+  \item PCM, 43
+  \item ponta
+    \subitem final, 6
+    \subitem inicial, 6
+  \item problema
+    \subitem do caminho m\IeC {\'\i }nimo, 20, 41
+    \subitem do sub-caminhos m\IeC {\'\i }nimo, 48
+    \subitem do $k$-menores caminhos, 43
+  \item \PSM, 49
+
+  \indexspace
+
+  \item single-source   shortest path, 20
+  \item single-source shortest path, 41
+
+  \indexspace
+
+  \item tipo
+    \subitem abstrato, 9
+    \subitem de dado, 9
+
+  \indexspace
+
+  \item v\'ertices, 5
+
+\end{theindex}

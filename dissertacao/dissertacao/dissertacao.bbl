@@ -1,0 +1,378 @@
+\begin{thebibliography}{49}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Ahuja {\rm{\em et~al.}}(1990)Ahuja, Mehlhorn, Orlin, e
+  Tarjan]{ahuja:radixheap}{\bf Ahuja {\rm{\em et~al.}}(1990)}
+Ravindra~K. Ahuja, Kurt Mehlhorn, J.B. Orlin, e R.E. Tarjan.
+\newblock Faster algorithms for the shortest path problem.
+\newblock \emph{Journal of the ACM}, 37:\penalty0 213--223.   {\scriptsize
+  Citado na p\'{a}g.}
+
+\bibitem[Ahuja {\rm{\em et~al.}}(1993)Ahuja, Magnanti, e
+  Orlin]{ahuja:netflows}{\bf Ahuja {\rm{\em et~al.}}(1993)}
+Ravindra~K. Ahuja, Thomas~L. Magnanti, e James~B. Orlin.
+\newblock \emph{Network Flows: Theory, Algorithms, and Applications}.
+\newblock Practice Hall.   {\scriptsize Citado na p\'{a}g.}
+
+\bibitem[Aneja {\rm{\em et~al.}}(1983)Aneja, Aggarwal, e Nair]{aneja:83}{\bf
+  Aneja {\rm{\em et~al.}}(1983)}
+Y.~P. Aneja, V.~Aggarwal, e K.~P.~K. Nair.
+\newblock Shortest chain subject to side constraints.
+\newblock \emph{Networks}, 13\penalty0 (2):\penalty0 295--302.
+\newblock ISSN 1097-0037.
+\newblock \doi{10.1002/net.3230130212}.
+\newblock URL \url{http://dx.doi.org/10.1002/net.3230130212}.   {\scriptsize
+  Citado na p\'{a}g.}
+
+\bibitem[Aurrecoechea {\rm{\em et~al.}}(1998)Aurrecoechea, Campbell, e
+  Hauw]{aurrecoechea:98}{\bf Aurrecoechea {\rm{\em et~al.}}(1998)}
+Cristina Aurrecoechea, Andrew~T. Campbell, e Linda Hauw.
+\newblock A survey of qos architectures.
+\newblock \emph{Multimedia Systems}, 6:\penalty0 138--151.
+\newblock ISSN 0942-4962.
+\newblock URL \url{http://dx.doi.org/10.1007/s005300050083}.
+\newblock 10.1007/s005300050083.   {\scriptsize Citado na p\'{a}g.}
+
+\bibitem[Barrico(1998)]{carlos:98}{\bf Barrico(1998)}
+Carlos Manuel Chorro~Simões Barrico.
+\newblock {Uma Abordagem ao Problema de Caminho Mais Curto Multiobjectivo ¿
+  Aplicação ao Problema de Encaminhamento em Redes Integradas de Comunicações}.
+\newblock Disserta\c{c}\~{a}o de Mestrado, Departamento de Engenharia
+  Electrotécnica Faculdade de Ciências e Tecnologia Universidade de Coimbra,
+  Coimbra - Portugal.   {\scriptsize Citado na p\'{a}g.}
+
+\bibitem[Beasley e Christofides(1989)]{beasley:89}{\bf Beasley e
+  Christofides(1989)}
+J.~E. Beasley e N.~Christofides.
+\newblock An algorithm for the resource constrained shortest path problem.
+\newblock \emph{Networks}, 19\penalty0 (4):\penalty0 379--394.
+\newblock ISSN 1097-0037.
+\newblock \doi{10.1002/net.3230190402}.
+\newblock URL \url{http://dx.doi.org/10.1002/net.3230190402}.   {\scriptsize
+  Citado na p\'{a}g.}
+
+\bibitem[Bellman(1958)]{bellman:58}{\bf Bellman(1958)}
+R.~E. Bellman.
+\newblock {On a Routing Problem}.
+\newblock \emph{Quarterly of Applied Mathematics}, 16:\penalty0 87--90.
+  {\scriptsize Citado na p\'{a}g.}
+
+\bibitem[Borndörfer(2009)]{bordorfer:09}{\bf Borndörfer(2009)}
+Ralf Borndörfer.
+\newblock {CSP Lectures} - {Combinatorial Optimization at Work}.
+\newblock {Zuse Institute} - {Berlin}, 2009.   {\scriptsize Citado na p\'{a}g.}
+
+\bibitem[Carvalho {\rm{\em et~al.}}(2001)Carvalho, Cerioli, Dahab, Feofiloff,
+  Fernandes, Ferreira, Guimarães, Miyazawa, Pina~Jr., Soares, e
+  Wakabayashi]{Carvalhoetal01}{\bf Carvalho {\rm{\em et~al.}}(2001)}
+Marcelo H.~de Carvalho, Márcia~R. Cerioli, Ricardo Dahab, Paulo Feofiloff,
+  Cristina~G. Fernandes, Carlos~E. Ferreira, Katia~S. Guimarães, Flávio~K.
+  Miyazawa, José C.~de Pina~Jr., José A.~R. Soares, e Yoshiko Wakabayashi.
+\newblock Uma introdução sucinta a algoritmos de aproximação, 2001.
+  {\scriptsize Citado na p\'{a}g.}
+
+\bibitem[Cherkassky {\rm{\em et~al.}}(1999)Cherkassky, Goldberg, e
+  Silverstein]{boris:buckets}{\bf Cherkassky {\rm{\em et~al.}}(1999)}
+Boris~V. Cherkassky, Andrew~V. Goldberg, e Craig Silverstein.
+\newblock Buckets, heaps, lists and monotone priority queues.
+\newblock \emph{SIAM J. Comput.}, 28:\penalty0 1326--1346.   {\scriptsize
+  Citado na p\'{a}g.}
+
+\bibitem[Cormen {\rm{\em et~al.}}(1999)Cormen, Leiserson, e
+  Rivest]{clr:introalg-1999}{\bf Cormen {\rm{\em et~al.}}(1999)}
+Thomas~H. Cormen, Charles~E. Leiserson, e Ronald~L. Rivest.
+\newblock \emph{Introduction to Algorithms}.
+\newblock McGraw-Hill.   {\scriptsize Citado na p\'{a}g.}
+
+\bibitem[Cormen {\rm{\em et~al.}}(2001)Cormen, Leiserson, Rivest, e
+  Stein]{clrs:introalg-2001}{\bf Cormen {\rm{\em et~al.}}(2001)}
+Thomas~H. Cormen, Charles~E. Leiserson, Ronald~L. Rivest, e Clifford Stein.
+\newblock \emph{Introduction to Algorithms}.
+\newblock The MIT Press and McGraw-Hill, 2nd. edi\c{c}\~{a}o.   {\scriptsize
+  Citado na p\'{a}g.}
+
+\bibitem[Dahl {\rm{\em et~al.}}(1996)Dahl, Dahl, Realfsen, e
+  Realfsen]{dahl:96}{\bf Dahl {\rm{\em et~al.}}(1996)}
+Geir Dahl, Geir Dahl, Bjørnar Realfsen, e Bjørnar Realfsen.
+\newblock Curve approximation and constrained shortest path problems.
+\newblock Em \emph{In International Symposium on Mathematical Programming
+  (ISMP97)}.   {\scriptsize Citado na p\'{a}g.}
+
+\bibitem[Desrochers e Soumis(1988)]{desrochers:88}{\bf Desrochers e
+  Soumis(1988)}
+M.~Desrochers e F.~Soumis.
+\newblock A generalized permanent labeling algorithm for the shortest path
+  problem with time windows.
+\newblock \emph{INFORMS}, 26:\penalty0 191--212.   {\scriptsize Citado na
+  p\'{a}g.}
+
+\bibitem[Desrosiers {\rm{\em et~al.}}(1995)Desrosiers, Dumas, Solomon, e
+  Soumis]{desrosiers:95}{\bf Desrosiers {\rm{\em et~al.}}(1995)}
+Jacques Desrosiers, Yvan Dumas, Marius~M. Solomon, e François Soumis.
+\newblock Chapter 2 time constrained routing and scheduling.
+\newblock Em C.L.~Monma M.O.~Ball, T.L.~Magnanti e G.L. Nemhauser, editors,
+  \emph{Network Routing}, volume~8 of \emph{Handbooks in Operations Research
+  and Management Science}, p\'{a}ginas 35 -- 139. Elsevier.
+\newblock \doi{10.1016/S0927-0507(05)80106-9}.
+\newblock URL
+  \url{http://www.sciencedirect.com/science/article/pii/S0927050705801069}.
+  {\scriptsize Citado na p\'{a}g.}
+
+\bibitem[Dijkstra(1959)]{dijkstra:59}{\bf Dijkstra(1959)}
+E.~W. Dijkstra.
+\newblock A note on two problems in connexion with graphs.
+\newblock \emph{Numerische Mathematik}, 1:\penalty0 269--271.
+\newblock ISSN 0029-599X.
+\newblock URL \url{http://dx.doi.org/10.1007/BF01386390}.
+\newblock 10.1007/BF01386390.   {\scriptsize Citado na p\'{a}g.}
+
+\bibitem[Dumitrescu e Boland(2003)]{dumitrescu:03}{\bf Dumitrescu e
+  Boland(2003)}
+I.~Dumitrescu e N.~Boland.
+\newblock Improved preprocessing, labeling and scaling algorithms for the
+  weight-constrained shortest path problem.
+\newblock \emph{Networks}, 42\penalty0 (3):\penalty0 135--153.
+\newblock ISSN 1097-0037.
+\newblock \doi{10.1002/net.10090}.
+\newblock URL \url{http://dx.doi.org/10.1002/net.10090}.   {\scriptsize Citado
+  na p\'{a}g.}
+
+\bibitem[Eppstein(2012)]{eppstein:12}{\bf Eppstein(2012)}
+D.~Eppstein.
+\newblock Bibliography files.
+\newblock \\ \texttt{"http://www.ics.uci.edu/~eppstein/bibs"}, Agosto 2012.
+  {\scriptsize Citado na p\'{a}g.}
+
+\bibitem[Eppstein(1994)]{eppstein:94}{\bf Eppstein(1994)}
+David Eppstein.
+\newblock {Finding the $k$ shortest paths}.
+\newblock Em \emph{Proc. 35th Symp. Foundations of Computer Science},
+  p\'{a}ginas 154--165. IEEE.   {\scriptsize Citado na p\'{a}g.}
+
+\bibitem[Feofiloff(1997)]{paulo:97}{\bf Feofiloff(1997)}
+Paulo Feofiloff.
+\newblock Notas de aula de {MAC5781} otimização combinatória.
+\newblock \\ \texttt{"http://www.ime.usp.br/\~\null pf/"}, 1997.   {\scriptsize
+  Citado na p\'{a}g.}
+
+\bibitem[Feofiloff(2004)]{pf:fluxos}{\bf Feofiloff(2004)}
+Paulo Feofiloff.
+\newblock Fluxo em redes.
+\newblock \\ \texttt{"http://www.ime.usp.br/\~\null pf/flows/"}, 2004.
+  {\scriptsize Citado na p\'{a}g.}
+
+\bibitem[Feofiloff(2000)]{pf:proglin}{\bf Feofiloff(2000)}
+Paulo Feofiloff.
+\newblock \emph{Algoritmos de Programação Linear}.
+\newblock EDUSP.   {\scriptsize Citado na p\'{a}g.}
+
+\bibitem[Fisher(1978)]{fisher:78}{\bf Fisher(1978)}
+M.~L. Fisher.
+\newblock Lagrangian relaxation methods for combinatorial optimization.
+\newblock \emph{Research Paper, Department of Decision Sciences}.
+  {\scriptsize Citado na p\'{a}g.}
+
+\bibitem[Floyd(1962)]{floyd:62}{\bf Floyd(1962)}
+Robert~W. Floyd.
+\newblock Algorithm 97: Shortest path.
+\newblock \emph{Commun. ACM}, 5\penalty0 (6):\penalty0 345--.
+\newblock ISSN 0001-0782.
+\newblock \doi{10.1145/367766.368168}.
+\newblock URL \url{http://doi.acm.org/10.1145/367766.368168}.   {\scriptsize
+  Citado na p\'{a}g.}
+
+\bibitem[Frank e Wolfe(1956)]{frank:56}{\bf Frank e Wolfe(1956)}
+Marguerite Frank e Philip Wolfe.
+\newblock An algorithm for quadratic programming.
+\newblock \emph{Naval Research Logistics Quarterly}, 3\penalty0 (1-2):\penalty0
+  95--110.
+\newblock ISSN 1931-9193.
+\newblock \doi{10.1002/nav.3800030109}.
+\newblock URL \url{http://dx.doi.org/10.1002/nav.3800030109}.   {\scriptsize
+  Citado na p\'{a}g.}
+
+\bibitem[Fredman e Tarjan(1987)]{FredTarjan:Fibonacci}{\bf Fredman e
+  Tarjan(1987)}
+Michael~L. Fredman e Robert~Endre Tarjan.
+\newblock Fibonacci heap and their uses in improved network optimization
+  algorithms.
+\newblock \emph{Journal of the ACM}, 34:\penalty0 596--615.   {\scriptsize
+  Citado na p\'{a}g.}
+
+\bibitem[Garey e Johnson(1979)]{garey:79}{\bf Garey e Johnson(1979)}
+M.~Garey e D.~Johnson.
+\newblock \emph{Computers and Intractability: A Guide of the Theory of NP
+  Completeness}.
+\newblock W. H. Freeman, San Francisco.   {\scriptsize Citado na p\'{a}g.}
+
+\bibitem[Geoffrion(1974)]{geoffrion:74}{\bf Geoffrion(1974)}
+A.~M. Geoffrion.
+\newblock Lagrangian relaxation for integer programming.
+\newblock \emph{Math Program Study}, 2:\penalty0 82--114.   {\scriptsize Citado
+  na p\'{a}g.}
+
+\bibitem[Handler e Zang(1980)]{zang:80}{\bf Handler e Zang(1980)}
+Gabriel~Y. Handler e Israel Zang.
+\newblock A dual algorithm for the constrained shortest path problem.
+\newblock \emph{Networks}, 10\penalty0 (4):\penalty0 293--309.
+\newblock ISSN 1097-0037.
+\newblock \doi{10.1002/net.3230100403}.
+\newblock URL \url{http://dx.doi.org/10.1002/net.3230100403}.   {\scriptsize
+  Citado na p\'{a}g.}
+
+\bibitem[Hassin(1992)]{hassin:92}{\bf Hassin(1992)}
+Refael Hassin.
+\newblock Approximation schemes for the restricted shortest path problem.
+\newblock \emph{Mathematics of Operations Research}, 17\penalty0 (1):\penalty0
+  pp. 36--42.
+\newblock ISSN 0364765X.
+\newblock URL \url{http://www.jstor.org/stable/3689891}.   {\scriptsize Citado
+  na p\'{a}g.}
+
+\bibitem[Hoffman e Pavley(1959)]{hoffman:59}{\bf Hoffman e Pavley(1959)}
+Walter Hoffman e Richard Pavley.
+\newblock {A method for the solution of the $N$th best path problem}.
+\newblock \emph{J. Assoc. Comput. Mach.}, 6:\penalty0 506--514.   {\scriptsize
+  Citado na p\'{a}g.}
+
+\bibitem[Isotani(2002)]{shigueo:02}{\bf Isotani(2002)}
+Shigueo Isotani.
+\newblock Algoritmos para caminhos m\'{i}nimos.
+\newblock Disserta\c{c}\~{a}o de Mestrado, Instituto de Matem\'{a}tica e
+  Estat\'{i}stica.   {\scriptsize Citado na p\'{a}g.}
+
+\bibitem[Jaffe(1984)]{jaffe:84}{\bf Jaffe(1984)}
+Jeffrey~M. Jaffe.
+\newblock Algorithms for finding paths with multiple constraints.
+\newblock \emph{Networks}, 14\penalty0 (1):\penalty0 95--116.
+\newblock ISSN 1097-0037.
+\newblock \doi{10.1002/net.3230140109}.
+\newblock URL \url{http://dx.doi.org/10.1002/net.3230140109}.   {\scriptsize
+  Citado na p\'{a}g.}
+
+\bibitem[Jahn {\rm{\em et~al.}}(2005)Jahn, Möhring, Schulz, e
+  Stier-Moses]{jahn:05}{\bf Jahn {\rm{\em et~al.}}(2005)}
+Olaf Jahn, Rolf~H. Möhring, Andreas~S. Schulz, e Nicolás~E. Stier-Moses.
+\newblock System-optimal routing of traffic flows with user constraints in
+  networks with congestion.
+\newblock \emph{Operations Research}, 53\penalty0 (4):\penalty0 pp. 600--616.
+\newblock ISSN 0030364X.
+\newblock URL \url{http://www.jstor.org/stable/25146896}.   {\scriptsize Citado
+  na p\'{a}g.}
+
+\bibitem[Johnson(1977)]{johnson:heap}{\bf Johnson(1977)}
+Donald~B. Johnson.
+\newblock Efficient algorithms for shortest paths in sparse networks.
+\newblock \emph{J. {ACM}}, 24:\penalty0 1--13.   {\scriptsize Citado na
+  p\'{a}g.}
+
+\bibitem[Joksch(1966)]{joksch:66}{\bf Joksch(1966)}
+H.~C. Joksch.
+\newblock The shortest route problem with constraints.
+\newblock \emph{Jornal of Mathematical Analysis and Applications}, 14:\penalty0
+  191--197.   {\scriptsize Citado na p\'{a}g.}
+
+\bibitem[Lawler(1976)]{lawler:76}{\bf Lawler(1976)}
+E.~L. Lawler.
+\newblock \emph{Combinatotial Optimization: Networks and Matroids}.
+\newblock Holt, Rinehart and Winston, New York.   {\scriptsize Citado na
+  p\'{a}g.}
+
+\bibitem[LeBlanc {\rm{\em et~al.}}(1985)LeBlanc, Helgason, e
+  Boyce]{leblanc:85}{\bf LeBlanc {\rm{\em et~al.}}(1985)}
+Larry~J. LeBlanc, Richard~V. Helgason, e David~E. Boyce.
+\newblock Improved efficiency of the frank-wolfe algorithm for convex network
+  programs.
+\newblock \emph{Transportation Science}, 19\penalty0 (4):\penalty0 445--462.
+\newblock \doi{10.1287/trsc.19.4.445}.
+\newblock URL
+  \url{http://transci.journal.informs.org/content/19/4/445.abstract}.
+  {\scriptsize Citado na p\'{a}g.}
+
+\bibitem[Mehlhorn e Ziegelmann(2000)]{mehlhorn:00}{\bf Mehlhorn e
+  Ziegelmann(2000)}
+Kurt Mehlhorn e Mark Ziegelmann.
+\newblock Resource constrained shortest paths.
+\newblock Em Mike Paterson, editor, \emph{Algorithms - ESA 2000}, volume 1879
+  of \emph{Lecture Notes in Computer Science}, p\'{a}ginas 326--337. Springer
+  Berlin / Heidelberg.
+\newblock ISBN 978-3-540-41004-1.   {\scriptsize Citado na p\'{a}g.}
+
+\bibitem[Nygaard {\rm{\em et~al.}}(1998)Nygaard, Husøy, e
+  Haugland]{nygaard:98}{\bf Nygaard {\rm{\em et~al.}}(1998)}
+Ranveig Nygaard, John~Håkon Husøy, e Dag Haugland.
+\newblock Compression of image contours using combinatorial optimization.
+\newblock Em \emph{In Int. Conf. on Image Processing (ICIP)}, p\'{a}ginas
+  266--270.   {\scriptsize Citado na p\'{a}g.}
+
+\bibitem[Phillips(1993)]{phillips:93}{\bf Phillips(1993)}
+Cynthia~A. Phillips.
+\newblock The network inhibition problem.
+\newblock Em \emph{Proceedings of the twenty-fifth annual ACM symposium on
+  Theory of computing}, STOC '93, p\'{a}ginas 776--785, New York, NY, USA. ACM.
+\newblock ISBN 0-89791-591-7.
+\newblock \doi{10.1145/167088.167286}.
+\newblock URL \url{http://doi.acm.org/10.1145/167088.167286}.   {\scriptsize
+  Citado na p\'{a}g.}
+
+\bibitem[Pisaruk(2009)]{fabio:09}{\bf Pisaruk(2009)}
+F\'{a}bio Pisaruk.
+\newblock k-menores caminhos.
+\newblock Disserta\c{c}\~{a}o de Mestrado, Instituto de Matem\'{a}tica e
+  Estat\'{i}stica.   {\scriptsize Citado na p\'{a}g.}
+
+\bibitem[Stroetmann(1997)]{stroetmann:97}{\bf Stroetmann(1997)}
+Karl Stroetmann.
+\newblock The constrained shortest path problem: A case study in using asms.
+\newblock 3\penalty0 (4):\penalty0 304--319.   {\scriptsize Citado na p\'{a}g.}
+
+\bibitem[Tarjan(1983)]{tarjan:data}{\bf Tarjan(1983)}
+Robert~Endre Tarjan.
+\newblock \emph{Data structures and network algorithms}.
+\newblock BMS-NSF Regional Conference Series in Applied Mathematics. SIAM,
+  Philadelphia, PA.   {\scriptsize Citado na p\'{a}g.}
+
+\bibitem[Witzgall e Goldman(1965)]{goldman:65}{\bf Witzgall e Goldman(1965)}
+C.~Witzgall e A.~J. Goldman.
+\newblock Most profitable routing before maintenance.
+\newblock \emph{Paper presented at the 27th National ORSA Meeting}, B-82.
+  {\scriptsize Citado na p\'{a}g.}
+
+\bibitem[Wolsey(1998)]{wolsey1998integer}{\bf Wolsey(1998)}
+L.A. Wolsey.
+\newblock \emph{Integer Programming}.
+\newblock Wiley-Interscience Series in Discrete Mathematics and Optimization.
+  John Wiley \& Sons.
+\newblock ISBN 9780471283669.
+\newblock URL \url{http://books.google.com.br/books?id=x7RvQgAACAAJ}.
+  {\scriptsize Citado na p\'{a}g.}
+
+\bibitem[Yen(1971)]{yen:71}{\bf Yen(1971)}
+Jin~Y. Yen.
+\newblock Finding the k shortest loopless paths in a network.
+\newblock \emph{Management Science}, 17\penalty0 (11):\penalty0 pp. 712--716.
+\newblock ISSN 00251909.
+\newblock URL \url{http://www.jstor.org/stable/2629312}.   {\scriptsize Citado
+  na p\'{a}g.}
+
+\bibitem[Zhu(2005)]{zhu:05}{\bf Zhu(2005)}
+X.~Zhu.
+\newblock \emph{The Dynamic, Resource-constrained Shortest Path Problem on an
+  Acyclic Graph with Application in Column Generation and a Literature Review
+  on Sequence-dependent Scheduling}.
+\newblock Texas A\&M University.
+\newblock ISBN 9781109850963.
+\newblock URL \url{http://books.google.com.br/books?id=UYP1tgAACAAJ}.
+  {\scriptsize Citado na p\'{a}g.}
+
+\bibitem[Ziegelmann(2001)]{ziegelmann:01}{\bf Ziegelmann(2001)}
+M.~Ziegelmann.
+\newblock \emph{Constrained Shortest Paths and Related Problems}.
+\newblock Tese de Doutorado, Universität des Saarlandes.   {\scriptsize Citado
+  na p\'{a}g.}
+
+\end{thebibliography}

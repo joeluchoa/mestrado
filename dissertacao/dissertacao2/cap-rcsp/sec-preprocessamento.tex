@@ -1,0 +1,39 @@
+\section{Preprocessamento}
+\label{sec:preprocessamento}
+
+Nesta seção nós revisamos algumas possibilidades de redução do tamanho 
+do problema pela eliminação de vértices e/ou arcos que não podem fazer 
+parte de uma solução ótima.
+
+\subsection{Redução baseada nos recursos}
+
+Vamos denotar $R_{uv}$ como sendo a menor quantidade de recurso que 
+podemos usar partindo do vértice $u$ até o vértice $v$. Qualquer vértice 
+$v$ para o qual vale que $$ R_{\scor v} + R_{v \tcor} > \lambda$$ pode 
+ser removido do grafo, tendo em vista que este vértice não pode 
+pertencer a qualquer caminho viável. De forma similar, qualquer arco 
+$uv$ para o qual vale que $$ R_{\scor u} + r_{uv} + R_{v \tcor} > 
+\lambda$$ pode ser removido do grafo pelo mesmo motivo. \citet{aneja:83} 
+foi o primeiro a apresentar reduções baseadas nos recurso como descrito 
+acima.
+Podemos executar esta redução com duas computações do algoritmo 
+\Dijkstra~(para calcular $R_{\scor v}$ e $R_{v \tcor}$ para qualquer $v 
+\in A$) seguido pela iteração sobre todos os vértices e arcos 
+verificando as condições acima descritas ($O(n^2 + m + n)$).
+
+\subsection{Redução baseada nos custos}
+
+Caso tenhamos um limite superior $UB$ conhecido para a solução ótima do 
+problema, nós podemos extender a ideia da redução baseada em recursos 
+para uma redução baseada em custos. Vamos denotar $C_{uv}$ como sendo o 
+menor custo possível para um caminho partindo de $u$ até $v$. Qualquer 
+vértice $v$ para o qual vale que $$C_{\scor v} + C_{v \tcor} > UB$$ pode 
+ser removido, da mesma forma que qualquer arco $uv$ para o qual vale que 
+$$C_{\scor u} + c_{uv} + C_{v \tcor} > UB$$ pode ser removido. Neste 
+caso, a efetividade da redução depende diretamente da qualidade do 
+limite superior $UB$ que conhecemos.
+
+\citet{dumitrescu:03} propôs que esta redução fosse executada repetidas 
+vezes, atualizando-se o limite superior $UB$ caso possível, até que não 
+fosse feita nenhuma remoção no grafo. O método funciona bem quando o 
+instância possui restrições bem ``apertadas''.

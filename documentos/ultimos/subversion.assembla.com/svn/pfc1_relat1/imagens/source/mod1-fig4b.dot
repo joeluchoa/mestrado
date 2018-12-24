@@ -1,0 +1,15 @@
+digraph G {
+	rankdir = LR
+	s -> <s,u> [label=1];
+	s -> <s,v> [label=0.5];
+	<s,u> -> u [label=1];
+	<v,w> -> w [label=0.5];
+	<u,w> -> w [label=1];
+	<w,z> -> z [label=0.5];
+	<z,t> -> t [label=0.5];
+	<s,u> -> <u,w> [label=2];
+	<s,v> -> <v,w> [label=1];
+	<s,v> -> v [label=0.5];
+	<u,w> -> <w,z> [label=1.5];
+	<w,z> -> <z,t> [label=1];
+}

@@ -1,0 +1,930 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%  CAPÍTULO. ALGORITMO DE HERSHBERGER
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\chapter{Algoritmo de Hershberger, Maxel e Suri}
+\label{cap:hershberger}
+
+
+John Hershberger, Matthew Maxel e Subhash
+Suri~\cite{hershberger:alenex,hershberger:acmta-3-??} propuseram um
+algoritmo para o \kCM{} que é um refinamento do algoritmo \Yen{} e que
+generaliza as idéias de Naoki Katoh,
+Toshihide Ibaraki e H. Mine~\cite{katoh:n-12-411} para o 
+\kCM{} restrito a grafos simétricos. O algoritmo de Katoh, Ibaraki e
+Mine, apresentado no próximo capítulo, 
+faz $\Theta(1)$ invocações  a
+uma subrotina que resolve o \PCM{} para cada um dos $k$ menores caminhos
+desejados e, portanto, tem consumo de tempo $\Theta(k \, T(n,m))$. 
+
+Em seu algoritmo, Hershberger, Maxel e Subhash, utilizam uma subrotina
+de um trabalho de Hershberger e Suri~\cite{hershberger-focs-2001} e,
+inicialmente, achavam que esse novo algoritmo alcançava o mesmo consumo de
+tempo de $\Theta(k \, T(n,m))$ do algoritmo de Katoh, Ibaraki e
+Mine. Logo em seguida, porém, descobriram que a subrotina utilizada
+podia falhar em algumas situações~\cite{hershberger-focs-2002}.  A
+correção dessa falha fez com o novo algoritmo tivesse, no pior caso, o
+mesmo consumo de tempo de $\Theta(k n\,T(n,m))$ do algoritmo~\Yen{}.
+
+Parece-nos que esse novo trabalho trouxe avanços significativos para a
+solução e compreensão do \kCM{}. Entre esses estes avanços estão a
+utilização de:
+\begin{enumerate}[({a}1)]
+\item árvore dos prefixos de caminhos 
+(seção~\ref{sec:prefixos}) para a descrição do algoritmo;
+
+\item uma partição que tem como refinamento a partição $\Pi$
+  (seção~\ref{sec:metodo-generico}) explcitamente usada pelo método
+  \Generico{} e implicitamente utilizada pelo algoritmo \Yen{} que faz
+  com que em cada iteração o número de caminhos na lista $\Lcal$ de
+  candidatos a $i$-ésimo menor caminho seja $\Oh(i)$; e
+ 
+\item uma heurística eficiente para o problema do ``desvio de custo
+  mínimo'' (\textit{replacement paths}) que apesar de falhar algumas
+  vezes essa falha pode ser facilmente detectada e, nesse caso, o
+  algoritmo passa a executar uma subrotina mais lenta, porém correta.
+\end{enumerate}
+
+O avanço~(a1) ajudou muito na descrição do algoritmo \Yen{} e,
+principalmente, na compreensão do algoritmo de Katoh, Ibaraki e
+Mine, que, na sua descrição, utilizava extenuante pseudo-código,
+muito próximo de código. Já o avanço~(a2) fez com o número de caminhos
+na lista $\Lcal$ de candidatos a $i$-ésimo menor caminho do algoritmo
+\Yen{} passe de $\Oh(in)$ para $\Oh(i)$. Finalmente, (a3) traz a tona 
+um problema que é naturalmente relacionado ao \kCM{} e 
+que é interessante por si só. 
+
+
+Este capítulo contém os ingredientes do algoritmo de Hershberger,
+Maxel e Suri. Inicialmente, na próxima seção, fazemos uma revisão da
+partição dos caminhos, associada à árvore dos prefixos, vista no capítulo
+anterior.  Em seguida, na seção~\ref{sec:hmsgenerico}, apresentamos uma
+descrição mais conceitual do algoritmo de Hershberger, Maxel e Suri que é
+discutido na seção~\ref{sec:hms}. Terminamos este capítulo apresentando
+o problema do desvio de custo mínimo e uma heurística que procura
+resolvê-lo eficientemente.
+
+
+
+
+\section{Revisão da partição de caminhos}
+\label{sec:revisao-prefixos}
+
+
+Sejam $(V,A)$ um grafo e $s$ e $t$ dois de seus vértices.
+Seja $\Pcal_{st}$ a coleção de todos os caminhos de $s$ a~$t$ em $(V,A)$.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Suponha que $\Qcal$ seja uma coleção  de 
+caminhos de~$s$ a~$t$.
+Na seção~\ref{sec:metodo-generico} foi descrita uma partição $\Pi$ dos
+caminhos em $\Pcal := \Pcal_{st} - \Qcal$. Nesta seção definiremos uma
+outra partição $\Gamma$ de $\Pcal$. 
+Esta partição é tal que $\Pi$ é um
+refinamento de $\Gamma$ e, portanto, o número de partes de $\Gamma$ é não
+superior ao número de partes de $\Pi$. Na verdade,  o ponto aqui é:
+o número de parte em $\Gamma$ é, em geral,
+sensivelmente menor que o número de partes em $\Pi$.  
+
+No que segue suponha que $(N,E,f)$ é 
+a árvore dos prefixos de $\Qcal$ (seção~\ref{sec:prefixos}).
+Na partição $\Pi$ havia uma parte para
+cada nó $u$ de $N$ que não é folha. Cada parte da nova partição~$\Gamma$
+será indexada pelas partes de uma partição dos nós da arborescência
+$(N,E)$ que não são folhas, ao invés de apenas por um único nó, 
+como em $\Pi$.
+
+Para $i=0,1$, seja $N_i$\mar{$N_0,N_1$} o conjunto de nós da arborescência $(N,E)$ 
+com grau de saída~$i$.  
+Seja ainda $N_{\geq 2}$ o conjunto dos nós de grau de
+saída maior ou igual a~2. Assim, 
+os nós em $N_0$ são as folhas de $(N,E)$,
+os nós em $N_1$ induzem caminhos em $(N,E)$ e 
+$N_{\geq 2} = N - N_0 - N_1$.\mar{$N_{\geq 2}$} 
+Sendo assim,  $N_0,N_1$ e $N_{\geq 2}$ formam uma
+partição de $N$. As definições estão ilustrada na
+figura~\ref{fig:prefixo2}(b).
+ 
+\begin{figure}[htbp]
+ \begin{center}
+    \psfrag{(a)}{$\iten{a}$}
+    \psfrag{(b)}{$\iten{b}$}
+    \psfrag{a}{{$s$}}
+    \psfrag{b}{{$a$}}
+    \psfrag{c}{{$b$}}
+    \psfrag{d}{{$c$}}
+    \psfrag{e}{{$d$}}   
+    \psfrag{f}{{$t$}}
+    \psfrag{x}{{$x$}}
+    \psfrag{y}{{$y$}}
+    \psfrag{z}{{$z$}}
+    \psfrag{w}{{$w$}}
+    \psfrag{g}{{$g$}}
+    \psfrag{h}{{$h$}}
+    \psfrag{o}{{$o$}}
+    \psfrag{u}{{$u$}}
+    \psfrag{w}{{$w$}}
+    \psfrag{r}{{$r$}}
+    \psfrag{grafo}{grafo}
+    \psfrag{arvore dos prefixos}{árvore dos prefixos}
+  \includegraphics{./figs/prefixo2.eps}
+  \caption[Revisão da árvore dos prefixos para o algoritmo \HMS.]{\label{fig:prefixo2} (b) mostra a árvore dos prefixos dos
+   caminhos
+   $\seq{s,a,c,t}$,
+   $\seq{s,a,d,t}$,
+   $\seq{s,b,a,c,t}$ e 
+   $\seq{s,b,a,d,c,t}$ no grafo em~(a).
+   Na árvore, um símbolo ao lado de um n\'o é o r\'otulo desse n\'o.
+  O símbolo  dentro de um n\'o é o seu nome. Na árvore dos prefixos
+  temos que os nós em preto são folhas e estão em $N_0$, os nós vermelhos
+  estão em $N_1$ e os nós azuis estão em $N_{\geq 2}$. Na figura~(c)
+  são mostrados os caminhos da arborescência induzidos pelos nós 
+  em $N_1$. 
+  }
+ \end{center}
+ \end{figure}
+ 
+Definimos uma partição 
+$\Ucal$ dos nós de uma arborescência $(N,E)$
+que não são folhas da seguinte maneira.%
+\index{particao@partição!dos nos de uma arborescencia@dos nós de uma arborescência}
+ Seja $\Ucal:= \Ucal_1 \cup
+\Ucal_{\geq 2}$\mar{$\Ucal$} a partição dos nós de $N-N_0$ tal que
+\begin{align}
+\Ucal_1 & = \{\{u_0,u_1,\ldots,u_k\} : \mbox{$\seq{u_0,u_1,\ldots,u_k}$
+é um caminho maximal em $(N,E)$ formado} \nonumber \\
+        & \xxxxxx \mbox{apenas por nós em $N_1$}\} \, \mbox{e} \nonumber \\
+\Ucal_{\geq 2} & = \{ \{u\} : \mbox{$u$ é um nó em $N_{\geq 2}$} \} 
+\nonumber 
+\end{align}
+No exemplo ilustrado pela figura~\ref{fig:prefixo2} temos que\mar{$\Ucal_1,\Ucal_{\geq 2}$}
+\begin{align}
+\Ucal_1       & = \{\{g\},\{o\},\{u\},\{y\},\{z,h\}\} \, \mbox{e} \nonumber \\ 
+\Ucal_{\geq 2} & = \{\{r\},\{x\},\{w\}\} \nonumber
+\end{align}
+Pela definição de $\Ucal_1$ e $\Ucal_{\geq 2}$ é evidente que $\Ucal$ é
+uma
+partição de $N-N_0$. 
+
+A partição $\Gamma$\mar{$\Gamma$}\index{$\Gamma$} dos caminhos em $\Pcal$ 
+é formada por uma parte $\gamma_U$ para cada parte~$U$ de~$\Ucal$ onde
+\[ 
+\gamma^{}_U := \bigcup_{u \in U} \pi_u \,,
+\] 
+e $\pi_u$ é a parte $\Pi$ como definida na
+seção~\ref{sec:metodo-generico}.
+De maneira semelhante ao que ocorre com a partição $\Pi$, a
+ cada coleção $\Qcal$ de caminhos temos 
+uma única árvore dos prefixos $(N,E,f)$ de $\Qcal$ e 
+associada a essa árvore temos uma única partição $\Gamma$ de $\Pcal$. 
+Algumas vezes nos referimos a $\Gamma$ como sendo a 
+\defi{partição associada}\index{particao associada@partição associada} 
+à coleção $\Qcal$.
+
+
+Da definição de $\Gamma$ e do teorema~\ref{teo:particao} da partição segue
+imediatamente o seguinte teorema.
+
+\begin{teorema}{da partição revista}%
+\index{teorema!da particao revista@da partição revista}
+\label{teo:particao-revista}
+%Considere uma execução do algoritmo \AtualizeGenerico{} $(V,A,s,t,\Qcal)$.
+Sejam $(V,A)$ um grafo, 
+$s$ e $t$ dois de seus vértices e 
+$\Qcal$ uma coleção de caminhos de $s$ a $t$. 
+Se $P$  é um caminho de $s$ a $t$ que não está em $\Qcal$, então~$P$ pertence
+a uma única parte de~$\Gamma$. \fimprova 
+\end{teorema}
+
+
+\section{Método \HMSGenerico}
+\label{sec:hmsgenerico}
+
+Agora, podemos facilmente reescrever o método~\YenGenerico{} em termos
+da partição~$\Gamma$ em vez de~$\Pi$. A seguir, no método~\HMSGenerico{},
+a subrotina~\AtualizeGenericoHMS{} é a responsável pela atualização da
+partição $\Gamma$ após o caminho $P_i$ ser incluído em $\Qcal$ na linha~5.
+
+\newpage
+\begin{algoritmo}
+\textbf{Método} \HMSGenerico{} $(V,A,c,s,t,k)$ %\\[2mm]
+\index{metodo@método!HMSGenerico@\HMSGenerico}%
+\index{HMSGenerico@\HMSGenerico}
+   
+0\x $\Gamma \larr \{\mbox{conjunto dos caminhos de $s$ a~$t$}\}$
+
+1\x $\Qcal \larr \emptyset $
+
+2\x \para{} $i=1,\ldots,k$ \faca %\\[1mm]
+
+3\xx  $\Lcal  \larr \{P_{\gamma} : P_{\gamma} \ \mbox{é caminho mínimo na parte $\gamma$
+de~$\Gamma$}\}$
+
+4\xx  $P_i \larr \mbox{caminho de custo mínimo em $\Lcal$}$ %\\[1mm]
+
+5\xx  $\Qcal \larr \Qcal \cup \{P_i\}$
+
+6\xx  $\Gamma \larr \AtualizeGenericoHMS~(V,A,s,t,\Qcal)$
+
+7\x \devolva{} $\seq{P_1,\ldots,P_k}$
+
+\end{algoritmo}
+
+
+Neste ponto estamos preparados para limitar o número de partes em $\Gamma$. 
+Limitaremos esse número a partir de um fato básico que só tem a ver
+com a estrutura de arborescências.
+
+\begin{fato}{}
+\label{fato}
+Se $(N,E)$ é uma arborescência então 
+$|\Ucal|=|\Ucal_1| + |\Ucal_{\geq 2}| \leq 3|N_0|-2 \, .$
+\end{fato}
+
+\begin{prova}
+A demonstração é por indução no número de folhas 
+$|N_0|$ da arborescência $(N,E)$.
+
+Se $|N_0| = 1$, então $|\Ucal_1| \leq 1$ e $|\Ucal_{\geq 2}|=0$ e 
+portanto $|\Ucal_1| + |\Ucal_{\geq 2}| \leq 3|N_0| - 2$.
+
+Podemos supor que $|N_0| \geq 2$. Seja $\seq{u_0,\ldots,u_q}$ um caminho em
+$(N,E)$ em que
+$\{u_0\}$ está em $\Ucal_{\geq 2}$ ($u_0 \in N_{\geq 2}$) e
+$u_q$ é folha. Assim, se $q > 1$, então $\{u_1,\ldots,u_{q-1}\}$ está 
+em $\Ucal_1$. 
+Seja ainda $(N',E')$ a arborescência definida por
+\begin{align}
+N' & := N -\{u_1,\ldots,u_q\} \, \quad \mbox{e} \nonumber \\
+E' & := E -\{u_0u_1,\ldots,u_{q-1}u_q\} \, . \nonumber
+\end{align}
+Por definição temos que $|N'_0| = |N_0| - 1$.
+Se $\Ucal'_1$ e $\Ucal'_{\geq 2}$ são as partições 
+associadas à arborescência $(N',E')$, então, por indução 
+temos que 
+\begin{align}
+\label{hipotese-inducao}
+|\Ucal'|=|\Ucal'_1| + |\Ucal'_{\geq 2}| & \leq 3|N'_0|-2 \, .
+\end{align}
+
+Passamos agora a considerar dois casos dependendo do 
+grau de saída de $u_0$ em~$(N',E')$. As análises desses casos concluem
+ a demonstração.
+
+\noindent
+\textbf{Caso 1}. $u_0$ tem grau de saída maior ou igual a 2 em $(N',E')$
+
+Nesse caso $\{u_0\}$ está em $\Ucal_{\geq 2}'$ e assim
+\begin{align}
+|\Ucal_1| & \leq |\Ucal'_1 | + 1 \quad \mbox{e} \nonumber \\
+|\Ucal_{\geq 2}| & = |\Ucal_{\geq 2}'| \, .\nonumber
+\end{align}
+Portanto,
+\begin{align}
+|\Ucal| 
+& = |\Ucal_1| + |\Ucal_{\geq 2}| \nonumber\\ 
+& \leq |\Ucal'_1 | + |\Ucal_{\geq 2}'|+ 1 \nonumber \\
+& \leq 3|N_0'| - 2 + 1 \label{hi1}  \\
+& = 3(|N_0|-1) - 1 \nonumber  \\
+& = 3|N_0| - 4  \nonumber \\
+& < 3|N_0| - 2 \, , \nonumber
+\end{align}
+onde \eqref{hi1} é devido a hipótese de indução~\eqref{hipotese-inducao}.
+
+\noindent
+\textbf{Caso 2}. $u_0$ tem grau de saída  igual a 1 em $(N',E')$
+
+Nesse caso $\{u_0\}$ não está em $\Ucal_{\geq 2}'$ e portanto
+\begin{align}
+|\Ucal_1| & \leq |\Ucal'_1 | + 2 \quad \mbox{e} \nonumber \\
+|\Ucal_{\geq 2}| & = |\Ucal_{\geq 2}'| + 1 \, .\nonumber
+\end{align}
+
+Logo, 
+\begin{align}
+|\Ucal| 
+& = |\Ucal_1| + |\Ucal_{\geq 2}| \nonumber \\
+& \leq |\Ucal'_1 | + |\Ucal_{\geq 2}'|+ 3 \nonumber \\
+& \leq 3|N_0'| - 2 + 3 \label{hi2} \\
+& = 3(|N_0|-1) +1 \nonumber \\
+& = 3|N_0| -2 \, , \nonumber 
+\end{align}
+onde \eqref{hi2} é devido a hipótese de indução~\eqref{hipotese-inducao}.
+\end{prova}
+
+
+
+\begin{teorema}{do número de partes}
+\label{teo:numero-partes}
+Sejam $(V,A)$ um grafo, 
+$s$ e $t$ dois de seus vértices, 
+$\Qcal$ uma coleção de caminhos de $s$ a $t$ e $(N,E,f)$
+a árvore dos prefixos de $\Qcal$.
+Se $\Gamma$ é a partição associada à $\Qcal$, então $|\Gamma| \leq 3|\Qcal|-2$.
+\end{teorema}
+
+
+\begin{prova}
+Seja $(N,E,f)$ a árvore dos prefixos de $\Qcal$. 
+Temos que o número $|N_0|$ de folhas  da arborescência $(N,E)$ é igual 
+a~$|\Qcal|$.
+Portanto,
+\begin{align}
+|\Gamma| &= |\Ucal| \nonumber \\
+         &= |\Ucal_1| + |\Ucal_2| \nonumber \\
+         &\leq 3|N_0| - 2 \label{uso-fato} \\
+         & = 3|\Qcal| -2 \, ,   \nonumber      
+\end{align}
+onde a desigualdade \eqref{uso-fato} é devida ao fato~\ref{fato}.
+\end{prova}
+
+
+Do teorema~\ref{teo:numero-partes} do número de partes segue imediatamente que
+\begin{eqnarray}
+\label{eq:numero-caminhos}
+\parbox[c]{12cm}{após cada execução da linha 3 do método 
+\HMSGenerico{} temos que $|\Lcal| \leq 3i-2$.}
+\end{eqnarray}
+
+\section{Algoritmo \HMS}
+\label{sec:hms}
+
+O algoritmo~\HMS{} de Hershberger, Maxel e Suri é textualmente idêntico ao
+algoritmo \Yen{}.
+Isto não é uma surpresa já que desde o início deste capítulo foi mencionado
+que o algoritmo deste capítulo é um refinamento do algoritmo~\Yen.
+O refinamente está escondido, pelo menos por enquanto, na rotina de 
+atualização da lista $\Lcal$ de candidatos a $i$-ésimo menor caminho: o
+algoritmo~\Yen{} atualiza $\Lcal$ usando, implicitamente, a partição
+$\Pi$ enquanto \HMS{} faz o mesmo serviço através da partição $\Gamma$. 
+\Yen{} mantém em $\Lcal$ um caminho de custo mínimo de em
+para cada parte de $\Pi$ e \HMS{} mantém em $\Lcal$ um caminho de custo mínimo
+para cada parte de $\Gamma$. Como $|\Gamma| \leq |\Pi|$ o algorimo \HMS{}
+freqüentemente armazena menos caminhos que \Yen{}.
+
+ \begin{algoritmo}
+
+\textbf{Algoritmo} \HMS{} $(V,A,c,s,t,k)$ %\\[2mm]%
+\index{algoritmo!HMS@\HMS}\index{HMS@\HMS}
+   
+
+1\x $\Lcal \larr \{ \mbox{um caminho de custo mínimo de $s$ a $t$} \}$
+
+
+2\x $(N,E,f) \larr $ árvore dos prefixos de $\emptyset$ \quad {$\rhd$  árvore vazia} 
+
+3\x \para{} $i=1,\ldots,k$ \faca %\\[1mm]
+
+4\xx  $P_i \larr \mbox{caminho de custo mínimo em $\Lcal$}$
+%\\[1mm]
+
+%5\xx  $\Lcal \larr \Lcal \setminus \{P_i\}$
+
+%5\xx  $\Qcal \larr \Qcal \cup \{P_i\}$
+
+5\xx  $(N,E,f,\Lcal) \larr \AtualizeHMS~(V,A,c,s,t,P_i,N,E,f,\Lcal)$
+
+6\x \devolva{} $\seq{P_1,\ldots,P_k}$
+
+\end{algoritmo}
+
+
+A correção do algoritmo~\HMS{} segue da correção de \Yen{}.
+
+
+\begin{teorema}{da correção de \HMS}%
+\index{teorema!da correcao de HMS@da correção de \HMS}%
+\index{HMS@\HMS!correcao@correção}
+ Dado um grafo $(V,A)$, uma função
+ custo~$c$ e  vértices $s$ e $t$ o algoritmo \HMS\ corretamente
+   encontra os $k$-menores caminhos de $s$ a~$t$.
+\fimprova{}
+\end{teorema}
+
+O consumo de tempo da linha~1 de \HMS{} é $T(n,m)$. A linha~2 consome
+tempo $\Theta(1)$. Devido a~\eqref{eq:numero-caminhos}, cada execução da
+linha~4 consume tempo $\Oh(\lg i)$ se utilizarmos um min-heap para
+armazenarmos os custos dos caminhos em $\Lcal$. Portanto, O consumo de
+tempo de todas as execuções da linha~4 é $\Oh(k \lg k)$.  O consumo de
+tempo do algoritmo~\HMS{} é dominado pelo consumo de tempo das $k$
+execuções de~\AtualizeHMS.
+
+
+O algoritmo~\AtualizeHMS{}, que está logo a seguir, utiliza como subrotina o
+algoritmo
+\ArvorePrefixos\index{algoritmo!ArvorePrefixos@\ArvorePrefixos}\index{ArvorePrefixos@\ArvorePrefixos}
+que recebe uma árvore dos prefixos de uma coleção de caminhos $\Qcal'$
+com ponta inicial em um vértice $s$ e um caminho $P$ com ponta inicial
+em $s$  e devolve a árvore dos prefixos de
+$\Qcal = \Qcal' \cup \{P\}$. 
+Essa subrotina já foi utilizada pelo algoritmo \Atualize{} 
+da seção~\ref{sec:algoritmo-de-yen}.
+O serviço feito por \ArvorePrefixos{} é
+essencialmente descrito na demonstração do teorema~\ref{teo:prefixo}
+e está ilustrado na figura~\ref{fig:prefixo}.
+
+Na descrição do algoritmo, da mesma maneira que na
+seção~\ref{sec:particao}, se $u$ é um nó da árvore do prefixos
+$(N,E,f)$, então $R_u$ é o caminho da raiz a $u$ em $(N,E)$ e $A_u =
+\{ f(u)f(w) : uw \in E\}$.
+
+
+%%Na verdade, com o número dos caminhos em $\Pcal$ é muito grande
+
+%\newpage
+\begin{algoritmo}
+
+\textbf{Algoritmo} \AtualizeHMS{} $(V,A,c,s,t,P,N',E',f',\Lcal')$ %\\[2mm]
+\index{algoritmo!AtualizeHMS@\AtualizeHMS}\index{AtualizeHMS@\AtualizeHMS}
+   
+   
+0\x $\Lcal \larr \Lcal' - \{P\}$
+
+1\x Seja $\Ucal'= \Ucal_1'\cup\Ucal_{\geq 2}'$ a partição dos nós da 
+   arborescência $(N',E')$
+
+\xxxxx que não são folhas
+
+%\xxxxx $Q_P := f(R)$ é prefixo de $P$
+
+
+2\x Seja $U'\in \Ucal'$ tal que $P\in\gamma^{}_{U'}$ 
+
+3\x $(N,E,f) \larr$ \ArvorePrefixos $(N',E',f',P)$
+
+
+
+4\x Seja $\Ucal = \Ucal_1\cup\Ucal_{\geq 2}$ a partição dos nós da arborescência $(N,E)$ 
+
+\xxxxx que não são folhas
+
+
+5\x \para{} \cada{} $U \in \Ucal - (\Ucal'-\{U'\})$ \faca %\\[1mm]
+
+6\xx  $P_U \larr \mbox{caminho de $s$ a~$t$ de custo mínimo com prefixo $f(R_u)$}$
+
+\xxxxx e que não possui arcos em $A_u$ \textbf{com $u$ em $U$}
+
+7\xx  $\Lcal \larr  \Lcal \cup \{P_U\}$ %\\[1mm]
+
+8\x \devolva{} $(N,E,f,\Lcal)$
+
+
+\end{algoritmo}
+
+
+\begin{figure}[htbp]
+ \begin{center}
+    \psfrag{(a)}{$\iten{a}$}
+    \psfrag{(b)}{$\iten{b}$}
+    \psfrag{a}{{$s$}}
+    \psfrag{b}{{$a$}}
+    \psfrag{c}{{$b$}}
+    \psfrag{d}{{$c$}}
+    \psfrag{e}{{$d$}}   
+    \psfrag{f}{{$t$}}
+    \psfrag{x}{{$x$}}
+    \psfrag{y}{{$y$}}
+    \psfrag{z}{{$z$}}
+    \psfrag{w}{{$w$}}
+    \psfrag{r}{{$r$}}
+    \psfrag{u}{{$u$}}
+    \psfrag{o}{{$o$}}
+    \psfrag{g}{{$g$}}
+    \psfrag{h}{{$h$}}
+    \psfrag{i}{{$i$}}
+    \psfrag{j}{{$j$}}
+    \psfrag{P}{{$P$}}
+    \psfrag{Q}{{$Q$}}
+    \psfrag{R}{{$R$}}
+    \psfrag{grafo}{grafo}
+    \psfrag{arvore dos prefixos}{árvore dos prefixos}
+  \includegraphics{./figs/atualizeHSM.eps}
+  \caption[Duas possíveis árvores dos prefixos na execucção do \AtualizeHMS.]{\label{fig:atualizeHSM} 
+   Ilustração de duas possíveis árvores dos prefixos 
+   $(N^{'},E^{'},f^{'})$ e $(N,E,f)$ na execução do algoritmo \AtualizeHMS.
+   A figura~(a) mostra o caminho $P=\seq{s,b,d,c,t}$ com vértices e arcos de 
+   cor azul  e vermelha. 
+   Na figura~(b) vemos a árvore dos prefixos $(N',E',f')$ de 
+   $\Qcal' = \{\seq{s,a,c,t},\seq{s,a,d,t},\seq{s,b,a,c,t},\seq{s,b,d,c,t}\}$.
+   Na figura~(c) está  a árvore dos prefixos $(N,E,f)$ de 
+   $\Qcal= \Qcal' \cup \{P\}$ computada na linha~3.}
+ \end{center}
+ \end{figure}
+
+
+Para exemplificarmos um pouco a execução de \AtualizeHMS{} considere 
+a figura~\ref{fig:atualizeHSM} 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+que mostra  duas possíveis árvores dos prefixos $(N',E',f')$ e 
+$(N,E,f)$ durante uma execução do 
+algoritmo~\AtualizeHMS.\footnote{Esta mesma
+ilustração já foi exibida na seção~\ref{sec:prefixos} para ilustrar a
+demonstração do teorema~\ref{teo:prefixo}.}
+
+Na ilustração, o caminho $P$ recebido pelo algoritmo é 
+$\seq{s,b,d,c,t}$.
+Na figura~\ref{fig:atualizeHSM}(b) vemos a árvore dos prefixos de 
+$\Qcal' = \{\seq{s,a,c,t},\seq{s,a,d,t},\seq{s,b,a,c,t},\seq{s,b,d,c,t}\}$.
+
+Para a arborescência $(N',E')$ da figura~\ref{fig:atualizeHSM}(b) 
+temos que, na linha~1 do algoritmo,
+\begin{align}
+\Ucal_1' 
+& = \{\{u\},\{o\},\{y\},\{z,h\},\{g\}\} \quad \mbox{e} \nonumber \\
+\Ucal_{\geq 2}'
+& = \{\{r\},\{x\},\{w\}\}\, . \nonumber
+\end{align}
+Na linha~2, $U'=\{u\}$ é a parte de $\Ucal'$ tal que $P$ está em
+$\gamma_{U'}$.  
+A figura~\ref{fig:atualizeHSM}(c) mostra a árvore dos prefixos de 
+$\Qcal = \Qcal'\cup \{P\}$ computada na linha~3.
+Para a arborescência $(N,E)$ temos que, na linha~4 do algoritmo,
+\begin{align}
+\Ucal_1 
+& = \{\{o\},\{y\},\{z,h\},\{g\},\{i,j\}\} \quad \mbox{e} \nonumber \\
+\Ucal_{\geq 2}
+& = \{\{r\},\{x\},\{w\},\{u\}\} \nonumber
+\end{align}
+Portanto, as partes em $\Ucal - (\Ucal'-\{U'\})$ na linha~5 são
+\[
+\{\{u\},\{i,j\}\}
+\] 
+Assim, o bloco de linhas~5--7 será executado duas vezes:
+\begin{itemize}
+\item uma vez para determinar o caminho de custo mínimo em 
+$\gamma_{\{u\}}=\pi_{u} = \emptyset$, já que $R_u = \seq{r,u}$,
+$f(R_u) = \seq{s,b}$ e $A_u =\{ba,bd\}$;  
+\item outra   vez para determinar o caminho de custo mínimo em
+$\gamma_{\{i,j\}} = \seq{s,b,d,t}$, já que:
+\begin{itemize} 
+\item $R_i = \seq{r,u,i}$, $f(R_i)=\seq{s,b,d}$ e $A_i=\{dc\}$; e 
+\item $R_j = \seq{r,u,i,j}$, $f(R_j)=\seq{s,b,d,c}$ e $A_j=\{ct\}$.
+\end{itemize}
+\end{itemize}
+
+Muito do trabalho feito pelo algoritmo~\AtualizeHMS{} é conceitual.  O
+consumo de tempo do algoritmo é dominado pelo consumo de tempo de
+todas as execuções da linha~6, que pode ser reescrita da seguinte
+maneira mais expandida:
+\begin{algoritmo}
+
+6a\xx $\Fcal \larr \emptyset$
+
+6b\xx \para{} \cada{} $u \in U$ \faca
+
+6c\xxx  $P_u \larr \mbox{caminho de $s$ a~$t$ de custo mínimo com prefixo $f(R_u)$}$
+
+\xxxxx e que não possui arcos em $A_u$
+
+6d\xxx  $\Fcal \larr \Fcal \cup \{P_u\}$
+
+6e\xx $P_U \larr$ caminho de custo mínimo em $\Fcal$  
+\end{algoritmo}
+
+
+Devido a~\eqref{eq:numero-caminhos}, sabemos que o bloco de linhas 4,5 e
+6 é executado no máximo 4 vezes cada vez que o algoritmo \AtualizeHMS{}
+é invocado. Se $U$ está em $\Ucal_{\geq 2}$, estão $U$ contém apenas um
+nó e o consumo de tempo de uma execução do bloco de linhas 6a--6e é
+$\Oh(T(n,m))$, já que a execução dessas linhas se reduz a resolver 
+uma instância do problema do subcaminho mínimo \PSM{}
+em um subgrafo apropriado de $(V,A)$ (seção~\ref{sec:algoritmo-de-yen}). 
+Já, se $U$ está em
+$\Ucal_1$, então $U$ é formado por um conjunto de nós
+$\{u_0,u_1,\ldots,u_k\}$ em $N_1$ tal que
+$\seq{u_0,u_1,\ldots,u_k}$ é um caminho na arborescência $(N,E)$.
+Como $k$ pode ser proporcional ao número de nós do grafo $(V,A)$ concluímos que,
+para $U$ em $\Ucal_1$ o consumo de tempo de uma execução do bloco de linhas
+6a--6e poder ser $\Theta(n T(n,m))$ no pior caso. 
+Com isto podemos afirmar apenas 
+que o consumo de tempo  do algoritmo~\AtualizeHMS{} é~$\Oh(n T(n,m))$ e que o \HMS{} é $\Oh(k\, n\, T(n,m))$.
+
+\begin{teorema}{do consumo de tempo de \HMS}%
+\index{teorema!do consumo de tempo de HMS@do consumo de tempo de \HMS}%
+\index{HMS@\HMS!consumo de tempo}
+O consumo de tempo do algoritmo~\HMS{} é  $\Oh(k\, n\, T(n,m))$, onde
+$n$ é o número de vértices e $m$ é o número de arcos do 
+grafo dado, respectivamente.
+\fimprova{}
+\end{teorema}
+
+Na verdade, se trocarmos a linha~6 pelas linhas~6a--6e, o algoritmo~\HMS{} torna-se idêntico ao algoritmo~\Yen.
+Na próximo seção tratamos de um problema que é naturalmente derivado do
+desejo de executar o bloco de linhas 6a--6e de uma maneira mais
+eficiente para $U$ em $\Ucal_1$.  Veremos uma heurística para o problema de 
+encontrar um caminho mínimo $P_U$, em que $U$ é uma parte em $\Ucal_1$, que 
+consome tempo $\Oh(T(n,m))$, mas que as vezes falha.
+Quando a heurística falha, \HMS{} executa, precisamente como \Yen{}, 
+as linhas~6a--6e. 
+
+
+
+ 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+ 
+
+
+\section{Desvios mínimos}
+\label{sec:troca}
+
+
+O problema e a heurística desta seção foram propostos por 
+Hershberger, Maxel e Suri~\cite{hershberger-focs-2001,hershberger-focs-2002,hershberger:alenex,hershberger:acmta-3-??}. 
+
+Suponha que $(V,A)$ é um grafo, $s$ e $t$ são dois de seus vértices,
+$\Qcal$ é uma coleção de caminhos de $s$ a $t$. Suponha ainda que 
+$(N,E,f)$ é a árvore dos prefixos de $\Qcal$. Lembremos que 
+\begin{align}
+\Ucal_1 & = \{\{u_0,u_1,\ldots,u_k\} : \mbox{$\seq{u_0,u_1,\ldots,u_k}$
+é um caminho maximal em $(N,E)$ formado} \nonumber \\
+        & \xxxxxx \mbox{apenas por nós em $N_1$}\} \, . \nonumber 
+%\Ucal_{\geq 2} & = \{ \{u\} : \mbox{$u$ é um nó em $N_{\geq 2}$} \} 
+%\nonumber 
+\end{align}
+No final da seção anterior, desejávamos uma subrotina eficiente para
+executar o bloco de linhas~6a--6e do algoritmo \HMS{} quando
+$U$ está em $\Ucal_1$. 
+Assim, no que segue, suponha que $U$ está em $\Ucal_1$ e que
+$\seq{u_0,u_1,\ldots,u_k}$ é o caminho em $(N,E)$ formado pelos nós que
+estão em $U$. Devido à definição de $\Ucal_1$ temos que para cada
+$u$ em $U$ o conjunto $A_u$ possui apenas um único arco. De fato, para
+$i=0,\ldots,k$,
+\[
+A_{u_i} = \{f(u_i)f(u_{i+1})\} \, , 
+\]
+onde $u_{k+1}$ é o nó tal que $u_ku_{k+1}$ é o único arco na
+arborescência $(N,E)$ com ponta inicial em $u_k$.  Assim, $u_{k+1}$ é
+uma folha ou um nó com grau de saída pelo menos dois na arborescência
+$(N,E)$, ou seja $u_k \in N_0 \cup N_{\geq 2}$.
+
+O caminho $P_U$ obtido na linha~6e é aquele caminho de custo mínimo de
+$s$ a $t$ em $(V,A)$ tal que, para algum $u_i$ em $U$, $0 \leq i \leq
+k$,
+\begin{itemize}
+\item $f(R_{u_i})$ é prefixo de $P_U$; e
+\item $P_U$ não possui o arco em $A_{u_i}$.
+\end{itemize}
+Nesse caso, dizemos que $P_U$ é o caminho de custo mínimo 
+de $s$ a $t$ em $(V,A)$ que \defi{desvia}\index{caminho!desvio}
+do caminho de $f(R_{u_k})$ no vértice $f(u_i)$.  
+
+
+Para o algoritmo~\HMS{} desejamos, portanto, uma subrotina que 
+resolve o seguinte \defi{problema do desvio mínimo}\index{problema!do
+desvio mínimo@do desvio mínimo}, denotado por \PDM: 
+\label{prob:pdm}
+ \begin{quote}
+   \textbf{Problema} \PDM$(V',A',c',s',t',Q)$:%
+   \index{problema!PDM@\PDM}\mar{\PDM}
+   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+   Dado um grafo $(V',A')$, uma função
+   custo~$c'$, dois vértice $s'$ e $t'$ e um caminho $Q$,   
+   encontrar um caminho de custo mínimo 
+   de $s'$ a~$t'$ que \textbf{não} tem $Q$ como prefixo.
+ \end{quote}
+
+Encontrar o caminho $P_U$ é equivalente a resolver o problema \PDM{} 
+onde 
+\begin{itemize}
+\item $(V',A')$ é o grafo resultante de $(V,A)$ após a
+remoção de todos os vértices no caminho $f(R_{u_0})$, exceto $f(u_0)$,
+\item $c'$ é a restrição da função custo $c$ aos arcos em $A'$,
+\item $s' = f(u_0)$, $t'=t$ e 
+\item $Q = f(\seq{u_0,\ldots,u_k})$.
+\end{itemize}
+
+É evidente que se $Q$ não é prefixo de um caminho mínimo de $s'$ a $t'$
+em $(V',A')$ então o problema pode ser resolvido através de apenas uma
+invocação de um subrotina para o \PCM{}. Assim, o algoritmo \PDMHMS{}
+adiante supõe que $Q$ é prefixo de um caminho mínimo de $s'$ a $t'$.  
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Um algoritmo ingênuo para resolver o \PDM{} pode, para $vw$ em~$Q$ 
+encontrar o caminho de custo mínimo de $s'$ a $t'$ no grafo $(V',A'-\{vw\})$; 
+ um caminho de menor custo dentre estes é uma solução do problema. 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+O consumo tempo desta solução ingênua é
+$\Oh(|Q| T(n',m'))$, onde $n'=|V'|$ e $m'=|A'|$.
+A heurística~\PDMHMS{} mais adiante consome tempo $\Oh(T(n',m'))$.
+Apesar de falhar em algumas situações a falha pode ser facilmente
+detectada e, nesse caso, outro algoritmo mais lento deve ser executado.
+
+
+Para resolver o problema~\PDM{} o algoritmo~\PDMHMS{} faz uso de duas
+funções potencias (seção~\ref{sec:criterio-otimalidade}) especiais. 
+
+Uma função potencial $y$ dos vértices de $V'$ em $\Int$ é $(s',*)$-\defi{ótima}%
+\index{potencial!(s,*)-otimo@$(s,*)$-ótimo}
+se  
+\begin{quote}
+para cada vértice $v$ em $V'$,
+ $y(v) - y(s')$ é o menor custo de um caminho de~$s'$ a~$v$.
+\end{quote}
+ Ao invocarmos \Dijkstra$(V',A',c',s')$ (seção~\ref{sec:dijkstra}) o
+ algoritmo devolve uma arborescência $(V',S')$ dos caminhos mínimos de
+ $s'$ aos demais vértices do grafo e uma função potencial $(s',*)$-ótima
+ \index{potencial!(s,*)-otimo@$(s,*)$-ótimo} tal que $y(s') = 0$.
+ Assim, nesse caso, para todo $v$ em $V'$ temos que $y(v)$ é o menor
+ custo de um caminho de $s'$ a $v$.
+
+
+
+Um função potencial $z$ dos vértices de $V'$ em $\Int$ é $(*,t')$-\defi{ótima}%
+\index{potencial!(*,t)-otimo@$(*,t)$-ótimo}
+se 
+\begin{quote}
+para cada $v$ em $V'$, $z(v) - z(t')$ é o menor custo de um caminho de~$v$ a~$t'$. 
+\end{quote}
+Também podemos obter uma função $(*,t')$-ótima através do
+algoritmo de Dijkstra. Ao invocarmos
+\Dijkstra$(V',\tilde{A},\tilde{c},t')$, onde $\tilde{A}= \{ wv : vw \in
+A'\}$ e $\tilde{c}(wv) = c'(vw)$ para todo arco $wv$ em $\tilde{A}$ 
+podemos supor que o algoritmo devolve uma arborescência $(V',T')$ 
+dos caminhos de custos mínimos de cada vértice do grafo até $t'$  
+e uma função potencial $(*,t')$-ótima $z$ tal que 
+$z(t')=0$. Portanto, para todo $v$ em $V'$ temos que $z(v)$ é 
+o menor custo de um caminho de $v$ a $t'$.
+
+A heurística a seguir supõe que $Q=\seq{s'{=}v_0,v1,\ldots,v_k}$ 
+está em um caminho de custo mínimo de $s'$ a $t'$. 
+O algoritmo supõe ainda que $Q$ é subcaminho das arborescências 
+$(V',S')$ e $(V',T')$ computadas nas linhas~1 e~2. 
+Na linha~10, $S'_v$ é o caminho de $s'$ a $v$ na arborescência $(V',S')$ e 
+$T'_w$ é o caminho de $w$ a $t'$ na arborescência $(V',T')$.
+
+\newpage
+
+\begin{algoritmo}
+
+\textbf{Heurística} \PDMHMS{} $(V',A',c',s',t',Q)$ %\\[2mm]
+\index{algoritmo!PDMHMS@\PDMHMS}\index{PDMHMS@\PDMHMS}
+   
+\d1\x $(V',S'),y \larr \Dijkstra(V',A',c',s')$
+
+\d2\x $(V',T'),z \larr \Dijkstra(V',\tilde{A},\tilde{c},t')$
+
+\d3\x \para{} \cada{} arco $v_iv_{i+1}$ em $Q$ \faca{}
+
+\d4\xx    Seja $X_i$ o componente de $(V',S'{-}\{v_iv_{i+1}\})$ que contém $s'$
+
+\d5\xx    Seja $E_i$ o conjunto dos arcos com ponta inicial em $X_i$
+
+\d\d\xxx          e ponta final em $V'-X_i$
+
+\d6\xx    $d \larr \infty$ \quad $P \larr \seq{}$
+
+\d7\xx    \para{} \cada{} $vw$ em $E_i$ \faca{}
+
+\d8\xxx      \se{} $d > y(v) + c'(vw) + z(w)$  
+
+\d9\xxxx       \entao{} $d \larr y(v) + c'(vw) + z(w)$ 
+
+10\xxxx    \ph{\entao} $P \larr S'_v \cdot vw \cdot T'_w$ \quad $\rhd$ concatenação dos caminhos
+
+11\xxxx   \ph{\entao}  $v_0 \larr v$ \quad $w_0 \larr w$
+
+12\x \devolva{} $P,v_0,w_0$
+
+\end{algoritmo}
+
+A execução das linhas~1 e~2 da heurística consome tempo
+$\Oh(T(n',m'))$, onde $n' = |V'|$ e $m' = |A'|$.  Ao longo da execução
+da heurística, um arco $vw$ em $A'-S'$ precisa ser examinado no bloco de
+linhas 8--11 no máximo uma vez.  Como o consumo de tempo de cada
+execução desse bloco de linhas é $\Theta(1)$, então o consumo de tempo
+total gasto pela heurística executando o bloco de linha 8--11 é
+$\Oh(|A'|)$. Para determinar os arcos para os quais as linhas 7--11
+deverão ser executadas basta, para cada vértice $v'$ em $V'$,
+determinamos o índice $p(v')=i$ do vértice $v_i$ em $Q$ mais
+próximo de $v'$ na arborescência $(V',S')$.  Um arco $vw$ em $A'$ deverá
+ser submetido ao exame das linhas 8--11 se $p(v) < p(w)$.  
+O algoritmo \Dijkstra{} pode ser adaptado para determinar $p(v')$
+para cada vértice $v'$ em $V'$, sem custo assintótico adicional.  Assim,
+o bloco de linhas 4--7 pode, essencialmente, ser executado juntamente
+com o pré-processamento feito na linha~1.  A discussão aqui apresentada
+encontra-se resumida no teorema a seguir.
+
+  
+
+\begin{teorema}{do consumo de tempo de \PDMHMS}%
+\index{teorema!do consumo de tempo de PDMHMS@do consumo de tempo de \PDMHMS}%
+\index{PDMHMS@\PDMHMS!consumo de tempo}
+O consumo de tempo da heurística~\PDMHMS{} é  $\Oh(T(n',m'))$, onde
+$n'$ é o número de vértices e $m'$ é o número de arcos do 
+grafo dado, respectivamente.
+\fimprova{}
+\end{teorema}
+
+
+ 
+\begin{figure}[htbp]
+ \begin{center}
+    \psfrag{(a)}{$\iten{a}$}
+    \psfrag{(b)}{$\iten{b}$}
+    \psfrag{(c)}{$\iten{c}$}
+    \psfrag{(d)}{$\iten{d}$}
+    \psfrag{s}{{$s'$}}
+    \psfrag{a}{{$a$}}
+    \psfrag{b}{{$b$}}
+    \psfrag{c}{{$c$}}
+    \psfrag{d}{{$d$}}   
+    \psfrag{t}{{$t'$}}
+  \includegraphics{./figs/contra-exemplo.eps}
+  \caption[Exemplo em que a heurística~\PDMHMS{} falha.]{\label{fig:contra-exemplo}
+ Exemplo em que a heurística~\PDMHMS{} falha.
+ Na figura~$\iten{a}$ vemos o grafo $(V',A')$ e a função custo $c'$. 
+ O caminho~$Q$ recebido pela heurística é $\seq{s',a,b}$. 
+Nas figuras~$\iten{b}$ e $\iten{c}$, os arcos em destaque formam as 
+ arborescências $S'$ e $T'$ computadas nas linhas~1 e~2 da heurística, respecticamente. 
+ Em~$\iten{d}$, vemos o passeio $\seq{s',a,c,d,a,b,t'}$, de custo 7, devolvido, erroneamente, pela heurística.
+ O caminho que deveria ter sido devolvido é $\seq{s',a,b,d,t'}$ de custo 13.
+}
+ \end{center}
+ \end{figure}
+
+
+
+Consideremos agora como a heurística pode falhar em algumas situações.
+Para isto considere o grafo $(V',A')$ ilustrado na
+figura~\ref{fig:contra-exemplo}(a). Na figura, um número próximo a um
+arco representa o seu custo. O caminho $Q$ é
+$\seq{v_0,v_1,v_2}=\seq{s',a,b}$ que é prefixo do único caminho de custo
+mínimo de $s'$ a $t'$.  As figuras~\ref{fig:contra-exemplo}(b) e
+~\ref{fig:contra-exemplo}(c) mostram as arborescências $(V',S')$ e
+$(V',T')$ computadas na linhas~1 e~2.
+ 
+
+Para $i = 0$ e $v_iv_{i+1} = s'a$, a execução do bloco de
+linhas~4--11 determina que $\seq{s',c,d,a,b,t'} = S'_{s'} \cdot s'c
+\cdot T'_{c}$ é o caminho de custo mínimo de $s'$ a $t'$ que desvia do
+prefixo $Q$ em $s'$. Aqui temos que $S'_{s'}=\seq{s'}$ e $T'_{c} =
+\seq{c,d,a,b,t'}$ e que o caminho resultante tem custo~15.
+
+Já, na iteração do bloco de linhas~4--11 em que $i=1$ e $v_iv_{i+1}=ab$,
+a heurística determina que 
+$\seq{s',a,c,d,a,b,t'}= S'_c \cdot cd \cdot T'_d$ é o ``caminho'' de
+custo mínimo que desvia de $Q$ em $a$. Esse ``caminho'' tem custo~7, 
+$S'_{c'}=\seq{s',a,c}$ é prefixo de $P$ e $T'_{d} = \seq{d,a,b,t'}$ é
+sufixo de $P$. 
+A heurística, nesse caso, devolve erroneamente,
+$P=\seq{s',a,c,d,a,b,t'}$ 
+como sendo o caminho de custo mínimo de $s'$ a $t'$ que não tem $Q$ 
+como prefixo, no entanto, $P$ não é um caminho.
+
+A falha aqui foi devida ao fato que o sufixo $T'_c$ de $P$ contém o arco
+$v_iv_{i+1} = ab$ da iteração.  Para que esse falha seja detecta basta
+para cada vértice $v'$ determinarmos o menor índice $q(v')=i$ tal que o
+caminho $T_{v'}$ de $v'$ a $t'$ contém o vértice $v_i$ de $Q$. Para cada
+$vw$ em algum $E_i$ o passeio $P$ computado na linha~10 é um caminho 
+se $q(w) > p(u)$. 
+Assim, $P$ devolvido na linha~12 pela heurística não é solução
+do problema do desvio de custo mínimo se $q(w_0) < p(v_0)$.   
+
+
+Hershberger, Maxel e Suri~\cite{hershberger:acmta-3-??} implementaram o
+algoritmo~\HMS{} utilizando como subrotina a heurística~\PDMHMS{} e
+reportaram que resultados empíricos mostram que a heurística falha em
+menos de 1\% das vezes em que foi executada. Isto indica que, na prática,
+\HMS{} tem um desempenho significativamente melhor que \Yen{}.
+
+
+Em grafos simétricos a heurística \PDMHMS{} não falha.  Esta é a
+subrotina central do algoritmo de Naoki Katoh, Toshihide Ibaraki e
+H. Mine~\cite{katoh:n-12-411} para o \kCM{} restrito a grafos
+simétricos. O algoritmo de Katoh, Ibaraki e Mine, tópico central do
+próximo capítulo é, essencialmente, a restrição do algoritmo \HMS{} para
+grafos simétricos. Na figura~\ref{fig:contra-exemplo2} 
+vemos a versão para grafos simétricos do exemplo na 
+figura~\ref{fig:contra-exemplo}.
+
+
+
+\begin{figure}[htbp]
+ \begin{center}
+    \psfrag{(a)}{$\iten{a}$}
+    \psfrag{(b)}{$\iten{b}$}
+    \psfrag{(c)}{$\iten{c}$}
+    \psfrag{(d)}{$\iten{d}$}
+    \psfrag{s}{{$s'$}}
+    \psfrag{a}{{$a$}}
+    \psfrag{b}{{$b$}}
+    \psfrag{c}{{$c$}}
+    \psfrag{d}{{$d$}}   
+    \psfrag{t}{{$t'$}}
+  \includegraphics{./figs/contra-exemplo2.eps}
+  \caption[Exemplo da figura~\ref{fig:contra-exemplo} em que o grafo é simétrico.]
+{\label{fig:contra-exemplo2}
+ Exemplo da figura~\ref{fig:contra-exemplo} em que o grafo é simétrico.
+ Na figura~$\iten{a}$ vemos o grafo simétrico $(V',A')$ e a função custo $c'$. 
+ O caminho~$Q$ recebido pela heurística é $\seq{s',a,b}$. 
+Nas figura~$\iten{b}$ e $\iten{c}$, os arcos em destaque formam as 
+ árvore de custo mínimo $S'$ e $T'$ com raizes $s'$ e $t'$, respectivamente. 
+Em~$\iten{d}$ vemos o caminho que é corretamente devolvido pela versão 
+da heurística~\PDMHMS{} para grafos simétricos devida a  Katoh, Ibaraki e Mine.
+}
+ \end{center}
+ \end{figure}
+

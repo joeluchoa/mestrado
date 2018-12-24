@@ -1,0 +1,12 @@
+GEM
+  remote: http://rubygems.org/
+  specs:
+    gnuplot (2.5.0)
+    ruby-graphviz (1.0.8)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  gnuplot
+  ruby-graphviz

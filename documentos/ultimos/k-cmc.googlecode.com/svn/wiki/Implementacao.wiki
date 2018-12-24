@@ -1,0 +1,17 @@
+#summary Decisões de implementação
+#labels Featured,Phase-Design
+
+= Introdução =
+
+Sumarizamos uma lista das principais decisões de implementação a serem tomadas.
+
+= Detalhes =
+
+Primeiramente vamos definir a linguagem de programação Java versão 6.0 para todas as implementações a serem realizadas.
+
+O algoritmo que implementaremos trabalha com uma estrutura matemática conhecida como grafo.
+A primeira Ao invés de criarmo um pacote ad-hoc com estruturas
+O algoritmo KIM de geração de k-caminhos mais curtos se utiliza de várias estruturas de dados.Optamos por inserir o algoritmo no projeto opensource JUNG, uma vez que é um dos
+mais respeitados na linha de grafos utilizando Java.
+Para a construção do algoritmo precisamos decidir quais serão as estruturas de dados 
+que serao utilizadas no armazenamento dos caminhos e representação do grafo. 

@@ -1,0 +1,224 @@
+\newcommand{\e}{\textrm{~e~}}
+
+%Conceitos gerais
+\newcommand{\FaceExt}{f_{\infty}}
+
+%XinHe
+\newcommand{\FaceEsq}[1]{face_{esq}(#1)}
+\newcommand{\FaceDir}[1]{face_{dir}(#1)}
+
+\newcommand{\FaceAcima}[1]{face_{acima}(#1)}
+\newcommand{\FaceAbaixo}[1]{face_{abaixo}(#1)}
+
+\newcommand{\snRede}{\textit{S,N}\textrm{-rede~}}
+\newcommand{\olRede}{\textit{O,L}\textrm{-rede~}}
+
+\newcommand{\stgrafo}{\textit{s,t}\textrm{-grafo~}}
+\newcommand{\stgrafos}{\textit{s,t}\textrm{-grafos~}}
+
+\newcommand{\stgrafosN}{\textit{s,t}\textrm{-grafos}}
+
+\newcommand{\FaceExtEsq}{f^{esq}_{\infty}}
+\newcommand{\FaceExtDir}{f^{dir}_{\infty}}
+
+\newcommand{\FaceExtAcima}{f^{acima}_{\infty}}
+\newcommand{\FaceExtAbaixo}{f^{abaixo}_{\infty}}
+
+%--------------------------------------
+
+\newtheorem{problema}{Problema}
+%\newtheorem{definicao}{Definição}[chapter]
+%\newtheorem{teorema}{Teorema}[chapter]
+%\newtheorem{conjectura}[teorema]{Conjectura}
+%\newtheorem{proposicao}[teorema]{Proposição}
+%\newtheorem{lema}[teorema]{Lema}
+
+%\newcommand{\qed}{$\Box$}
+\newenvironment{baretheorem}%
+         {\begin{list}%
+                {}%
+                {%
+                 %\addtolength{\partopsep}{0.5ex}%
+                 \setlength{\partopsep}{1ex}% igual em prova
+%                \addtolength{\topsep}{-0.5ex}%
+                 \setlength{\topsep}{0.8ex}% igual prova
+                 \setlength{\leftmargin}{\parindent}%
+                 \setlength{\rightmargin}{\parindent}%
+                 \setlength{\itemindent}{0ex}%
+                 \setlength{\labelsep}{\itemindent}%
+                 \setlength{\labelwidth}{0ex}%
+                 \setlength{\parsep}{1ex}% parskip is 1.5ex
+                 \setlength{\listparindent}{0ex}%
+                }%
+          \item%
+         }%
+         {\end{list}%
+         }
+\newcounter{theoremnumber}[chapter]
+\renewcommand{\thetheoremnumber}{\thechapter.\arabic{theoremnumber}}
+\newenvironment{taggednumberedtheorem}[2]%
+               {%
+                \refstepcounter{theoremnumber}%
+                \begin{baretheorem}%
+                \textbf{#1\hspace{0.7ex}\thetheoremnumber}%
+                \ifthenelse{\equal{#2}{}}% Lamport p.195
+                        {\hspace{1pt}:\hspace{1ex}\ignorespaces}%
+                        {\hspace{1ex}\textup{(#2)}:\hspace{1ex}\ignorespaces}%
+                \slshape%
+               }%
+               {\end{baretheorem}%
+               }
+
+\newcounter{definitionnumber}[chapter]
+\renewcommand{\thedefinitionnumber}{\thechapter.\arabic{definitionnumber}}
+\newenvironment{taggednumbereddefinition}[2]%
+               {%
+                \refstepcounter{definitionnumber}%
+                \begin{baretheorem}%
+                \textbf{#1\hspace{0.7ex}\thedefinitionnumber}%
+                \ifthenelse{\equal{#2}{}}% Lamport p.195
+                        {\hspace{1pt}:\hspace{1ex}\ignorespaces}%
+                        {\hspace{1ex}\textup{(#2)}:\hspace{1ex}\ignorespaces}%
+                \slshape%
+               }%
+               {\end{baretheorem}%
+               }
+
+
+\newenvironment{lema}[1]%
+         {\begin{taggednumberedtheorem}{Lema}{#1}%
+         }%
+         {\end{taggednumberedtheorem}%
+         }
+\newenvironment{teorema}[1]%
+         {\begin{taggednumberedtheorem}{Teorema}{#1}%
+         }%
+         {\end{taggednumberedtheorem}%
+         }
+\newenvironment{fato}[1]%
+         {\begin{taggednumberedtheorem}{Fato}{#1}%
+         }%
+         {\end{taggednumberedtheorem}%
+         }
+\newenvironment{definicao}[1]%
+         {\begin{taggednumbereddefinition}{Definição}{#1}%
+         }%
+         {\end{taggednumbereddefinition}%
+         }
+\newenvironment{corolario}[1]%
+         {\begin{taggednumberedtheorem}{Corolário}{#1}%
+         }%
+         {\end{taggednumberedtheorem}%
+         }
+
+\newenvironment{bareproof}%
+         {\begin{list}%
+                {}%
+                {%
+                 \setlength{\partopsep}{1ex}% como em baretheorem
+                 \setlength{\topsep}{0.8ex}% como em baretheorem
+                 \setlength{\leftmargin}{0ex}%
+                 \setlength{\labelwidth}{0ex}% 
+                 \setlength{\labelsep}{1ex}%
+                 \setlength{\itemindent}{\parindent}% 
+                 \addtolength{\itemindent}{\labelsep}%
+                 \setlength{\parsep}{1ex}% parskip is 1.5ex
+                 \setlength{\listparindent}{\parindent}%
+                }%
+         }%
+         {\end{list}}
+\newenvironment{prova}[1]
+         {\begin{bareproof}%
+          \item[Demonstração:]%
+            #1%
+         }%
+         {\hfill\qed\ignorespacesafterend
+          \end{bareproof}%
+         }
+
+\newenvironment{exemplo}[1]%
+         {\begin{taggednumberedtheorem}{Exemplo}{#1}%
+         }%
+         {\end{taggednumberedtheorem}%
+         }
+
+%\renewcommand{\thetheorem}{\thechapter.\arabic{theorem}}
+
+\def\({\left(}
+\def\){\right)}  
+\def\<{\langle}
+\def\>{\rangle}
+\let\:=\colon
+
+% MATHEMATICS
+%%%%%%%%%%%%%
+  \newcommand{\binomial}% to be used in displaystyle only
+             [2]%
+             {\big(\!\begin{array}{c}%
+                 #1\\[-0.5ex]%
+                 #2%
+                 \end{array}%
+               \!\big)}
+  \newcommand{\floor}[1]{\lfloor #1 \rfloor}
+  \newcommand{\ceil}[1]{\lceil #1 \rceil}
+  \newcommand{\seq}[1]{( #1 )}
+  \newcommand{\tam}[1]{\langle #1 \rangle}
+% número total de dígitos
+  \newcommand{\conjunto}[1]{\{\,#1\,\}}
+  \newcommand{\conj}[1]{\{#1\}}
+  \newcommand{\twodots}{\,.\,.\,} % in place of \ldots
+  \newcommand{\card}[1]{{\mid}#1{\mid}} 
+% $\card{X}$ é o mesmo que $|X|$
+  \newcommand{\dcard}[1]{{\parallel}#1{\parallel}} 
+% $\dcard{X}$ é o mesmo que $||X||$
+%\renewcommand{\emptyset}{\mbox{\textup{\O}}} % slash O
+%\renewcommand{\emptyset}{\mbox{\textit{\O}}} % slash O
+  \newcommand{\eps}{\varepsilon}
+% \newcommand{\qed}{\mbox{\hspace{0.2ex}\rule{0.7ex}{0.9ex}}}
+%  \newcommand{\qed}{$\Box$}
+% \newcommand{\Cdot}{\cdot}
+% \newcommand{\Cdot}{}
+  \newcommand{\Cdot}{\hspace{1pt}} % produto de vetores $w\Cdot x$
+  %\newcommand{\Ddot}{\hspace{0.8pt}} % produto mat por vet e vet por matr
+  \newcommand{\Edot}{\hspace{0.8pt}} % produto de matrizes $A\Edot B$
+% \newcommand{\dotplus}{\stackrel{.}{+}}
+% soma disjunta de grafo com conjunto de arestas $G\dotplus F$
+  \newcommand{\dotplus}{+}
+  \newcommand{\dotcup}{\stackrel{.}{\cup}}
+%% união disjunta de dois conjuntos
+%\newcommand{\wt}{\widetilde} % matriz transposta
+%\newcommand{\wt}[1]{#1^{\!\top}} % matriz transposta
+ \newcommand{\wt}[1]{#1^{\scriptscriptstyle\top}} % matriz transposta
+%\newcommand{\tq}{\ :\ } % tal que (no primal-dual)
+ \newcommand{\tq}{:} % tal que (no primal-dual)
+
+\usepackage{enumitem}
+%usage: \defProblema{label}{nome}{entrada}{saida}
+
+%\newenvironment{mydescription}{%
+%   \renewcommand*\descriptionlabel[1]{\hspace\labelsep\rm\textsc{#1}:~}%
+%   \begin{description}%
+%}{%
+%   \end{description}%
+%}
+
+\newcommand\descriptionDefProblabel[1]{\hspace{\labelsep}\rm\textsc{#1}:~}
+\newenvironment{descriptionDefProb}{%
+   \let\descriptionlabel\descriptionDefProblabel
+   \description
+}{%
+   \enddescription
+}
+
+\newcommand{\defProblem}[4]{%
+	%\parindent=0cm%
+	\begin{problema}%
+		\label{#1}%
+		\hspace{.1cm}%
+		\textsc{#2}%
+ 		\begin{descriptionDefProb}[style=multiline,leftmargin=3.5cm, labelindent=1cm, topsep=-0.1ex, itemsep=0.1ex]%
+				\item[Entrada] #3%
+				\item[Saida]  #4%
+		\end{descriptionDefProb}%
+	\end{problema}%
+}

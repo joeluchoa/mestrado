@@ -1,0 +1,44 @@
+\begin{thebibliography}{1}
+
+\bibitem{AAN83}
+Y.~P. Aneja.
+\newblock Shortest chain subject to sided constraints.
+\newblock {\em Networks}, 13:295--302, 1983.
+
+\bibitem{BC89}
+J.~E. Beasley and N.~Christofides.
+\newblock An algorithm for the resource constrained shortest path problem.
+\newblock {\em Networks}, 19:379--394, 1989.
+
+\bibitem{GJ79}
+M.~Garey and D.~Johnson.
+\newblock {\em Computers and Intractability: A Guide of the Theory of NP
+  Completeness}.
+\newblock W. H. Freeman, San Francisco, 1979.
+
+\bibitem{HZ80}
+G.~Handler and I.~Zang.
+\newblock A dual algorithm fot the constrained shortest path problem.
+\newblock {\em Networks}, 10:281--291, 1980.
+
+\bibitem{JO66}
+H.~C. Joksch.
+\newblock The shortest route problem with constraints.
+\newblock {\em J. Math. Anal. Appl.}, 14:191--197, 1966.
+
+\bibitem{LA76}
+E.~L. Lawler.
+\newblock {\em Combinatotial Optimization: Networks and Matroids}.
+\newblock Holt, Rinehart and Winston, New York, 1976.
+
+\bibitem{KM00}
+Kurt Mehlhorn.
+\newblock Resource constrained shortest paths.
+\newblock {\em Lectures Notes in Computer Science}, 1879:326--337, 1985.
+
+\bibitem{WG65}
+C.~Witzgall and A.~J. Goldman.
+\newblock Most profitable routing before maintenance.
+\newblock {\em Paper presented at the 27th National ORSA Meeting}, B-82, 1965.
+
+\end{thebibliography}

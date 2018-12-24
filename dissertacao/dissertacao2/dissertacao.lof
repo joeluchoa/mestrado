@@ -1,0 +1,20 @@
+\select@language {brazil}
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {1.1}{\ignorespaces Representa\~A\IeC {\S }\~A\IeC {\pounds }o de rotas em uma rede de computadores}}{2}{figure.caption.9}
+\contentsline {figure}{\numberline {1.2}{\ignorespaces Sistema de orienta\~A\IeC {\S }\~A\IeC {\pounds }o para motoristas}}{3}{figure.caption.10}
+\contentsline {figure}{\numberline {1.3}{\ignorespaces Exemplo de uma fun\~A\IeC {\S }\~A\IeC {\pounds }o linear por partes}}{5}{figure.caption.11}
+\contentsline {figure}{\numberline {1.4}{\ignorespaces Exemplo de uma curva e sua aproxima\~A\IeC {\S }\~A\IeC {\pounds }o.}}{6}{figure.caption.12}
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Exemplo de um grafo com uma fun\c c\~ao custo sobre os arcos. No lado esquerdo temos um caminho $\delimiter "426830A {\color {Red}s},u,w,z,{\color {Blue}t} \delimiter "526930B $ com custo igual a 14. \`A direita temos o caminho $\delimiter "426830A {\color {Red}s},w,{\color {Blue}t} \delimiter "526930B $ em vermelho, que \'e um caminho de custo m\IeC {\'\i }nimo de ${\color {Red}s}$ \`a ${\color {Blue}t}$.\relax }}{10}{figure.caption.13}
+\contentsline {figure}{\numberline {2.2}{\ignorespaces Grafo com uma fun\c c\~ao custo $c$ sobre os arcos e um $c$-potencial associado aos v\'ertices em azul.\relax }}{11}{figure.caption.14}
+\contentsline {figure}{\numberline {2.3}{\ignorespaces Grafo com custos nos arcos e um potencial nos v\'ertices. O potencial exibido garante que qualquer caminho formado por v\'ertices vermelhos a partir de ${\color {Red}s}$ \'e um caminho de custo m\IeC {\'\i }nimo.\relax }}{12}{figure.caption.15}
+\contentsline {figure}{\numberline {2.4}{\ignorespaces Exemplo de uma fun\c c\~ao predecessor e de um grafo de predecessores induzido por ela.}}{13}{figure.caption.16}
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Grafo da redu\c c\~ao do problema \textsc {Mochila} para o problema \textsc {RCSP}}}{28}{figure.caption.24}
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Exemplo de r\'otulos formando uma fun\c c\~ao escada.}}{37}{figure.caption.25}
+\contentsline {figure}{\numberline {3.3}{\ignorespaces \it Grafo exemplo; os r\'otulos dos arcos representam $(c_{uv}, r_{uv})$. \relax }}{45}{figure.caption.26}
+\contentsline {figure}{\numberline {3.4}{\ignorespaces \it Representa\c c\~ao geom\'etrica do grafo da Figura \ref {fig:exemplo_grafo}. As retas pretas representam os caminhos que s\~ao relevantes ao algoritmo. A ``curva'' de segmentos mais espessos representa o fun\c c\~ao $L(u)$. \relax }}{45}{figure.caption.27}
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Gr\'aficos comparando consumo de mem\'oria e tempo dos algoritmo de programa\c c\~ao din\^amica primal, algoritmo de Yen e algoritmo de Handler e Zang.}}{51}{figure.caption.33}
+\contentsfinish 

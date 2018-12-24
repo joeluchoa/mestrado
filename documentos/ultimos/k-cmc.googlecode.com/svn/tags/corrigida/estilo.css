@@ -1,0 +1,297 @@
+body, ul {
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    color: #000000;
+    text-align: justify;
+    background-color: #ffffff;
+    list-style-image : url('seta.gif');
+}
+
+ul {
+    margin-left: 15px;
+    padding-left: 1em;
+}
+
+ul li {
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+
+
+input {
+   color:#000000;
+   background:#F8F8F8;
+   border-right:1px solid #00; 
+   border-left:1px solid #00; 
+   border-top:1px solid #00; 
+   border-bottom:1px solid #00;
+   font-family: Verdana, Arial, Helvetica, sans-serif;
+   font-size: 12px;
+}
+
+input.botao { 
+    color: #000000;
+    background-color: #ffffff;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 10px;
+}
+
+select {
+  color:#000000;
+  background:#F8F8F8;
+  border-right:1px solid #00; 
+  border-left:1px solid #00; 
+  border-top:1px solid #00; 
+  border-bottom:1px solid #00;
+  font-size: 12px;
+}
+ 
+textarea {
+   color:#000000;
+   background:#F8F8F8;
+   border-right:1px solid #00; 
+   border-left:1px solid #00; 
+   border-top:1px solid #00; 
+   border-bottom:1px solid #00
+}
+
+
+h1 {
+    color : #6699cc;
+    background-color: #ffffff;
+    font-family : Verdana, Arial, Helvetica, sans-serif;
+    font-size : 22px;
+}
+
+h2 {
+    color : #6699cc;
+    background-color: #ffffff;
+    font-family : Verdana, Arial, Helvetica, sans-serif;
+    font-size : 18px;
+}
+
+h3 {
+    color : #6699cc;
+    background-color: #ffffff;
+    font-family : Verdana, Arial, Helvetica, sans-serif;
+    font-size : 16px;
+}
+
+h4 {
+    color : #6699cc;
+    background-color: #ffffff;
+    font-family : Verdana, Arial, Helvetica, sans-serif;
+    font-size : 14px;
+}
+
+h5 {
+    color : #6699cc;
+    background-color: #ffffff;
+    font-family : Verdana, Arial, Helvetica, sans-serif;
+    font-size : 12px;
+    font-weight: bold
+}
+
+
+.mytable {  
+    padding: 8px;
+    border: 0px;
+}
+
+.texto {
+    color : #000000;
+    background-color: #ffffff;
+    font-family :   Verdana, Arial, Helvetica, sans-serif;
+    font-size : 10px;
+}
+
+.textopuro {
+    font-family :   Verdana, Arial, Helvetica, sans-serif;
+    font-size : 10px;
+}
+
+.textonobg {
+    color : #000000;
+    font-family :   Verdana, Arial, Helvetica, sans-serif;
+    font-size : 10px;
+}
+
+.assinatura {
+    color : #ffffff;
+    background-color: #5a5a5a;
+    font-family :   Verdana, Arial, Helvetica, sans-serif;
+    font-size : 10px;
+}
+
+.titulo {
+    color : #ffffff;
+    background-color: #6699cc;
+    font-family : Arial, Verdana, Helvetica, sans-serif;
+    font-size : 12px;
+    font-weight : bold;
+}
+
+.subtitulo {
+    color : #000000;
+    background-color: #ffffff;
+    font-family :   Verdana, Arial, Helvetica, sans-serif;
+    font-size : 10px;
+    font-weight : bold;
+}
+
+.titulonobg {
+    color : #6699cc;
+    font-family :   Verdana, Arial, Helvetica, sans-serif;
+    font-size : 14px;
+    font-weight : bold;
+}
+
+.subtitulonobg {
+    color : #6699cc;
+    font-family :   Verdana, Arial, Helvetica, sans-serif;
+    font-size : 10px;
+    font-weight : bold;
+}
+
+
+.subtitulo_preto {
+    color : #000000;
+    background-color: #ffffff;
+    font-family :   Verdana, Arial, Helvetica, sans-serif;
+    font-size : 10px;
+    font-weight : bold;
+}
+
+.aviso {
+    color : #ff0000;
+    background-color: #ffffff;
+    font-family :   Verdana, Arial, Helvetica, sans-serif;
+    font-size : 10px;
+}
+
+.ajuda {
+    color: #336699;
+    background-color: #ffffff;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 10px;
+}
+
+.botao {
+    color: #000000;
+    background-color: #ffffff;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 10px;
+}
+
+.mycaption {
+    color : #ff0000;
+    font-family : Arial, Verdana, Helvetica, sans-serif;
+    font-size : 12px;
+    font-weight : bold;
+}
+
+a:link {
+    text-decoration: none;
+    color: #084da5;
+    font-family :Verdana, Arial, Helvetica, sans-serif;
+    font-size : 11px;
+    font-weight : bold
+}
+
+a:visited {
+    text-decoration:none;
+    color: #084da5;
+    font-family : Verdana, Arial, Helvetica, sans-serif;
+    font-weight : bold
+}
+
+a:active {
+    text-decoration: none;
+    color: #494949;
+    font-family : Verdana, Arial, Helvetica, sans-serif;
+    font-weight : bold
+}
+
+a:hover {
+    text-decoration: underline;
+    color: #084da5;
+    font-family :Verdana,  Arial, Helvetica, sans-serif;
+    font-weight : bold
+}
+
+a.lmenu:link {
+    text-decoration: none;
+    color: #ffffff;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 10px;
+}
+
+a.lmenu:visited {
+    text-decoration:none;
+    color: #ffffff;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 10px;
+}
+
+a.lmenu:active {
+    text-decoration: none;
+    color: #0033cc;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 10px;
+}
+
+a.lmenu:hover {
+    text-decoration: none;
+    color: #eebb00;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+.sort-table {
+    font:       Icon;
+    border:     1px Solid ThreeDShadow;
+    background: Window;
+    color:      WindowText;
+}
+
+.sort-table thead {
+    background: ButtonFace;
+}
+
+.sort-table td {
+    padding:    2px 5px;
+}
+
+.sort-table thead td {
+    border:         1px solid;
+    border-color:   ButtonHighlight ButtonShadow
+                    ButtonShadow ButtonHighlight;
+    cursor:         default;
+}
+
+.sort-table thead td:active {
+    border-color:   ButtonShadow ButtonHighlight
+                    ButtonHighlight ButtonShadow;
+    padding:        3px 4px 1px 6px;
+}
+
+.sort-table thead td[_sortType=None]:active {
+    border-color:   ButtonHighlight ButtonShadow
+                    ButtonShadow ButtonHighlight;
+    padding:        2px 5px;
+}
+
+.sort-arrow {
+    width:                  11px;
+    height:                 11px;
+    background-position:    center center;
+    background-repeat:      no-repeat;
+    margin:                 0 2px;
+}
+
+.sort-arrow.descending {
+    background-image:       url("sortabletable/images/downsimple.png");
+}
+
+.sort-arrow.ascending {
+    background-image:       url("sortabletable/images/upsimple.png");
+}
+

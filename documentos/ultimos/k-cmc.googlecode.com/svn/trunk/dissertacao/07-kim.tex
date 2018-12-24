@@ -1,0 +1,2837 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%  CAPÍTULO. MÉTODO DE YEN
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\chapter{Algoritmo de Katoh, Ibaraki e Mine}
+\label{cap:algoritmo-kim}
+
+Neste capítulo trataremos, propriamente dito, do algoritmo desenvolvido por Katoh, Ibaraki e Mine, o qual chamaremos de \KIM.
+Para entendê-lo fizemos usos de vários artigos diferentes. 
+Começamos pelo artigo original de Naoki Katoh,
+Toshihide Ibaraki e H. Mine~\cite{katoh:n-12-411} (KIM), sob o qual a implementação foi feita.
+O artigo é bem preciso do ponto de vista da implementação, trabalhando com índices e citando até estruturas 
+para implementação. 
+Entretanto, em se tratando do entendimento em termos gerais não ajudou muito.
+
+Uma vez que o artigo de Jin Y. Yen~\cite{yen:ms-17-712} fora citado pelo  de KIM, achamos que seria de grande utilidade 
+lê-lo. 
+Além do mais, sabemos que o algoritmo \KIM{} é uma melhoria do  \Yen{}, sendo específico para grafos simétricos.
+Após a leitura do artigo de Yen, 
+começamos a vislumbrar melhor o algoritmo \KIM{} e a entendê-lo com mais propriedade.
+
+Em seguida, encontramos o artigo de John Hershberger, Matthew Maxel e Subhash Suri~\cite{hershberger:acmta-3-??}, 
+o qual foi muito elucidativo. 
+Este trata de uma extensão da idéia central do algoritmo \KIM{} 
+para grafos. 
+O que mais nos chamou a atenção foi a maneira como o algoritmo foi descrito.
+Os autores procuraram trabalhar com idéias mais gerais e lidar com estruturas mais sofisticadas, deixando de lado
+a quantidade exorbitante de índices e descrições de baixo nível apresentadas no artigo de KIM.
+
+Finalmente, vale citar o artigo de Eleni Hadjiconstantinou e Nicos Christofides~\cite{eleni:n-34-88} que 
+trata de uma implementação do algoritmo \KIM{} utilizando algumas mudanças que levam a um melhor desempenho na prática.
+Neste artigo, a descrição do algoritmo é feita com mais clareza, razão pela qual decidimos citá-lo aqui. 
+
+Nosso plano é apresentar o algoritmo  \KIM{}, bem como suas subrotinas e principais idéias, comentando sobre 
+o desempenho assintótico das principais rotinas, em seguida exibiremos uma simulação e finalizaremos
+exibindo pontos importantes sobre a nossa implementação.
+
+\section{Visão Geral}
+
+O algoritmo \KIM{} é, de certa forma, uma versão do algoritmo \Yen{} específica para grafos simétricos.
+Mais especificamente, o algoritmo \HMS{} apresentado no capítulo~\ref{cap:hershberger}, pode ser visto
+como a aplicação de algumas das idéias do algoritmo \KIM{} à grafos.
+O algoritmo \KIM{} aplica uma técnica mais fina de particionamento de caminhos, semelhante à 
+apresentada no capítulo~\ref{cap:hershberger}, sendo que o número de partições é sempre menor
+a $3 \times |Q|$, onde $|Q|$ é a quantidade de caminhos calculados até um dado momento da execução, e a quantidade de 
+caminhos candidatos é sempre menor ou igual a $2 \times |Q|-1$.
+Em cada iteração, no máximo, três novos caminhos são gerados e adicionados à lista de caminhos candidatos,
+sendo que na iteração seguinte, um de menor custo é selecionado.
+
+Seja $(V,A,c)$ um grafo simétrico com uma função custo definida, $s$ e $t$ dois vértices distintos,
+$k$ um inteiro positivo representando a quantidade de caminhos que se deseja calcular entre $s$ e $t$.
+O algoritmo \KIM{}, inicialmente, calcula um caminho de custo mínimo entre $s$ e $t$ usando algum algoritmo que
+resolva o problema \PCM{}~(\ref{prob:pcm}).
+Em seguida, gera um caminho de custo mínimo que desvia do anterior em algum de seus vértices, utilizando para
+tal uma subrotina que resolve o problema do desvio mínimo~(\ref{prob:pdm}).
+A partir dos dois caminhos gerados até o momento, o conjunto $\Pcal_{st}$ é particionado em três: $P_{a}$, $P_{b}$ e $P_{c}$.
+Um caminho de menor custo de cada uma das partições, seu representante, 
+é gerado e adicionado à lista de caminhos candidatos $\Lcal$.
+A geração de cada representante utiliza como subrotina um algoritmo para o problema do desvio mínimo restrito~(\ref{prob:pdmr}).
+Um caminho de menor custo é retirado da lista de caminhos candidatos tornando-se o $P_3$.
+A partir de $P_3$ e seu pai, geramos, no máximo, mais três caminhos candidatos, cada qual representante
+de um das partições $P_a,P_b$ e $P_c$ definidas por $P_3$ e seu pai.
+Na seção~\ref{sec:particoes}, as partições serão apresentadas com mais detalhes.
+O processo continua até que o $k$-ésimo menor caminho seja retirado da lista $\Lcal$ ou não haja mais caminhos em $\Lcal$.
+%% O caminho de menor custo é retirado da lista de caminhos candidatos $\Lcal$ e, a partir dele, o conjunto $\Pcal_{st}$ é particionado, 
+%% em seis partições, $P_{a_2},P_{b_2},P_{c_2},P_{a_3},P_{b_3}$ e $P_{c_3}$.
+%% Cada um dos representantes das partições $P_{a_3},P_{b_3},P_{c_3}$ é adicionado à lista $\Lcal$ e o processo continua até que o $k-$ésimo 
+%% caminho de menor custo seja retirado de $\Lcal$, ou não exista mais nenhum caminho em $\Lcal$.
+
+%% Sejam $s$ e $t$ os vértices de origem e destino, $(V,A,c)$ um grafo simétrico com uma função custo
+%%  definida e $k$ a quantidade de caminhos que se deseja gerar entre $s$ e $t$, o algoritmo \KIM{}
+%%  gera o $i-$ésimo caminho $P_i$, $2 < i \leq k$, particionando os caminhos previamente calculados $\seq{P_1,P_2,\ldots,P_{i-1}}$
+%% em, no máximo, três partições: $P_a,P_b$ e $P_c$. 
+%% Por ora, uma partição será descrita por um grafo $(V^{'},A^{'})\subseteq (V,A)$, mas a seguir explicitaremos 
+%% as alterações no grafo requeridas para a geração de um caminho em cada partição.
+%% Um caminho de custo mínimo, diferente dos caminhos $\seq{P_1,P_2,\ldots,P_{i-1}}$, é gerado em cada partição, através
+%% do algoritmo \FSP{}. 
+%% Esses caminhos são então adicionados à lista de caminhos candidatos $\Lcal$.
+%% Retira-se então o caminho de custo mínimo em $\Lcal$, o qual se tornará o $i-$ésimo caminho.
+%% O procedimento é repetido até que o $k-$ésimo caminho tenha sido gerado ou não haja mais caminhos em $\Lcal$.
+
+A seguir apresentamos a rotina principal do algoritmo \KIM{}, de certa forma semelhante a do \Yen{}.
+
+\begin{algoritmo}
+
+\textbf{Algoritmo} \KIM{} $(V,A,c,s,t,k)$ %\\[2mm]%
+\index{algoritmo!KIM@\KIM}\index{KIM@\KIM} 
+
+1\x $P_1 \larr $ um caminho de custo mínimo de $s$ a $t$
+
+2\x $P_2 \larr \FSP~(V,A,c,P_1,s,t)$
+
+2\x $\Lcal \larr P_2$
+
+3\x $\Qcal \larr P_1 $
+
+4\x \para{} $i=2,\ldots,k$ \faca %\\[1mm]
+
+5\xx  $P_i \larr \mbox{caminho de custo mínimo em $\Lcal$}$
+%\\[1mm]
+
+%4\xx  $\Lcal \larr \Lcal \setminus \{P_i\}$
+
+6\xx  $\Qcal \larr \Qcal \cup \{P_i\}$
+
+7\xx  $\Lcal \larr \AtualizeKIM~(V,A,c,\Qcal,P,\Lcal)$
+
+8\x \devolva{} $\seq{P_1,\ldots,P_k}$
+
+\end{algoritmo}
+
+Na rotina \AtualizeKIM, o conjunto dos caminhos candidatos é incrementado de, no máximo, três caminhos,
+cada qual representante de uma das partições: $P_a,P_b$ e $P_c$.
+
+\begin{algoritmo}
+
+\textbf{Algoritmo} \AtualizeKIM{} $(V,A,c,\Qcal,P,\Lcal)$ %\\[2mm]
+\index{algoritmo!AtualizeKIM@\AtualizeKIM}\index{AtualizeKIM@\AtualizeKIM}
+
+1\x $P_a \larr \Pa(V,A,c,\Qcal,P)$
+
+2\x $P_b \larr \Pb(V,A,c,\Qcal,P)$
+
+3\x $P_c \larr \Pc(V,A,c,\Qcal,P)$
+
+4\x $\Lcal \larr \Lcal \cup \{P_a,P_b,P_c\}$
+
+5\x \devolva{} $\Lcal$
+\end{algoritmo}
+
+
+\section{Problema do desvio mínimo}
+
+Na seção~\ref{prob:pdm} o problema do desvio mínimo foi apresentado e no capítulo~\ref{cap:hershberger}
+uma heurística foi proposta.
+Essa heurística é bastante semelhante a que iremos apresentar, no entanto o faremos de uma maneira um pouco diferente.
+
+Nesta seção mostraremos como o problema do desvio mínimo é resolvido pelo algoritmo \KIM.
+O plano desta seção é apresentar cada um dos elementos que fazem parte da solução do problema \PDM, pelo algoritmo \KIM{}.
+Começaremos pelas árvores de menores caminhos, apresentadas no capítulo~\ref{cap:hershberger} como arborescências 
+com funções potenciais.
+Em seguida, mostraremos como caminhos de custos mínimos podem ser gerados a partir destas árvores.
+Prosseguiremos explicando um método de rotulação dos nós dessas árvores, o qual será empregado
+na obtenção de um desvio mínimo.
+Exibiremos um caso específico em que a solução não funciona.
+Trataremos brevemente do desvio mínimo restrito, o qual está, de fato, no algoritmo \KIM{}.
+Finalizaremos, utilizando as árvores rotuladas na solução do problema do desvio mínimo.
+
+\subsection*{Árvores de menores caminhos $T_s$ e $T_t$}
+
+Seja $(V,A,c)$ um grafo simétrico com uma função custo $c$ nas arestas e $v$ um de seus vértices.
+Uma árvore de menores caminhos com raiz em $v$ é uma arborescência com raiz $v$ formada pelos
+caminhos de menores custos de $v$ a cada um dos seus vértices acessíveis.
+Cada vértice acessível possui um potencial que é igual ao custo de um caminho de custo mínimo a partir de $v$.
+Na figura a seguir temos um grafo e duas árvores de menores custos, uma com raiz em $s$ e outra em $t$.
+
+\begin{figure}[htb]
+			\tikzstyle{vertex}=[circle,fill=black!25,minimum size=15pt,inner sep=0pt]
+			\tikzstyle{start} = [vertex, fill=red!24]
+			\tikzstyle{end} = [vertex, fill=red!24]
+			\tikzstyle{edge} = [draw,thick,-]
+			\tikzstyle{weight} = [font=\tiny]
+			\tikzstyle{selected edge} = [draw,line width=2pt,-,red!50]
+			\tikzstyle{not used} = [draw,line width=2pt,-,blue!50]
+
+			\tikzstyle{node}=[circle,fill=black!25,minimum size=10pt,inner sep=0pt]
+			\tikzstyle{root} = [node, fill=red!24]
+			\tikzstyle{leaf} = [node, fill=gray!24]
+			\tikzstyle{onPath} = [node, fill=red!24]
+			\tikzstyle{edge} = [draw,thick,-]
+			\tikzstyle{weight} = [font=\tiny]
+			\tikzstyle{selected edge} = [draw,thick,-,red!50]
+			%\tikzstyle{LabelStyle}=[fill=white,sloped]
+			
+			% Set the overall layout of the tree
+		\tikzstyle{level 1}=[level distance=1.5cm, sibling distance=2.5cm]
+		\tikzstyle{level 2}=[level distance=1.5cm, sibling distance=2.5cm]
+
+	\begin{tikzpicture}[scale=1.0]
+        \node[start] (a) {s};
+        \node[vertex] (b) [right of=a,node distance=2cm] {b};
+        \node[vertex] (c) [above right of=b,node distance=2cm] {c};
+        \node[vertex] (d) [right of=b,node distance=2cm] {d};
+        \node[vertex] (f) [below right of=b,node distance=2cm] {f};
+        \node[end] (e) [right of=d,node distance=2cm] {t};
+          
+         \path[edge] (a) -- node[weight,above] {$1$} (b);
+         \path[edge] (b) -- node[weight,above] {$1$} (d);
+         \path[edge] (d) -- node[weight,above] {$1$} (e);
+         \path[edge] (a) -- node[weight,above] {$10$} (c);
+         \path[edge] (b) -- node[weight,above] {$10$} (c);
+         \path[edge] (c) -- node[weight,above] {$1$} (d);
+         \path[edge] (b) -- node[weight,above] {$1$} (f);
+         \path[edge] (f) -- node[weight,above] {$1$} (d);
+
+
+  	\node[root,right of=c,node distance=5cm] (ra) {s} [grow=down,-] 
+  	    child {
+				node[node] (ab) {b}
+				child[grow=south west]{
+						node[node] (abd){d} 
+						child[grow=south west]{
+							node[node] (abde) {t}
+							edge from parent
+							node[left,weight] {1}
+						}
+						child[grow=south east] {
+							node[node] (abdc) {c}
+							edge from parent
+							node[right,weight] {1}
+	 					}
+						edge from parent
+						node[left,weight] {1}
+				}
+				child[grow=south east]{
+					node[node] {f} 
+					edge from parent
+					node[left,weight] {1}
+				}				
+				edge from parent
+				node[left,weight] {1}
+	 };
+	  \node[root,right of=abdc,node distance=4cm] (e) {t} [grow=up,-] 
+  	    child {
+				node[node]  (ed) {d} 
+				child[grow=north west]{
+						node[node] (edb) {b}  
+						child{
+							node[node] (edba) {s} 
+							edge from parent
+							node[left,weight] {1}
+						}
+						edge from parent
+						node[left,weight] {1}
+				}
+				child {
+							node[node] {c}
+							edge from parent
+							node[left,weight] {1}
+	 					}
+				child[grow=north east] {
+							node[node] {f}
+							edge from parent
+							node[left,weight] {1}
+	 					}
+				edge from parent
+				node[left,weight] {1}
+	 };
+	\end{tikzpicture}
+\caption{Exemplos de árvores de menores caminhos}	
+\end{figure}
+
+Observe que cada vértice é acessado por um caminho de custo mínimo a partir da raiz.
+Por exemplo: na árvore com raiz em $a$ o vértice $c$ é acessado pelo caminho $\seq{a,b,d,c}$ de custo 3.
+
+\subsection*{Desvios mínimos}
+Na seção~\label{prob:pcm} o problema do desvio mínimo foi apresentado.
+Apenas relembrando, o problema do desvio mínimo consiste em, 
+dado um caminho de custo mínimo, encontrar um caminho diferente, com mesma ponta inicial e 
+com custo mínimo.
+Na figura a seguir vemos inicialmente um caminho de $s$ a $t$.
+\tikzstyle{vertex}=[circle,fill=black!25,minimum size=15pt,inner sep=0pt]
+\tikzstyle{start} = [vertex, fill=red!24]
+\tikzstyle{end} = [vertex, fill=red!24]
+\tikzstyle{edge} = [draw,thick,-]
+\tikzstyle{weight} = [font=\tiny]
+\tikzstyle{selected edge} = [draw,line width=2pt,-,red!50]
+\tikzstyle{not used} = [draw,line width=2pt,-,blue!50]
+
+	\begin{tikzpicture}[scale=1.0, auto,swap,node distance=7cm]
+        \node[start] (s) {s};
+        \node[end] (t) [right of=s] {t};
+        \node [right of=t, node distance=1cm] {P};
+        
+         \path[selected edge] (s) -- node[weight] {} (t);
+        
+   \end{tikzpicture}
+
+Um desvio mínimo de $P$ corresponde a um caminho de custo mínimo entre $s$ a $t$, diferente de $P$.
+na figura a seguir vemos o desvio mínimo $D$, que corresponde ao caminho que tem o prefixo comum $\seq{s,\ldots,\delta}$,
+tornando-se diferente de $P$ a partir daí.
+
+	\begin{tikzpicture}[scale=1.0, auto,swap,node distance=2cm]
+        \node[start] (s) {s};
+        \node[vertex] (desvio) [right of=s] {$\delta$};
+        \node[vertex] (u) [below right of=desvio] {u};
+        \node (aux) [right of=u] {...};       
+        \node[end,node distance=5cm] (t) [right of=desvio] {t};
+        \node[end] (t2) [right of=aux] {t};
+        \node  [right of=t, node distance=1cm] {P};
+        \node  [right of=t2, node distance=1cm] {D};
+         \path[selected edge,dashed] (s) -- node[weight] {} (desvio);
+         \path[selected edge] (desvio) -- node[weight] {} (t);
+         \path[not used] (desvio) -- node[weight] {} (u);
+         \path[edge,dashed] (u) -- node[weight,dashed] {} (aux);
+         \path[edge,dashed] (aux) -- node[weight,dashed] {} (t2);
+         
+   \end{tikzpicture}
+
+Na seção anterior vimos as árvores de menores caminhos. 
+Agora iremos utilizá-las na construção de desvios mínimos.
+
+Seja $T_s$ uma árvore de menores caminhos com origem em $s$, 
+$T_t$ uma árvore de menores caminhos com raiz em $t$,
+$P$ um caminho de custo mínimo entre $s$ e $t$ tal que $P \in T_s$ e $P \in T_t$.
+Suponha que exista um desvio mínimo $D$ de $P$.
+Sendo $D$ um desvio mínimo de $P$, compartilha com este um prefixo maximal: $\seq{s,\ldots,\delta}$,
+para algum vértice $\delta \in P$.
+Seja $u$ o vértice seguinte a $\delta$ no caminho $D$.
+Naturalmente $\delta u \notin P$.
+Sendo assim, temos duas opções para a aresta $\delta u$:
+	\begin{itemize}
+	\item $\delta u \in T_s$ \\
+		Neste caso, o caminho $D$ corresponde ao formado pela concatenação do caminho de $s$ a $u$ na árvore $T_s$		
+		ao caminho de $u$ a $t$ na árvore $T_s$. 
+		Observe que $u \in T_s$, pois é acessível a partir de $s$. Além disso, como $\delta u \in T_s$, 
+		temos que o caminho de $s$ a $u$ pertence a $T_s$.
+		Pela definição de árvores de menores caminhos, o caminho de $u$ a $t$ em $T_t$ é de custo mínimo.
+		Sendo assim, $D = s \underset{T_s}{\longrightarrow} u \underset{T_t}{\longrightarrow} t$.
+%% 		\begin{itemize}
+%% 		\item $s \underset{T_s}{\longrightarrow} u \underset{T_t}{\longrightarrow} t$
+%% 		\end{itemize}
+	\item $\delta u \notin T_s$ \\
+		Neste caso, podemos afirmar que o caminho de $s$ a $\delta$ concatenado à aresta $\delta u$ é um caminho de custo mínimo de 
+		$s$ a $u$, pois sendo $D$ um caminho de custo mínimo, qualquer de seus prefixos deve ser de custo mínimo.
+		Como $u$ é acessível a partir de $t$ e sabendo que o caminho de $u$ a $t$ em $T_t$ é de custo mínimo, temos que:
+		$D = s \underset{T_s}{\longrightarrow} u \underset{\in A}{\rightarrow} v \underset{T_t}{\longrightarrow} t$.
+%% 		\begin{itemize}
+%% 			\item $s \underset{T_s}{\longrightarrow} u \underset{\in A}{\rightarrow} v \underset{T_t}{\longrightarrow} t$
+%% 		\end{itemize}
+
+	\end{itemize}
+Formalizaremos esses dois casos em dois tipos de caminhos na seção seguinte.
+
+
+
+\subsection*{Tipos de caminhos}
+
+Seja $(V,A,c)$ um grafo simétrico com uma função custo definida em suas arestas,
+$s$ e $t$ dois vértices distintos de $V$,
+$T_s$ uma árvore de menores caminhos com raiz em $s$,
+$T_t$ uma árvore de menores caminhos com raiz em $t$,
+$P$ um caminho de custo mínimo de $s$ a $t$,
+$P_r$ o reverso de $P$,
+$P \in T_s$ e $P_r \in T_t$.
+Um desvio mínimo construído através de $u \in V$ é de um dos dois tipos definidos a seguir:
+\begin{description}
+\item[\defi{Tipo I}]: $s \underset{T_s}{\longrightarrow} u \underset{T_t}{\longrightarrow} t$.  \mar{Tipo I} %Se $\epsilon(u)<\zeta(u)$ 
+\newline
+\item[\defi{Tipo II}]: $s \underset{T_s}{\longrightarrow} u \underset{\in A}{\rightarrow} v \underset{T_t}{\longrightarrow} t$. \mar{Tipo II} %Se $\epsilon(u)=\zeta(u)$ e $\epsilon(u)<\zeta(v)$
+\end{description}
+
+Na figura a seguir temos um grafo simétrico, um caminho de custo mínimo de $s$ a $t$: $\seq{s,b,d,t}$,
+uma árvore de menores caminhos com raiz em $s$ e outra em $t$, tal que $\seq{s,b,d,t} \in T_s$ e $\seq{t,d,b,s} \in T_t$.\\
+
+\begin{figure}[htb]
+			\tikzstyle{vertex}=[circle,fill=black!25,minimum size=15pt,inner sep=0pt]
+			\tikzstyle{start} = [vertex, fill=red!24]
+			\tikzstyle{end} = [vertex, fill=red!24]
+			\tikzstyle{edge} = [draw,thick,-]
+			\tikzstyle{weight} = [font=\tiny]
+			\tikzstyle{selected edge} = [draw,line width=2pt,-,red!50]
+			\tikzstyle{not used} = [draw,line width=2pt,-,blue!50]
+
+			\tikzstyle{node}=[circle,fill=black!25,minimum size=10pt,inner sep=0pt]
+			\tikzstyle{root} = [node, fill=red!24]
+			\tikzstyle{leaf} = [node, fill=gray!24]
+			\tikzstyle{onPath} = [node, fill=red!24]
+			\tikzstyle{edge} = [draw,thick,-]
+			\tikzstyle{weight} = [font=\tiny]
+			\tikzstyle{selected edge} = [draw,thick,-,red!50]
+			%\tikzstyle{LabelStyle}=[fill=white,sloped]
+			
+			% Set the overall layout of the tree
+		\tikzstyle{level 1}=[level distance=1.5cm, sibling distance=2.5cm]
+		\tikzstyle{level 2}=[level distance=1.5cm, sibling distance=2.5cm]
+
+	\begin{tikzpicture}[scale=1.0]
+        \node[start] (a) {s};
+        \node[vertex] (b) [right of=a,node distance=2cm] {b};
+        \node[vertex] (c) [above right of=b,node distance=2cm] {c};
+        \node[vertex] (d) [right of=b,node distance=2cm] {d};
+        \node[vertex] (f) [below right of=b,node distance=2cm] {f};
+        \node[end] (e) [right of=d,node distance=2cm] {t};
+          
+         \path[edge] (a) -- node[weight,above] {$1$} (b);
+         \path[edge] (b) -- node[weight,above] {$1$} (d);
+         \path[edge] (d) -- node[weight,above] {$1$} (e);
+         \path[edge] (a) -- node[weight,above] {$10$} (c);
+         \path[edge] (b) -- node[weight,above] {$10$} (c);
+         \path[edge] (c) -- node[weight,above] {$1$} (d);
+         \path[edge] (b) -- node[weight,above] {$1$} (f);
+         \path[edge] (f) -- node[weight,above] {$1$} (d);
+
+		 	\path[selected edge] (a) -- node[weight] {} (b);
+		   \path[selected edge] (b) -- node[weight] {} (d);
+		   \path[selected edge] (d) -- node[weight] {} (e);
+
+
+  	\node[root,right of=c,node distance=5cm] (ra) {s} [grow=down,-] 
+  	    child {
+				node[node] (ab) {b}
+				child[grow=south west]{
+						node[node] (abd){d} 
+						child[grow=south west]{
+							node[node] (abde) {t}
+							edge from parent
+							node[left,weight] {1}
+						}
+						child[grow=south east] {
+							node[node] (abdc) {c}
+							edge from parent
+							node[right,weight] {1}
+	 					}
+						edge from parent
+						node[left,weight] {1}
+				}
+				child[grow=south east]{
+					node[node] (abf) {f} 
+					edge from parent
+					node[left,weight] {1}
+				}				
+				edge from parent
+				node[left,weight] {1}
+	 };
+	   	\path[selected edge] (ra) -- node[weight] {} (ab);
+			\path[selected edge] (ab) -- node[weight] {} (abd);
+		   \path[selected edge] (abd) -- node[weight] {} (abde);   
+
+	  \node[root,right of=abdc,node distance=4cm] (re) {t} [grow=up,-] 
+  	    child {
+				node[node]  (ed) {d} 
+				child[grow=north east]{
+						node[node] (edb) {b}  
+						child{
+							node[node] (edba) {s} 
+							edge from parent
+							node[left,weight] {1}
+						}
+						edge from parent
+						node[left,weight] {1}
+				}
+				child {
+							node[node] (tdc) {c}
+							edge from parent
+							node[left,weight] {1}
+	 					}
+				child[grow=north west] {
+							node[node] (tdf) {f}
+							edge from parent
+							node[left,weight] {1}
+	 					}
+				edge from parent
+				node[left,weight] {1}
+	 };
+	  	\path[selected edge] (re) -- node[weight] {} (ed);
+		\path[selected edge] (ed) -- node[weight] {} (edb);
+   	\path[selected edge] (edb) -- node[weight] {} (edba);
+
+
+   	\path[dashed,red] (abf) edge (tdf);
+	 	\path[dashed,blue,bend left] (ab) edge (tdc);
+
+	\end{tikzpicture}
+\caption{Exemplos de caminhos \defi{tipo I} e \defi{tipo II}}	
+\end{figure}
+
+Em \textcolor{red}{vermelho}, temos o caminho \textcolor{red}{$\seq{s,b,f,d,t}$} do \defi{tipo I}:
+$s \underset{T_s}{\longrightarrow} f \underset{T_t}{\longrightarrow} t$.
+Em \textcolor{blue}{azul}, temos caminho \textcolor{blue}{$\seq{s,b,c,d,t}$} do \defi{tipo II}:
+$s \underset{T_s}{\longrightarrow} b \underset{\in A}{\rightarrow} c \underset{T_t}{\longrightarrow} t$.\\
+O desvio mínimo de $\seq{s,b,d,t}$ corresponde ao caminho de custo mínimo \textcolor{blue}{$\seq{s,b,c,d,t}$}.
+
+
+\subsection*{Rotulação das árvores}
+\label{sec:rotulacao}
+
+Apresentaremos uma rotulação de árvores de menores caminhos que será utilizada em seguida para
+geração eficiente de desvios mínimos.
+
+Seja $(V,A,c)$ um grafo simétrico com uma função custo definida em suas arestas,
+$s$ e $t$ dois vértices distintos de $V$,
+$T_s$ uma árvore de menores caminhos com raiz em $s$,
+$T_t$ uma árvore de menores caminhos com raiz em $t$,
+$P$ um caminho de custo mínimo de $s$ a $t$,
+$P_r$ o reverso de $P$,
+$P \in T_s$ e $P_r \in T_t$.
+
+Para as rotulações utilizamos a função-predecessor apresentada na seção~\ref{sec:predecessor}.
+
+Rotularemos os vértices de $T_s$ utilizando a \defi{rotulação $\epsilon$} definida por: \mar{rotulação $\epsilon$}
+\begin{enumerate}[(1)]
+\item $\epsilon(s)=1$ 
+\item $u \neq s$
+	\begin{itemize}
+	\item Se $u \in P$ então $\epsilon(u)=\epsilon(\pred_{T_s}(u))+1$
+	\item Se $u \notin P$ então $\epsilon(u)=\epsilon(\pred_{T_s}(u))$
+	\end{itemize}
+\end{enumerate}
+
+Rotularemos os vértices de $T_t$ utilizando a \defi{rotulação $\zeta$} definida por: \mar{rotulação $\zeta$}
+\begin{enumerate}[(1)]
+\item $\zeta(t)=|P|$ 
+\item $u \neq t$
+	\begin{itemize}
+	\item Se $u \in P$ então $\zeta(u)=\zeta(\pred_{T_t}(u))-1$ 
+	\item Se $u \notin P$ então $\zeta(u)=\zeta(\pred_{T_t}(u))$
+	\end{itemize}
+\end{enumerate}
+
+Pelas definições acima podemos perceber que $\forall u \in P$ temos $\epsilon(u)=\zeta(u)$.
+
+Na figura a seguir, temos o caminho destacado \textcolor{red!50}{$\seq{s,b,d,t}$} e as rotulações $\epsilon$ e $\zeta$ 
+das árvores de menores caminhos $T_s$ e $T_t$.
+\begin{figure}[hbt]
+			\tikzstyle{vertex}=[circle,fill=black!25,minimum size=15pt,inner sep=0pt]
+			\tikzstyle{start} = [vertex, fill=red!24]
+			\tikzstyle{end} = [vertex, fill=red!24]
+			\tikzstyle{edge} = [draw,thick,-]
+			\tikzstyle{weight} = [font=\tiny]
+			\tikzstyle{selected edge} = [draw,line width=2pt,-,red!50]
+			\tikzstyle{not used} = [draw,line width=2pt,-,blue!50]
+
+			\tikzstyle{node}=[circle,fill=black!25,minimum size=10pt,inner sep=0pt]
+			\tikzstyle{root} = [node, fill=red!24]
+			\tikzstyle{leaf} = [node, fill=gray!24]
+			\tikzstyle{onPath} = [node, fill=red!24]
+			\tikzstyle{edge} = [draw,thick,-]
+			\tikzstyle{weight} = [font=\tiny]
+			\tikzstyle{selected edge} = [draw,thick,-,red!50]
+			%\tikzstyle{LabelStyle}=[fill=white,sloped]
+			
+			% Set the overall layout of the tree
+		\tikzstyle{level 1}=[level distance=1.5cm, sibling distance=2.5cm]
+		\tikzstyle{level 2}=[level distance=1.5cm, sibling distance=2.5cm]
+
+	\begin{tikzpicture}[scale=1.0]
+  	\node[root,right of=c,node distance=5cm,label=right:{\footnotesize $\epsilon=1$}] (ra) {s} [grow=down,-] 
+  	    child {
+				node[onPath,label=right:{\footnotesize $2$}] (ab) {b}
+				child[grow=south west]{
+						node[onPath,label=right:{\footnotesize $3$}](abd){d} 
+						child[grow=south west]{
+							node[onPath,label=left:{\footnotesize $4$}] (abde) {t}
+							edge from parent
+							node[left,weight] {}
+						}
+						child[grow=south east] {
+							node[node,label=right:{\footnotesize $3$}] (abdc) {c}
+							edge from parent
+							node[right,weight] {}
+	 					}
+						edge from parent
+						node[left,weight] {}
+				}
+				child[grow=south east]{
+					node[node,label=right:{\footnotesize $2$}] {f} 
+					edge from parent
+					node[left,weight] {}
+				}				
+				edge from parent
+				node[left,weight] {}
+	 };
+  	\path[selected edge] (ra) -- node[weight] {} (ab);
+   \path[selected edge] (ab) -- node[weight] {} (abd);
+   \path[selected edge] (abd) -- node[weight] {} (abde);   
+
+	  \node[root,right of=abdc,node distance=7cm,label=right:{\footnotesize $\zeta=4$}] (re) {t} [grow=up,-] 
+  	    child {
+				node[onPath,label=right:{\footnotesize $3$}]  (ed) {d} 
+				child[grow=north west]{
+						node[onPath,label=left:{\footnotesize $2$}] (edb) {b}  
+						child{
+							node[onPath,label=left:{\footnotesize $1$}] (edba) {s} 
+							edge from parent
+							node[left,weight] {}
+						}
+						edge from parent
+						node[left,weight] {}
+				}
+				child {
+							node[node,label=right:{\footnotesize $3$}] {c}
+							edge from parent
+							node[left,weight] {}
+	 					}
+				child[grow=north east] {
+							node[node,label=right:{\footnotesize $3$}] {f}
+							edge from parent
+							node[left,weight] {}
+	 					}
+				edge from parent
+				node[left,weight] {}
+	 }
+	     ;
+ 	\path[selected edge] (re) -- node[weight] {} (ed);
+   \path[selected edge] (ed) -- node[weight] {} (edb);
+   \path[selected edge] (edb) -- node[weight] {} (edba);
+	\end{tikzpicture}
+\caption{Exemplo de rotulações $\epsilon$ e $\zeta$}	
+\end{figure}
+
+Para gerar as árvores tratadas aqui, é preciso utilizar um versão modificada do algoritmo \PCM,
+a qual chamaremos \defi{\PCM{} modificada}.
+As alterações requeridas são:
+\begin{itemize}
+\item rotulação $\epsilon$ na árvore $T_s$ e $\zeta$ na árvore $T_t$;
+\item garantia de que um certo caminho faça parte de ambas as árvores.
+\end{itemize}
+
+
+\subsection*{Desvios mínimos utilizando rotulações}
+
+Agora, temos em mãos os ingredientes necessários para apresentar uma maneira simples e eficiente
+de gerar desvios mínimos: árvores de menores caminhos, tipos de caminhos e rotulações.
+Veremos, primeiramente, como é possível determinar que tipo de caminho pode ser gerado a partir
+de um vértice, utilizando as rotulações das árvores.
+
+Seja $(V,A,c)$ um grafo simétrico com uma função custo definida em suas arestas,
+$s$ e $t$ dois vértices distintos de $V$,
+$T_s$ uma árvore de menores caminhos com raiz em $s$,
+$T_t$ uma árvore de menores caminhos com raiz em $t$,
+$P$ um caminho de custo mínimo de $s$ a $t$,
+$P_r$ o reverso de $P$,
+$P \in T_s$ e $P_r \in T_t$.
+
+%Antes de prosseguirmos precisamos definir o que é um vértice de desvio:
+%Sejam $P_1$ e $P_2$ dois caminhos distintos que compartilham um prefixo comum $Q$.
+
+Para cada vértice $u$, acessível a partir de $s$, 
+podemos determinar que tipos de caminhos podem ser gerados 
+através dele, da seguinte maneira:
+\begin{description}
+\item[$\epsilon(u)<\zeta(u)$]:
+O novo caminho será do tipo I.
+\item[$\epsilon(u)=\zeta(u)$]: 
+Se $u \in P$ então isso sempre ocorre pela própria definição.
+No entanto, podem existir vértices não pertencentes a $P$ tal que isto também ocorra.
+
+Neste caso, se tentássemos gerar um caminho do tipo I este conteria 
+vértices repetidos, sendo assim um passeio e não um caminho, ou seria o próprio $P$. 
+
+Vamos tratar de dois casos para mostrar que não é possível montar um caminho do tipo I, diferente de $P$,
+ a partir de $u$, quando $\epsilon(u)=\zeta(u)$:
+\begin{description}
+\item[$u \in P$]: 
+Seja $u \in P=\seq{s=v_1,\ldots,u,\ldots,v_n=t}$, $s\underset{T_s}{\longrightarrow}u$ o caminho de $s$ a $u$ em $T_s$,
+$P_r\seq{t=v_n,\ldots,u,\ldots,v_1=s}$ o reverso de $P$ em $T_t$ e $t\underset{T_t}{\longrightarrow}u$ o caminho de $t$ a $u$ em $T_t$.
+Se concatenarmos os caminhos $s\underset{T_s}{\longrightarrow}u$ e $u\underset{T_t}{\longrightarrow}t$ teremos o caminho:
+$\seq{s=v_1,\ldots,u,\ldots,v_n=t}=P$.
+\item[$u \notin P$]:
+Seja $u \notin P$ e escolha em $P$ o vértice $c$ tal que $\epsilon(c)=\epsilon(u)$, ou seja, escolha o vértice de desvio.
+Vamos montar agora o caminho do tipo I: $s\underset{T_s}{\longrightarrow}u\underset{T_t}{\longrightarrow}t$.
+Como $u$ se desvia de $P$ em $c$, temos $s\underset{T_s}{\longrightarrow}u=s\underset{T_s}{\longrightarrow}c\underset{T_s}{\longrightarrow}u$.
+Como $\epsilon(c)=\zeta(c)$, pois $c \in P$, $\epsilon(u)=\zeta(u)$ e $\epsilon(c)=\epsilon(u)$, 
+podemos afirmar que $c$ se desvia do reverso de $P$ no vértice $c$ logo, o caminho $u\underset{T_t}{\longrightarrow}t$ é igual
+ao $u\underset{T_t}{\longrightarrow}c\underset{T_t}{\longrightarrow}t$.
+Sendo assim, montaríamos o passeio: 
+$s~\underset{T_s}{\longrightarrow}~c\underset{T_s}{\longrightarrow}~u\underset{T_t}{\longrightarrow}~c\underset{T_t}{\longrightarrow}~t$, onde
+observamos a repetição do vértice $c$, não sendo, portanto, um caminho.
+\end{description}
+
+
+Podemos gerar caminhos do tipo II, através de arcos $(u,v)\notin T_s \cup T_t$, contanto que 
+$\epsilon(u)<\zeta(v)$. Se  $\epsilon(u) \geq \zeta(v)$, geraríamos passeios e não caminhos.
+Usaremos um argumento parecido ao anteriormente apresentado.
+Se $u \notin P$ tomaremos o vértice de desvio, ou seja, $c$ onde $\epsilon(u)=\epsilon(c)=\zeta(c)$,
+se $u \in P$ tomaremos $c=u$.
+Supondo que $\epsilon(u) \geq \zeta(v)$, como $\epsilon(u)=\epsilon(c)$, 
+podemos escrever $\epsilon(c) \geq \zeta(v)$ ou $\zeta(c) \geq \zeta(v)$.
+Tomemos agora o vértice de desvio de $v$, o qual chamaremos de $d$, tal que $\zeta(v)=\zeta(d)=\epsilon(d)$.
+Montaremos agora o caminho do tipo II: $s\underset{T_s}{\longrightarrow}u \rightarrow v \underset{T_t}{\longrightarrow}t=
+s\underset{T_s}{\longrightarrow}c\underset{T_s}{\longrightarrow}u \rightarrow v \underset{T_t}{\longrightarrow}d\underset{T_t}{\longrightarrow}t$.
+Como $\zeta(c) \geq \zeta(v)$ e $\zeta(v)=\zeta(d)$ temos que $\zeta(c) \geq \zeta(d)$, assim, podemos reescrever o caminho
+anterior como: $s\underset{T_s}{\longrightarrow}c\underset{T_s}{\longrightarrow}u \rightarrow v \underset{T_t}{\longrightarrow}c\underset{T_t}{\longrightarrow}d\underset{T_t}{\longrightarrow}t$,
+onde fica clara a repetição do vértice $c$, caraterizando um passeio e não um caminho.
+
+%Seja $u \notin P$ e escolha em $P$ o vértice $c$ tal que $\epsilon(c)=\epsilon(u)$, ou seja, escolha o vértice de desvio.
+%Basta notar que $\epsilon(u)>\zeta(v)$ significa que o caminho $s \underset{T_s}{\longrightarrow} u$ se desviou de
+%s \underset{T_s}{\longrightarrow} t$ no vértice $u_{\epsilon}$ e o caminho $v \underset{T_t}{\longrightarrow} t$
+%se desviou de $P_r$ no vértice $u_{\zeta}$. 
+%Então, $s \underset{T_s}{\longrightarrow} u=\seq{u_1,\ldots,u_{\epsilon}}$ e
+%v \underset{T_t}{\longrightarrow} t=\seq{u_{\zeta},\ldots,u_n}$. 
+%Sendo $\epsilon(u)>\zeta(v)$, fica claro que a concatenação dos caminhos
+%gerará um passeio com vértices repetidos.
+\item[$\epsilon(u)>\zeta(u)$]:
+Só podemos gerar passeios neste caso.
+Veremos, na seção~\ref{sec:zerado}, que isto ocorre apenas quando houver arestas com custos iguais a zero.
+%Se tentássemos gerar um caminho do tipo I, digamos:
+%$s \underset{T_s}{\longrightarrow} u \underset{T_t}{\longrightarrow} t$,
+%Vamos tentar gerar um caminho do tipo I através de $u$.
+
+\end{description}
+
+Na figura a seguir, vemos um grafo simétrico, onde o caminho \textcolor{red!50}{$P=\seq{s,b,d,t}$} está destacado, 
+as árvores $T_s$ e $T_t$, tal que $P$ está $T_s$ e o seu reverso está em $T_t$.
+\begin{figure}[hbt]
+			\tikzstyle{vertex}=[circle,fill=black!25,minimum size=15pt,inner sep=0pt]
+			\tikzstyle{start} = [vertex, fill=red!24]
+			\tikzstyle{end} = [vertex, fill=red!24]
+			\tikzstyle{edge} = [draw,thick,-]
+			\tikzstyle{weight} = [font=\tiny]
+			\tikzstyle{selected edge} = [draw,line width=2pt,-,red!50]
+			\tikzstyle{not used} = [draw,line width=2pt,-,blue!50]
+
+			\tikzstyle{node}=[circle,fill=black!25,minimum size=10pt,inner sep=0pt]
+			\tikzstyle{root} = [node, fill=red!24]
+			\tikzstyle{leaf} = [node, fill=gray!24]
+			\tikzstyle{onPath} = [node, fill=red!24]
+			\tikzstyle{edge} = [draw,thick,-]
+			\tikzstyle{weight} = [font=\tiny]
+			\tikzstyle{selected edge} = [draw,thick,-,red!50]
+			%\tikzstyle{LabelStyle}=[fill=white,sloped]
+			
+			% Set the overall layout of the tree
+		\tikzstyle{level 1}=[level distance=1.5cm, sibling distance=2.5cm]
+		\tikzstyle{level 2}=[level distance=1.5cm, sibling distance=2.5cm]
+
+	\begin{tikzpicture}[scale=1.0]
+        \node[start] (a) {s};
+        \node[vertex] (b) [right of=a,node distance=2cm] {b};
+        \node[vertex] (c) [above right of=b,node distance=2cm] {c};
+        \node[vertex] (d) [right of=b,node distance=2cm] {d};
+        \node[vertex] (f) [below right of=b,node distance=2cm] {f};
+        \node[end] (e) [right of=d,node distance=2cm] {t};
+          
+         \path[edge] (a) -- node[weight,above] {$1$} (b);
+         \path[edge] (b) -- node[weight,above] {$1$} (d);
+         \path[edge] (d) -- node[weight,above] {$1$} (e);
+         \path[edge] (a) -- node[weight,above] {$10$} (c);
+         \path[edge] (b) -- node[weight,above] {$10$} (c);
+         \path[edge] (c) -- node[weight,above] {$1$} (d);
+         \path[edge] (b) -- node[weight,above] {$1$} (f);
+         \path[edge] (f) -- node[weight,above] {$1$} (d);
+		 	\path[selected edge] (a) -- node[weight] {} (b);
+		   \path[selected edge] (b) -- node[weight] {} (d);
+		   \path[selected edge] (d) -- node[weight] {} (e);
+
+
+  	\node[root,right of=c,node distance=5cm,label=right:{\footnotesize $\epsilon=1$}] (ra) {s} [grow=down,-] 
+  	    child {
+				node[onPath,label=right:{\footnotesize $2$}] (ab) {b}
+				child[grow=south west]{
+						node[onPath,label=right:{\footnotesize $3$}](abd){d} 
+						child[grow=south west]{
+							node[onPath,label=left:{\footnotesize $4$}] (abde) {t}
+							edge from parent
+							node[left,weight] {}
+						}
+						child[grow=south east] {
+							node[node,label=right:{\footnotesize $3$}] (abdc) {c}
+							edge from parent
+							node[right,weight] {}
+	 					}
+						edge from parent
+						node[left,weight] {}
+				}
+				child[grow=south east]{
+					node[node,label=right:{\footnotesize $2$}] {f} 
+					edge from parent
+					node[left,weight] {}
+				}				
+				edge from parent
+				node[left,weight] {}
+	 };
+  	\path[selected edge] (ra) -- node[weight] {} (ab);
+   \path[selected edge] (ab) -- node[weight] {} (abd);
+   \path[selected edge] (abd) -- node[weight] {} (abde);   
+
+	  \node[root,right of=abdc,node distance=5cm,label=right:{\footnotesize $\zeta=4$}] (re) {t} [grow=up,-] 
+  	    child {
+				node[onPath,label=right:{\footnotesize $3$}]  (ed) {d} 
+				child[grow=north east]{
+						node[onPath,label=left:{\footnotesize $2$}] (edb) {b}  
+						child{
+							node[onPath,label=left:{\footnotesize $1$}] (edba) {s} 
+							edge from parent
+							node[left,weight] {}
+						}
+						edge from parent
+						node[left,weight] {}
+				}
+				child {
+							node[node,label=right:{\footnotesize $3$}] (tdc) {c}
+							edge from parent
+							node[left,weight] {}
+	 					}
+				child[grow=north west] {
+							node[node,label=right:{\footnotesize $3$}] (tdf) {f}
+							edge from parent
+							node[left,weight] {}
+	 					}
+				edge from parent
+				node[left,weight] {}
+	 }
+	     ;
+ 	\path[selected edge] (re) -- node[weight] {} (ed);
+   \path[selected edge] (ed) -- node[weight] {} (edb);
+   \path[selected edge] (edb) -- node[weight] {} (edba);
+   
+  	\path[dashed,green] (abf) edge (tdf);
+ 	\path[dashed,blue,bend left] (ra) edge (tdc);
+ 	\path[dashed,red,bend left] (ab) edge (tdc);
+   
+   
+	\end{tikzpicture}
+\caption{Exemplo de desvios utilizando as rotulações \defi{$\epsilon$} e \defi{$\zeta$}.}
+\end{figure}
+
+Observamos três desvios:
+\begin{itemize}
+\item usando o vértice $f$, onde $\epsilon(f)\leq\zeta(f)$, montamos o caminho do tipo I:\\
+\textcolor{green}{$s \underset{T_s}{\longrightarrow} u \underset{T_t}{\longrightarrow} t$=$\seq{s,b,f,d,t}$};
+\item usando o vértice $c$, onde $\epsilon(c)=\zeta(c)$, montamos os caminhos do tipo II:
+	\begin{enumerate}[(a)]
+		\item \textcolor{blue}{$s \underset{T_s}{\longrightarrow} s \underset{\in A}{\rightarrow} c \underset{T_t}{\longrightarrow} t$ = $\seq{s,c,d,t}$}.
+		Observe que $\epsilon(s)<\zeta(c)$;
+		\item \textcolor{red}{$s \underset{T_s}{\longrightarrow} b \underset{\in A}{\rightarrow} c \underset{T_t}{\longrightarrow} t$ = $\seq{s,b,c,d,t}$}.
+		Observe que $\epsilon(b)<\zeta(c)$.
+	\end{enumerate}
+\end{itemize} 
+Neste caso, o desvio mínimo corresponde ao caminho \textcolor{green}{$\seq{s,b,f,d,t}$}.
+
+\subsection*{Custo zero nas arestas}
+\label{sec:zerado}
+
+Na seção anterior, dissemos que quando $\epsilon(u)>\zeta(u)$, para algum vértice $u$, 
+só é possível gerar passeios através dele, 
+situação que pode ocorrer se existir alguma aresta de custo zero no grafo. 
+Veremos um exemplo onde isso ocorre e o que acontece, com o algoritmo de geração de desvio mínimo apresentado, neste caso.
+%% O funcionamento do algoritmo está baseado na rotulação dos $\epsilon$ e $\zeta$ respeitar a relação 
+%% $\epsilon(v) \leq \zeta(v)$. Observamos que a rotina \SEP{} gera apenas caminhos tipos I e II para
+%% vértices onde $\epsilon(v) \leq \zeta(v)$.
+%% Quando existem custos zerados nas arestas, é possível que esta relação não seja respeitada.
+
+Na figura a seguir, temos um grafo simétrico com um caminho mínimo de $s$ a $t$ destacado e as
+árvores $T_s$ e $T_t$ correspondentes.
+Queremos encontra um desvio mínimo de \textcolor{red!50}{$\seq{s,b,d,t}$} utilizando
+o algoritmo de desvio mínimo utilizando rotulações.
+
+\begin{figure}[hbtp]
+\tikzstyle{vertex}=[circle,fill=black!25,minimum size=15pt,inner sep=0pt]
+\tikzstyle{start} = [vertex, fill=red!24]
+\tikzstyle{end} = [vertex, fill=red!24]
+\tikzstyle{edge} = [draw,thick,-]
+\tikzstyle{weight} = [font=\tiny]
+\tikzstyle{selected edge} = [draw,line width=2pt,-,red!50]
+\tikzstyle{node}=[circle,fill=black!25,minimum size=10pt,inner sep=0pt]
+\tikzstyle{root} = [node, fill=red!24]
+\tikzstyle{leaf} = [node, fill=red!24]
+\tikzstyle{onPath} = [node, fill=red!24]
+\tikzstyle{edge} = [draw,thick,-]
+\tikzstyle{weight} = [font=\tiny]
+\tikzstyle{selected edge} = [draw,thick,-,red!50]
+%\tikzstyle{LabelStyle}=[fill=white,sloped]
+% Set the overall layout of the tree
+\tikzstyle{level 1}=[level distance=1.5cm, sibling distance=2.5cm]
+\tikzstyle{level 2}=[level distance=1.5cm, sibling distance=2.5cm]
+	\begin{tikzpicture}[auto,swap,node distance=2cm]
+        \node[start] (a) {s};
+        \node[vertex] (b) [right of=a] {b};
+        \node[vertex] (c) [below right of=b] {c};
+        \node[vertex] (d) [right of=b] {d};
+        \node[end] (e) [right of=d] {t};
+          
+         \path[selected edge] (a) -- node[weight] {$1.0$} (b);
+         \path[selected edge] (b) -- node[weight] {$0.0$} (d);
+         \path[selected edge] (d) -- node[weight] {$1.0$} (e);
+         \path[edge] (b) -- node[weight] {$1.0$} (c);
+         \path[edge] (c) -- node[weight] {$1.0$} (d);
+
+
+
+  	\node[root,label=right:{\footnotesize $\epsilon=1$},right of=e,node distance=2cm] (ra) {s} [grow=down,-] 
+  	    child {
+				node[onPath,label=right:{\footnotesize $\epsilon=2$}] (ab) {b}
+				child{
+						node[onPath,label=right:{\footnotesize $\epsilon=3$}](abd){d} 
+						child{
+							node[onPath,label=left:{\footnotesize $\epsilon=4$}] (abde) {t}
+							edge from parent
+							node[left,weight] {1.0}
+						}
+						child {
+							node[node,label=right:\textcolor{red}{\footnotesize $\epsilon=3$}] (abdc) {c}
+							edge from parent
+							node[right,weight] {1.0}
+	 					}
+						edge from parent
+						node[left,weight] {0.0}
+				}
+				edge from parent
+				node[left,weight] {1.0}
+	 };
+  	\path[selected edge] (ra) -- node[weight] {} (ab);
+   \path[selected edge] (ab) -- node[weight] {} (abd);
+   \path[selected edge] (abd) -- node[weight] {} (abde);   
+
+  	\node[node distance=3cm,root,label=right:{\footnotesize $\zeta=4$},right of=abdc] (re) {t} [grow=up,-] 
+  	    child {
+				node[onPath,label=right:{\footnotesize $\zeta=3$}] (ed) {d} 
+				child{
+						node[onPath,label=right:{\footnotesize $\zeta=2$}] (edb) {b}  
+						child{
+							node[onPath,label=right:{\footnotesize $\zeta=1$}] (edba) {s} 
+							edge from parent
+							node[right,weight] {1.0}
+						}
+						child {
+							node[node,label=left:\textcolor{red}{\footnotesize $\zeta=2$}] {c}
+							edge from parent
+							node[left,weight] {1.0}
+	 					}
+						edge from parent
+						node[left,weight] {0.0}
+				}
+				edge from parent
+				node[left,weight] {1.0}
+	 }
+	     ;
+ 	\path[selected edge] (re) -- node[weight] {} (ed);
+   \path[selected edge] (ed) -- node[weight] {} (edb);
+   \path[selected edge] (edb) -- node[weight] {} (edba);
+	\end{tikzpicture}
+\caption{Exemplo de falha no cálculo do desvio mínimo no algoritmo \KIM{}}
+\end{figure}
+
+Observe que em $T_s$ o predecessor de $c$ é o vértice $d$, enquanto que em $T_t$ é o $b$.
+A aresta $bd$ ter custo zero torna isso possível.
+Sendo assim, se tentássemos gerar um desvio de custo mínimo do tipo I através de $c$
+acabaríamos com o passeio: $\seq{s,b,d,c,b,d,t}$, onde os vértices $b$ e $d$ aparecem repetidos.
+Não há como gerar um desvio mínimo do tipo II, uma vez que não existe nenhuma aresta 
+do grafo que não esteja nas árvores.
+Além disso, mesmo que houvesse tais arestas, ainda assim geraríamos um passeio.
+ 
+Pelo algoritmo apresentado, não há desvio mínimo, no entanto, está claro
+que o desvio mínimo de \textcolor{red!50}{$\seq{s,b,d,t}$} é $\seq{s,b,c,d,t}$. 
+
+\subsection*{Problema do desvio mínimo restrito}
+O problema do desvio mínimo é resolvido no algoritmo \KIM{} através de duas rotinas: \FSP{} e \SEP{}.
+O algoritmo \KIM{} lida com uma versão mais restrita do problema do desvio mínimo, pois permite que seja 
+informado o vértice antes do qual o desvio deve ocorrer.
+
+\label{prob:pdmr}
+ \begin{quote}
+   \textbf{Problema} \PDM{} Restrito$(V,A,c,s,t,P,\alpha)$:%
+   \index{problema!PDM restrito@\PDM restrito}\mar{\PDM{} restrito}
+   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	Dado um caminho \\
+	$P=\seq{u_1=s,\ldots,u_n=t}$, um grafo simétrico $(V,A,c)$ e um inteiro $1~\leq~\alpha~\leq~n$, 
+encontrar um desvio mínimo de $\seq{s,\ldots,u_{\alpha}}$.
+ \end{quote}
+Se $\alpha=n$, qualquer caminho de custo mínimo diferente de $P$ serve como resposta.
+
+Começaremos tratando da rotina \FSP{}.
+
+A rotina \FSP{} gera duas árvores de menores caminhos rotuladas,
+$T_s$ e $T_t$, tal que o caminho $P$ pertence a $T_s$ e o seu reverso pertence a $T_t$ e
+delega à rotina \SEP{} o trabalho de tentar encontrar um desvio mínimo restrito.
+
+A seguir temos o algoritmo que resume o que foi dito:
+\begin{algoritmo}
+\textbf{Algoritmo} \FSP{} $(V,A,c,s,t,P,\alpha)$ %\\[2mm]%
+\index{algoritmo!FSP@\FSP}\index{FSP@\FSP} 
+
+1\x $T_s \larr \mbox{árvore de menores caminhos com raiz em $s$,}$ 
+
+\xxxxx rotulada com os $\epsilon$ e contendo o caminho $P$.
+
+2\x $T_t \larr \mbox{árvore de menores caminhos com raiz em $t$,}$ 
+
+\xxxxx rotulada com os $\zeta$ e contendo o caminho reverso de $P$.
+ 
+3\x $R \larr \SEP(V,A,T_s,T_t,s,t,\alpha,P)$ 
+
+4\x \se{} $R=x, x \in V$ \entao{} \devolva{} $s \underset{T_s}{\longrightarrow} x \underset{T_t}{\longrightarrow} t$
+
+5\x \se{} $R=(x,y), (x,y) \in A$ \entao{} \devolva{} $s \underset{T_s}{\longrightarrow} x \underset{\in A}{\rightarrow} y \underset{T_t}{\longrightarrow} t$
+
+6\x  \devolva{} $R$
+
+\end{algoritmo}
+
+Nas linhas~1 e 2, as construções das duas árvores correspondem a duas chamadas a um rotina que resolve o $\PCM$ modificado.
+Veremos adiante que a rotina \SEP{}, executada na linha~3, consome tempo $\Theta(m+n)$. 
+Nas linhas~4 e 5, a concatenação dos caminhos consome tempo $\Theta(n)$, 
+pois corresponde a passear nas árvores através de, no máximo $n$ vértices.
+Portanto, o consumo de tempo da função \FSP{} é $\Theta(T(n,m))$.
+
+A rotina \SEP{} é a alma do algoritmo \KIM{}.
+Ela trabalha testando desvios dos tipos I e II, retornando um de custo mínimo de $s$ a $t$, 
+que desvia do caminho $P$ em algum vértice $u$ onde $\epsilon(u)\le\alpha$, 
+analisando as arestas e vértices do grafo $(V,A)$ em profundidade.
+Veremos que seu consumo de tempo é $\Oh(m)$.
+
+\begin{algoritmo}
+\textbf{Algoritmo} \SEP{} $(V,A,T_s,T_t,s,t,\alpha,P)$ %\\[2mm]%
+\index{algoritmo!SEP@\SEP}\index{SEP@\SEP} 
+
+1 \x empilha $s$ em $S$ 
+
+2 \x $C \larr \infty, R \larr \emptyset$ 
+
+3 \x \enquanto{} $S \neq \emptyset$ \faca
+
+4 \xx desempilha $u$ de $S$
+
+5 \xx $F_u \larr$ conjunto de vértices em $T_s$ cujo predecessor seja o vértice $u$.
+
+6 \xx $A_u \larr$ conjunto dos vértices vizinhos do vértice $u$. 
+
+7 \xx \se{} $\epsilon(u)=\zeta(u)$ \entao
+
+8 \xxx \para{} $v \in A_u - F_u$ e $\epsilon(u)<\zeta(v)$ \faca{}
+
+9 \xxxx \se{} $c(\underset{T_s}{s \longrightarrow u}) + c(u,v) + c(\underset{T_t}{t\longrightarrow v}) < C$ \entao{} //caminho tipo II
+
+10\xxxxx $C \larr c(\underset{T_s}{s \longrightarrow u}) + c(u,v) + c(\underset{T_t}{t\longrightarrow v})$
+
+11\xxxxx $R \larr (u,v)$
+
+12\xx \se{} $\epsilon(u)<\zeta(u)$ \entao
+
+13\xxx \se{} $c(\underset{T_s}{s \longrightarrow u}) + c(\underset{T_t}{t\longrightarrow u}) < C$ \entao{} //caminho tipo I
+
+14\xxxx $C \larr c(\underset{T_s}{s \longrightarrow u}) + c(\underset{T_t}{t\longrightarrow u})$
+
+15\xxxx $R \larr u$
+
+16\xx \para{} $v \in F_u$ \faca{} \se{} $\epsilon(v)<\alpha$ \entao{} empilha $v$ em $S$
+
+17\x \devolva{} $R$
+\end{algoritmo}
+
+O problema do desvio mínimo restrito é, efetivamente resolvido pela rotina \SEP{}.
+Como vimos anteriormente, dado qualquer vértice pertencente à árvore $T_s$ se 
+existirem desvios mínimos que passem por ele então existe um dentre eles que é do tipo I ou II.
+A rotina \SEP{} faz justamente o trabalho de tentar gerar esses desvios e retornar o de menor custo.
+Note que percorrer os vértices de $T_s$ em profundidade diminui o número de vértices que precisam ser testados, pois
+adicionamos à pilha somente os anteriores aos que possuem $\epsilon=\alpha$. 
+Observe na linha~17 que, apenas os vértices vizinhos ao que está sendo analisado cujos valores de $\epsilon$ sejam inferiores a $\alpha$, 
+são adicionados à pilha $S$ afinal, queremos apenas caminhos que desviem de $P$ antes do vértice $u_{\alpha}$.
+
+Para calcularmos o consumo de tempo da rotina \SEP{}, podemos notar, que o conjunto $S$ armazena vértices pertencentes à $T_s$, 
+cujos valores de $\epsilon$ sejam inferiores a $\alpha$.
+Como os vértices são analisados apenas uma vez, podemos afirmar que o laço da linha~3 é executado $\Oh(n)$, já que existem, 
+no máximo $n$ vértices em $T_s$.
+A linha~8 contém um laço que percorre uma série de arcos em $A$. 
+Para cada vértice $x$ sendo analisado, as linhas~9-11 podem ser executadas, no máximo $|A_x|$ onde $A_x$ corresponde às arestas
+com ponta em $x$. Considerando-se todos os vértices, as linhas~9-11 podem ser executadas para todos as arestas do grafo.
+Com base nesta constatação e considerando que as outras linhas internas ao laço da linha~3 consomem tempo $\Theta(1)$,
+temos que o consumo da rotina \SEP{} é igual a $\Oh(m)$.
+
+
+
+%% \subsection*{Árvores de menores caminhos $T_s$ e $T_t$}
+%% \label{sec:arvores}
+%% 
+%% As árvores $T_s$ e $T_t$ correspondem a árvores de menores caminhos rotuladas geradas utilizando-se uma 
+%% versão modificada do algoritmo $\PCM$.
+%% 
+%% São duas as mudanças requeridas:
+%% \begin{itemize}
+%% \item Rotulação utilizando-se índices $\epsilon$ na árvore $T_s$ e $\zeta$ na árvore $T_t$;
+%% \item Garantia de que um certo caminho base faça parte de ambas as árvores.
+%% \end{itemize}
+%% 
+%% A árvore $T_s$ corresponde a árvore de menores caminhos cuja raiz é $s$. \mar{$T_s$} 
+%% 
+%% A árvore $T_t$ corresponde a árvore de menores caminhos cuja raiz é $t$. \mar{$T_t$} 
+%% 
+%% A rotulação das árvores funciona da seguinte maneira:
+%% 
+%% Seja $G = (V,A)$ um \defi{grafo} simétrico e $P = \seq{u_{1}, u_{2}, \ldots , u_{n}}$ um caminho em $G$.
+%% Definimos a rotulação $\epsilon$ dos vértices da árvore $T_s$ da seguinte forma: \mar{rotulação $\epsilon$}
+%% \begin{itemize}
+%% \item Se o vértice $x$ pertencer ao caminho $P$, então $\epsilon(x)$ 
+%% corresponde a sua posição no caminho, começando a contagem em 1. 
+%% No exemplo acima, $\epsilon(u_{1})=1, \epsilon(u_{2})=2, \ldots, \epsilon(u_{n})=n$;
+%% \item Caso contrário, o valor de $\epsilon(x)$ corresponde ao $\epsilon(y)$, onde $y$ representa
+%% o vértice pertencente à árvore $T_s$ tal que o arco $(x,y)$ também pertence à árvore $T_s$.
+%% \end{itemize}
+%% Graficamente, podemos observar que a rotulação $\epsilon$ nada mais é que atribuir a cada vértice não pertencente
+%% ao caminho base $P$ o valor de $\epsilon$ do seu último vértice comum ao caminho $P$.
+%% Na figura~\ref{fig:rotulacao}(b), temos o caminho base $P = \seq{a, d, e}$, cujos vertices são 
+%% rotulados de acordo com sua posição no caminho, ou seja, $\epsilon(a)=1$, $\epsilon(d)=2$ e $\epsilon(e)=3$.
+%% 
+%% $\epsilon(b)=1$, uma vez que o $\epsilon$ do último vértice pertencente ao caminho $P$ comum aos
+%% caminhos $P$ e $\seq{a,b}$, na árvore $T_s$, é 1.
+%% O mesmo vale para o vértice $c$.
+%% 
+%% Antes de definir a rotulação $\zeta$, vamos definir $P_{r}$ como o reverso de $P$, ou seja,
+%% $P_{r} = \seq{u_{n}, u_{n-1}, \ldots , u_{1}}$
+%% 
+%% Definimos a rotulação $\zeta$ dos vértices da árvore $T_t$ da seguinte forma: \mar{rotulação $\zeta$}
+%% \begin{itemize}
+%% \item Se o vértice $x$ pertencer ao caminho $P_{r}$, então $\zeta(x)$ = $\epsilon(x)$.
+%% No exemplo acima, $\zeta(u_{1})=1, \zeta(u_{n-1})=n-1, \ldots, \zeta(u_{n})=n$;
+%% \item Caso contrário, o valor de $\zeta(x)$ corresponde ao $\zeta(y)$, onde $y$ representa
+%% o vértice pertencente à árvore $T_t$ tal que o arco $(x,y)$ também pertence à árvore $T_t$.
+%% \end{itemize}
+%% Graficamente, podemos observar que a rotulação $\zeta$ nada mais é que atribuir a cada vértice não pertencente
+%% ao caminho base $P_{r}$ o valor de $\zeta$ do seu último vértice comum ao caminho base $P_{r}$.
+%% Na figura~\ref{fig:rotulacao}(c), temos o caminho base $P_{r} = \seq{e, d, a}$ cujos vértices são rotulados 
+%% com os mesmos valores da rotulação $\epsilon$, ou seja,
+%% $\zeta(e)=3$, $\zeta(d)=2$ e $\zeta(a)=1$.
+%% 
+%% $\zeta(b)=3$, uma vez que o $\zeta$ do último vértice pertencente ao caminho $P_{r}$ comum aos
+%% caminhos $P_{r}$ e $\seq{e,b}$, na árvore $T_t$, é 3.
+%% 
+%% $\zeta(c)=3$, uma vez que o $\zeta$ do último vértice pertencente ao caminho $P_{r}$ comum aos
+%% caminhos $P_{r}$ e $\seq{e,b,c}$, na árvore $T_t$, é 3.
+%% 
+%% Sendo os custos das aresta do grafo $G = (V,A)$ todos maiores que zero, temos que:
+%% $\forall x \in V,  \epsilon(x) \leq \zeta(x)$. 
+%% 
+%% 
+%% \begin{figure}[hbp]
+%% \label{fig:rotulacao}
+%% \begin{center}
+%%     \psfrag{a}{{$a$}}
+%%     \psfrag{b}{{$b$}}
+%%     \psfrag{c}{{$c$}}
+%%     \psfrag{d}{{$d$}}
+%%     \psfrag{e}{{$e$}}
+%% \subfigure[Grafo]{\includegraphics[scale=0.6]{./figs/grafoExemploTsETt.eps}}
+%% \subfigure[Árvore $T_s$]{\includegraphics[scale=0.5]{./figs/exemploTs.eps}}
+%% \subfigure[Árvore $T_t$]{\includegraphics[scale=0.5]{./figs/exemploTt.eps}}
+%% \caption{
+%% Em (a) temos um grafo onde o menor caminho de $a$ a $e$ está destacado.
+%% Em (b) temos a árvore de menores caminhos com raiz em $a$.
+%% Em (c) temos a árvore de menores caminhos com raiz em $e$. 
+%% Nas árvores o menor caminho de $a$ a $e$ encontra-se destacado.
+%% }
+%% \end{center}
+%% \end{figure}
+%% 
+%% \newpage
+%% \subsection*{Tipos de caminhos}
+%% 
+%% Seja $P=\seq{s=a_1,\ldots,a_{n}=t}$ um caminho de $s$ a $t$ no grafo simétrico $(V,A,c)$, 
+%% $T_s$ uma árvore de menores caminhos com raiz em $s$,
+%% $T_t$ uma árvore de menores caminhos com raiz em $t$, $P \in T_s$, $P_r=\seq{t = a_n , \ldots , a_{1} = s }$, $P_r \in T_t$.
+%% Um novo caminho de custo mínimo diferente de $P$ construído através de $u \in V$ pode ser de um dos dois tipos definidos a seguir:
+%% 
+%% \begin{description}
+%% \item[tipo I]: $s \underset{T_s}{\longrightarrow} u \underset{T_t}{\longrightarrow} t$. \mar{tipo I}
+%% 
+%% Onde $s\underset{T_s}{\longrightarrow}u$ representa o caminho de $s$ a $u$ na árvore $T_s$ e 
+%% $u\underset{T_t}{\longrightarrow}t$ representa o caminho $u$ a $t$ na árvore 
+%% $T_t$~\footnote{Pela simetria do grafo podemos afirmar que se existir o caminho de $t$ a $u$ então o caminho de $u$ a $t$ também existirá.}.
+%% O caminho $s\underset{T_s}{\longrightarrow}u$ se desvia do caminho $P=s\underset{T_s}{\longrightarrow}t$ em algum vértice de índice $\epsilon$
+%% enquanto que o caminho $t\underset{T_t}{\longrightarrow}u$ se desvia de $P_r$ em algum vértice de índice $\zeta$.
+%% 
+%% Para montar um caminho deste tipo basta concatenar $s\underset{T_s}{\longrightarrow}u$ e $u\underset{T_t}{\longrightarrow}t$.
+%% 
+%% Observe que os caminhos $s \underset{T_s}{\longrightarrow} u$ e $u\underset{T_s}{\longrightarrow}t$ possuem apenas o vértice $u$ em comum.
+%% \item[tipo II]: $s \underset{T_s}{\longrightarrow} u \underset{\in A}{\rightarrow} v \underset{T_t}{\longrightarrow} t$. \mar{tipo II}
+%% 
+%% O caminho de $s$ a $u$ está em $T_s$ enquanto o caminho de $v$ a $t$ está em $T_t$.
+%% O arco $(u,v)$ não está em $T_s$ nem em $T_t$, mas a aresta $(u,v)$ pertence ao grafo.
+%% O caminho $s \underset{T_s}{\longrightarrow} u$ se desvia de $P$ em algum vértice de índice $\epsilon$ enquanto
+%% que $t \underset{T_t}{\longrightarrow} v$ se desvia de $P_r$ num vértice de índice $\zeta$.
+%% 
+%% Para montar um caminho deste tipo basta concatenar $s\underset{T_s}{\longrightarrow}u$  ao vértice $v$ e depois ao caminho
+%%  $v\underset{T_t}{\longrightarrow}t$.
+%% 
+%% Observe que os caminhos $s \underset{T_s}{\longrightarrow} u$ e $v\underset{T_t}{\longrightarrow}t$ não possuem vértices comuns.
+%% \end{description}
+%% 
+%% Um desvio de um caminho $s \underset{T_s}{\longrightarrow} u$ é definido como o vértice a partir do qual ele
+%% se torna diferente de $s \underset{T_s}{\longrightarrow} t$. 
+%% Para cada desvio em $T_s$ definimos $\epsilon(desvio)$
+%% como o número de vértices do caminho $s \underset{T_s}{\longrightarrow} desvio$.
+%% 
+%% Um desvio de um caminho $t \underset{T_t}{\longrightarrow} u$ é definido como o vértice em que o caminho
+%% se tornou diferente de $t \underset{T_t}{\longrightarrow} s$. 
+%% Para cada desvio em $T_t$ definimos $\zeta(desvio)$
+%% como o número de vértices do caminho $t \underset{T_t}{\longrightarrow} desvio$.
+%% 
+%% Em ambos os casos, o desvio entre dois caminhos iguais é definido como o último vértice dos caminhos.
+%% 
+%% 
+%% Para cada vértice $u$ podemos determinar que tipos de caminhos podem ser gerados a partir dele da seguinte maneira:
+%% \begin{description}
+%% \item[$\epsilon(u)<\zeta(u)$]:
+%% O novo caminho será do tipo I.
+%% \item[$\epsilon(u)=\zeta(u)$]: 
+%% Se $u \in P$ então isso sempre ocorre pela própria definição.
+%% No entanto, podem existir vértices não pertencentes a $P$ tal que isto também ocorra.
+%% 
+%% Neste caso, se tentássemos gerar um caminho do tipo I este conteria 
+%% vértices repetidos, sendo assim um passeio e não um caminho, ou seria o próprio $P$. 
+%% 
+%% 
+%% Vamos tratar de dois casos para mostrar que não é possível montar um caminho do tipo I, diferente de $P$,
+%%  a partir de $u$, quando $\epsilon(u)=\zeta(u)$:
+%% \begin{description}
+%% \item[$u \in P$]: 
+%% Seja $u \in P=\seq{s=v_1,\ldots,u,\ldots,v_n=t}$, $s\underset{T_s}{\longrightarrow}u$ o caminho de $s$ a $u$ em $T_s$,
+%% $P_r\seq{t=v_n,\ldots,u,\ldots,v_1=s}$ o reverso de $P$ em $T_t$ e $t\underset{T_t}{\longrightarrow}u$ o caminho de $t$ a $u$ em $T_t$.
+%% Se concatenarmos os caminhos $s\underset{T_s}{\longrightarrow}u$ e $u\underset{T_t}{\longrightarrow}t$ teremos o caminho:
+%% $\seq{s=v_1,\ldots,u,\ldots,v_n=t}=P$.
+%% \item[$u \notin P$]:
+%% Seja $u \notin P$ e escolha em $P$ o vértice $c$ tal que $\epsilon(c)=\epsilon(u)$, ou seja, escolha o vértice de desvio.
+%% Vamos montar agora o caminho do tipo I: $s\underset{T_s}{\longrightarrow}u\underset{T_t}{\longrightarrow}t$.
+%% Como $u$ se desvia de $P$ em $c$, temos $s\underset{T_s}{\longrightarrow}u=s\underset{T_s}{\longrightarrow}c\underset{T_s}{\longrightarrow}u$.
+%% Como $\epsilon(c)=\zeta(c)$, pois $c \in P$, $\epsilon(u)=\zeta(u)$ e $\epsilon(c)=\epsilon(u)$, 
+%% podemos afirmar que $c$ se desvia do reverso de $P$ no vértice $c$ logo, o caminho $u\underset{T_t}{\longrightarrow}t$ é igual
+%% ao $u\underset{T_t}{\longrightarrow}c\underset{T_t}{\longrightarrow}t$.
+%% Sendo assim, montaríamos o passeio: 
+%% $s\underset{T_s}{\longrightarrow}c\underset{T_s}{\longrightarrow}u\underset{T_t}{\longrightarrow}c\underset{T_t}{\longrightarrow}t$, onde
+%% observamos a repetição do vértice $c$, não sendo, portanto, um caminho.
+%% \end{description}
+%% 
+%% 
+%% 
+%% Como vimos, podemos apenas gerar caminhos do tipo II, através de arcos $(u,v)\notin T_s \cup T_t$ contanto que 
+%% $\epsilon(u)<\zeta(v)$. Se  $\epsilon(u) \geq \zeta(v)$, novamente geraríamos passeios e não caminhos.
+%% Usaremos um argumento parecido ao anteriormente apresentado.
+%% Se $u \notin P$ tomaremos o vértice de desvio, ou seja, $c$ onde $\epsilon(u)=\epsilon(c)=\zeta(c)$,
+%% se $u \in P$ tomaremos $c=u$.
+%% Supondo que $\epsilon(u) \geq \zeta(v)$, como $\epsilon(u)=\epsilon(c)$, 
+%% podemos escrever $\epsilon(c) \geq \zeta(v)$ ou $\zeta(c) \geq \zeta(v)$.
+%% Tomemos agora o vértice de desvio de $v$, o qual chamaremos de $d$, tal que $\zeta(v)=\zeta(d)=\epsilon(d)$.
+%% Montaremos agora o caminho do tipo II: $s\underset{T_s}{\longrightarrow}u \rightarrow v \underset{T_t}{\longrightarrow}t=
+%% s\underset{T_s}{\longrightarrow}c\underset{T_s}{\longrightarrow}u \rightarrow v \underset{T_t}{\longrightarrow}d\underset{T_t}{\longrightarrow}t$.
+%% Como $\zeta(c) \geq \zeta(v)$ e $\zeta(v)=\zeta(d)$ temos que $\zeta(c) \geq \zeta(d)$, assim, podemos reescrever o caminho
+%% anterior como: $s\underset{T_s}{\longrightarrow}c\underset{T_s}{\longrightarrow}u \rightarrow v \underset{T_t}{\longrightarrow}c\underset{T_t}{\longrightarrow}d\underset{T_t}{\longrightarrow}t$,
+%% onde fica clara a repetição do vértice $c$, caraterizando um passeio e não um caminho.
+%% 
+%% %Seja $u \notin P$ e escolha em $P$ o vértice $c$ tal que $\epsilon(c)=\epsilon(u)$, ou seja, escolha o vértice de desvio.
+%% %Basta notar que $\epsilon(u)>\zeta(v)$ significa que o caminho $s \underset{T_s}{\longrightarrow} u$ se desviou de
+%% %s \underset{T_s}{\longrightarrow} t$ no vértice $u_{\epsilon}$ e o caminho $v \underset{T_t}{\longrightarrow} t$
+%% %se desviou de $P_r$ no vértice $u_{\zeta}$. 
+%% %Então, $s \underset{T_s}{\longrightarrow} u=\seq{u_1,\ldots,u_{\epsilon}}$ e
+%% %v \underset{T_t}{\longrightarrow} t=\seq{u_{\zeta},\ldots,u_n}$. 
+%% %Sendo $\epsilon(u)>\zeta(v)$, fica claro que a concatenação dos caminhos
+%% %gerará um passeio com vértices repetidos.
+%% \item[$\epsilon(u)>\zeta(u)$]
+%% Só podemos gerar passeios neste caso.
+%% \end{description}
+%% 
+%% 
+%% 
+%% %\subsection*{Tipos de caminhos}
+%% %Dadas duas árvores, $T_s$ e $T_t$ e um natural $\alpha$ o algoritmo de KIM pode gerar caminhos de dois tipos distintos: 
+%% %%\item[tipo I]: $s \underset{T_s}{\longrightarrow} u \underset{T_t}{\longrightarrow} t$ e  $\epsilon(u) < \alpha$. \mar{tipo I}.
+%% %Onde $s\underset{T_s}{\longrightarrow}u$ representa o caminho de $s$ a $u$ na árvore $T_s$ e 
+%% %$u\underset{T_t}{\longrightarrow}t$ representa o caminho $u$ a $t$ na árvore $T_t$.
+%% %% Pela simetria do grafo podemos afirmar que se existir o caminho de $t$ a $u$ então o caminho de $u$ a $t$ também existirá.
+%% 
+%% %% \item[tipo II]: $s \underset{T_s}{\longrightarrow} u \underset{\in A}{\rightarrow} v \underset{T_t}{\longrightarrow} t$ e  $\epsilon(u) < \alpha$. \mar{tipo II}
+%% %% O caminho de $s$ a $u$ está em $T_s$ enquanto o caminho de $v$ a $t$ está em $T_t$.
+%% %% A aresta $(u,v)$ está em $A$ mas o arco $(u,v)$ não está em $T_s$.
+%% %% \end{description}
+%% 
+%% 
+%% %% 
+%% %% Utilizando a figura~\ref{fig:rotulacao} e $\alpha=2$ teríamos, por exemplo, o seguinte caminho do tipo I: $\seq{a,b,e}$.
+%% %% Neste exemplo, usamos $s=a, t=e, u=b$ e $\epsilon(b)=1<\alpha$ e obtivemos o caminho de $s$ a $b$ em $T_s$ e o concatenamos
+%% %% ao caminho de $b$ a $t$ em $T_t$, ou seja, concatenamos os caminhos $\seq{a,b}$ e $\seq{b,e}$.
+%% 
+%% 
+%% 
+%% %% 
+%% %% Utilizando a mesma figura, o mesmo $\alpha$ e $s=a,t=e,u=c,\epsilon(c)<\alpha$ obtemos o caminho do tipo II: $\seq{a,c,d,e}$.
+%% %% Neste caso, estamos concatenando o caminho $\seq{a,c} \in T_s$ ao arco $(c,d) \notin T_s \cup T_t$ ao 
+%% %% caminho $\seq{d,e} \in T_t$. 
+%% 
+%% A rotina \FSP{} é utilizada para a geração de desvios de custo mínimo, sendo portanto, subrotina
+%% nas gerações de caminhos nas partições: $P_a,P_b$ e $P_c$.
+%% A seguir apresentamos com mais detalhes cada uma dessas partições.
+
+\section{Partições}
+\label{sec:particoes}
+Nesta seção trataremos das partições definidas em cada iteração do algoritmo \KIM.
+Relembrando o funcionamento do algoritmo, 
+inicialmente calculamos o caminho $P_1$, menor caminho entre $s$ e $t$, 
+utilizando um algoritmo \PCM.
+Em seguida, utilizando a rotina \FSP{}, obtemos um desvio mínimo de $P_1$, chamado de $P_2$. 
+A partir de $P_2$ e seu pai, $P_1$, definimos três partições do conjunto de caminhos de $s$ a $t$:
+\begin{description}
+\item[$P_a$]: \mar{$P_a$} caminhos que desviam de $P_2$ em algum momento depois que $P_2$ se desviou de $P_1$.
+\item[$P_b$]: \mar{$P_b$} caminhos que desviam de $P_1$ depois do vértice comum a $P_1$ e $P_2$.
+\item[$P_c$]: \mar{$P_c$} caminhos que desviam de $P_1$ antes do vértice comum a $P_1$ e $P_2$.
+\end{description}
+Cada uma das partições é representada por um caminho de menor custo pertencente a ela.
+A partir de $P_1$ e $P_2$ são gerados, no máximo, três novos caminhos,
+ os representantes das partições descritas acima, 
+os quais serão candidatos para $P_3$.
+%% A partir dos caminhos $P_1$ e $P_2$ são gerados, no máximo, três novos caminhos, os quais serão candidatos para 
+%% $P_3$, são eles:
+%% \begin{description}
+%% \item[$P_a$]: \mar{$P_a$}menor caminho que se desvia de $P_2$ em algum momento depois que $P_2$ se desviou de $P_1$.
+%% \item[$P_b$]: \mar{$P_b$}menor caminho que se desvia de $P_1$ depois do vértice comum a $P_1$ e $P_2$.
+%% \item[$P_c$]: \mar{$P_c$}menor caminho que se desvia de $P_1$ antes do vértice comum a $P_1$ e $P_2$.
+%% \end{description}
+
+Na figura a seguir vemos a disposição esquemática das partições $P_a,P_b$ e $P_c$.
+\begin{figure}[htbp]
+\centering
+  \begin{tikzpicture}[scale=0.70]
+    \tikzstyle{node}=%
+    [%
+      inner sep=0pt,%
+      outer sep=0pt,%
+      ball color=red,%
+      circle%
+    ]
+        \node[node,minimum size=8pt,label=left:{s}] at (0,3) (S)  {};
+        \node[node] at (1,3) (A)  {};
+        \node[node] at (2,3) (B)  {};
+        \node[node] at (3,3) (C)  {};
+        \node[node] at (4,1) (D)  {};
+        \node[node,minimum size=8pt,label=right:{t}] at (11,3) (T) {};
+       
+        \node[color=red] at (6,3.2) (P1) {P1};
+
+        \path [-,thick,red]  
+                  (S) edge[] (T)
+                  (S) edge (A)
+                  (A) edge (B)
+                  (B) edge (C);
+
+        \path [-,thick,blue]  
+                  (B) edge[bend right] (D)
+                  (D) edge[bend right] (T);
+         \node[color=blue] at (6,1) (P2) {P2};
+
+
+
+        \path [-,thick,black,dashed]  
+                  (A.north) edge[in=90] (T.north);
+                 \node[color=black] at (6,5.8) (Pc) {Pc};
+        \path [-,thick,black,dashed]  
+                  (C.north) edge[bend left] (T.north);
+                 \node[color=black] at (6,4.5) (Pb) {Pb};
+        \path [-,thick,black,dashed]  
+                  (D) edge[in=-90,out=-90] (T);
+                 \node[color=black] at (6,0) (Pa) {Pa};
+
+        \end{tikzpicture}
+\caption[Disposição dos representantes das partições $P_a$, $P_b$ e $P_c$]
+{Disposição esquemáticas dos representantes das partições $P_a$, $P_b$ e $P_c$}
+\end{figure}
+
+É possível observar que só existem estas três possibilidades para o caminho $P_3$. 
+Os representantes das partições: $P_a$, $P_b$ e $P_c$, são então colocados na lista de caminhos candidatos e, 
+no início da próxima iteração,
+um caminho de menor custo é retirado da lista, tornando-se o $P_3$.
+A partir dos caminhos $P_3$ e seu caminho pai, faremos o mesmo processo, ou seja,
+geraremos três caminhos candidatos em cada uma das partições:$P_a$, $P_b$, $P_c$, definidas por $P_3$ e seu pai.
+O pai de cada caminho é definido da seguinte maneira:
+\begin{itemize}
+\item O pai de $P_a$ é o $P_2$;
+\item O pai de $P_b$ é o $P_1$;
+\item O pai de $P_c$ é o $P_1$;
+\item O pai de $P_2$ é o $P_1$.
+\end{itemize}
+Uma definição melhor de caminho pai seria:
+Dada uma seqüência ordenada de caminhos $\seq{P_1,P_2, \ldots P_k}$, onde $\forall j\leq i, c(P_j)\leq c(P_i) $, 
+diremos que $P_j$ é pai de $P_i$, quando
+$i=min\{x| 1 < x < j, \mbox{tal que $P_j$ e $P_i$ compartilham o maior prefixo comum\}}$. 
+
+Seja, por exemplo, \\
+$P=\seq{\seq{a,b,e},\seq{a,c,e},\seq{a,d,e},\seq{a,b,c,e}}$. \\
+O pai do caminho $\seq{a,d,e}$ é o $\seq{a,b,e}$. 
+Embora o caminho $\seq{a,c,e}$ compartilhe o mesmo prefixo que $\seq{a,b,e}$, ele possui um índice maior e, 
+na definição dizemos que o $i$ deve ser o menor índice tal que tenha o maior prefixo.
+
+%% \newpage
+%% \begin{figure}[hbp]
+%% \begin{center}
+%%     \psfrag{P1}{{$P_1$}}
+%%     \psfrag{P2}{{$P_2$}}
+%%     \psfrag{Pa}{{$P_a$}}
+%%     \psfrag{Pb}{{$P_b$}}
+%%     \psfrag{Pc}{{$P_c$}}
+%% \includegraphics[scale=0.3]{./figs/kimCaminhos.eps}
+%% \caption{A partir do menor caminho, $P_1$, calculamos o segundo menor caminho, $P_2$. 
+%% $P_1$ e $P_2$ servem como base para a definição das partições: $P_a,P_b$ e $P_c$.
+%% }
+%% \label{fig:caminhosDerivados}
+%% \end{center}
+%% \end{figure}
+
+%% Seja $(V,A,c)$ um grafo simétrico com custos nas arestas, $s$ e $t$dois vértices distintos de $V$,
+%% $\seq{P_1,P_2,\ldots,P_k}$ uma lista de menores caminhos de $s$ a $t$ em $(V,A,c)$ tal que $c(P_1)\leq c(P_2)\leq \ldots,c(P_k)$,
+%% cada par de caminhos $P_i,P_j$, onde $P_i$ é pai de $P_j$, determina três partições dos caminhos de $s$ a $t$, chamadas de
+%% $P_{a_j},P_{b_j},$ e $P_{c_j}$.
+%% 
+%% Em cada iteração do algoritmo, o conjunto $\Pcal_{st}$ pode ser reparticonado, rece
+
+Agora que vimos como são as partições definidas para os caminhos $P_1$ e $P_2$, mostraremos
+sua definição em função de um $i-$ésimo caminho qualquer.
+
+Antes de prosseguirmos vale lembrar alguns pontos sobre árvore dos prefixos~(seção~\ref{sec:prefixos}).
+Dado um grafo e uma coleção de caminhos com ponta inicial $s$, existe uma árvore dos prefixos 
+desses caminhos representada por $(N,E,f)$, onde $N$ é ao conjunto de nós, $E$ é o conjunto de arcos
+e $f$ é uma função rótulo que relaciona nós é caminhos na árvore a vértices e caminhos no grafo.
+
+Seja $u$ um nó em $(N,E,f)$, então:
+\begin{itemize}
+\item $R_u$ é o caminho, com origem na raiz, com ponta final em $u$;
+\item $A_u$ é conjunto de arcos com ponta inicial em $u$;
+\item $f(R_u)$ mapeia o caminho $R_u$ na árvore ao caminho correspondente de $a$ a $f(u)$ no grafo.
+\end{itemize}
+
+\newpage
+\subsection*{Partição $P_a$}
+
+Seja $(V,A,c)$ um grafo simétrico com um função custo definida em suas arestas,
+$\Qcal=\seq{P_1,\ldots,P_i}$, onde $i \geq 2$, o conjunto dos $i-$menores caminhos de $s$ a $t$, 
+$P_j$ o caminho pai de $P_i$, $\delta$ o vértice de desvio entre $P_j$ e $P_{i}$, 
+$\beta$ o índice de $\delta$ em $P_i=\seq{s=u_1,\ldots,u_n=t}$,
+$(N,E,f)$ a árvore dos prefixos de $\Qcal$ e
+$f(R_p)=\seq{s=u_1,\ldots,u_{\beta}}$.
+%$f(R_q)=\seq{s=u_1,\ldots,u_{\beta+1}}$.
+
+A partição $P_a$, definida por $P_j$ e $P_i$, corresponde ao conjunto de caminhos de $s$ a $t$, com prefixo $f(R_q)$ e que sejam 
+diferentes de $P_i$.
+%não possuem o o prefixo arcos em $A_q$.
+
+Para gerar caminhos mínimos em $P_a$, removemos do grafo os vértices do prefixo $f(R_p)$ juntamente 
+com suas arestas, ou seja, removemos os vértices $\seq{u_1,\ldots,u_{\beta}=\delta}$ e as arestas com pontas nestes vértices.
+Logo após, geramos um desvio mínimo de $u_{\beta+1}$ a $u_n=t$, executando para isso a rotina \FSP{}
+no grafo alterado, tomando $u_{\beta+1}$ como origem, $u_n=t$ como destino, 
+$P=\seq{u_{\beta+1},\ldots,u_n=t}$ e $\alpha=|P|$, a qual nos retorna um caminho de custo mínimo 
+de $u_{\beta+1}$ a $t$ diferente de $P$.
+Concatenando o caminho encontrado ao prefixo $f(R_p)$ obtemos um caminho de custo mínimo na partição $P_a$.
+
+Todo caminho na partição $P_a$, definida por $P_j$ e $P_i$, é filho de $P_i$.
+
+A seguir, o algoritmo que sintetiza o que foi descrito:
+
+\begin{algoritmo}
+
+\textbf{Algoritmo} \Pa{} $(V,A,c,\Qcal,P)$ %\\[2mm]
+\index{algoritmo!KIM@\Pa}\index{KIM@\Pa}
+   
+0\x $P$ definido por $\seq{u_1,\ldots u_n}$
+
+1\x $(N,E,f) \larr$ árvore dos prefixos de $\Qcal$
+
+2\x $\beta \larr$ índice do vértice $\delta$
+
+3\x $V^{'} \larr V - \seq{u_1,\ldots,u_{\beta}}$ 
+
+4\x $A^{'} \larr A - \{uv| u \mbox{ ou } v \in \seq{u_1,\ldots,u_{\beta}}\}$
+%5\x $P_a \larr f(R_p) \cup \FSP~(V^{'},A^{'},c,u_{\beta+1},t,\seq{u_{\beta+1},\ldots,t},|\seq{u_{\beta+1},\ldots,t}|)$
+
+5\x \devolva{} $f(R_p) \cup \FSP~(V^{'},A^{'},c,u_{\beta+1},t,\seq{u_{\beta+1},\ldots,t},|\seq{u_{\beta+1},\ldots,t}|)$
+
+\end{algoritmo}
+
+As alterações no grafo executadas nas linhas~3 e 4 consomem tempo $\Oh(m+n)$.
+O custo da linha~5 é o mesmo da função \FSP{}, consumo este, dominante na criação do caminho de menor custo na partição $P_a$.
+Assim, o consumo de tempo da rotina \Pa{} é $\Theta(T(n,m))$.
+
+Na figura a seguir, temos uma árvore dos prefixos de $\Qcal$, onde apenas exibimos 
+os caminhos $P_j$ e $P_i$, representados, respectivamente, 
+pelos nós $t_j$ e $t_i$.
+Os rótulos externos representam vértices no grafo, enquanto que os internos, nós na árvore dos prefixos.
+As linhas tracejadas representam uma seqüência de nós e arcos.
+As linhas contínuas representam um nó ou arco específico.
+
+\begin{figure}[htbp]
+\centering
+\tikzstyle{node}=[circle,fill=black!25,minimum size=10pt,inner sep=0pt]
+\tikzstyle{root} = [node, fill=red!24]
+\tikzstyle{leaf} = [node, fill=red!24]
+\tikzstyle{deviation} = [node, fill=blue!50]
+\tikzstyle{onPath} = [node, dashed,fill=red!24]
+\tikzstyle{edge} = [draw,thick,->]
+\tikzstyle{unknown} = [dashed,thick,->]
+\tikzstyle{novos} = [node, fill=red!50]
+\tikzstyle{weight} = [font=\tiny]
+\tikzstyle{selected edge} = [draw,thick,->,red!50]
+%\tikzstyle{LabelStyle}=[fill=white,sloped]
+\begin{tikzpicture}[scale=1]
+% Set the overall layout of the tree
+\tikzstyle{level 1}=[level distance=1.5cm, sibling distance=2.5cm]
+\tikzstyle{level 2}=[level distance=1.5cm, sibling distance=2.5cm]
+\node[root,label=right:{s}] (s1) {}
+child {
+				node[deviation,label=right:{$\delta$}] {$p$}
+				child[->,solid] {
+						node[node] {a}
+						child[->,dashed]{
+							node[leaf] {$t_j$}
+						}
+				}
+				child[->,solid] {
+					node[node] {$q$}
+						child[grow=down,dashed]{
+							node[leaf] {$t_{i}$} 
+						}
+				}
+				edge from parent[dashed]
+};
+
+
+\node[root,label=right:{s},right of=s1,node distance=4cm] (s2) {}
+child {
+				node[deviation,label=right:{$\delta$}] {$p$}
+				child[->,solid] {
+						node[node] {a}
+						child[->,dashed]{
+							node[leaf] {$t_j$}
+						}
+				}
+				child[->,solid] {
+					node[node] {$q$}
+						child[sibling distance=10mm,level distance=1cm,dashed,->,line width=2pt]{node[novos]{}}
+						child[sibling distance=10mm,level distance=1cm,dashed,->]{
+							child[dashed,line width=2pt]{node[novos]{}}
+							child[line width=2pt]{node[novos]{}}
+							child[level distance=1.5cm,grow=down]{
+								node[leaf] {$t_{i}$} 
+							}
+							child[line width=2pt]{node[novos]{}}
+							child[line width=2pt]{node[novos]{}}
+						}
+						child[sibling distance=10mm,level distance=1cm,dashed,->,line width=2pt]{node[novos]{}}
+					}
+				edge from parent[dashed]
+};
+\end{tikzpicture}
+\caption{Esquema dos caminhos na partição $P_a$ definida por $P_j$ e $P_i$}
+\end{figure}
+
+O vértice de desvio entre $P_j$ e $P_i$ é o $\delta$.
+Na figura à direita, vemos os caminhos da partição $P_a$, definida por $P_j$ e $P_i$, 
+que correspondem aos caminhos que desviam de $P_i$ após o nó $q$.
+
+
+\subsection*{Partição $P_b$}
+
+Seja $(V,A,c)$ um grafo simétrico com um função custo definida em suas arestas,
+$\Qcal=\seq{P_1,\ldots,P_i}$, onde $i \geq 2$, o conjunto dos $i-$menores caminhos de $s$ a $t$, 
+$P_j$ o caminho pai de $P_i$, $\delta$ o vértice de desvio entre $P_j$ e $P_{i}$, 
+$\beta$ o índice de $\delta$ em $P_j=\seq{s=u_1,\ldots,u_n=t}$,
+$(N,E,f)$ a árvore dos prefixos de $\Qcal$,
+$f(R_p)=\seq{s=u_1,\ldots,u_{\beta}}$ e 
+$f(R_q)=\seq{u_1,\ldots,u_{\beta+1}}$.
+
+A partição $P_b$, definida por $P_j$ e $P_i$, corresponde ao conjunto de caminhos com prefixo $f(R_p)$ que
+não possuem arcos em $A_p - (p,q)$ e que desviam de $P_j$ antes do vértice $u_{\gamma}$.
+Para o cálculo de $\gamma$, escolha o caminho $P_l$ que compartilha com $P_j$ o menor prefixo $f(R_r)$ 
+tal que $f(R_p) \subset f(R_r)$, e temos $u_{\gamma}=f(r)$.
+
+%% Sejam $\Qcal=\seq{P_1,\ldots,P_{k-1}}$ o conjunto dos $k-1$, $k \geq 3$ caminhos de $s$ a $t$, 
+%% $P_j=\seq{s=u_1,\ldots,u_n=t}$ o caminho pai de $P_{i}$,
+%% $\delta$ o vértice de desvio entre $P_j$ e $P_{i}$, 
+%% $\beta$ o índice de $\delta$ em $P_j$,
+%% todo caminho da partição $P_b$ é filho de $P_j$.
+%% 
+%% Sejam $(N,E,f)$ uma árvore de prefixos formada a partir de $\Qcal$,
+%% $f(R_p)=\seq{u_1,\ldots,u_{\beta}}$,
+%% $f(R_q)=\seq{u_1,\ldots,u_{\beta+1}}$,
+%% a partição $P_b$ corresponde ao conjunto de caminhos com prefixo $f(R_p)$ que
+%% não possuem arcos em $A_p - (p,q)$ e que se
+%% desviam de $P_j$ antes do vértice $u_{\gamma}$.
+%% Para o cálculo de $\gamma$, escolha o caminho $P_l$ que compartilha com $P_j$ o menor prefixo $f(R_r)$ tal que $f(R_p) \subset f(R_r)$,
+%% e temos $u_{\gamma}=f(r)$.
+
+Para gerar caminhos nesta partição, removemos do grafo os vértices do prefixo $f(R_p)$, com exceção de $f(p)$ juntamente 
+com suas arestas, ou seja, removemos os vértices $\seq{u_1,\ldots,u_{\beta-1}}$ e as arestas com pontas nestes vértices.
+Além disso, removemos as arestas $f(a)f(b), \forall (a,b) \in A_p$, com exceção da aresta $u_{\beta}u_{\beta+1}$.
+ 
+Logo após, executamos a rotina \FSP{} com o novo grafo, $\delta$ como origem, $u_n=t$ como destino, 
+$P=\seq{\delta,\ldots,u_n=t}$ e $\alpha=|\seq{\delta,\ldots,u_{\gamma}}|$, 
+obtendo então um caminho de custo mínimo de $\delta$ a $t$ diferente de $P$ e que desvia deste antes do vértice $u_{\gamma}$.
+Concatenando o prefixo $f(R_p)$ ao caminho encontrado obtemos o caminho de menor custo na partição $P_b$.
+
+Todo caminho na partição $P_b$ definida por $P_j$ e $P_i$ é filho de $P_j.$
+
+A seguir o algoritmo que sintetiza o procedimento descrito:
+
+
+\begin{algoritmo}
+
+\textbf{Algoritmo} \Pb{} $(V,A,c,\Qcal,P)$ %\\[2mm]
+\index{algoritmo!KIM@\Pb}\index{KIM@\Pb}
+   
+0\x $P_j \larr$ pai de $P$ 
+
+1\x $P_j$ definido por $\seq{u_1,\ldots u_n}.$
+
+2\x $(N,E,f) \larr$ árvore dos prefixos de $\Qcal$
+
+3\x $\delta \larr$ vértice de desvio de $P$ e $P_j$
+
+4\x $\beta \larr$ índice do vértice $\delta$
+
+5\x $V^{'} \larr V - \seq{u_1,\ldots,u_{\beta - 1}}$ 
+
+6\x $A^{'} \larr A - \{uv|u \mbox{ ou } v \in \seq{u_1,\ldots,u_{\beta-1}}\}$ 
+
+7\x $A^{'} \larr A^{'} - f(a)f(b), \forall (a,b) \in A_p$
+
+8\x $A^{'} \larr A^{'} \cup u_{\beta}u_{\beta+1}  \in P_j$
+
+9\x $u_{\gamma}=f(r)$ sendo $f(R_r), com f(R_p) \subset f(R_r)$, o menor prefixo 
+
+\xx compartilhado por $P_j$ e algum caminho de $\Qcal$
+
+10\x \devolva{} $f(R_p) \cup \FSP~(V^{'},A^{'},c,\delta,t,\seq{u_{\beta},\ldots,u_n=t},|\seq{u_{\beta},\ldots,u_{\gamma}}|)$
+
+\end{algoritmo}
+
+Assim como aconteceu no cálculo do consumo de tempo do caminho de custo mínimo na partição $P_a$, o
+consumo do algoritmo \Pb{} é dominado pela chamada à função \FSP{}, sendo portanto
+$\Theta(T(n,m))$.
+
+Na figura a seguir temos em (a) uma árvore dos prefixos dos caminhos em $\Qcal$, 
+onde exibimos os caminhos $P_i$ e $P_j$ representados, respectivamente,
+pelos caminhos da raiz às folhas $t_i$ e $t_j$.
+As folhas em \textcolor{green!50}{verde} representam caminhos filhos de $P_j$, que desviam deste após o nó $\delta$.
+Em (b) vemos como é feita a escolha do nó $r$ a partir dos filhos de $P_j$.
+Em (c), exibimos, usando folhas \textcolor{red!70}{vermelhas}, os caminhos da partição $P_b$ definida pelos caminhos $P_i$ e $P_j$, correspondentes
+aos caminhos com prefixo $f(R_p)$ e que desviam de $P_j$ antes do vértice $u_{\gamma}$.
+\begin{figure}[htbp]
+\centering
+\tikzstyle{node}=[circle,fill=black!25,minimum size=10pt,inner sep=0pt]
+\tikzstyle{root} = [node, fill=red!24]
+\tikzstyle{leaf} = [node, fill=red!24]
+\tikzstyle{novos} = [node, fill=red!70]
+\tikzstyle{deviation} = [node, fill=blue!50]
+\tikzstyle{onPath} = [node, dashed,fill=red!24]
+\tikzstyle{edge} = [draw,thick,->]
+\tikzstyle{unknown} = [dashed,thick,->]
+\tikzstyle{filhos} = [node,fill=green!50]
+\tikzstyle{weight} = [font=\tiny]
+\tikzstyle{selected edge} = [draw,thick,->,red!50]
+%\tikzstyle{LabelStyle}=[fill=white,sloped]
+\begin{tikzpicture}[scale=1]
+% Set the overall layout of the tree
+\tikzstyle{level 1}=[level distance=1.5cm, sibling distance=2.5cm]
+\tikzstyle{level 2}=[level distance=1cm, sibling distance=2cm]
+\node[root,label=right:{s}] (s1) {}
+child {
+				node[deviation,label=right:{$\delta$}] {$p$}
+				child[->,dashed]{node[filhos]{}}
+				child[->,solid]{
+				node[node]{$q$}
+				child[->,dashed] {
+						child[->,dashed]{node[filhos]{}}
+						child[-,dashed,grow=down]{
+							child[-,dashed]{
+													node {$\ldots$}
+													edge from parent[draw=none]
+							}
+							child[->,dashed,grow=down,label distance=8mm]{
+													child[->,dashed]{
+																			node[filhos]{}
+													}
+													child[->,dashed,grow=down]{
+																			node[leaf,label=below:{(a)}] {$t_j$}
+													}
+							}
+						}
+				}
+				}
+				child[->,solid] {
+					node[node] {}
+						child[grow=down,dashed]{
+							node[leaf] {$t_{i}$} 
+						}
+				}
+				edge from parent[dashed]
+};
+\node[root,label=right:{s},right of=s1,node distance=5cm] (s2) {}
+child {
+				node[deviation,label=right:{$\delta$}] {$p$}
+				child[->,dashed]{node[filhos]{}}
+				child[->,dashed] {
+						node[deviation,label=right:{$u_{\gamma}$}] {$r$}
+						child[->,dashed]{node[filhos]{$t_l$}}
+						child[-,dashed,grow=down]{
+							child[-,dashed]{
+													node {$\ldots$}
+													edge from parent[draw=none]
+							}
+							child[->,dashed,grow=down,label distance=18mm]{
+													child[->,dashed]{
+																			node[filhos]{}
+													}
+													child[->,dashed,grow=down]{
+																			node[leaf,label=below:{(b)}] {$t_j$}
+													}
+							}
+						}
+				}
+				child[->,solid] {
+					node[node] {}
+						child[grow=down,dashed]{
+							node[leaf] {$t_{i}$} 
+						}
+				}
+				edge from parent[dashed]
+};
+
+\node[root,label=right:{s},right of=s2,node distance=5cm] (s3) {}
+child[sibling distance=15mm] {
+				node[deviation,label=right:{$\delta$}] {$p$}
+				child[->,dashed,line width=2pt,sibling distance=15mm]{node[novos]{}}
+				child[->,dashed,sibling distance=15mm]{node[filhos]{}}
+				child[grow=down,sibling distance=15mm]{
+					child[->,dashed,line width=2pt]{node[novos]{}}
+					child[grow=down,level distance=5mm]{
+						child[level distance=10mm,grow=south east,->,dashed,line width=2pt]{node[novos]{}}
+						child[level distance=15mm,->,dashed,grow=down] {
+								node[deviation,label=right:{$u_{\gamma}$}] {$r$}
+								child[level distance=10mm,->,dashed]{node[leaf]{$t_l$}}
+								child[level distance=10mm,->,dashed,grow=down,label distance=18mm]{
+										node[leaf,label=below:{(c)}] {$t_j$} 
+								}
+						}
+					}
+				}
+				child[->,solid,sibling distance=15mm] {
+					node[node] {}
+						child[grow=down,dashed]{
+							node[leaf] {$t_i$} 
+						}
+				}
+				edge from parent[dashed]
+};
+\end{tikzpicture}
+\caption{Esquema dos caminhos na partição $P_b$ definida por $P_j$ e $P_i$}
+\end{figure}
+
+
+\subsection*{Partição $P_c$}
+
+Seja $(V,A,c)$ um grafo simétrico com um função custo definida em suas arestas,
+$\Qcal=\seq{P_1,\ldots,P_i}$, onde $i \geq 2$, o conjunto dos $i-$menores caminhos de $s$ a $t$, 
+$P_j$ o caminho pai de $P_i$, $\delta$ o vértice de desvio entre $P_j$ e $P_{i}$, 
+$\beta$ o índice de $\delta$ em $P_j=\seq{s=u_1,\ldots,u_n=t}$,
+$(N,E,f)$ a árvore dos prefixos de $\Qcal$,
+$f(R_p)=\seq{s=u_1,\ldots,u_{\beta}}$,
+$f(R_q)$ o maior prefixo de um caminho em $\Qcal$ tal que $f(R_q) \subset f(R_p)$ e
+$u_{\lambda}=f(q)$.
+
+A partição $P_c$, definida por $P_j$ e $P_i$, corresponde ao conjunto de caminhos com prefixo $f(R_q)$ que
+não possuem arcos em $A_p$ e que desviam de $P_j$ antes do vértice $f(p)$.
+%$f(R_q)=\seq{u_1,\ldots,u_{\beta+1}}$.
+
+%% Sejam $\Qcal=\seq{P_1,\ldots,P_{k-1}}$ o conjunto dos $k-1$, $k \geq 3$, caminhos de $s$ a $t$, 
+%% $P_j=\seq{s=u_1,\ldots,u_n=t}$ o caminho pai de $P_{k-1}$,
+%% $\delta$ o vértice de desvio entre $P_j$ e $P_{k-1}$, 
+%% $\beta$ o índice de $\delta$ em $P_j$,
+%% todo caminho da partição $P_c$ é filho de $P_j$.
+
+%% Sejam $(N,E,f)$ uma árvore de prefixos formada a partir de $\Qcal$,
+%% $f(R_p)=\seq{u_1,\ldots,u_{\beta}}$,
+%% $f(R_q)$ o maior prefixo de um caminho em $\Qcal$ tal que $f(R_q) \subset f(R_p)$,
+%% a partição $P_c$ corresponde ao conjunto de caminhos com prefixo $f(R_q)$ que
+%% não possuem arcos em $A_p$ e que se
+%% desviam de $P_j$ antes do vértice $f(p)$.
+
+
+Para gerar caminhos nesta partição, removemos do grafo os vértices do prefixo $f(R_q)$, com exceção de $f(q)$, juntamente 
+com suas arestas, ou seja, removemos os vértices $\seq{u_1,\ldots,u_{\lambda-1}}$ e as arestas com pontas nestes vértices.
+Além disso, removemos as arestas $f(a)f(b)\mbox{ }\forall (a,b) \in A_q$.
+ 
+Executamos então a rotina \FSP{} com o novo grafo, $u_{\lambda}$ como origem, $t$ como destino, 
+$P=\seq{u_{\lambda},\ldots,t}$ e $\alpha=|\seq{u_{\lambda},\ldots,u_{\beta}}|$, 
+obtendo então um caminho de custo mínimo de $u_{\lambda}$ a $t$ diferente de $P$ e que desvia deste antes do vértice $u_{\beta}$.
+Concatenando o prefixo $f(R_q)$ ao caminho encontrado obtemos o caminho de menor custo na partição $P_c$.
+
+Todo caminho na partição $P_c$ definida por $P_j$ e $P_i$ é filho de $P_j.$
+
+A seguir o algoritmo que sintetiza o procedimento descrito:
+
+\begin{algoritmo}
+
+\textbf{Algoritmo} \Pc{} $(V,A,c,\Qcal,P)$ %\\[2mm]
+\index{algoritmo!KIM@\Pc}\index{KIM@\Pc}
+   
+0\x $P_j \larr$ pai de $P$ 
+
+1\x $P_j$ definido por $\seq{u_1,\ldots u_n}.$
+
+2\x $(N,E,f) \larr$ árvore dos prefixos de $\Qcal$
+
+3\x $\delta \larr$ vértice de desvio de $P$ e $P_j$
+
+4\x $\beta \larr$ índice do vértice $\delta$
+
+5\x $f(R_p) \larr \seq{u_1,\ldots,u_{\beta}}$
+
+6\x $u_{\lambda}=f(q)$ onde $f(R_q)$ é o maior prefixo 
+
+\xx de um caminho em $\Qcal$ tal que $f(R_q) \subset f(R_p)$
+
+7\x $V^{'} \larr V - \seq{u_1,\ldots,u_{\lambda - 1}}$ 
+
+8\x $A^{'} \larr A - \{uv|u \mbox{ ou } v \in \seq{u_1,\ldots,u_{\lambda-1}}\}$ 
+
+9\x $A^{'} \larr A^{'} - f(a)f(b), \forall (a,b) \in A_q$
+
+10\x \devolva{} $f(R_q) \cup \FSP~(V^{'},A^{'},c,u_{\lambda},t,\seq{u_{\lambda},\ldots,u_n=t},|\seq{u_{\lambda},\ldots,u_{\beta}}|)$
+
+\end{algoritmo}
+
+Assim como aconteceu no cálculo do consumo de tempo do caminho de custo mínimo na partição $P_b$, o
+consumo do algoritmo \Pc{} é dominado pela chamada à função \FSP{}, sendo portanto
+$\Theta(T(n,m))$.
+
+Na figura a seguir exibimos uma árvore dos prefixo resumida dos caminhos em $\Qcal$, onde destacamos os caminhos $P_j$
+e $P_i$ definidos pelos caminhos com início na raiz e término, respectivamente, nas folhas $t_j$ e $t_i$.
+\begin{figure}[htbp]
+\centering
+\tikzstyle{node}=[circle,fill=black!25,minimum size=10pt,inner sep=0pt]
+\tikzstyle{root} = [node, fill=red!24]
+\tikzstyle{leaf} = [node, fill=red!24]
+\tikzstyle{novos} = [node, fill=red!70]
+\tikzstyle{deviation} = [node, fill=blue!50]
+\tikzstyle{onPath} = [node, dashed,fill=red!24]
+\tikzstyle{edge} = [draw,thick,->]
+\tikzstyle{unknown} = [dashed,thick,->]
+\tikzstyle{filhos} = [node,fill=green!50]
+\tikzstyle{weight} = [font=\tiny]
+\tikzstyle{selected edge} = [draw,thick,->,red!50]
+%\tikzstyle{LabelStyle}=[fill=white,sloped]
+\begin{tikzpicture}[scale=1]
+% Set the overall layout of the tree
+\tikzstyle{level 1}=[level distance=5mm, sibling distance=2cm]
+\tikzstyle{level 2}=[level distance=5mm, sibling distance=2cm]
+\node[root,label=right:{s}] (s1) {}
+child {
+	child[->,dashed]{node[filhos]{}}
+		child[-,dashed,grow=down]{
+			child[-,dashed]{
+				node{$\ldots$} edge from parent[draw=none]
+			}
+			child[->,dashed,grow=down]{
+				child[->,dashed]{
+					node[filhos]{}
+				}
+				child[level distance=1.5cm,->,dashed,grow=down]{	
+					node[deviation,label=right:{$\delta$}] {$p$}
+					child[grow=down,dashed]{
+						node[leaf] {$t_{j}$} 
+					}
+					child{
+						node[leaf] {$t_i$}
+					}
+				}
+			}
+		}
+	edge from parent[dashed]
+};
+\node[below of=s1,node distance=7cm] {(a)};
+
+\node[root,label=right:{s},right of=s1,node distance=4cm] (s2) {}
+child {
+	child[->,dashed]{node[leaf]{}}
+		child[-,dashed,grow=down]{
+			child[-,dashed]{
+				node{$\ldots$} edge from parent[draw=none]
+			}
+			child[->,dashed,grow=down]{
+				node[deviation,label=right:{$u_{\lambda}$}]{$q$}
+				child[->,dashed]{
+					node[filhos]{$t_l$}
+				}
+				child[level distance=1.5cm,->,dashed,grow=down]{	
+					node[deviation,label=right:{$\delta$}] {$p$}
+					child[grow=down,dashed]{
+						node[leaf] {$t_{j}$} 
+					}
+					child{
+						node[leaf] {$t_i$}
+					}
+				}
+			}
+		}
+	edge from parent[dashed]
+};
+
+\node[below of=s2,node distance=7cm] {(b)};
+
+\node[root,label=right:{s},right of=s2,node distance=4cm] (s3) {}
+child {
+		child[-,dashed,grow=down]{
+			child[->,dashed,grow=down]{
+				node[deviation,label=right:{$u_{\lambda}$}]{$q$}
+				child[->,dashed,line width=2pt]{
+					node[novos]{}
+				}
+				child[-,grow=down]{
+					child[->,line width=2pt]{node[novos]{}}
+					child[-,grow=down]{
+						child{node{$\ldots$} edge from parent[draw=none]}
+						child[-,grow=down]{
+							child[->,line width=2pt]{node[novos]{}}
+							child[level distance=1.5cm,->,dashed,grow=down]{	
+								node[deviation,label=right:{$\delta$}] {$p$}
+								child[grow=down,dashed]{
+									node[leaf] {$t_{j}$} 
+								}
+								child{
+									node[leaf] {$t_i$}
+								}
+							}
+						}
+					}
+				}
+				child[->,dashed]{
+					node[filhos]{$t_l$}
+				}
+			}
+		}
+	edge from parent[dashed]
+};
+
+\node[below of=s3,node distance=7cm] {(c)};
+\end{tikzpicture}
+\caption[Esquema dos caminhos na partição $P_c$ definida por $P_j$ e $P_i$]{Em (a) vemos o nó de desvio entre $P_j$ e $P_i$, bem como, destacados em \textcolor{green!50}{verde}, os filhos de $P_j$
+que desviam antes de $\delta$.
+Em (b) observamos como é feita a escolha do vértice $u_{\lambda}$ com base nos filhos de $P_j$ e do desvio $\delta$.
+Em (c) temos os caminhos da partição $P_c$ definida por $P_j$ e $P_i$, que corresponde aos caminhos com
+prefixo $f(R_q)$ que desviam de $P_j$ entre $u_{\lambda}$ e $\delta$.
+}
+\end{figure}
+
+
+
+%% \newpage
+%% 
+%% \section{Arestas com custos iguais a zero}
+%% 
+%% Apresentaremos, sucintamente, o problema que pode haver na execução do algoritmo caso exista alguma aresta 
+%% com custo zero.
+%% O funcionamento do algoritmo está baseado na rotulação dos $\epsilon$ e $\zeta$ respeitar a relação 
+%% $\epsilon(v) \leq \zeta(v)$. Observamos que a rotina \SEP{} gera apenas caminhos tipos I e II para
+%% vértices onde $\epsilon(v) \leq \zeta(v)$.
+%% Quando existem custos zerados nas arestas, é possível que esta relação não seja respeitada.
+%% 
+%% A partir do grafo de exemplo:
+%% 
+%% \includegraphics[scale=0.6]{./figs/grafoComZero.eps}
+%% 
+%% geramos as árvores de menores caminhos, $T_a$, $T_e$ com raízes, respectivamente, $a$ e $e$:
+%% 
+%% \includegraphics[scale=0.6]{./figs/arvoresTsComZero.eps}
+%% \includegraphics[scale=0.6]{./figs/arvoresTtComZero.eps}
+%% 
+%% Nas árvores, a linha vermelha corresponde ao menor caminho de $a$ a $e$ e este é o mesmo que o 
+%% destacado no grafo. 
+%% 
+%% Observe que $\epsilon(c) > \zeta(c)$( na árvore $T_a$ $\epsilon(c)=3$ e na árvore $T_e$ $\zeta(c)=2$)
+%% violando a relação apresentada.
+%% 
+%% Com estas duas árvores, o algoritmo não geraria nenhum caminho diferente de $\seq{a,b,d,e}$,
+%% o que está claramente incorreto, já que existe o caminho $\seq{a,b,c,d,e}$.
+%% 
+%% %a partir do vértice $b$, o passeio do tipo II: 
+%% %$a\underset{T_s}{\longrightarrow}b\underset{\in A}{\rightarrow}c \underset{T_t}{\longrightarrow}e = \seq{a,b,c,b,d,e}$ de custo 4,
+%% %que não é um caminho, por conter vértices repetidos.
+\newpage
+\section{Simulação}
+
+Simularemos uma execução do algoritmo \KIM{} num grafo simples, exibindo passo a passo
+as operações realizadas nas obtenções dos primeiros cinco caminhos.
+
+Utilizaremos na nossa simulação o grafo apresentado a seguir, no qual procuraremos
+caminhos com ponta inicial no vértice $a$ e final em $i$. 
+
+\includegraphics[scale=0.7]{./figs/simulacao/simulacao_grafo_1.eps}
+
+Inicialmente, calculamos o menor caminho de $a$ a $i$, chamado de $P_1$, o qual está destacado no grafo acima pelas arestas vermelhas.
+A obtenção deste caminho resume-se a uma execução do algoritmo de Dijkstra no grafo apresentado.
+
+Em seguida, a partir do caminho $P_1$, através da rotina \FSP{} calculamos o segundo menor caminho: $P_2$.
+O caminho $P_2$ é o menor caminho de $a$ a $i$, que desvia do caminho $P_1$ em algum de seus vértices.
+A geração de $P_2$ merece ser mais detalhada.
+
+Primeiramente, são geradas duas árvores de menores caminhos, chamadas respectivamente de $T_a$ e $T_i$.
+A árvore $T_a$ corresponde a árvore de menores caminhos enraizada em $a$, devidamente rotulada com os valores de $\epsilon$ 
+e contendo o caminho $P_1$.
+A árvore $T_i$ corresponde a árvore de menores caminhos enraizada em $i$, devidamente rotulada com os valores de $\zeta$ 
+e contendo o caminho reverso de $P_1$: $P_{1_r}$.
+
+A seguir exibimos as árvores $T_a$ e $T_i$ usadas na geração de $P_2$:
+O rótulo de cada vértice está indicado pelo valor entre parênteses. 
+Os números entre parênteses da árvore à esquerda correspondem aos 
+valores de $\epsilon$ enquanto que os da direita aos de $\zeta$.
+
+\includegraphics[scale=0.6]{./figs/simulacao/simulacao_ts_1.eps}
+\includegraphics[scale=0.6]{./figs/simulacao/simulacao_tt_1.eps}
+
+A partir dessas duas árvores, a rotina \SEP{}, a qual é responsável 
+por obter o menor caminho de $a$ a $i$ diferente de $P_1$, é chamada com $\alpha=6$, pois queremos um caminho
+que desvia de $P_1$ antes do vértice $i$, cuja posição no caminho $P_1$ é 6.
+A rotina \SEP{} examina os vértices da árvore $T_a$ em profundidade, tentando obter caminhos dos tipos I e II, 
+que desviem de $P_1$ antes do vértice $i$, retornando 
+o de menor custo dentre eles.
+
+Inicialmente adicionamos o vértice $a$ à pilha $S$ e definimos o custo atual do menor caminho encontrado até o momento, $C$, 
+como $\infty$. 
+O conjunto $R$ armazena um vértice ou um arco\footnote{OS termos aresta e arco são intercambiáveis e podem ser usados 
+sem prejuízo algum uma vez que estamos trabalhando com grafos simétricos.}, dependendo do tipo de caminho gerado.
+Caso o caminho seja do tipo II então $R$ armazenará um vértice, se for tipo II então armazenará um arco.
+
+Começamos analisando o vértice $a$, para o qual temos:
+$F_a=\{b\}, A_a=\{a,b\}$ e $\epsilon(a)=\zeta(a)$, já que pertence ao caminho $P_1$.
+Como $\epsilon(a)=\zeta(a)$ tentamos montar um caminho do tipo II, ou seja, um que faça uso de uma aresta não pertencente 
+à árvore $T_a$.
+Procuramos todos os vértices vizinhos de $a$ no grafo e que não sejam vizinhos dele em $T_a$.
+Neste caso não existe nenhum.
+Adicionamos o único vizinho de $a$ em $T_a=\{b\}$ à $S$ e procedemos à próxima iteração.
+
+Seguimos analisando o vértice $b$, para o qual temos:
+$F_b=\{c,e\}, A_b=\{a,c,e\}$ e $\epsilon(b)=\zeta(b)$, já que pertence ao caminho $P_1$.
+Tentamos, novamente, montar um caminho do tipo II e, para isso, procuramos todos os vértices 
+vizinhos de $b$ no grafo que não sejam vizinhos dele em $T_a$, ou seja, $A_b-F_b=\{a\}$, mas
+como $\epsilon(a)<\epsilon(b)$, temos que ignorá-lo. 
+Observe que caso esta última verificação não fosse feita, poderíamos gerar passeios que não fossem caminhos, 
+por possuírem vértices repetidos.
+Empilhamos os vértices $c$ e $e$ e passamos à próxima iteração.
+
+Desempilhamos o vértice $e$, onde 
+$F_e=\{d, f, h\}, A_e=\{b,d,f,h\}$ e $\epsilon(e)=\zeta(e)$.
+Como $F_e-A_e=b$ e $\epsilon(b)<\epsilon(e)$ não temos nenhum vértice para analisar.
+Empilhamos os vértices $d,f$ e $h$ em $S$. 
+Observe que o vértice $b$ não é adicionado.
+
+Desempilhamos o vértice $h$, obtendo $F_h=\emptyset, A_h=\{e,f,g\}$ e $\epsilon(h) \neq \zeta(h)$.
+Tentamos agora montar um caminho do tipo I, concatenando o caminho $a\underset{T_a}{\longrightarrow}h$
+ao $h\underset{T_i}{\longrightarrow}i$, formando um caminho de custo 5.
+Uma vez que seu custo é menor que o menor custo atual fazemos: $R=h$ e $C=5$.
+
+Desempilhamos o vértice $f$, onde $F_h=\emptyset$ e $\epsilon(f) \neq \zeta(f)$.
+Montamos o caminho $a\underset{T_a}{\longrightarrow}f\underset{T_i}{\longrightarrow}i$, de custo 5.
+Mantemos o caminho anterior, já que o custo deste novo caminho não é inferior a 5.
+
+Desempilhamos o vértice $d$, onde $F_d={g},A_d=\{c,e,f,g\}$ e $\epsilon(d)=\zeta(d)$.
+Testamos apenas o $f$, uma vez que $\epsilon(c)<\epsilon(d)$ e $\epsilon(e)<\epsilon(d)$,
+obtendo o caminho do tipo II: $a\underset{T_a}{\longrightarrow} d \rightarrow f \underset{T_i}{\longrightarrow} i$,
+de custo 6. 
+Empilhamos o vértice $g$.
+
+Desempilhamos o vértice $g$, onde $F_g={i}, A_g=\{d,f,h,i\}$ e $\epsilon(g)=\zeta(g)$.
+
+Desempilhamos o vértice $c$, onde $F_c=\emptyset, A_c=\{b,d\}$ e $\epsilon(c) \neq \zeta(c)$.
+Montamos o caminho do tipo I: $a\underset{T_a}{\longrightarrow} c  \underset{T_i}{\longrightarrow} i$,
+de custo 7.
+
+A rotina \SEP{} é concluída com o caminho:  
+$a\underset{T_a}{\longrightarrow}h\underset{T_i}{\longrightarrow}i$, cujo custo é 5.
+
+Agora que acabamos de mostrar como o caminho $P_2$ é construído, vamos tratar da geração dos próximos 
+caminhos e exibir a estrutura dos caminhos $P_a,P_b$ e $P_c$.
+
+Até o momento temos a seguinte árvore de menores caminhos, formada pelos caminhos $P_1$ e $P_2$:
+
+\includegraphics[scale=0.6]{./figs/simulacao/simulacao_paths_2_deitada.eps}
+
+Onde o caminho $P_1$ é o que termina no nó $i_1$ e o caminho $P_2$ no $i_2$.
+O último vértice comum aos caminhos $P_1$ e $P_2$ é o $e$, a partir do qual os caminhos se diferenciam.
+O vértice $e$ desempenhará um papel chave da geração dos caminhos derivados de $P_1$ e $P_2$ 
+e será chamado vértice de desvio. 
+
+Começaremos pela geração do caminho $P_a$, o menor dentre todos os caminhos que desviam de $P_2$ após o último vértice 
+comum a $P_1$ e $P_2$.
+
+Para a geração de $P_a$ necessitamos do último caminho gerado e de seu caminho gerador (pai), que
+neste caso são, respectivamente, os caminhos: $P_2$ e $P_1$.
+
+A idéia é gerar o menor caminho de $h$ a $i$ e concatená-lo ao prefixo comum aos caminhos $P_1$ e $P_2$ = $\seq{a,b,e}$.\\
+Para evitar a geração de caminhos repetidos precisamos remover do grafo os vértices do prefixo comum
+ e suas respectivas arestas: $\{(a,b),(b,e)\}$, obtendo o grafo:
+
+\includegraphics[scale=0.6]{./figs/simulacao/simulacao_pa_1_grafo.eps}
+
+A partir do novo grafo, oriundo dessas remoções, executamos uma chamada à função \FSP{}, utilizando 
+$h$ como origem, $i$ como destino, o caminho base $P=\seq{h,g,i}$ e $\alpha=3$, obtendo as seguintes árvores $T_h$ e $T_i$:
+
+\includegraphics[scale=0.6]{./figs/simulacao/simulacao_pa_1_ts.eps}
+\includegraphics[scale=0.6]{./figs/simulacao/simulacao_pa_1_tt.eps}
+
+Por fim, a rotina \SEP{} é chamada retornando o caminho do tipo I: 
+$h\underset{T_h}{\longrightarrow}f\underset{T_i}{\longrightarrow}i$ $=\seq{h,f,g,i}$,
+de custo 3, o qual é concatenado ao prefixo $\seq{a,b,e}$ formando o caminho $P_a=\seq{a,b,e,h,f,g,i}$, de custo 6.
+
+Na figura a seguir, temos os caminhos $P_1,P_2$ e $P_a$, com pontas iniciais $a$ e pontas finais, respectivamente : $i_1,i_2$ e $i_A$,
+onde fica fácil observar que o caminho $P_a$ desvia de $P_2$ após o vértice $e$.
+O caminho $P_a$ é filho do caminho $P_2$ o que está indicado pelo número entre colchetes no rótulo 
+da sua ponta final.
+
+\includegraphics[scale=0.6]{./figs/simulacao/simulacao_pa_1_paths.eps}
+
+Vamos agora tratar do caminho $P_b$, o menor caminho que desvia do caminho $P_1$
+em algum ponto entre o vértice de desvio $e$ e o $i$. 
+Para evitar a geração de caminhos repetidos precisamos excluir do grafo:
+\begin{itemize}
+\item Os vértices pertencentes ao prefixo comum aos caminhos $P_1$ e $P_2$ (excetuando-se o vértice de desvio), bem
+como suas respectivas arestas. \\
+Neste caso, os vértices a serem removidos são:$ \{a,b\}$ e as arestas $(a,b)$ e $(b,e)$.
+\item As arestas com pontas nos vértices de desvio dos caminhos que têm $P_1$ como pai.\\
+No momento, o único caminho gerado a partir de $P_1$ é o $P_2$.\\
+Observando-se a árvore formada pelos menores caminhos encontrados até o momento ($P_1$ e $P_2$), 
+temos que aresta a ser removida é a $(e,h)$, pois tem ponta no vértice de desvio $e$ do caminho $P_2$ o
+qual tem $P_1$ como pai.
+\end{itemize}
+
+Após estas alterações, obtemos o novo grafo, o qual possui o caminho $\seq{e,d,g,i}$ destacado:
+
+\includegraphics[scale=0.6]{./figs/simulacao/simulacao_pb_1_grafo.eps}
+
+Agora precisamos informar à rotina \FSP{} o valor de $\alpha$, para que ela saiba 
+antes de qual vértice do caminho $\seq{e,d,g,i}$ o novo caminho tem que desviar.
+Para a determinação do $\alpha$ faremos o seguinte:
+\begin{enumerate}
+\item Tomaremos todos os caminhos gerados a partir de $P_1$ e seus respectivos vértices de desvio.\\
+No momento o único caminho gerado a partir de $P_1$ é o $P_2$, cujo nó de desvio é o $e$;
+\item Escolhemos o caminho que compartilha o menor prefixo com $P_2$, e que contenha o prefixo $\seq{a,b,e}$.
+Ao vértice de desvio deste caminho daremos o nome de $\gamma$.
+Caso $\gamma$ exista $\alpha=|\seq{e,\ldots,\gamma}|$.
+Caso não exista $\alpha=|\seq{e,\ldots,i}|$
+\end{enumerate}
+
+No nosso caso, $\gamma$ não existe, logo $\alpha=|\seq{e,d,g,i}|=4$.
+
+Executamos a rotina \FSP{} no novo grafo, utilizando o vértice $e$ como ponta inicial, $i$ como final, e $\alpha=4$,
+obtendo as árvores de menores caminhos $T_e$ e $T_i$ exibidas na figura a seguir:
+
+
+\includegraphics[scale=0.6]{./figs/simulacao/simulacao_pb_1_ts.eps}
+\includegraphics[scale=0.6]{./figs/simulacao/simulacao_pb_1_tt.eps}
+
+Com as árvores em mãos, a rotina \SEP{} retorna o menor caminho do tipo I:
+$e\underset{T_e}{\longrightarrow}f\underset{T_i}{\longrightarrow}i=\seq{e,f,g,i}$.\\
+Concatenando-o com o prefixo do caminho $P_1$: $\seq{a,b}$, obtemos o caminho $\seq{a,b,e,f,g,i}$, de custo 5.
+
+A figura a seguir mostra a disposição do caminho $P_b$ calculado, o qual é representado pelo
+caminho com ponta inicial em $a$ e final em $iB$:
+
+\includegraphics[scale=0.6]{./figs/simulacao/simulacao_pb_1_paths.eps}
+
+Entre colchetes vemos o número 1, indicando que seu pai é o caminho $P_1$.
+
+Vamos agora tratar do caminho $P_c$, o menor caminho que desvia do caminho $P_1$
+em algum ponto antes do vértice de desvio $e$.
+
+Dados todos os caminhos filhos de $P_1$, escolhemos aquele compartilha com $P_1$ o maior prefixo
+e se desvia antes do vértice de desvio $e$.
+Chamaremos de $\delta$ o vértice de desvio deste caminho com seu pai $P_1$.
+Caso não exista, $\delta$ será igual à ponta inicial de $P_1$.
+O $\alpha$ que será passado à função \FSP{} e \SEP{}, corresponde
+ao número de vértices do subcaminho  de $P_1$ com ponta inicial em $\delta$ e ponta final em $e$.
+
+Neste momento, $P_2$ é o único filho de $P_1$ e se desvia de $P_1$ no vértice $e$, logo $\delta=a$
+ e $\alpha=|\seq{a,b,e}|=3$.
+A fim de evitar a geração de caminhos repetidos, removemos do grafo
+todas as arestas com pontas no vértice $\delta$ pertencentes aos caminhos filhos de $	P_1$.
+Neste caso, não há nenhuma aresta a ser removida
+
+O grafo para cálculo de $P_c$ é o próprio grafo original, onde o caminho $P_1$ está destacado: 
+
+\includegraphics[scale=0.6]{./figs/simulacao/simulacao_pc_1_grafo.eps}
+
+Executamos a rotina \FSP{}, com ponta inicial $a$, ponta final $i$ e  $\alpha=3$, no grafo obtido, 
+a qual nos retorna as seguintes árvores $T_a$ e $T_i$:
+
+\includegraphics[scale=0.6]{./figs/simulacao/simulacao_pc_1_ts.eps}
+\includegraphics[scale=0.6]{./figs/simulacao/simulacao_pc_1_tt.eps}
+
+Finalizamos chamando a rotina \SEP{} obtendo o caminho do tipo I: 
+$a\underset{T_a}{\longrightarrow}c\underset{T_i}{\longrightarrow}i=\seq{a,b,c,d,g,i}$ de custo 7.
+Observe que, como passamos $\alpha=3$, a rotina \SEP{} só testou caminhos que desviavam antes do vértice $e$.
+Nenhum vértice com $\epsilon>3$ foi adicionado à pilha $S$. 
+Agora é possível perceber a vantagem de se analisar os vértices da árvore em profundidade.
+Se tivéssemos analisado os vértice de qualquer maneira, teríamos tentado gerar caminhos para 
+muito mais vértices. 
+O uso da pilha diminui isto, apenas os vértices $a$,$b$ e $c$ foram analisados.
+
+A figura a seguir exibe os caminhos gerados até o momento:
+
+\includegraphics[scale=0.6]{./figs/simulacao/simulacao_pc_1_paths.eps}
+
+
+Neste momento estamos com os caminhos candidatos: $P_a$, $P_b$ e $P_c$ e os menores caminhos: $P_1$ e $P_2$.
+Retiramos o caminho de menor custo da lista de candidatos, neste caso $P_b$, 
+e o adicionamos à lista de caminhos mais curtos, obtendo a seguinte 
+árvore de caminhos mais curtos:
+
+\includegraphics[scale=0.6]{./figs/simulacao/simulacao_paths_3.eps}
+
+Esses três caminhos formarão a base para a geração do 4º caminho mais curto.
+
+Tomaremos o caminho $P_3$, cujo pai é $P_1$ e geraremos os caminhos $P_a,P_b$ e $P_c$, correspondentes.
+O vértice de desvio desses dois caminhos é o $e$.
+
+A geração de $P_a$ é relativamente simples.\\
+Retiramos do grafo os vértices do prefixo comum a $P_1$ e $P_3$, ou seja, $\{a,b,e\}$, obtendo o grafo:
+
+\includegraphics[scale=0.6]{./figs/simulacao/simulacao_pa_2_grafo.eps}
+
+Executamos a função \FSP{} com $\alpha=3$ para nos retornar o menor caminho de $f$ a $i$ diferente de $\seq{f,g,i}$, 
+a qual nos retorna o caminho $\seq{f,h,g,i}$ através da execução do algoritmo \SEP{} nas árvores:
+
+\includegraphics[scale=0.6]{./figs/simulacao/simulacao_pa_2_ts.eps}
+\includegraphics[scale=0.6]{./figs/simulacao/simulacao_pa_2_tt.eps}
+
+Concatenamos o prefixo $\seq{a,b,e}$ ao caminho $\seq{f,h,g,i}$ obtendo o caminho $\seq{a,b,e,f,h,g,i}$, exibido
+na figura a seguir:
+
+\includegraphics[scale=0.6]{./figs/simulacao/simulacao_pa_2_paths.eps}
+
+A geração de $P_b$ requer o cálculo de um caminho que desvia de $P_1$ depois do vértice de desvio $e$ 
+e seja diferente de todos os filhos de $P_1$.
+Para isso, primeiro removemos os vértices do prefixo comum a $P_1$ e $P_3$ = $\seq{a,b,e}$ com exceção do vértice $e$.
+Depois, para evitar a geração de caminhos repetidos, apagamos as arestas: $(e,h)$ e $(e,f)$, obtendo o grafo:
+
+\includegraphics[scale=0.6]{./figs/simulacao/simulacao_pb_2_grafo.eps}
+
+Em seguida executamos rotina \FSP{}, com $s=e$, $t=i$ e $\alpha=4$, uma vez que não existe 
+nenhum caminho filho de $P_1$ que desvia deste num vértice posterior a $e$.
+Todos os caminhos gerados a partir de $P_1$, até o momento, ou se desviam exatamente no vértice $e$ ou antes dele.
+Obtemos então as seguintes árvores $T_e$ e $T_i$:
+
+\includegraphics[scale=0.6]{./figs/simulacao/simulacao_pb_2_ts.eps}
+\includegraphics[scale=0.6]{./figs/simulacao/simulacao_pb_2_tt.eps}
+
+Por fim, a rotina \SEP{} nos devolve o caminho do tipo I: 
+$e\underset{T_e}{\longrightarrow}f\underset{T_i}{\longrightarrow}i=\seq{e,d,f,g,i}$, que
+concatenado ao $\seq{a,b,e}$ forma o caminho $\seq{a,b,e,d,f,g,i}$ de custo 7, exibido a seguir.
+
+\includegraphics[scale=0.6]{./figs/simulacao/simulacao_pb_2_paths.eps}
+
+Não é possível gerar nenhum caminho $P_c$ com base nos caminhos $P_1$ e $P_3$, pois
+o menor caminho filho de $P_1$ que desvia antes do vértice de desvio $e$ já foi calculado nas iterações anteriores.
+
+Retiramos da lista de candidatos o caminho de menor custo, ou seja, $\seq{a, b, e, d, f, g, i}$ e o inserimos
+na lista de menores caminhos.
+A árvore dos menores caminhos, contendo os quatro menores caminhos se torna então:
+
+\includegraphics[scale=0.6]{./figs/simulacao/simulacao_paths_4.eps}
+
+Para a geração do 5º caminho mais curto de $a$ a $i$ tomamos os caminhos: $P_4=\seq{a, b, e, d, f, g, i}$ e seu
+caminho gerador: $P_1$.
+
+Começamos gerando um caminho na partição $P_a$.
+O vértice de desvio entre $P_1$ e $P_4$ é o $d$.
+Removemos do grafo os vértices do prefixo comum aos dois caminhos, bem como suas arestas correspondentes, obtendo o grafo:
+
+\includegraphics[scale=0.6]{./figs/simulacao/simulacao_pa_3_grafo.eps}
+
+A partir deste grafo resolvemos o problema do desvio de custo mínimo, através da execução da rotina \SEP{} nas árvores
+de menores caminhos $T_f$ e $T_i$ e o caminho base $\seq{f,g,i}$:
+
+\includegraphics[scale=0.6]{./figs/simulacao/simulacao_pa_3_ts.eps}
+\includegraphics[scale=0.6]{./figs/simulacao/simulacao_pa_3_tt.eps}
+
+A rotina \SEP{} nos retorna o desvio de custo mínimo gerado a partir do vértice $h$: $\seq{f,h,g,i}$, um caminho
+do tipo I: $f\underset{T_f}{\longrightarrow}h\underset{T_i}{\longrightarrow}i$.
+
+O novo caminho na partição $P_a$ é obtido concatenando-se o prefixo $\seq{a,b,e,d}$ ao caminho $\seq{f,h,g,i}$,
+obtendo-se o caminho: $\seq{a,b,e,d,f,h,g,i}$, exibido a seguir:
+ 
+\includegraphics[scale=0.6]{./figs/simulacao/simulacao_pa_3_paths.eps}
+
+Vamos tratar agora da geração do novo caminho na partição $P_b$.
+Retiramos do grafo os vértices do prefixo comum, com exceção do vértice de desvio, juntamente com suas arestas, ou
+seja, apagamos os vértices: $\{a,b,e\}$ e as arestas: \\
+$\{(a,b),(b,c),(b,e),(e,h),(e,f),(e,d)\}$.
+Queremos então obter um caminho na partição $P_b$ usando o desvio $d$ e gerar um que desvia de $P_1$ 
+a partir deste vértice e que seja diferente.
+Para evitar a geração de caminhos repetidos, é preciso remover algumas arestas. 
+Vamos considerar todos os caminhos gerados a partir de $P_1$, com exceção de $P_4$, 
+que compartilham com este o menor prefixo tal que seja maior que o prefixo compartilhado entre $P_1$ e $P_4$, ou seja, 
+queremos o caminho com menor prefixo tal este contenha o prefixo $\seq{a,b,e,d}$.
+Não há nenhum caminho nestas condições.
+Com isto, basta remover a aresta $(d, f)$ do grafo, evitando assim que o caminho $P_4$ venha ser novamente gerado.
+A seguir o grafo com as alterações mencionadas:
+
+\includegraphics[scale=0.6]{./figs/simulacao/simulacao_pb_3_grafo.eps}
+
+Pelo grafo é possível perceber que não existe outro caminho de $d$ a $i$ 
+diferente de $\seq{d,g,i}$. No entanto, vamos exibir as árvores $T_d$ e $T_i$:
+
+\includegraphics[scale=0.6]{./figs/simulacao/simulacao_pb_3_ts.eps}
+\includegraphics[scale=0.6]{./figs/simulacao/simulacao_pb_3_tt.eps}
+
+Vale notar que os vértices $\{c,f,h\}$ possuem $\epsilon=\zeta$, sem no entanto fazerem parte do caminho base $\seq{d,g,i}$.
+Com tais árvores o problema do desvio de custo mínimo não tem solução.
+
+Vamos passar para o caminho na partição $P_c$.
+O representante da partição $P_c$ é um caminho de custo mínimo que desvia de $P_1$ antes
+do vértice de desvio $d$ e que não seja igual a nenhum dos filhos de $P_1$.
+
+Olhando a árvore de caminhos contendo os quatro primeiros caminhos observamos que os
+gerados a partir de $P_1$ são: $P_2,P_3$ e $P_4$, cujos vértices de desvio são: $e,e$ e $d$.
+Precisamos então gerar o caminho com ponta em $e$ e que desvia de $P_1$ antes de $d$.
+A escolha da ponta $e$ é como segue: escolha dos caminhos gerados a partir de $P_1$ aquele
+que com este compartilhar o maior prefixo tal que seja menor que o prefixo comum a $P_1$ e $P_4$ e 
+selecione o vértice de desvio deste caminho.
+No nosso caso, o caminho escolhido é o $P_2$ cujo vértice de desvio é o $e$.
+
+Excluímos do grafo as arestas com ponta no vértice de desvio $e$ e que pertençam aos filhos de $P_1$, 
+ou seja, excluímos as arestas $\{(e,h),(e,f)\}$.
+Além disso, é preciso remover os vértices do prefixo $\seq{a,b}$ juntamente com suas arestas.
+O grafo oriundo destas alterações é:
+
+\includegraphics[scale=0.6]{./figs/simulacao/simulacao_pc_3_grafo.eps}
+
+Geramos as árvores $T_e$ e $T_i$, com o caminho base $\seq{e,d,g,i}$ e pedimos à função \SEP{} que
+nos retorne um desvio de custo mínimo tal que o desvio ocorra antes do vértice $d$.
+Não existe tal caminho.
+
+\includegraphics[scale=0.6]{./figs/simulacao/simulacao_pc_3_ts.eps}
+\includegraphics[scale=0.6]{./figs/simulacao/simulacao_pc_3_tt.eps}
+
+Retiramos da lista de candidatos um caminho de custo mínimo, $\seq{a, b, e, h, f, g, i}$ e o adicionamos à lista
+de menores caminhos que se torna:
+
+\includegraphics[scale=0.6]{./figs/simulacao/simulacao_paths_5.eps}
+
+O índice após o $i$ corresponde à posição do caminho na lista de menores caminhos.
+Por exemplo: $i1$ corresponde ao caminho $P_1$.
+O número entre colchetes se refere ao índice do pai do caminho.
+Por exemplo: $i3[1]$ indica que o caminho $P_3$ foi gerado a partir do $P_1$.
+A letra entre parênteses indica a partição que este caminho representa.
+Por exemplo: $i3[1](B)$ indica que o caminho $P_3$ é o representante da partição $P_b$ definida pelos 
+caminhos $P_1$ e $P_3$.
+
+\newpage
+Todos os 17 caminhos gerados:
+
+\includegraphics[scale=0.6]{./figs/simulacao/simulacao_all_paths.eps}
+
+\newpage
+\section{Implementação}
+\label{sec:implementacao}
+\subsection*{KIM}
+
+A implementação foi feita em JAVA utilizando-se a biblioteca JUNG, mencionada anteriormente.
+Nossa principal missão foi aproveitar ao máximo o código já existente no JUNG.
+Não exibiremos todo o código nesta seção, mas apenas pequenos trechos, com o intuito de explicar
+como foi feita a implementação dos pontos que consideramos mais importantes.
+
+Como já dissemos, o algoritmo \KIM{} depende de uma rotina capaz de gerar uma árvore de menores caminhos,
+ou seja, uma rotina que resolva o problema $\PCM$, com algumas pequenas mudanças, 
+de forma a garantir a presença de um certo caminho, além das rotulações $\epsilon$ e $\zeta$.
+
+Atualmente a biblioteca JUNG possui apenas uma rotina que resolve o problema $\PCM$, utilizando o algoritmo de Dijkstra, implementado
+usando uma fila de prioridade baseada num min-heap. Optamos então por utilizá-la.
+
+De forma a garantir a presença de um certo caminho $P=\seq{u_1=s,\ldots,u_n=t}$ na árvore de menores caminhos gerada pelo Dijkstra, 
+permitimos que vértices que fazem parte do caminho sejam apenas alcançados por outros que também façam parte do caminho e,
+além disso, sejam imediatamente anteriores a ele.
+Lembrando do algoritmo de Dijkstra, apresentado na seção~\ref{sec:dijkstra}, sempre que um arco está sendo examinado,
+ou seu vértice incidente está em $Q$ ou não.
+Se não estiver, deve ser inserido com o custo correspondente.
+Se já estiver, e o novo custo para alcançá-lo for inferior ao anteriormente calculado, devemos atualizar o seu custo.
+A ação de inserir um vértice em $Q$ está mapeada na função \lstinline{createRecord(V w, E e, double new_dist)} apresentada no código a seguir.
+Observe que, caso o vértice, do arco incidente atualmente sendo examinado, não esteja em $P$ nada de especial precisa ser feito, 
+mas caso contrário precisamos garantir que seu predecessor seja um vértice pertencente à $P$ e, imediatamente anterior a este em $P$.
+Para testar que está no caminho basta verificar os retornos das chamadas da função \lstinline{isOnPath}, nas linha~5 e 6.
+A fim de testar que seja imediatamente anterior, subtraímos os valores das rotulações entre os dois vértices em questão.
+Caso estejamos gerando a árvore de menores caminhos $T_s$, utilizamos a rotulação $\epsilon$, senão utilizamos a $\zeta$.
+\begin{lstlisting}
+protected class SourcePathDataKIM extends SourcePathData {
+	@Override
+	public void createRecord(V w, E e, double new_dist) {
+		V pred = ((UndirectedGraph<V, E>) g).getOpposite(w, e);
+		if (w.isOnPath()) {
+			if (!pred.isOnPath())
+				return;
+			if (getTreeType().equals(ShortestPathKIM.TreeType.TS)) {
+				if (w.getEpsilon().intValue()-pred.getEpsilon().intValue() != 1)
+					return;
+			} else if (getTreeType().equals(ShortestPathKIM.TreeType.TT)) {
+				if (w.getZeta().intValue()-pred.getZeta().intValue() != -1)
+					return;
+			}
+		}
+		super.createRecord(w, e, new_dist);
+	}
+}
+\end{lstlisting}
+
+Ainda temos o problema das rotulações para resolver.
+Vale lembrar que:
+
+Sejam $T_s$ e $T_t$ duas árvores de menores caminhos com raízes $s$ e $t$, respectivamente, 
+geradas a partir de execuções do \PCM{} no grafo simétrico com custo $(V,A,c)$ e 
+$P=\seq{s,\ldots,t}$ o caminho base em $T_s$ então:
+
+$\forall u \in V, u \in T_s, u \in P \rightarrow \epsilon(u)=\zeta(u)=|prefixo(\seq{s,\ldots,u})|$
+
+$\forall u \in V, u \in T_s, u \notin P \rightarrow \epsilon(u)=\epsilon(\pred_{T_s}(u))$
+
+$\forall u \in V, u \in T_t, u \notin P \rightarrow \zeta(u)=\zeta(\pred_{T_t}(u)$
+
+Sendo assim, definimos a função de rotulação como exibida no código a seguir.
+
+\begin{lstlisting}
+	private void setLabel(V w, V pred) {
+		if (!w.isOnPath()) {
+			if (getTreeType().equals(ShortestPathKIM.TreeType.TS))
+				w.setEpsilon(pred.getEpsilon());
+			else if (getTreeType().equals(ShortestPathKIM.TreeType.TT))
+				w.setZeta(pred.getZeta());
+		}
+\end{lstlisting}
+Observe que rotulamos apenas os vértices não pertencentes ao caminho $P$.
+A rotulação dos vértices em $P$ é feita em um momento anterior ao da execução do algoritmo \PCM{} modificado.
+Antes de todas as chamadas a função \FSP{}, executamos a rotina \lstinline{insertPathOnTree}, apresentada a seguir.
+\begin{lstlisting}
+protected void insertPathOnTree(Path<KIMVertex, KIMEdge> path, int ini) {
+	for (int i = ini, epsilon = 1; i < path.getVertices().size(); i++, epsilon++) {
+		KIMVertex atual = path.getVertex(i);
+		atual.setIsOnPath(true);
+		atual.setEpsilon(epsilon);
+		atual.setZeta(epsilon);
+	}
+}
+\end{lstlisting}
+O seu código é bem simples e nada mais faz que aplicar a definição das rotulações $\epsilon$ e $\zeta$ aos vértices pertencentes ao caminho $P$. 
+
+Agora precisamos definir quando as rotulações dos vértices não pertencentes à $P$ devem ser feitas.
+Observamos que sempre que um vértice é adicionado a $S$ podemos, seguramente, rotulá-lo, uma vez que seu predecessor não mais mudará.
+\begin{lstlisting}
+@Override
+	public Entry<V, Number> getNextVertex() {
+		Map.Entry<V, Number> p = super.getNextVertex();
+		V v = p.getKey();
+		E incomingEdge = incomingEdges.get(v);
+		if (incomingEdge != null) {
+			V pred = ((UndirectedGraph<V, E>) g).getOpposite(v, incomingEdges.get(v));
+			setLabel(v, pred);
+			sons.get(pred).add(v);
+		}
+		sons.put(v, new LinkedHashSet<V>());
+		return p;
+	}
+\end{lstlisting}
+
+O código completo da classe que implementa as estruturas de dados utilizadas no algoritmo \PCM{} modificado é apresentada a seguir:
+\begin{lstlisting}[name={Estruturas de dados da implementação do algoritmo Dijkstra modificado.}]
+	protected class SourcePathDataKIM extends SourcePathData {
+		@Override
+		public Entry<V, Number> getNextVertex() {
+			Map.Entry<V, Number> p = super.getNextVertex();
+			V v = p.getKey();
+			E incomingEdge = incomingEdges.get(v);
+			if (incomingEdge != null) {
+				V pred = ((UndirectedGraph<V, E>) g).getOpposite(v, incomingEdges.get(v));
+				setLabel(v, pred);
+				sons.get(pred).add(v);
+			}
+			sons.put(v, new LinkedHashSet<V>());
+			return p;
+		}
+
+		@Override
+		public void createRecord(V w, E e, double new_dist) {
+			V pred = ((UndirectedGraph<V, E>) g)
+					.getOpposite(w, e);
+			if (w.isOnPath()) {
+				if (!pred.isOnPath())
+					return;
+				if (getTreeType().equals(ShortestPathKIM.TreeType.TS)) {
+					if (w.getEpsilon().intValue()-pred.getEpsilon().intValue() != 1)
+						return;
+				} else if (getTreeType().equals(ShortestPathKIM.TreeType.TT)) {
+					if (w.getZeta().intValue()-pred.getZeta().intValue() != -1)
+						return;
+				}
+			}
+			super.createRecord(w, e, new_dist);
+		}
+
+		private void setLabel(V w, V pred) {
+			if (!w.isOnPath()) {
+				if (getTreeType().equals(ShortestPathKIM.TreeType.TS))
+					w.setEpsilon(pred.getEpsilon());
+				else if (getTreeType().equals(ShortestPathKIM.TreeType.TT))
+					w.setZeta(pred.getZeta());
+			}
+		}
+
+		public SourcePathDataKIM(V source) {
+			super(source);
+		}
+	}
+\end{lstlisting}
+
+Achamos importante tratar de um detalhe da função \SEP{}, à qual implementa o algoritmo \SEP{} apresentado anteriormente.
+Na linha~5 do algoritmo temos a definição de $F_u$ como o conjunto de vértices em $T_s$ cujo predecessor seja o vértice $u$.
+O problema é que temos em mãos apenas a árvore de menores caminhos, na forma de um grafo de  predecessores.
+Para obter o conjunto $F_u$, a partir da árvore de menores caminhos, usamos o código a seguir, o qual dada uma árvore de menores caminhos \lstinline{T},
+um vértice \lstinline{u} e um vértice \lstinline{s} tal que $\pred_{T}(s)=\emptyset$, retorna os filhos de \lstinline{u} na árvore 
+\lstinline{T} com raiz \lstinline{s}:
+\begin{lstlisting}
+protected Set<KIMVertex> getSons(ShortestPathKIM<KIMVertex, KIMEdge> T,
+											KIMVertex u, KIMVertex s) {
+		Iterator<KIMEdge> i = graph.getOutEdges(u).iterator();
+		Set<KIMVertex> sons = new HashSet<KIMVertex>();
+		while (i.hasNext()) {
+			KIMEdge atual = i.next();
+			KIMVertex o = graph.getOpposite(u, atual);
+			KIMEdge incident = T.getIncomingEdge(s, o);
+			if (incident != null	&& graph.getOpposite(o, incident).equals(u))
+				sons.add(o);
+		}
+		return sons;
+	}
+\end{lstlisting}
+O código anterior exige que todas as arestas de \lstinline{u} sejam testadas quanto a sua existência na árvore \lstinline{T}, ocasionando um 
+consumo de tempo $\Oh(m)$.
+Descobrimos, posteriormente, que poderíamos armazenar, para cada vértice  \lstinline{u}, seu conjunto $F_u$ durante
+a execução do algoritmo $\PCM$ modificado.
+Observamos que sempre que um novo vértice é adicionado ao conjunto $S$, uma vez que seu predecessor não mais mudará, 
+podemos adicioná-lo à lista de filhos de seu predecessor.
+O código a seguir resume o que foi dito.
+\begin{lstlisting}
+		public Entry<V, Number> getNextVertex() {
+			Map.Entry<V, Number> p = super.getNextVertex();
+			V v = p.getKey();
+			E incomingEdge = incomingEdges.get(v);
+			if (incomingEdge != null) {
+				V pred = ((UndirectedGraph<V, E>) g).getOpposite(v, incomingEdges.get(v));
+				setLabel(v, pred);
+				sons.get(pred).add(v);
+			}
+			sons.put(v, new LinkedHashSet<V>());
+			return p;
+		}
+\end{lstlisting}
+Na linha~8 obtemos a lista de filhos do vértice predecessor e lhe adicionamos o novo vértice \lstinline{v}.
+Na linha~10 criamos a lista de filhos do vértice \lstinline{v}.
+Aplicando esta mudança conseguimos ganhos de desempenho de até 40\%.
+Notamos que quanto maior for a densidade de um grafo tanto mais tempo gastaremos executando a rotina \lstinline{getSons}.
+
+Decidimos implementar uma solução para o $\PCM$ modificado quando a função custo é constante.
+Quando a função custo é constante, uma simples busca em largura é suficiente para retornar as árvores de menores caminhos a partir da origem.
+O JUNG possuía uma implementação para grafos sem custos, no entanto, uma vez que o código e as estruturas estavam juntas, não
+conseguimos reaproveitá-lo, pois precisávamos alterá-lo com as rotulações e a presença do caminho base.
+
+Utilizando busca em largura, garantir que um certo caminho base faça parte da árvore gerada pode ser realizado 
+forçando cada vértice do caminho a ser analisado apenas pelo vértice anterior a ele no caminho.
+Observa que isso é feito nas linhas~16 e 17 quando impedimos que o vértice \lstinline{neighbor} entre para $\Scal$
+caso ele faça parte do caminho base e o vértice \lstinline{cur} não.
+
+Veja que nas linhas~25 a 32 as rotulações $\epsilon$ e $\zeta$ são feitas de acordo com a definição apresentada anteriormente.
+Mais uma vez, apenas rotulamos, na implementação do algoritmo $\PCM$, vértices que não façam parte do caminho.
+Os vértices que fazem parte do caminho são rotulados num momento anterior.
+
+\begin{lstlisting}
+	private void bfs(KIMVertex source) {
+		LinkedList<KIMVertex> unknown = new LinkedList<KIMVertex>();
+		distanceMap = new HashMap<KIMVertex, Number>();
+		incomingEdgeMap = new HashMap<KIMVertex, KIMEdge>();
+		unknown.add(source);
+		distanceMap.put(source, 0);
+		while (!unknown.isEmpty()) {
+			KIMVertex cur = unknown.pollFirst();
+			Iterator<KIMEdge> i = g.getIncidentEdges(cur)
+					.iterator();
+			while (i.hasNext()) {
+				KIMEdge incomingEdge = i.next();
+				KIMVertex neighbor = g.getOpposite(cur,
+						incomingEdge);
+				if (!distanceMap.containsKey(neighbor)
+						&& !(neighbor.isOnPath() && !cur
+								.isOnPath())) {
+					unknown.addLast(neighbor);
+					incomingEdgeMap.put(neighbor,
+							incomingEdge);
+					distanceMap
+							.put(neighbor,
+									(Integer) distanceMap
+											.get(cur) + 1);
+					if (!neighbor.isOnPath()
+							&& treeType != null) {
+						if (treeType.equals(ShortestPathKIM.TreeType.TS))
+							neighbor.setEpsilon(cur
+									.getEpsilon());
+						else if (treeType
+								.equals(ShortestPathKIM.TreeType.TT))
+							neighbor.setZeta(cur.getZeta());
+					}
+				}
+			}
+		}
+	}
+\end{lstlisting}
+
+Tendo as duas implementações para o \PCM{} modificado: uma baseada no algoritmo de Dijkstra e utilizando grafos com custo não-negativos
+e outra baseada numa simples busca em largura e lidando com grafos com custos constantes, era preciso fornecer uma maneira de 
+utilizá-los de uma maneira uniforme pelo algoritmo \KIM{}.
+Para isso, inicialmente definimos a interface \lstinline{ShortestPathKIM}:
+\begin{lstlisting}
+public interface ShortestPathKIM<V extends KIMVertex, E extends KIMEdge>
+		extends ShortestPath<V, E>, Distance<V> {
+	public static final Class BFSShortestPathKIMAlgorithm = BFSKIM.class;
+	public static final Class DijkstraShortestPathKIMAlgorithm = DijkstraSPKIM.class;
+
+	public List<E> getPath(V source, V target);
+
+	public E getIncomingEdge(V source, V target);
+
+	public LinkedHashSet<V> getSons(V source, V vertex);
+}
+\end{lstlisting}
+Assim, toda classe utilizada para resolver o \PCM{} modificado durante a execução do algoritmo \KIM{} deveria 
+implementar os métodos definidos por essa interface.
+Além disso, criamos uma fábrica de instâncias do \PCM{} modificado, para facilitar nas suas criações.
+\begin{lstlisting}
+public class Factory {
+		Transformer<KIMEdge, Number> nev;
+		UndirectedGraph<KIMVertex, KIMEdge> g;
+		Class shortestPathKIM;
+		public Constructor construtor;
+
+		public Factory(Transformer<KIMEdge, Number> nev,
+				UndirectedGraph<KIMVertex, KIMEdge> g,
+				Class<ShortestPathKIM<KIMVertex, KIMEdge>> shortestPathKIM) {
+			this.nev = nev;
+			this.g = g;
+			this.shortestPathKIM = shortestPathKIM;
+			try {
+				construtor = shortestPathKIM.getConstructor(new Class[] {
+						UndirectedGraph.class, Transformer.class,
+						ShortestPathKIM.TreeType.class });
+			} catch (Exception e) {
+				RuntimeException err = new RuntimeException();
+				err.initCause(e);
+				throw err;
+			}
+		}
+
+		public ShortestPathKIM<KIMVertex, KIMEdge> newInstance(
+				ShortestPathKIM.TreeType treeType) {
+			try {
+				return (ShortestPathKIM<KIMVertex, KIMEdge>) construtor
+						.newInstance(new Object[] { g, nev, treeType });
+			} catch (Exception e) {
+				RuntimeException err = new RuntimeException();
+				err.initCause(e);
+				throw err;
+			}
+		}
+	}
+\end{lstlisting}
+
+O construtor da classe \KIM {} recebe uma fábrica de instâncias do \PCM{} modificado e uma função custo na forma de um \emph{Transformer} conseguindo
+resolver o problema \kCM{} sem se preocupar com a implementação do \PCM{} modificado informada.
+
+Precisamos criar classe específicas para vértices e arestas, uma vez que desejávamos armazenar informações específicas 
+relativas ao algoritmo \KIM{}. Nossa classe \lstinline{KIMVertex} possui dois campos que armazenam os valores das rotulações $\epsilon$ e $\zeta$,
+uma variável \lstinline{boolean} chamada \lstinline{isOnPath} usada para indicar se o vértice faz parte do caminho base ou não e, 
+para depuração do código, adicionamos um campo \lstinline{nome}.
+Para facilitar nas leituras de grafos a partir de arquivos \emph{PajekNet} adicionamos à classe uma fábrica padrão de vértices.
+\begin{lstlisting}
+public class KIMVertex {
+	public static class KIMVertexFactory implements Factory<KIMVertex> {
+		int id = 1;
+		@Override
+		public KIMVertex create() {
+			return new KIMVertex(Integer.toString(id++));
+		}
+	}
+	public static Factory<KIMVertex> getFactory() {
+		return new KIMVertex.KIMVertexFactory();
+	}
+	private Integer epsilon;
+	private boolean isOnPath = false;
+	private String nome;
+	private Integer zeta;
+
+	public KIMVertex(String nome) {
+		this(nome, false);
+	}
+	public KIMVertex(String nome, boolean isOnPath) {
+		this.nome = nome; this.isOnPath = isOnPath;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null)
+			return false;
+		try {
+			KIMVertex other = (KIMVertex) obj;
+			return getNome().equals(other.getNome());
+		} catch (ClassCastException e) { return false;}
+	}
+}
+\end{lstlisting}
+Os métodos \lstinline{get} e \lstinline{set} para cada campo foram suprimidos na listagem anterior, por conveniência.
+
+A nossa classe \lstinline{KIMEdge} possui um campo para armazenar um custo, uma fábrica padrão de arestas e duas funções custos mapeadas nos 
+\lstinline{Transformers}: \lstinline{defaultCost} e \lstinline{constantCost}.
+A seguir o código da classe \lstinline{KIMEdge}:
+
+\begin{lstlisting}
+public class KIMEdge {
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null)
+			return false;
+		try {
+			return ((KIMEdge) obj).getID().equals(myID);
+		} catch (ClassCastException e) {return false;}
+	}
+	private static int id;
+	private static Transformer<KIMEdge, Number> defaultCost = new Transformer<KIMEdge, Number>() {
+		public Number transform(KIMEdge link) {
+			return link.getCost();
+		}
+	};
+	private static Transformer<KIMEdge, Number> constantCost = new Transformer<KIMEdge, Number>() {
+		public Number transform(KIMEdge link) {
+			return 1;
+		}
+	};
+	private int myID;
+	@Override
+	public String toString() {
+		return "[E" + myID + "," + cost + "]";
+	}
+	private Number cost;
+	public KIMEdge() {
+		this(null);
+	};
+	public KIMEdge(Number cost) {
+		synchronized (KIMEdge.class) {
+			id++;
+			this.myID = id;
+		}
+		this.cost = cost;
+	}
+	public static final Transformer<KIMEdge, Number> getDefautTransformer() {
+		return defaultCost;
+	}
+	public static final Transformer<KIMEdge, Number> getConstantTransformer() {
+		return constantCost;
+	}
+	public static class KIMEdgeFactory implements Factory<KIMEdge> {
+		@Override
+		public KIMEdge create() {
+			return new KIMEdge();
+		}
+	}
+	public static Factory<KIMEdge> getFactory() {
+		return new KIMEdge.KIMEdgeFactory();
+	}
+}
+\end{lstlisting}
+Alguns \emph{getters} e \emph{setters} foram omitidos.
+
+Não havia no JUNG uma classe que representasse a idéia de caminho.
+Para o JUNG um caminho era sempre uma lista de arcos e/ou arestas.
+Nós precisamos armazenar outras informações, como por exemplo, o caminho pai, o vértice de desvio, o custo, entre outros.
+Além disso, dado que a rotina \SEP{} retorna ora um vértice ora um arco, seria interessante que a nossa classe 
+soubesse criar um caminho com base nestas duas opções.
+A seguir exibimos um excerto da interface \lstinline{Path}.
+\begin{lstlisting}
+public interface Path<V extends KIMVertex, E extends KIMEdge> {
+	public abstract int getIteracao();
+	public abstract void setIteracao(int iteracao);
+	public abstract Double getCost();
+	public abstract KIMVertex getDevVertex();
+	public abstract int getDevNodeIndex();
+	public abstract KIMEdge getEdge(int pos);
+	public abstract List<KIMEdge> getEdges();
+	public abstract int getOrdem();
+	public abstract String getOrigem();
+	public abstract Path<KIMVertex, KIMEdge> getParent();
+	public abstract Path<KIMVertex, KIMEdge> getPrefix(KIMVertex last);
+	public abstract Path<KIMVertex, KIMEdge> getReverse();
+	public abstract KIMVertex getStart();
+	public abstract Path<KIMVertex, KIMEdge> getSubPath(KIMVertex v);
+	public abstract Path<KIMVertex, KIMEdge> getSubPath(KIMVertex v, int from,
+			int to);
+	public abstract KIMVertex getTarget();
+	public abstract KIMVertex getVertex(int pos);
+	public abstract List<KIMVertex> getVertices();
+	public abstract void setOrdem(int ordem);
+	public abstract void setOrigem(String origem);
+	public abstract void setParent(Path<KIMVertex, KIMEdge> parent);
+	public class Factory {
+		private UndirectedGraph<KIMVertex, KIMEdge> g;
+		public UndirectedGraph<KIMVertex, KIMEdge> getGraph() {
+			return g;
+		}
+		public Transformer<KIMEdge, Number> getTransformer() {
+			return nev;
+		}
+
+		private Transformer<KIMEdge, Number> nev;
+
+		public Factory(UndirectedGraph<KIMVertex, KIMEdge> g,
+				Transformer<KIMEdge, Number> nev) {
+			this.g = g;
+			this.nev = nev;
+		}
+
+		public final Path<KIMVertex, KIMEdge> newInstance(
+				Path<KIMVertex, KIMEdge> p1, Path<KIMVertex, KIMEdge> p2) {
+			return new BasicPath<KIMVertex, KIMEdge>(p1, p2, g, nev);
+		}
+
+		public final Path<KIMVertex, KIMEdge> newInstance(List<KIMEdge> edges,
+				KIMVertex vertex) {
+			return new BasicPath<KIMVertex, KIMEdge>(edges, vertex, g, nev);
+		}
+
+		public final Path<KIMVertex, KIMEdge> newInstance(
+				ShortestPathKIM<KIMVertex, KIMEdge> Ts,
+				ShortestPathKIM<KIMVertex, KIMEdge> Tt, Pair pair, KIMVertex s,
+				KIMVertex t) {
+			return new BasicPath<KIMVertex, KIMEdge>(Ts, Tt, pair, s, t, g, nev);
+		}
+	}
+}
+\end{lstlisting}
+Boa parte dos métodos definidos nas linhas~2 a 15 corresponde a campos utilizados para propósito de depuração.
+Na linha~25 vemos a definição de uma fábrica de \lstinline{Path} que armazena um grafo e uma função custo mapeada na forma de um \lstinline{Transformer}.
+A fábrica utiliza essas informações para gerar caminhos 	de diversas maneiras, dentre as quais destacamos:
+\begin{description}
+\item[linha~41]: a partir da concatenação de dois caminhos;
+\item[linha~51]: a partir das árvores $T_s$ e $T_t$, $s$ e $t$ e um \lstinline{pair} que ora representa uma aresta ora um vértice.
+A implementação deve gerar um caminho do tipo I quando \lstinline{pair} contiver dois vértices iguais e caminhos do tipo II
+quando forem diferentes.
+\end{description} 
+
+As demais rotinas não valem a pena serem exibidas. 
+Lembramos que o código implementado pode ser baixado no
+sítio: \href{http://code.google.com/p/k-cmc/}{http://code.google.com/p/k-cmc/}.

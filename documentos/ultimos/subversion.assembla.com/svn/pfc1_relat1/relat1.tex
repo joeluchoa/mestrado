@@ -1,0 +1,204 @@
+\documentclass[relatorio]{inf-ufg}
+%   [monografia]   -> Monografia de especialização.
+%   [relatorio]    -> Relatório final de graduação.
+%   [abnt]         -> Usa o estilo "abnt-alf" de citação bibliográfica.
+%   [nocolorlinks] -> Os links de navegação no texto ficam na cor preta.
+%                     Use esta opção para gerar o arquivo para impressão
+%                     da versão final do seu texto!!!
+
+\usepackage[brazil]{babel}
+\usepackage[T1]{fontenc}
+
+\usepackage{bbm}
+\usepackage{amsfonts} % latexsym amssymb txfonts pxfonts wassym
+\usepackage{xspace}
+\usepackage{amsmath} % utilizar o ambiente equation
+\usepackage{amssymb} % para utilizar \rightsquigarrow
+\usepackage[all]{xy} % para utilizar xymatrix
+\usepackage{graphicx} % para ambiente \includegraphics
+\usepackage{tikz} % para utilizar o ambiente tikzpicture, usada para representar grafos
+\usepackage{dsfont} % para usar o \mathds{}, exibir o simbolo de numeros naturais
+
+% Conjuntos
+\newcommand{\sU}{\ensuremath{\mathbbm{U}}\xspace}
+\newcommand{\sN}{\ensuremath{\mathbbm{N}}\xspace}
+\newcommand{\sZ}{\ensuremath{\mathbbm{Z}}\xspace}
+\newcommand{\sQ}{\ensuremath{\mathbbm{Q}}\xspace}
+\newcommand{\sR}{\ensuremath{\mathbbm{R}}\xspace}
+\newcommand{\sC}{\ensuremath{\mathbbm{C}}\xspace}
+\newcommand{\partes}[1]{\ensuremath{\mathcal{P}(#1)}\xspace}
+
+\newcommand{\V}[1]{ *+[F-:<10pt>]{#1} }  % altera o formato de um vertice no ambiente xymatrix
+\newcommand{\<}{\langle}
+\renewcommand{\>}{\rangle} % comando renomeado!!! Pode vir a causar algum problema!!!!!!
+% aparentemente o comando original '\>' apenas insere um pequeno espaco em branco entre caracteres
+\newcommand{\locimg}{./imagens/img/} % local onde estao as imagens deste arquivo
+\newcommand{\loctex}{./source/} % local onde estao os arquivos .tex
+
+
+%---------------------------------------
+
+% \include{file} inclui arquivo dentro de outro. O problema eh que o arquivo
+% utiliza uma nova pagina para isso. 
+% \input{file} inclui arquivo dentro de outro, mas nao exige uma nova pagina. Eh
+% como se na hora da montagem, o montador copiasse o que tem em um arquivo e
+% colasse no outro. Por esse motivo o comando 'includeonly{}' nao funciona com
+% input{}.
+% \includeonly{
+%   relat1,
+%   abstract,
+%   obj,
+%   sppfp,
+%   spp
+% }
+
+%---------------------------------------
+\begin{document}
+
+
+%------------------------------------------ AUTOR, TÍTULO E DATA DE DEFESA %
+\autor{Marcelo Rubens Giesel} % (José da Silva)
+\autorR{Giesel, Marcelo Rubens} % (da Silva, José)
+
+\titulo{O Problema do Caminho Mínimo com Restrição de Subcaminhos de Comprimento Dois}
+% \subtitulo{\textless Subtítulo do Trabalho\textgreater}
+
+\cidade{Goiânia} % Nome da cidade em foi desenvolvido o trabalho
+\dia{02} %
+\mes{12} % Data da apresentação/defesa do trabalho
+\ano{2010} % Formato numérico: \dia{01}, \mes{01} e \ano{2009}
+
+%-------------------------------------------------------------- ORIENTADOR %
+\orientador{Humberto José Longo}
+\orientadorR{Longo, Humberto José}
+
+\coorientador{Hugo Alexandre D. do Nascimento}
+\coorientadorR{do Nascimento, Hugo Alexandre D.}
+
+%-------------------------------------------------- INSTITUIÇÃO E PROGRAMA %
+\universidade{Universidade Federal de Goiás} % {Universidade Federal de Goiás}
+\uni{UFG}         % UFG
+\unidade{Instituto de Informática} %Instituto de Informática
+% \departamento{\textless Nome do Departamento\textgreater} %Unidades com mais de um depto.
+
+\universidadeco{Universidade Federal de Goiás}
+\unico{UFG}
+\unidadeco{Instituto de Informática}
+
+\programa{Ciências da Computação} % Computação
+\concentracao{Grafos}
+
+%-------------------------------------------------- ELEMENTOS PRÉ-TEXTUAIS %
+\capa    % Gera o modelo da capa externa do trabalho
+\publica % Gera a autorização para publicação em formato eletrônico
+\rosto   % Primeira folha interna do trabalho
+
+\input{./pre/pre_aprovacao}
+\input{./pre/pre_direitos}
+\input{./pre/pre_dedicatoria}
+\input{./pre/pre_agradecimentos}
+\input{./pre/pre_epigrafe}
+\input{./pre/pre_resumo}
+\input{./pre/pre_abstract}
+
+\tabelas[fig]
+%Opções:
+%nada [] -> Gera apenas o sumário
+%fig     -> Gera o sumário e a lista de figuras
+%tab     -> Sumário e lista de tabelas
+%alg     -> Sumário e lista de algoritmos
+%cod     -> Sumário e lista de códigos de programas
+%
+% Pode-se usar qualquer combinação dessas opções.
+% Por exemplo:
+%  figtab       -> Sumário e listas de figuras e tabelas
+%  figtabcod    -> Sumário e listas de figuras, tabelas e
+%                  códigos de programas
+%  figtabalg    -> Sumário e listas de figuras, tabelas e algoritmos
+%  figtabalgcod -> Sumário e listas de figuras, tabelas, algoritmos e
+%                  códigos de programas
+
+%---------------------------------------------------------- TITULO E AUTOR DA PAG 1 %
+
+
+%---------------------------------------------------------- CABECALHO DAS PAGINAS %
+% Nomes de autores ABREVIADOS e tulo ABREVIADO, para cabecalhos em cada ina.
+\markboth{\small Giesel e Longo}{\small O Problema do Caminho Mínimo com Restrição de Subcaminhos de Comprimento Dois}
+\pagestyle{myheadings}
+%---------------------------------------------------------- CABECALHO DAS PAGINAS %
+
+
+%---------------------------------------------------------- ESTRUTURA DO DOCUMENTO %
+
+\chapter{Introdução}
+\label{introd}
+\input{\loctex introducao}
+
+\
+
+\chapter{O Problema do Caminho Mínimo e Suas Variantes}
+\label{sppevariantes}
+
+\label{spp}
+\input{\loctex spp}
+
+%-----------------------
+
+\
+
+\section{O Problema do Caminho Mínimo com Restrição de Recursos}
+\label{spprc}
+\input{\loctex spprc}
+
+\
+
+\section{O Problema do Caminho Evitando Pares Proibidos}
+\label{pfpp}
+\input{\loctex pfpp}
+
+\
+
+\section{O Problema do Caminho Mais Longo}
+\label{lpp}
+\input{\loctex lpp}
+
+\
+
+\section{O Problema do Caminho Mínimo com Restrição de Subcaminhos}
+\label{sppfp}
+\input{\loctex sppfp}
+ 
+% %----------------------
+
+\
+
+\chapter{Problema do Caminho Mínimo com Restrição de Subcaminhos de Comprimento Dois}
+\label{subcaso}
+\input{\loctex subcaso}
+
+%----------------------
+\label{abordagens}
+\input{\loctex abordagens}
+
+%----------------------
+
+\
+
+\chapter{Conclusão}
+\label{conclusao}
+\input{\loctex conclusao}
+
+%----------------------
+
+\
+
+\section{Trabalhos Futuros}
+\label{trabfuturos}
+\input{\loctex trabfuturos}
+
+
+%---------------------------------------------------------- BIBLIOGRAFIA %
+\nocite{*} % coloca na bibliografia do documento final todas as referencias, mesmo as nao citadas
+\bibliography{source/biblio}
+
+\end{document}

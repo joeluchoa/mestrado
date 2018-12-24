@@ -1,0 +1,38 @@
+\BOOKMARK [0][]{chapter*.4}{Lista de Abreviaturas}{}
+\BOOKMARK [0][]{section*.6}{Lista de Figuras}{}
+\BOOKMARK [0][]{section*.8}{Lista de Tabelas}{}
+\BOOKMARK [0][]{chapter.1}{Introdu\303\247\303\243o}{}
+\BOOKMARK [1][]{section.1.1}{Aplica\303\247\303es}{chapter.1}
+\BOOKMARK [2][]{subsection.1.1.1}{Qualidade de servi\303\247o em redes de computadores}{section.1.1}
+\BOOKMARK [2][]{subsection.1.1.2}{Roteamento de tr\303\241fego de ve\303culos}{section.1.1}
+\BOOKMARK [2][]{subsection.1.1.3}{Compress\303\243o de imagens \(aproxima\303\247\303\243o de curvas\)}{section.1.1}
+\BOOKMARK [1][]{section.1.2}{Objetivos}{chapter.1}
+\BOOKMARK [1][]{section.1.3}{Preliminares}{chapter.1}
+\BOOKMARK [1][]{section.1.4}{Organiza\303\247\303\243o}{chapter.1}
+\BOOKMARK [0][]{chapter.2}{Caminhos m\355nimos \(sem restri\347\365es\)}{}
+\BOOKMARK [1][]{section.2.1}{Defini\347\365es b\341sicas}{chapter.2}
+\BOOKMARK [1][]{section.2.2}{Defini\347\343o formal do problema}{chapter.2}
+\BOOKMARK [1][]{section.2.3}{Fun\347\365es potenciais}{chapter.2}
+\BOOKMARK [1][]{section.2.4}{Representa\347\343o de caminhos}{chapter.2}
+\BOOKMARK [1][]{section.2.5}{Examinando arcos e v\351rtices}{chapter.2}
+\BOOKMARK [1][]{section.2.6}{Algoritmos}{chapter.2}
+\BOOKMARK [2][]{subsection.2.6.1}{Algoritmo de Dijsktra}{section.2.6}
+\BOOKMARK [2][]{subsection.2.6.2}{Algoritmo de Ford}{section.2.6}
+\BOOKMARK [0][]{chapter.3}{Caminhos m\355nimos com recursos limitados}{}
+\BOOKMARK [1][]{section.3.1}{Defini\347\343o do problema}{chapter.3}
+\BOOKMARK [1][]{section.3.2}{Revis\343o bibliogr\341fica}{chapter.3}
+\BOOKMARK [1][]{section.3.3}{Complexidade}{chapter.3}
+\BOOKMARK [1][]{section.3.4}{Preprocessamento}{chapter.3}
+\BOOKMARK [2][]{subsection.3.4.1}{Redu\347\343o baseada nos recursos}{section.3.4}
+\BOOKMARK [2][]{subsection.3.4.2}{Redu\347\343o baseada nos custos}{section.3.4}
+\BOOKMARK [1][]{section.3.5}{Programa\347\343o din\342mica}{chapter.3}
+\BOOKMARK [2][]{subsection.3.5.1}{Programa\347\343o din\342mica primal}{section.3.5}
+\BOOKMARK [2][]{subsection.3.5.2}{Programa\347\343o din\342mica dual}{section.3.5}
+\BOOKMARK [2][]{subsection.3.5.3}{Programa\347\343o din\342mica por r\363tulos}{section.3.5}
+\BOOKMARK [1][]{section.3.6}{-Aproxima\347\343o}{chapter.3}
+\BOOKMARK [1][]{section.3.7}{Ranqueamento de caminhos}{chapter.3}
+\BOOKMARK [1][]{section.3.8}{Relaxa\347\343o Lagrangiana}{chapter.3}
+\BOOKMARK [0][]{chapter.4}{Experimentos}{}
+\BOOKMARK [1][]{section.4.1}{Ambiente computacional}{chapter.4}
+\BOOKMARK [1][]{section.4.2}{Dados de Teste}{chapter.4}
+\BOOKMARK [1][]{section.4.3}{Resultados}{chapter.4}

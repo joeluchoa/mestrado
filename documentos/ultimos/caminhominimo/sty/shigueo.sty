@@ -1,0 +1,136 @@
+% alguns simbolos para os tipos de conjuntos.
+ \newcommand{\Pcal}{\mathcal{P}}
+ \newcommand{\Tcal}{\mathcal{T}}
+ \newcommand{\Fcal}{\mathcal{F}}
+ \newcommand{\BbbZ}{\mathbb{Z}}% inteiros
+ \newcommand{\NonnegInt}{\BbbZ_{\scriptscriptstyle\,\geq}}% inteiros>=0
+
+%% Escrevendo em português:
+\usepackage[latin1]{inputenc}
+\usepackage[brazil]{babel}
+\usepackage[T1]{fontenc} % for correct ``ç'' in textsc
+\usepackage{latexsym} % defines \Box and \rhd
+\usepackage{ifthen}
+\usepackage{amsfonts} % define \mathbb (old \Bbb) (Companion p.184,208,243)
+
+% PAGESIZE ETC.
+%%%%%%%%%%%%%%%
+\setlength{\paperwidth}{216mm}
+\setlength{\paperheight}{279mm}
+\setlength{\textwidth}{14.5cm}
+\setlength{\textheight}{20.5cm}
+%\setlength{\topmargin}{0cm}
+\setlength{\topmargin}{0cm}
+% margens impar e par da pagina
+\setlength\oddsidemargin{.2cm}  
+\setlength\evensidemargin{.2cm}  
+
+\newenvironment{algoritmo}%
+        {\begin{list}%
+               {}%
+               {%
+                \addtolength{\partopsep}{1ex}% =theorem
+                \addtolength{\topsep}{0ex}% =theorem
+                \setlength{\parsep}{1ex}% B
+                \setlength{\itemsep}{1ex}% A (was 1.5ex)
+                \setlength{\leftmargin}{\parindent}%
+                }%
+        \slshape }% experimental
+        {\end{list}}
+\newcommand{\balgor}{\begin{algoritmo}}
+\newcommand{\ealgor}{\end{algoritmo}}
+\newcommand{\bsubalgor}{\begin{algoritmo}}
+\newcommand{\esubalgor}{\end{algoritmo}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\defi}{\textbf}
+\newcommand{\fp}{d{}}
+\newcommand{\pred}{\psi}
+\newcommand{\word}{\omega}
+
+\newcommand{\phentao}{\phantom{então}} 
+\newcommand{\phsenao}{\phantom{senão}}
+\newcommand{\x}{\hspace*{4ex}}
+\newcommand{\xx}{\hspace*{8ex}}
+\newcommand{\xxx}{\hspace*{12ex}}
+\newcommand{\xxxx}{\hspace*{16ex}}
+\newcommand{\xxxxx}{\hspace*{20ex}}
+\newcommand{\xxxxxx}{\hspace*{24ex}}
+\newcommand{\xxxxxxx}{\hspace*{28ex}}
+
+
+% MATHEMATICS
+%%%%%%%%%%%%%
+  \newcommand{\binomial}% to be used in displaystyle only
+             [2]%
+             {\big(\!\begin{array}{c}%
+                 #1\\[-0.5ex]%
+                 #2%
+                 \end{array}%
+               \!\big)}
+  \newcommand{\floor}[1]{\lfloor #1 \rfloor} % \floor{n/2}
+  \newcommand{\ceil}[1]{\lceil #1 \rceil}
+  \newcommand{\seq}[1]{\langle #1 \rangle}
+  \newcommand{\conjunto}[1]{\{\,#1\,\}}
+  \newcommand{\conj}[1]{\{#1\}}
+  \newcommand{\twodots}{\,.\,.\,} % in place of \ldots
+%\renewcommand{\emptyset}{\mbox{\textup{\O}}} % slash O
+
+% \newcommand{\qed}{\mbox{\hspace{0.2ex}\rule{0.7ex}{0.9ex}}}
+%  \newcommand{\qed}{$\Box$}
+
+
+
+
+% THEOREMS, PROBLEMS, AND STATMENTS-OF-ALGORITHMS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newenvironment{baretheorem}%
+         {\begin{list}%
+                {}%
+                {%
+                 \addtolength{\partopsep}{1ex}%
+                 \setlength{\leftmargin}{\parindent}%
+                 \setlength{\rightmargin}{\parindent}%
+                 \setlength{\itemindent}{0ex}%
+                 \setlength{\labelsep}{\itemindent}%
+                 \setlength{\labelwidth}{0ex}%
+                 \setlength{\parsep}{1ex}% parskip is 1.5ex
+                 \setlength{\listparindent}{0ex}%
+                }%
+          \item%
+         }%
+         {\end{list}%
+         }
+
+\newcounter{theoremnumber}
+\renewcommand{\thetheoremnumber}{\arabic{theoremnumber}}
+\newenvironment{taggednumberedtheorem}%
+               [2]%
+               {%
+                \refstepcounter{theoremnumber}%
+                \begin{baretheorem}%
+                \textbf{#1\hspace{0.7ex}\thetheoremnumber}%
+                \ifthenelse{\equal{#2}{}}% Lamport p.195
+                        {\hspace{1pt}:\hspace{1ex}\ignorespaces}%
+                        {\hspace{1ex}\textup{(#2)}:\hspace{1ex}\ignorespaces}%
+                \slshape%
+               }%
+               {\end{baretheorem}%
+               }
+% Example:
+% \begin{taggednumberedtheorem}{Lema}{da dualidade canônica}
+% Para\label{lema:dualidade}
+% todo  $x$  em $X(A,b)$ e todo $y$ em $Y(A,c)$ tem-se $cx \geq yb$.
+% \end{taggednumberedtheorem}
+
+
+% Exemplo:
+% \begin{problema}{\maxsat\,$(\mathcal{C})$}\label{MAXSAT}
+% Dada uma coleção $\mathcal{C}$ de cláusulas,
+% encontrar uma valoração $x$ que maximize $\sat(x)$.
+% \end{problema}
+
+
+
+
+

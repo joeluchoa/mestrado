@@ -1,0 +1,78 @@
+% ================================
+% Conclusão (ou Considerações Finais)
+% ================================
+
+Foram descritas neste documento abordagens que apresentam soluções para o SPPFP. Algumas tratam do caso geral do problema e facilmente podem ser utilizadas para a resolução do subcaso aqui apresentado, algumas vezes necessitando de leves alterações em sua descrição. Outras foram modeladas especificamente para tratarem caminhos proibidos de comprimento dois, sendo que seu uso para o caso geral -- que possui também caminhos proibidos de comprimento maior que dois -- geralmente não resulta em soluções aceitáveis.
+
+Modelagens projetadas para o caso geral procuram encontrar soluções que aumentem o mínino possível o tamanho do grafo resultante. Em \cite{Villeneuve:2005}, por exemplo, os caminhos proibidos são evitados através da utilização da abordagem de desvio de caminho de Martins. Esta abordagem de desvio de caminho acrescenta dois vértices e pelo menos um arco no grafo, se o caminho proibido tiver um comprimento maior que dois, e, no caso especial onde o caminho proibido possui tamanho exatamente igual a dois, a quantidade de vértices é incrementada em uma unidade  e a quantidade de arcos pode tanto permanecer inalterada quanto ser incrementada em várias unidades. Esta modelagem resolve o problema e apresenta bons resultados para caminhos proibidos de qualquer tamanho. Adicionalmente, permite que o grafo seja alterado em tempo de execução, tornando possível a adição de novos vértices a qualquer momento. Mas como, neste projeto, será utilizada apenas para tratar caminhos proibidos de tamanho dois, traz a desvantagem de sempre aumentar o tamanho do grafo toda vez que este é modificado para evitar que um caminho proibido de tamanho dois seja percorrido. Além disso, a replicação de um vértice para eliminação de um caminho proibido pode duplicar a ocorrência de outros caminhos proibidos que passam pelo mesmo vértice, fazendo com que um único caminho proibido no grafo original apareça várias vezes no grafo resultante.
+
+
+\begin{table}[htb]
+ \centering
+ \large
+ \begin{tabular}{|l||c|c|}
+  \hline
+  \textit{\textbf{Espaços}}& \textbf{$|V'|$} & \textbf{$|A'|$} \\
+  \hline
+  \hline
+  \textbf{Modelagem 1} & $$2|V| + |A|$$ & $$2|A| + |L|$$\\
+  \hline
+  \textbf{Modelagem 2} & $$|V| + |A|$$ \footnotemark[1]& $$|A| + |L|$$ \\
+  \hline
+  \textbf{Modelagem 3} & $$|V| + |L|$$ \footnotemark[1]&  $$|Lc| + |L|$$ \\
+  \hline
+  \textbf{Modelagem 4} & $$|V| + 2|A|$$ & $$2|A| + |L|$$ \\
+  \hline
+ \end{tabular} \\
+ \begin{flushleft}
+  \hspace{3,5cm} \begin{footnotesize}1 No pior caso. \end{footnotesize} 
+ \end{flushleft}
+ \caption{Complexidades espaciais das modelagens.}
+ \label{tabcomp}
+\end{table}
+
+As modelagens criadas especificamente para o subcaso do SPPFP, onde todos os caminhos proibidos são de tamanho igual a dois, são projetadas pensando em um crescimento ainda menor do grafo resultante, sendo que, em alguns casos, este grafo é menor que o grafo original. A Modelagem 1 (Seção \ref{mod1}) e a Modelagem 2 (Seção \ref{mod2}) são bem semelhantes, com a principal diferença de que a segunda é um melhoramento da primeira, contendo um número menor de vértices e arcos (utilize a Tabela \ref{tabcomp} para consulta \footnote{A Tabela \ref{tabcomp} foi montada utilizando as notações apresentadas no Capítulo \ref{notacoes}, página \pageref{notacoes}.}). A primeira apresenta uma discreta vantagem na visualização de seus caminhos por utilizar os vértices do grafo original como vértices origem e destino de seus caminhos. A segunda apresenta-se mais viável de utilização no subcaso do que a primeira, pois possui menor quantidade de vértices e arcos no grafo resultante, o que implica diretamente em um menor tempo de execução. A Modelagem 3 (Seção \ref{mod3}) é diferente das duas anteriores por transformar as conversões livres do grafo original em vértices no grafo resultante. Contudo, este grafo apresenta tamanho semelhante, de um modo geral, ao da Modelagem 2, significando que o tempo necessário para encontrar um caminho mínimo em cada grafo resultante pode ser bem parecido. Vale ressaltar que, em alguns casos específicos, é percebida uma diferença maior no tamanho final dos grafos -- como no exemplo dos grafos das Figuras \ref{mod3-fig3} e \ref{mod3-fig4} -- exigindo uma maior atenção na comparação dos grafos finais. A Modelagem 4 (Seção \ref{mod4}), última apresentada neste projeto, é a que, aparentemente, apresenta um número maior de vértices no grafo resultante. Mas, mesmo assim, a quantidade de arestas não é tão elevada, comparando-se com a da Modelagem 2. Um fator diferencial, visto apenas nesta Modelagem 4, é a facilidade com que se exclui e inclui um caminho proibido no grafo final: basta apenas inserir ou eliminar um arco intra-vértice do grafo final, sem qualquer outra alteração. Em todas as outras modelagens seria necessário realizar alterações também no conjunto de vértices.
+
+% ================================================================
+\section{Comparações com Resultados de um Caso de Teste}
+\label{sectestes}
+
+As conclusões expostas acima nos dão uma ideia geral das diferenças das modelagens, mas não nos traz números com os quais podemos selecionar a abordagem mais adequada para nossas necessidades. Esta Seção apresenta os números obtidos nos testes e que irão auxiliar na escolha.
+
+O grafo tido como base é o apresentado na Figura \ref{grafo-conclusao}. Ele apresenta características encontradas nas malhas de trânsito urbanas, como ciclos com quatro vértices ($a,b,d,c,a$), três vértices ($c,d,e,c$) e dois vértices ($d,f,d$), além de combinações entre eles. Ainda pensando como uma malha urbana, o conjunto $F$ de caminhos proibidos é formado pelas conversões à esquerda que possuem $d$ como vértice central ($\{(f,d,b),(b,d,c),(c,d,e),(e,d,f)\}$) e pelos retornos, exceto $(d,f,d)$. 
+
+\begin{figure*}[hct]
+  \centering
+  \includegraphics[scale = 0.6, angle = 270]{\locimg conclusao.pdf}
+  \caption{Grafo $G$ utilizado para comparações entre as modelagens.}
+  \label{grafo-conclusao}
+\end{figure*}
+
+Com o grafo $G(V,A)$ definido, bem como o conjunto $F$ de caminhos proibidos, foram gerados os grafos $G's$ utilizando as quatro modelagens do Capítulo \ref{subcaso}. A Tabela \ref{tabtestes} mostra as quantidades de vértices e de arcos obtidos ao final da criação dos grafos auxiliares.
+
+\begin{table}[htb]
+ \centering
+ \large
+ \begin{tabular}{|l||c|c|c|}
+  \hline
+  \textit{\textbf{Espaços}}& \textbf{$|V|$} & \textbf{$|A|$} & \textbf{$|V|+|A|$}\\
+  \hline
+  \hline
+  \textbf{Grafo original} & 6 & 14 & 20\\
+  \hline
+  \textbf{Modelagem 1} & 26 & 49 & 75\\
+  \hline
+  \textbf{Modelagem 2} & 20 & 35 & 55\\
+  \hline
+  \textbf{Modelagem 3} & 27 & 51 & 78\\
+  \hline
+  \textbf{Modelagem 4} & 34 & 49 & 83\\
+  \hline
+ \end{tabular}
+ \caption{Tamanho dos grafos resultantes medidos.}
+ \label{tabtestes}
+\end{table}
+
+A partir destes números, fica claro que, para o grafo $G$ da Figura \ref{grafo-conclusao}, a Modelagem 3 -- utilizada por Walid em \cite{Walid:2008} -- é a que apresenta o maior número de arcos, o segundo maior número de vértices e a segunda maior soma de arcos e vértices de $G'$. Comparando com a abordagem que apresenta os menores números, a Modelagem 3 apresenta aumentos de 35\% em $|V'|$, 45\% em $|A'|$ e 41\% na soma dos vértices e arcos. Isso mostra que esta modelagem não é a mais indicada, em termos de economia de espaço, para resolver o SPPFP tendo como entrada o grafo $G$ e seu conjunto $F$ de caminhos proibidos utilizados nos testes.
+
+Por outro lado, a Modelagem 2 é a que possui os menores números. Ela apresenta menor quantidade de vértices, de arcos e, consequentemente, menor soma de arcos e vértices, aparecendo como a melhor opção em economia de espaço. Com tais informações, temos que esta modelagem é a mais indicada para resolver a instância do SPPFP apresentada nesta Seção.

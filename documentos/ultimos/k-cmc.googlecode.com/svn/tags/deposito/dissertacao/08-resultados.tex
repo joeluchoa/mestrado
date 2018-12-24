@@ -1,0 +1,444 @@
+\chapter{Resultados Experimentais}
+\label{cap:experimentos}
+\longpage
+\section{Motivação}
+  Recentemente, há um grande interesse em trabalhos relacionados a
+  análise experimental de algoritmos. 
+  Em particular, no caso do
+  algoritmo de Dijkstra, uma subrotina do algoritmo KIM, podemos citar os artigos de B.V.~Cherkassky,
+  A.V.~Goldberg, T.~Radzik e Craig Silverstein 
+  ~\cite{boris:experimental, goldberg:buckets, boris:buckets},
+   e do algoritmo de KIM
+  podemos citar o artigo de Eleni Hadjiconstantinou and Nicos Christofides~\cite{eleni:n-34-88}.
+
+  O interesse em experimentação é devido ao reconhecimento de que os
+resultados teóricos, freqüentemente,
+  não trazem informações referentes ao desempenho do algoritmo na
+  prática. Porém, o campo da análise experimental é repleto de
+  armadilhas, como comentado por
+  D.S.~Johnson~\cite{johnson:guide}. Muitas vezes, a implementação do
+  algoritmo é a parte mais simples do experimento. A parte difícil é usar, 
+  com sucesso, a implementação para produzir resultados de pesquisa significativos.
+
+  Segundo D.S.~Johnson~\cite{johnson:guide}, pode-se dizer que existem
+  quatro motivos básicos que levam a realizar
+  um trabalho de implementação de um algoritmo:
+  \begin{enumerate}[(1)]
+  \item Para usar o código em uma aplicação particular, cujo propósito
+  é descrever o impacto do algoritmo em um certo contexto;
+  \item Para proporcionar evidências da superioridade de um algoritmo;
+  \item Para melhor compreensão dos pontos fortes, fracos e do 
+  desempenho das operações algorítmicas na prática; e 
+  \item Para produzir conjecturas sobre o comportamento do algoritmo
+  no caso-médio sob distribuições específicas de instâncias onde a
+  análise probabilística direta é muito difícil.
+  \end{enumerate}
+  Nesta dissertação estamos mais interessados no motivo (3).
+  
+\section{Ambiente experimental}
+ A plataforma utilizada nos experimentos foi um notebook rodando Linux
+Ubuntu 8.04, Kernel 2.6.24-23 com dois processadores Intel T7500 de 2.20Ghz e 2GB de RAM.
+
+Para controlar os tempos usamos a classe StopWatch~\ref{stopwatch}, implementada por Rod Johnson e Juergen Hoeller.
+\lstset{basicstyle=\tiny}
+\begin{lstlisting}[label=stopwatch,caption={Classe para controle dos tempos de execução}]
+public class StopWatch {
+	private final String id;
+	private boolean keepTaskList = true;
+	private final List taskList = new LinkedList();
+	private long startTimeMillis;
+	private boolean running;
+	private String currentTaskName;
+	private TaskInfo lastTaskInfo;
+	private int taskCount;
+	private long totalTimeMillis;
+
+	public StopWatch() {
+		this.id = "";
+	}
+
+	public StopWatch(String id) {
+		this.id = id;
+	}
+
+	public void start(String taskName) throws IllegalStateException {
+		if (this.running) {
+			throw new IllegalStateException(
+					"Can't start StopWatch: it's already running");
+		}
+		this.startTimeMillis = System.currentTimeMillis();
+		this.running = true;
+		this.currentTaskName = taskName;
+	}
+
+	public void stop() throws IllegalStateException {
+		if (!this.running) {
+			throw new IllegalStateException(
+					"Can't stop StopWatch: it's not running");
+		}
+		long lastTime = System.currentTimeMillis() - this.startTimeMillis;
+		this.totalTimeMillis += lastTime;
+		this.lastTaskInfo = new TaskInfo(this.currentTaskName, lastTime);
+		if (this.keepTaskList) {
+			this.taskList.add(lastTaskInfo);
+		}
+		++this.taskCount;
+		this.running = false;
+		this.currentTaskName = null;
+	}
+
+	public long getLastTaskTimeMillis() throws IllegalStateException {
+		if (this.lastTaskInfo == null) {
+			throw new IllegalStateException(
+					"No tests run: can't get last interval");
+		}
+		return this.lastTaskInfo.getTimeMillis();
+	}
+
+	public long getTotalTimeMillis() {
+		return totalTimeMillis;
+	}
+}
+\end{lstlisting}
+\lstset{numbers=left, numberstyle=\tiny, stepnumber=1, numbersep=5pt,label=stopwatchsample,
+caption={Exemplo de uso da classe StopWatch\ref{stopwatch}}}
+\begin{lstlisting}
+	StopWatch stopWatch = new StopWatch("KIM");
+	stopWatch.start();
+	stopWatch.stop();
+	int time = stopWatch.getLastTaskTimeMillis();
+\end{lstlisting}
+
+Para calcular o uso de memória utilizamos o seguinte trecho de código:
+\begin{lstlisting}[title=Cálculo do consumo de memória,caption={ }]
+	long initMem = Runtime.getRuntime().freeMemory();
+	/* leitura ou geracao do grafo */
+	long graphMemUsage = initMem - Runtime.getRuntime().freeMemory();
+	// execucao do algoritmo
+	long kimMemUsage = initMem - graphMemUsage - Runtime.getRuntime().freeMemory();
+\end{lstlisting}
+
+Os testes foram criados levando-se em conta o consumo de tempo assintótico do algoritmo KIM $O(kc(n,m))$, 
+onde $c(\mcor,\ncor)$ é o consumo de tempo da subrotina que calcula uma àrvore de 
+menores caminhos. No caso de grafos sem custos nas arestas, utilizamos uma busca em largura, cuja consumo de tempo
+é $O(\ncor + \mcor)$, caso contrário vamos para a implementação do Dijkstra feita no JUNG, cujo consumo é $O(\mcor\, \lg \ncor)$.
+
+\section{Gerador de instâncias}
+Implementamos um pequeno gerador de grafos simétricos aleatórios utilizando a interface \emph{GraphGenerator} fornecida pelo JUNG.
+Inicialmente pensamos em utilizar geradores disponíveis na DIMACS, mas estes geravam apenas grafos dirigidos,
+desta maneira teríamos que convertê-los para simétricos.
+O gerador implementado segue a idéia apresentada no artigo de Eleni Hadjiconstantinou and Nicos Christofides~\cite{eleni:n-34-88}:
+\begin{enumerate}[(1)]
+\item Criamos os vértices.
+\item Criamos um ciclo hamiltoniano ligando cada um no seu vizinho.
+\item Adicionamos aleatoriamente o restante dos arcos. 
+\end{enumerate}
+
+Os parâmetros para criação são: 
+\begin{itemize}
+\item $n$ número de vértices
+\item $m$ número de arestas, sendo que $n \leq m \leq n*(n-1)/2$, pois se $m < n$ não é possível construir o ciclo hamiltoniano e, 
+se $m > n*(n-1)/2$ não é possível criar um grafo sem arestas paralelas.
+\item \emph{EdgeFactory} fábrica de arcos, caso estejamos usando uma representação específica para os arcos.
+\item \emph{VertexFactory} fábrica de vértices, caso estejamos usando uma representação específica para os vértices.
+\end{itemize}
+
+\begin{lstlisting}[title=Gerador de grafos simétricos aleatórios,caption={ }]
+public class ConnectedUndirectedGraphGenerator<V, E> implements
+		GraphGenerator<V, E> {
+
+	private Factory<V> vertexFactory;
+	private Factory<E> edgeFactory;
+	private int mNumVertices;
+	private int mNumEdges;
+	private Random mRandom;
+
+	@Override
+	public Graph<V, E> create() {
+		UndirectedGraph<V, E> graph = new UndirectedSparseGraph<V, E>();
+		V prior = vertexFactory.create();
+		V first = prior;
+		graph.addVertex(prior);
+		for (int i = 1; i < mNumVertices; i++) {
+			V cur = vertexFactory.create();
+			graph.addVertex(cur);
+			graph.addEdge(edgeFactory.create(), prior, cur);
+			prior = cur;
+		}
+		graph.addEdge(edgeFactory.create(), prior, first);
+		List<V> vertices = new ArrayList<V>(graph.getVertices());
+		while (graph.getEdgeCount() < mNumEdges) {
+			V u = vertices.get((int) (mRandom.nextDouble() * mNumVertices));
+			V v = vertices.get((int) (mRandom.nextDouble() * mNumVertices));
+			/*Não permitimos a criação de loops e nem de arcos paralelos.*/			
+			if (!v.equals(u) && !graph.isSuccessor(v, u)) {
+				graph.addEdge(edgeFactory.create(), u, v);
+			}
+		}
+		return graph;
+	}
+
+	public ConnectedUndirectedGraphGenerator(Factory<V> vertexFactory,
+			Factory<E> edgeFactory, int numVertices, int numEdges) {
+		if (numEdges < numVertices)
+			throw new IllegalArgumentException(
+					"Numero de arcos deve ser no mínimo igual ao numero de vertices");
+		if (numEdges > (numVertices * (numVertices - 1) / 2))
+			throw new IllegalArgumentException(
+					"Não é possível criar "
+							+ numEdges
+							+ " arcos de modo que não haja arcos paralelos e loops num grafo com "
+							+ numVertices + " vértices");
+		this.vertexFactory = vertexFactory;
+		this.edgeFactory = edgeFactory;
+		mNumVertices = numVertices;
+		mNumEdges = numEdges;
+		mRandom = new Random();
+	}
+
+	static Factory<KIMVertex> defaultVertexFactory = new Factory<KIMVertex>() {
+		int id = 1;
+
+		public KIMVertex create() {
+			return new KIMVertex(Integer.toString(id++));
+		}
+	};
+
+	static Factory<KIMEdge> defaultEdgeFactory = new Factory<KIMEdge>() {
+		public KIMEdge create() {
+			return new KIMEdge();
+		}
+	};
+}
+\end{lstlisting}
+
+
+Para cada grafo gerado escolhemos aleatoriamente uma origem e um destino, necessariamente diferentes,
+e rodamos o algoritmo KIM. 
+Cada execução nos retorna os seguintes tempos:
+\begin{itemize}
+\item Tempo total para obtenção dos $k$ caminhos.
+\item Tempo total gasto na construção das árvores Ts e Tt.
+\item Tempo total gasto na execução da rotina FSP.
+\item Tempo total gasto na execução da rotina SEP.
+\end{itemize}
+O tempo gasto na criação do grafo não é considerado.
+A fim de tentar evitar escolhas ruins das origens e destinos, escolhemos cinco origens e destinos 
+e calculamos a média dos tempos acima. 
+Uma vez que o consumo de tempo assintótico do algoritmo de KIM está definido em função
+do número de caminhos a ser gerado($k$), número de arcos($m$) e número de vértices($n$),  
+nos testes fixaremos sempre duas deixando a outra variável a fim de estudarmos o comportamento do algoritmo.
+
+Além dos tempos, estamos interessados no consumo de memória. 
+Seguindo a mesma idéia apresentada anteriormente, tirar a média entre cinco execuções para cada grafo,
+calcularemos apenas a mémoria total utilizada no cálculo dos $k$ caminhos.
+
+Usaremos a idéa de densidade de um grafo que consiste em dividir a quantidade de arestas pelo número máximos de
+arestas possível, ou seja, $d = m/(n^2 - n)$. Isso nos permite fazer comparações mais concisas que se
+usássemos valores de $m$ e $n$ independentes.
+
+\section{Gráficos e análises}
+
+Começamos com os gráficos exibindo o tempo de execução do algoritmo em função do número de caminhos.
+Calculamos um gráfico diferente para cada densidade entre 0.1 e 1(grafo completo).
+Com isto podemos observar se o algoritmo de sai melhor para grafos densos ou esparsos.
+
+\begin{figure}[hbp]
+\includegraphics[scale=0.5,angle=270]{./graficos/tempo_x_k.gnuplot_0.1.ps}
+\caption{Desempenho do algoritmo com um grafo de densidade 0.1 e 100 vértices}
+\includegraphics[scale=0.5,angle=270]{./graficos/tempo_x_k.gnuplot_0.2.ps}
+\caption{Desempenho do algoritmo com um grafo de densidade 0.2 e 100 vértices}
+\end{figure}
+
+\begin{figure}[hbp]
+\includegraphics[scale=0.5,angle=270]{./graficos/tempo_x_k.gnuplot_0.3.ps}
+\caption{Desempenho do algoritmo com um grafo de densidade 0.3 e 100 vértices}
+\includegraphics[scale=0.5,angle=270]{./graficos/tempo_x_k.gnuplot_0.4.ps}
+\caption{Desempenho do algoritmo com um grafo de densidade 0.4 e 100 vértices}
+\end{figure}
+
+\begin{figure}[hbp]
+\includegraphics[scale=0.5,angle=270]{./graficos/tempo_x_k.gnuplot_0.5.ps}
+\caption{Desempenho do algoritmo com um grafo de densidade 0.5 e 100 vértices}
+\includegraphics[scale=0.5,angle=270]{./graficos/tempo_x_k.gnuplot_0.6.ps}
+\caption{Desempenho do algoritmo com um grafo de densidade 0.6 e 100 vértices}
+\end{figure}
+
+
+\begin{figure}[hbp]
+\includegraphics[scale=0.5,angle=270]{./graficos/tempo_x_k.gnuplot_0.7.ps}
+\caption{Desempenho do algoritmo com um grafo de densidade 0.7 e 100 vértices}
+\includegraphics[scale=0.5,angle=270]{./graficos/tempo_x_k.gnuplot_0.8.ps}
+\caption{Desempenho do algoritmo com um grafo de densidade 0.8 e 100 vértices}
+\end{figure}
+
+\begin{figure}[hbp]
+\includegraphics[scale=0.5,angle=270]{./graficos/tempo_x_k.gnuplot_0.9.ps}
+\caption{Desempenho do algoritmo com um grafo de densidade 0.9 e 100 vértices}
+\includegraphics[scale=0.5,angle=270]{./graficos/tempo_x_k.gnuplot_1.0.ps}
+\caption{Desempenho do algoritmo com um grafo de densidade 1.0 e 100 vértices}
+\end{figure}
+
+Observando os gráficos anteriores é possível constatar o caráter linear do desempenho do algoritmo
+em função do valor de $k$, independentemente da densidade escolhida.
+Isso vem corroborar a análise assíntoca do algoritmo dita anteriormente.
+Vamos analisar o papel da densidade no desempenho do algoritmo.
+Façamos uma pequena tabela com os valores de $k$, densidade e tempo:
+
+ \begin{tabular}{^^7c c^^7c ^^7c c ^^7c c ^^7c c ^^7c c ^^7c c ^^7c c ^^7c c ^^7c c ^^7c c 
+^^7c c ^^7c c ^^7c c ^^7c} \hline
+\multicolumn{3}{^^7cc^^7c}{Relação entre $k$, densidade e tempo} \\ \hline
+  \multicolumn{1}{^^7cc^^7c^^7c}{$k$} 
+& \multicolumn{1}{^^7cc^^7c}{densidade} 
+& \multicolumn{1}{^^7cc^^7c}{tempo} 
+\\ \hline
+300 &  0.1   & 1500    \\ \hline
+300 & 0.2   & 2100   \\ \hline
+300 & 0.4  & 4000   \\ \hline
+300 & 0.8  & 8000   \\ \hline
+600 &  0.1   & 3200    \\ \hline
+600 & 0.2   &  4600   \\ \hline
+600 & 0.4  & 9000   \\ \hline
+600 & 0.8  & 17000   \\ \hline
+ \end{tabular}
+
+Quanto mais denso, maior o núemro de arestas que precisa ser testada e isto acaba se refletindo no maior tempo de execução do algoritmo
+de maneira linear.
+Observe que fixando-se os valores de $k$ e duplicando-se os valores das densidades, obtemos tempos 
+que são aproxidamente dobrados. Lembrando que o algoritmo de KIm, tem como subrotina
+o Dijktra para encontrar caminho mínimo e que este está implementado usando um heap temos que o algoritmo
+de Dijkstra está implementado com consumo de tempo $O(\mcor\, \lg \ncor)$. Logo, 
+os gráficos mostram a dependência linear entre a densidade e os tempos de execução, mais uma
+vez corroborando a análise assintótica feita.
+
+O algoritmo de KIM conta, basicamente, com duas subrotinas principais, as quais são responsáveis pela
+maior parte do tempo consumido pelo algortimo, são elas:
+\begin{itemize}
+\item Rotinas de construção de árvores de menores caminhos. 
+Estas rotinas correspondem a duas execuções do algoritmo de Dijkstra: uma utilizando $s$ como raiz e $t$ como destino, 
+retornando como resposta a árvore $Ts$ e outra onde a raiz é $t$ e o destino é $s$ retornando a árvore $Tt$.
+\item SEP~\ref{SEP} é a rotina responsável por calcular o menor caminho de $s$ a $t$ utilizando para tal 
+as árvores $Ts$ e $Tt$ as quais são rotuladas usando-se $\epsilon$ e $\zeta$, como explicado no capítulo~\ref{cap:algoritmo-kim}.
+Esta rotina percorre todos os vértices pertencentes às árvores, tendo portanto desempenho assintotico $O(n)$
+\end{itemize}
+
+A seguir exibimos gráficos com os tempos de execução da rotina SEP (código~\ref{SEP}), das construções das árvores e o totais do algoritmo KIM.
+O objetivo é visualizar o qual significativas são estas funções no que diz respeito ao consumo de tempo e, 
+notar que elas realmente são as mais relevantes neste quesito, sendo portanto os primeiros pontos 
+onde qualquer melhoria deveria ser pensanda.
+
+\begin{figure}[hbp]
+\includegraphics[scale=0.5,angle=270]{./graficos/comparacao_arvores_sep_total.gnuplot_0.1.ps}
+\caption{Comparativo entre as principais subrotinas e o tempo total do KIM. Densidade 0.1}
+\includegraphics[scale=0.5,angle=270]{./graficos/comparacao_arvores_sep_total.gnuplot_0.2.ps}
+\caption{Comparativo entre as principais subrotinas e o tempo total do KIM. Densidade 0.2}
+\end{figure}
+
+\begin{figure}[hbp]
+\includegraphics[scale=0.5,angle=270]{./graficos/comparacao_arvores_sep_total.gnuplot_0.3.ps}
+\caption{Comparativo entre as principais subrotinas e o tempo total do KIM. Densidade 0.3}
+\includegraphics[scale=0.5,angle=270]{./graficos/comparacao_arvores_sep_total.gnuplot_0.4.ps}
+\caption{Comparativo entre as principais subrotinas e o tempo total do KIM. Densidade 0.4}
+\end{figure}
+
+\begin{figure}[hbp]
+\includegraphics[scale=0.5,angle=270]{./graficos/comparacao_arvores_sep_total.gnuplot_0.5.ps}
+\caption{Comparativo entre as principais subrotinas e o tempo total do KIM. Densidade 0.5}
+\includegraphics[scale=0.5,angle=270]{./graficos/comparacao_arvores_sep_total.gnuplot_0.6.ps}
+\caption{Comparativo entre as principais subrotinas e o tempo total do KIM. Densidade 0.6}
+\end{figure}
+
+
+\begin{figure}[hbp]
+\includegraphics[scale=0.5,angle=270]{./graficos/comparacao_arvores_sep_total.gnuplot_0.7.ps}
+\caption{Comparativo entre as principais subrotinas e o tempo total do KIM. Densidade 0.7}
+\includegraphics[scale=0.5,angle=270]{./graficos/comparacao_arvores_sep_total.gnuplot_0.8.ps}
+\caption{Comparativo entre as principais subrotinas e o tempo total do KIM. Densidade 0.8}
+\end{figure}
+
+
+\begin{figure}[hbp]
+\includegraphics[scale=0.5,angle=270]{./graficos/comparacao_arvores_sep_total.gnuplot_0.9.ps}
+\caption{Comparativo entre as principais subrotinas e o tempo total do KIM. Densidade 0.9}
+\includegraphics[scale=0.5,angle=270]{./graficos/comparacao_arvores_sep_total.gnuplot_1.0.ps}
+\caption{Comparativo entre as principais subrotinas e o tempo total do KIM. Densidade 1.0}
+\end{figure}
+
+
+
+A partir dos gráficos é possível perceber que estas rotinas realmente correspondem a uma importante fatia
+do tempo total de execução do algoritmo.
+É interessante notar que quanto maior o valor de $k$ menor a fatia do tempo total 
+utilizada pelas subrotinas, o que nos leva a entender que outras rotinas passam a se tornam mais relevantes.
+Vamos estudar agora a variação da densidade e o quanto ela influencia nas fatias de tempos das subrotinas de nosso interesse.
+Para tal, exibiremos gráficos mostrando a porcentagem do tempo total utilizada por cada uma destas subrotinas.
+
+\begin{figure}[hbp]
+\includegraphics[scale=0.5,angle=270]{./graficos/comparacao_arvores_sep_total_percentual.gnuplot_0.1.ps}
+\caption{Comparativo entre a proporção de tempo utilizada pelas duas principais subrotinas do KIM. Densidade 0.1}
+\includegraphics[scale=0.5,angle=270]{./graficos/comparacao_arvores_sep_total_percentual.gnuplot_0.2.ps}
+\caption{Comparativo entre a proporção de tempo utilizada pelas duas principais subrotinas do KIM. Densidade 0.2}
+\end{figure}
+
+\begin{figure}[hbp]
+\includegraphics[scale=0.5,angle=270]{./graficos/comparacao_arvores_sep_total_percentual.gnuplot_0.3.ps}
+\caption{Comparativo entre a proporção de tempo utilizada pelas duas principais subrotinas do KIM. Densidade 0.3}
+\includegraphics[scale=0.5,angle=270]{./graficos/comparacao_arvores_sep_total_percentual.gnuplot_0.4.ps}
+\caption{Comparativo entre a proporção de tempo utilizada pelas duas principais subrotinas do KIM. Densidade 0.4}
+\end{figure}
+
+\begin{figure}[hbp]
+\includegraphics[scale=0.5,angle=270]{./graficos/comparacao_arvores_sep_total_percentual.gnuplot_0.5.ps}
+\caption{Comparativo entre a proporção de tempo utilizada pelas duas principais subrotinas do KIM. Densidade 0.5}
+\includegraphics[scale=0.5,angle=270]{./graficos/comparacao_arvores_sep_total_percentual.gnuplot_0.6.ps}
+\caption{Comparativo entre a proporção de tempo utilizada pelas duas principais subrotinas do KIM. Densidade 0.6}
+\end{figure}
+
+\begin{figure}[hbp]
+\includegraphics[scale=0.5,angle=270]{./graficos/comparacao_arvores_sep_total_percentual.gnuplot_0.7.ps}
+\caption{Comparativo entre a proporção de tempo utilizada pelas duas principais subrotinas do KIM. Densidade 0.7}
+\includegraphics[scale=0.5,angle=270]{./graficos/comparacao_arvores_sep_total_percentual.gnuplot_0.8.ps}
+\caption{Comparativo entre a proporção de tempo utilizada pelas duas principais subrotinas do KIM. Densidade 0.8}
+\end{figure}
+
+
+\begin{figure}[hbp]
+\includegraphics[scale=0.5,angle=270]{./graficos/comparacao_arvores_sep_total_percentual.gnuplot_0.9.ps}
+\caption{Comparativo entre a proporção de tempo utilizada pelas duas principais subrotinas do KIM. Densidade 0.9}
+\includegraphics[scale=0.5,angle=270]{./graficos/comparacao_arvores_sep_total_percentual.gnuplot_1.0.ps}
+\caption{Comparativo entre a proporção de tempo utilizada pelas duas principais subrotinas do KIM. Densidade 1.0}
+\end{figure}
+
+
+Concluímos que a importância da função SEP~\ref{SEP} cresce com a densidade e a da construção das árvores decresce em contrapartida.
+A explicação se encontra na função getSons~\ref{getSons}, a qual se torna mais custosa com o aumento da quantidade de arcos no grafo.
+Outra fato marcante é que independentemente da densidade quanto maior o valor de $k$ menor é a fatia de tempo
+utilizada por ambas as funções.
+Isso pode ser explicado pela exclusão de arestas e vértices que ocorre durante a geração de novos caminhos, levando o
+consumo de tempo das funções que dependem de $m$ e $n$ a diminuir. Sendo assim, de uma maneira amortizada, o custo 
+total das subrotinas de construção de árvores e a SEP~\ref{SEP} acabam consumindo cada vez menos com o aumento de $k$.
+
+%\begin{figure}[hbp]
+%\includegraphics[scale=0.5,angle=270]{./graficos/comparacao_arvores_sep_total.gnuplot_0.9.ps}
+%\caption{Comparativo entre as principais subrotinas e o tempo total do KIM. Densidade 0.9}
+%\includegraphics[scale=0.5,angle=270]{./graficos/comparacao_arvores_sep_total.gnuplot_1.0.ps}
+%caption{Comparativo entre as principais subrotinas e o tempo total do KIM. Densidade 1.0}
+%\end{figure}
+
+
+%\includegraphics[scale=0.5,angle=270]{./graficos/tempo_x_k.gnuplot_0.5.ps}
+%\caption{Desempenho do algoritmo com um grafo de densidade 0.5 e 100 vértices}
+%\includegraphics[scale=0.5,angle=270]{./graficos/tempo_x_k.gnuplot_0.6.ps}
+%\caption{Desempenho do algoritmo com um grafo de densidade 0.6 e 100 vértices}
+%\includegraphics[scale=0.5,angle=270]{./graficos/tempo_x_k.gnuplot_0.7.ps}
+%\caption{Desempenho do algoritmo com um grafo de densidade 0.7 e 100 vértices}
+%\includegraphics[scale=0.5,angle=270]{./graficos/tempo_x_k.gnuplot_0.8.ps}
+%\caption{Desempenho do algoritmo com um grafo de densidade 0.8 e 100 vértices}
+%\includegraphics[scale=0.5,angle=270]{./graficos/tempo_x_k.gnuplot_0.9.ps}
+%\caption{Desempenho do algoritmo com um grafo de densidade 0.9 e 100 vértices}
+%\includegraphics[scale=0.5,angle=270]{./graficos/tempo_x_k.gnuplot_1.0.ps}
+%\caption{Desempenho do algoritmo com um grafo de densidade 1 e 100 vértices}
+%\end{figure}
+
+
+

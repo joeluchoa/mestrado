@@ -1,0 +1,1095 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% My (Paulo Feofiloff) package/preamble for reports in LaTeX
+% If your documentclass is article, 
+% must eliminate things that depend on chapters
+
+\usepackage{indentfirst}
+\usepackage[latin1]{inputenc}
+\usepackage[brazil]{babel}
+\usepackage[T1]{fontenc} % for correct ``ç'' in textsc
+\usepackage{latexsym} % defines \Box and \rhd
+\usepackage{ifthen}
+\usepackage{amsmath} % I use \tag{} (Latex Companion p.240) (amstex obsolete)
+\usepackage{amsfonts} % define \mathbb (old \Bbb) (Companion p.184,208,243)
+%\usepackage{nicefrac} % nice fractions in text
+\usepackage{euscript} % fonte de letras cursivas
+\usepackage{makeidx}
+\makeindex % escreve .idx
+% programa makeindex transforma .idx em .ind (depois \printindex lê .ind)
+\usepackage{epsf}
+\usepackage{epsfig}   % figuras
+% \usepackage[dvips]{graphicx,psfrag} %figuras
+\usepackage[dvips]{psfrag} %figuras
+
+%\voffset=-0.5cm 
+%\hoffset=-0.5cm
+% to avoid annoying message "Underful [h/v]box"
+%\hbadness=10000
+%\vbadness=10000
+
+% Hifenação
+%%%%%%%%%%%
+\hyphenation{apro-xi-ma-ção}
+
+% PAGESIZE ETC.
+%%%%%%%%%%%%%%%
+% Tamanho total do livro: 17cm por 24 cm
+%\setlength{\textheight}{20.5cm} % era 20.5
+%\setlength{\textwidth}{13cm} % era 12.5
+%\setlength{\oddsidemargin}{2.2cm}
+% ATENÇÃO:  evensidemargin + oddsidemargin = pagewidth - textwidth - tab
+% Se pagewidth = largura_do_papel = 21.9cm
+%    tab = automatic_offset = 4.45cm (manual says should be 1in=2.54cm)
+% então evensidemargin = 17.45 - textwidth - oddsidemargin
+%\setlength{\evensidemargin}{2.5cm}
+%\setlength{\topmargin}{0.3cm}
+%\setlength{\parskip}{0.5ex}
+%\setlength{\parindent}{4ex}
+%\addtolength{\footnotesep}{0.3ex} % space btwn footnotes
+%\addtolength{\skip\footins}{2ex} % space btw main text and start of footnotes
+%\raggedbottom
+%\sloppy
+
+%\newcommand{\longpage}{\enlargethispage*{\baselineskip}}
+%\newcommand{\shortpage}{\enlargethispage*{-\baselineskip}}
+%\newcommand{\veryshortpage}{\enlargethispage*{-2\baselineskip}}
+
+% MARGINAL NOTES
+%%%%%%%%%%%%%%%%
+%\setlength{\marginparsep}{0.5cm} % era 4ex
+%\setlength{\marginparwidth}{1.5cm} 
+% para efeito de cálculo de largura de página,
+% pode supor que \marginparwidth vale 1.5cm
+%\newcommand{\mar}[1]%
+%           {\marginpar[{\footnotesize\raggedleft #1}]%
+%                      {{\footnotesize\raggedright #1}}%
+%           }
+
+
+% MATH DEFINITIONS AND STRESSED TEXT
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\newcommand{\defi}[1]{\textbf{#1}}
+%\newcommand{\stress}[1]{\textsl{#1}} % I dont' like italics
+% Acho melhor evitar \stress. Os profissionais não gostam disso.
+
+                
+% PRIMEIRO, SEGUNDO, ETC.
+%%%%%%%%%%%%%%%%%%%%%%%%%
+% Exemplo: "\ordo{23} Colóquio"
+  \newcommand{\ordo}[1]{#1\raisebox{0.77ex}{\scriptsize\b{o}}}
+\renewcommand{\orda}[1]{#1\raisebox{0.77ex}{\scriptsize\b{a}}}
+
+
+% MATHEMATICS
+%%%%%%%%%%%%%
+  \newcommand{\binomial}% to be used in displaystyle only
+             [2]%
+             {\big(\!\begin{array}{c}%
+                 #1\\[-0.5ex]%
+                 #2%
+                 \end{array}%
+               \!\big)}
+  \newcommand{\floor}[1]{\lfloor #1 \rfloor}
+  \newcommand{\ceil}[1]{\lceil #1 \rceil}
+  \newcommand{\seq}[1]{( #1 )}
+  \newcommand{\tam}[1]{\langle #1 \rangle}
+% número total de dígitos
+  \newcommand{\conjunto}[1]{\{\,#1\,\}}
+  \newcommand{\conj}[1]{\{#1\}}
+  \newcommand{\twodots}{\,.\,.\,} % in place of \ldots
+  \newcommand{\card}[1]{{\mid}#1{\mid}} 
+% $\card{X}$ é o mesmo que $|X|$
+  \newcommand{\dcard}[1]{{\parallel}#1{\parallel}} 
+% $\dcard{X}$ é o mesmo que $||X||$
+%\renewcommand{\emptyset}{\mbox{\textup{\O}}} % slash O
+%\renewcommand{\emptyset}{\mbox{\textit{\O}}} % slash O
+  \newcommand{\eps}{\varepsilon}
+% \newcommand{\qed}{\mbox{\hspace{0.2ex}\rule{0.7ex}{0.9ex}}}
+
+% joel
+%  \newcommand{\qed}{$\Box$}
+
+% \newcommand{\Cdot}{\cdot}
+% \newcommand{\Cdot}{}
+  \newcommand{\Cdot}{\hspace{1pt}} % produto de vetores $w\Cdot x$
+  %\newcommand{\Ddot}{\hspace{0.8pt}} % produto mat por vet e vet por matr
+  \newcommand{\Edot}{\hspace{0.8pt}} % produto de matrizes $A\Edot B$
+% \newcommand{\dotplus}{\stackrel{.}{+}}
+% soma disjunta de grafo com conjunto de arestas $G\dotplus F$
+
+% joel
+%  \newcommand{\dotplus}{+}
+
+  \newcommand{\dotcup}{\stackrel{.}{\cup}}
+%% união disjunta de dois conjuntos
+%\newcommand{\wt}{\widetilde} % matriz transposta
+%\newcommand{\wt}[1]{#1^{\!\top}} % matriz transposta
+ \newcommand{\wt}[1]{#1^{\scriptscriptstyle\top}} % matriz transposta
+%\newcommand{\tq}{\ :\ } % tal que (no primal-dual)
+ \newcommand{\tq}{:} % tal que (no primal-dual)
+
+
+% conjunto dos naturais, dos inteiros, dos racionais, dos reais
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \newcommand{\BbbN}{\mathbb{N}}% naturais
+ \newcommand{\BbbZ}{\mathbb{Z}}% inteiros
+ \newcommand{\BbbQ}{\mathbb{Q}}% racionais
+ \newcommand{\BbbR}{\mathbb{R}}% reais
+%\newcommand{\Nat}{\mathsf{N}}% naturais
+%\newcommand{\Nat}{\BbbN}% naturais
+%\newcommand{\Int}{\BbbZ}% inteiros
+%\newcommand{\PosInt}{\BbbZ_{\scriptscriptstyle\,\mbox{}>0}}% inteiros>0
+ \newcommand{\PosInt}{\BbbZ_{\scriptscriptstyle>}}% inteiros>0
+%\newcommand{\NegInt}{\BbbZ_{\scriptscriptstyle\,\mbox{}<0}}% inteiros<0
+ \newcommand{\NegInt}{\BbbZ_{\scriptscriptstyle<}}% inteiros<0
+%\newcommand{\NonnegInt}{\BbbZ_{\scriptscriptstyle\,\mbox{}\geq0}}% inteiros>=0
+ \newcommand{\NonnegInt}{\BbbZ_{\scriptscriptstyle\geq}}% inteiros>=0
+%\newcommand{\NonnegQ}{\BbbQ_{\scriptscriptstyle\,\mbox{}\geq0}}% racionais>=0
+ \newcommand{\NonnegQ}{\BbbQ_{\scriptscriptstyle\,\geq}}% racionais>=0
+%\newcommand{\NonnegQ}{\BbbQ_{\scriptscriptstyle +}}% racionais>=0
+ \newcommand{\PosQ}{\BbbQ_{\scriptscriptstyle\,>}}% racionais>0
+%\newcommand{\NonnegR}{\BbbR_{\scriptscriptstyle\,\mbox{}\geq0}}% reais>=0
+ \newcommand{\NonnegR}{\BbbR_{\scriptscriptstyle\,\geq}}% reais>=0
+ \newcommand{\PosR}{\BbbR_{\scriptscriptstyle\,>}}% reais>0
+
+% Caligráficos
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\Acal}{\EuScript{A}}
+\newcommand{\Bcal}{\EuScript{B}}
+\newcommand{\Ccal}{\EuScript{C}}
+\newcommand{\Dcal}{\EuScript{D}}
+\newcommand{\Fcal}{\EuScript{F}}
+\newcommand{\Lcal}{\EuScript{L}}
+\newcommand{\Scal}{\EuScript{S}}
+\newcommand{\Ical}{\EuScript{I}}
+\newcommand{\Jcal}{\EuScript{J}}
+\newcommand{\Rcal}{\EuScript{R}}
+\newcommand{\Pcal}{\EuScript{P}}
+\newcommand{\Tcal}{\EuScript{T}}
+\newcommand{\Ucal}{\EuScript{U}}
+\newcommand{\Vcal}{\EuScript{V}}
+\newcommand{\Wcal}{\EuScript{W}}
+\newcommand{\Ycal}{\EuScript{Y}}
+\newcommand{\Zcal}{\EuScript{Z}}
+
+% VALOR ÓTIMO DE PROBLEMA DE COMB OPT 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\newcommand{\opt}{\mbox{{\em opt}}}
+%\newcommand{\OPT}{\mbox{{\em OPT}}}
+% \renewcommand{\OPT}{\mbox{\small \textit{OPT}}}
+ \newcommand{\opt}{\ensuremath{\mathrm{opt}}}
+ \newcommand{\OPT}{\ensuremath{\mathrm{opt}}}
+ \newcommand{\Opt}{\ensuremath{\mathrm{opt}}}
+ \newcommand{\val}{\ensuremath{\mathrm{val}}}
+
+% Probabilidades
+%%%%%%%%%%%%%%%%
+\newcommand{\EE}{\mathbf{E}}
+\newcommand{\PPr}{\mathbf{Pr}}
+%\newcommand{\rand}{\textsc{RandUniforme}}
+\newcommand{\rand}{\textsc{RandUni}}
+\newcommand{\randd}{\textsc{Rand}}
+\newcommand{\rands}{\textsc{RandEsfera}}
+
+% Complexidade
+%%%%%%%%%%%%%%
+\newcommand{\NP}{\textup{NP}}
+\newcommand{\coNP}{\textup{co-NP}}
+\newcommand{\PP}{\textup{P}}
+\newcommand{\PO}{\textup{PO}}
+\newcommand{\NPO}{\textup{NPO}}
+\newcommand{\APX}{\textup{APX}}
+\newcommand{\AP}{\textup{AP}}
+\newcommand{\PTAS}{\textup{PTAS}}
+\newcommand{\FPTAS}{\textup{FPTAS}}
+\newcommand{\MAXSNP}{\textup{MAXSNP}}
+\newcommand{\MAXNP}{\textup{MAXNP}}
+%\newcommand{\APs}{\textup{{\footnotesize AP}}}
+ \newcommand{\APs}{\scriptscriptstyle\mathrm{AP}}
+%\newcommand{\Ts}{\textup{{\footnotesize T}}}
+ \newcommand{\Ts}{\scriptscriptstyle\mathrm{T}}
+%\newcommand{\Ds}{\textup{{\footnotesize D}}}
+ \newcommand{\Ds}{\scriptscriptstyle\mathrm{D}}
+
+%\newcommand{\Vs}{\textup{{\footnotesize V}}}
+ \newcommand{\Vs}{\scriptscriptstyle\mathrm{V}}
+%\newcommand{\Es}{\textup{{\footnotesize E}}}
+ \newcommand{\Es}{\scriptscriptstyle\mathrm{E}}
+\newcommand{\yes}{\mbox{\textsc{sim}}}
+\newcommand{\nao}{\mbox{\textsc{não}}}
+\newcommand{\Max}{\textup{Max}} 
+\newcommand{\Sol}{\textup{Sol}} % Conj de soluções viáveis
+\newcommand{\Alg}{A} % algoritmo e esquema de aproximacao.
+\newcommand{\param}{\cdot} %
+
+%%%% ETÂ REMENDO BÃO ......
+%\newcommand{\puxapracima}{\vspace{-5mm}}
+
+% NAMES OF PROBLEMS
+%%%%%%%%%%%%%%%%%%%
+%\newcommand{\SC}[1]{{\small{\textsc{#1}}}} % original
+ \newcommand{\SC}[1]{\textsc{#1}}% sugiro este (pf)
+\newcommand{\sat}{\SC{Sat}} % satisfatibilidade
+\newcommand{\maxsat}{\SC{MaxSat}} % satisfatibilidade máxima
+\newcommand{\maxDsat}{\SC{Max2Sat}} % satisfatibilidade máxima com 2 variáveis por cláusula
+\newcommand{\maxTsat}{\SC{Max3Sat}} % satisfatibilidade máxima com 2 variáveis por cláusula
+\newcommand{\maxcut}{\SC{MaxCut}} % corte máximo
+\newcommand{\maxkcut}{\SC{Max}$k$\SC{Cut}} % corte máximo em k partes
+\newcommand{\maxdicut}{\SC{MaxDiCut}} % corte máximo
+\newcommand{\mincc}{\SC{MinCC}} % cobertura mínima por conjuntos
+\newcommand{\maxcc}{\SC{MaxCC}} % cobertura máxima com k conjuntos ??
+\newcommand{\minmc}{\SC{MinMCut}} % multicorte mínimo
+\newcommand{\mincv}{\SC{MinCV}} % cobertura mínima por vértices
+\newcommand{\mintc}{\SC{MinTC}} % transversal mínima de conjuntos 
+\newcommand{\minfs}{\SC{MinFS}} % floresta de Steiner mínima
+\newcommand{\mochila}{\SC{Mochila}} % mochila 
+\newcommand{\minca}{\SC{MinCA}} % cobertura mínima por arestas
+\newcommand{\mincol}{\SC{MinCol}} % coloração mínima por vértices
+\newcommand{\tsp}{\SC{TSP}} % caixeiro viajante
+\newcommand{\tspm}{\SC{TSPM}} % caixeiro viajante metrico
+\newcommand{\tspd}{\SC{TSP$_{\Ds}$}} % caixeiro viajante decisão
+\newcommand{\escal}{\SC{Escalonamento}} % escalonamento mínimo
+\newcommand{\escali}{\SC{EscalonamentoInt}} % escalonamento mínimo com dados inteiros 
+\newcommand{\empac}{\SC{Empacotamento}} % empacotamente (bin packing)
+\newcommand{\empaci}{\SC{EmpacotamentoInt}} % empacotamente (bin packing) com dados inteiros 
+\newcommand{\maxflow}{\SC{MaxFlow}} % fluxo máximo
+\newcommand{\minpath}{\SC{MinPath}} % caminho mínimo
+\newcommand{\mst}{\SC{MST}} % árvore geradora mínima
+\newcommand{\mintj}{\SC{MinTJ}} % T-junção mínima
+\newcommand{\mincut}{\SC{MinCut}} % corte mínimo
+\newcommand{\pch}{\SC{PCH}} % problema do circuito hamiltoniano
+\newcommand{\particao}{\SC{Partição}} % problema da partição
+\newcommand{\CP}{\mathrm{P}} % problema primal de prog lin
+\newcommand{\CD}{\mathrm{D}} % problema dual de prog lin
+\newcommand{\PRP}{\mathrm{RP}} % primal-dual
+\newcommand{\PRD}{\mathrm{RD}} % primal-dual
+\newcommand{\PRAP}{\mathrm{RAP}} % primal-dual
+\newcommand{\PRAD}{\mathrm{RAD}} % primal-dual
+%\newcommand{\hsp}{PTCM} % primal-dual, transversal
+%\newcommand{\PTCM}{\textsc{PTCM}} % primal-dual, transversal
+
+% Nomes de algoritmos
+%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\minchv}{\SC{\mincc-Chvátal}} % classicos
+\newcommand{\rosen}{RSL} % TSP métrico, Rosenkrantz et al.
+\newcommand{\minfsGW}{\SC{MinFS-GW}} % floresta de Steiner
+\newcommand{\minmcGVY}{\SC{MinMC-GVY}} % multicorte em árvores
+\newcommand{\johnson}{\SC{Johnson}} % satisfatibilidade
+\newcommand{\maxcutgw}{\maxcut\SC{-GW}} % semidef
+\newcommand{\arred}{Hochbaum} % \mincc-\arred, arredondamento, primal
+\newcommand{\primaldual}{\SC{Primal-Dual}}
+\newcommand{\aproxprimaldual}{\SC{Aproximação-Primal-Dual}}
+\newcommand{\algmintc}{\SC{\mintc-BE}} % Bar-Yehuda, primal-dual
+\newcommand{\mincvdual}{\SC{\mincv-Hochbaum}}
+\newcommand{\central}{\SC{Central}} % método métrico, antigo Auxiliar
+
+% Índices de matrizes A_{\ix{i}{j}} A_{\ixx{i}{j}{k}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\newcommand{\ix}[2]{#1,#2} 
+ \newcommand{\ix}[2]{#1#2}
+%\newcommand{\ixx}[3]{#1,#2,#3} 
+ \newcommand{\ixx}[3]{#1#2#3}
+
+% MATRIZES
+%%%%%%%%%%
+   \newcommand{\z}{\phantom{9}}
+  \newcommand{\zz}{\phantom{99}}
+ \newcommand{\zzz}{\phantom{999}}
+\newcommand{\zzzz}{\phantom{9999}}
+     \newcommand{\Z}{\phantom{99999}}
+    \newcommand{\Zz}{\phantom{999999}}
+   \newcommand{\Zzz}{\phantom{9999999}}
+     \newcommand{\w}{\phantom{\ensuremath{-}}}
+    \newcommand{\wz}{\phantom{\ensuremath{-9}}}
+   \newcommand{\wzz}{\phantom{\ensuremath{-99}}}
+  \newcommand{\wzzz}{\phantom{\ensuremath{-999}}}
+\newenvironment{mymatrix}[1]%
+               {%
+                \[%
+                \begin{array}{*{#1}r}%
+               }%
+               {\end{array}%
+                \]}
+\newenvironment{footnotesizematrix}[1]%
+               {\begin{footnotesize}%
+                \begin{mymatrix}{#1}}%
+               {\end{mymatrix}%
+                \end{footnotesize}}
+
+% Figures environment
+%%%%%%%%%%%%%%%%%%%%%
+\newenvironment{myfigure}[1]%
+               {\begin{figure}[#1]%
+                \begin{center}%
+                \normalsize%
+               }%
+               {\end{center}%
+                \end{figure}%
+               }
+\newcommand{\legenda}%
+           [2]%
+           {\parbox{#1}{\caption[]{\small #2}}% Lamport, p.198
+           }
+% Exemplo:
+% \begin{myfigure}{!t}
+% .............
+% \legenda{58ex}{.................}
+% \end{myfigure}
+\newenvironment{mytable}[1]%
+               {\begin{table}[#1]%
+                \begin{center}%
+                \normalsize%
+               }%
+               {\end{center}%
+                \end{table}%
+               }
+
+% % Pictures of matrices
+% %%%%%%%%%%%%%%%%%%%%%%
+% \newcommand{\strt}{\rule{0ex}{2.4ex}} % strut in 1st line to raise cline
+% \newenvironment{scheme}% pictorial representation of a matrix
+%                [1]%
+%                {\begin{footnotesize}%
+%                 \[%
+%                 \setlength{\tabcolsep}{0.8ex}%
+%                 \begin{tabular}{#1}%
+%                }%
+%                {\end{tabular}%
+%                 \]%
+%                 \end{footnotesize}}
+
+
+% MY CENTER ENVIRONMENT
+%%%%%%%%%%%%%%%%%%%%%%%
+% \newenvironment{mycenter}%
+%                {\addtolength{\topsep}{0ex}%
+%                 \addtolength{\partopsep}{1ex}%
+%                 \begin{trivlist}%
+%                 \centering%
+%                 \item}%
+%                {\end{trivlist}}
+
+
+% MY QUOTE ENVIRONMENT
+% unlike the standard quote, this has no rightmargin
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \newcommand{\myindent}{6ex}
+% \newenvironment{myquote}%
+%                {\begin{list}%
+%                       {}%
+%                       {%
+%                        \setlength{\partopsep}{1.5ex}%
+%                        \setlength{\topsep}{0.5ex}%
+%                        \setlength{\leftmargin}{\myindent}%
+%                        \setlength{\parsep}{1ex}% parskip is 1.5ex 
+%                       }% 
+%                 \item}%
+%                {\end{list}}
+
+
+% MY EPIGRAPH ENVIRONMENT
+%%%%%%%%%%%%%%%%%%%%%%%%%
+% \newenvironment{myepigraph}%
+%                {\begin{flushright}%
+%                 \begin{footnotesize}}%
+%                {\end{footnotesize}%
+%                 \end{flushright}%
+%                 \bigskip}
+
+
+% THEOREMS, PROBLEMS, AND STATMENTS-OF-ALGORITHMS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newenvironment{baretheorem}%
+         {\begin{list}%
+                {}%
+                {%
+                 %\addtolength{\partopsep}{0.5ex}%
+                 \setlength{\partopsep}{1ex}% igual em prova
+%                \addtolength{\topsep}{-0.5ex}%
+                 \setlength{\topsep}{0.8ex}% igual prova
+                 \setlength{\leftmargin}{\parindent}%
+                 \setlength{\rightmargin}{\parindent}%
+                 \setlength{\itemindent}{0ex}%
+                 \setlength{\labelsep}{\itemindent}%
+                 \setlength{\labelwidth}{0ex}%
+                 \setlength{\parsep}{1ex}% parskip is 1.5ex
+                 \setlength{\listparindent}{0ex}%
+                }%
+          \item%
+         }%
+         {\end{list}%
+         }
+
+\newcounter{theoremnumber}%[section]
+\renewcommand{\thetheoremnumber}{\arabic{theoremnumber}}
+\newenvironment{taggednumberedtheorem}[2]%
+               {%
+                \refstepcounter{theoremnumber}%
+                \begin{baretheorem}%
+                \textbf{#1\hspace{0.7ex}\thetheoremnumber}%
+                \ifthenelse{\equal{#2}{}}% Lamport p.195
+                        {\hspace{1pt}:\hspace{1ex}\ignorespaces}%
+                        {\hspace{1ex}\textup{(#2)}:\hspace{1ex}\ignorespaces}%
+                \slshape%
+               }%
+               {\end{baretheorem}%
+               }
+% Example:
+% \begin{taggednumberedtheorem}{Lema}{da dualidade canônica}
+% Para\label{lema:dualidade}
+% todo  $x$  em $X(A,b)$ e todo $y$ em $Y(A,c)$ tem-se $cx \geq yb$.
+% \end{taggednumberedtheorem}
+
+% alguns ambientes auxiliares usando o ambiente do paulo %fkm
+\newenvironment{lema}[1]%
+         {\begin{taggednumberedtheorem}{Lema}{#1}%
+         }%
+         {\end{taggednumberedtheorem}%
+         }
+
+\newenvironment{teorema}[1]%
+         {\begin{taggednumberedtheorem}{Teorema}{#1}%
+         }%
+         {\end{taggednumberedtheorem}%
+         }
+\newenvironment{proposicao}[1]%
+         {\begin{taggednumberedtheorem}{Proposição}{#1}%
+         }%
+         {\end{taggednumberedtheorem}%
+         }
+\newenvironment{corolario}[1]%
+         {\begin{taggednumberedtheorem}{Corolário}{#1}%
+         }%
+         {\end{taggednumberedtheorem}%
+         }
+\newenvironment{fato}[1]%
+         {\begin{taggednumberedtheorem}{Fato}{#1}%
+         }%
+         {\end{taggednumberedtheorem}%
+         }
+\newenvironment{exemplo}[1]%
+         {\begin{taggednumberedtheorem}{Exemplo}{#1}%
+         }%
+         {\end{taggednumberedtheorem}%
+         }
+\newenvironment{problema}[1]%
+       {\begin{baretheorem}%
+        \textbf{Problema}\hspace{1ex}{#1}:\hspace{1ex}\ignorespaces%
+        \slshape%
+       }%
+       {\end{baretheorem}%
+       }
+
+
+% LIST WITHIN THEOREM STATEMENT
+% (instead of the standard enumerate and itemize)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newenvironment{listwithintheorem}% 
+        {\begin{list}%
+               {}%
+               {%
+                \addtolength{\partopsep}{2ex}%
+                \addtolength{\topsep}{0ex}%
+                \setlength{\itemindent}{0ex}%
+                \setlength{\labelwidth}{6ex}% 
+                \setlength{\labelsep}{2ex}%
+                \setlength{\leftmargin}{\parindent}%
+                \addtolength{\leftmargin}{\labelwidth}%
+                \addtolength{\leftmargin}{\labelsep}%
+                \setlength{\listparindent}{0ex}%
+                }%
+        }%
+        {\end{list}}
+
+
+% PROOFS OF THEOREMS
+%%%%%%%%%%%%%%%%%%%
+\newenvironment{bareproof}%
+         {\begin{list}%
+                {}%
+                {%
+                 \setlength{\partopsep}{1ex}% como em baretheorem
+                 \setlength{\topsep}{0.8ex}% como em baretheorem
+                 \setlength{\leftmargin}{0ex}%
+                 \setlength{\labelwidth}{0ex}% 
+                 \setlength{\labelsep}{1ex}%
+                 \setlength{\itemindent}{\parindent}% 
+                 \addtolength{\itemindent}{\labelsep}%
+                 \setlength{\parsep}{1ex}% parskip is 1.5ex
+                 \setlength{\listparindent}{\parindent}%
+                }%
+         }%
+         {\end{list}}
+% \newenvironment{proof}[1]%
+%          {\begin{bareproof}%
+%           %\item[\textsc{#1:}]%
+%           \item[#1:]%
+%          }%
+%          {\qed%
+%           \end{bareproof}}
+
+% % facilitar a prova %fkm
+% \newenvironment{prova}[1]
+%          {\begin{proof}{Demonstração}
+%          #1}{\end{proof}}
+
+\newenvironment{prova}[1]
+         {\begin{bareproof}%
+          \item[Demonstração:]%
+            #1%
+         }%
+         {\hfill\qed\ignorespacesafterend
+          \end{bareproof}%
+         }
+
+
+% PSEUDOCODE for ALGORITHMS 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \newenvironment{pseudoc}[1]
+%          {\begin{list}%
+%                 {}%
+%                 {%
+%                  \sffamily%
+%                  \setlength{\partopsep}{1.5ex}%
+%                  \setlength{\topsep}{0.5ex}%
+%                  \setlength{\leftmargin}{\parindent}%
+%                  \setlength{\parsep}{0.5ex}%
+%                 }%
+%           \item \textbf{\textrm{#1}}\hspace{0.7ex}\ignorespaces}%
+%          {\end{list}%
+%          }
+\newenvironment{pseudoc}
+         {\begin{list}%
+                {}%
+                {%
+                 \sffamily%
+                 \setlength{\partopsep}{1ex}%
+                 \setlength{\topsep}{1ex}%
+                 \setlength{\leftmargin}{\parindent}%
+                 \setlength{\parsep}{0.5ex}%
+                }%
+          \item}%
+         {\end{list}%
+         }
+\newenvironment{pseudocode}%
+         {\begin{pseudoc}%
+          \textbf{\textrm{Algoritmo}}\hspace{0.7ex}\ignorespaces%
+         }%
+         {\end{pseudoc}}
+\newenvironment{pseudocodem}%
+         {\begin{pseudoc}%
+          \textbf{\textrm{Método}}\hspace{0.7ex}\ignorespaces%
+         }%
+         {\end{pseudoc}}
+\newenvironment{pseudocodeproc}%
+         {\begin{pseudoc}%
+          \textbf{\textrm{Procedimento}}\hspace{0.7ex}\ignorespaces%
+         }%
+         {\end{pseudoc}}
+\newenvironment{pseudocex}% dentro de exercícios
+         {\begin{small}%
+          \begin{list}%
+                {}%
+                {%
+                 \sffamily%
+                 \setlength{\partopsep}{0.5ex}%
+                 \setlength{\topsep}{1ex}%
+                 \setlength{\leftmargin}{8ex}%
+                 \setlength{\parsep}{0.2ex}%
+                }%
+          \item}%
+         {\end{list}%
+          \end{small}%
+         }
+\newenvironment{pseudocodeex}%
+         {\begin{pseudocex}%
+          \textbf{\textrm{Algoritmo}}\hspace{0.7ex}\ignorespaces%
+         }%
+         {\end{pseudocex}}
+
+\newcommand{\phentao}{\phantom{então}} 
+\newcommand{\phsenao}{\phantom{senão}} 
+\newcommand{\x}{\hspace*{3ex}} % era 4ex
+\newcommand{\xx}{\hspace*{6ex}}
+\newcommand{\xxx}{\hspace*{9ex}}
+\newcommand{\xxxx}{\hspace*{12ex}}
+\newcommand{\xxxxx}{\hspace*{15ex}}
+\newcommand{\xxxxxx}{\hspace*{18ex}}
+\newlength{\tsts}
+\settowidth{\tsts}{9}
+\newcommand{\ts}{\hspace{\tsts}}
+\newcommand{\RM}{\textrm}
+% Example:
+% \begin{pseudocode}
+% \max $(A, p, r)$
+%    
+% \RM{\ts1}\x se $p = r$
+% 
+% \RM{\ts2}\xx então devolva $A[p]$
+%    
+% \RM{\ts3}\xx senão $m\leftarrow \textsc{Máximo}\,(A,p+1,r)$
+% 
+% \RM{\ts9}\xx\phsenao se $m < A[p]$ \quad $\rhd$ comentário
+% 
+% \RM{10}\xxx\phsenao então $m\leftarrow A[p]$
+%  
+% \RM{11}\xx\phsenao devolva $m$
+% \end{pseudocode}
+
+
+
+% PROGRAMAS LINEARES (pf)
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\plspA}{\hspace{1.5ex}}
+\newcommand{\plspB}{\hspace{2ex}}
+% programa linear:
+\newenvironment{linearprogram}[0]% 5 columns
+               {%
+                \[
+                \begin{array}{r@{\plspB}% \mbox{sob as restrições}
+                              r@{\plspA}% x_j
+                              c@{\plspA}% \geq 
+                              l@{\plspB}% 0
+                              l%          \mbox{para cada j}
+                             }
+                %*% \rule[0ex]{0pt}{2ex}% era 3ex
+               }%
+               {%
+                %\rule[-2ex]{0pt}{3ex}%
+                \end{array}
+                \] %*% \\ % dirty hacking 
+                % to avoid unwanted hspace after environment
+                % \ignorespaces \unskip (LaTeX Comapnion, p.61) has no effect
+               }
+% programa linear dentro de equation, para quem precisa da numeração:
+\newenvironment{linearprogramequation}[0]% 5 columns
+               {%
+                \begin{equation}
+                \begin{array}{r@{\plspB}% \mbox{sob as restrições} 
+                              r@{\plspA}% x_j
+                              c@{\plspA}% \geq
+                              l@{\plspB}% 0
+                              l%          \mbox{para cada j}
+                             }
+                %*% \rule[0ex]{0pt}{2ex}% era 3ex
+               }%
+               {%
+                %\rule[-2ex]{0pt}{3ex}%
+                \end{array}
+                \end{equation} %*% \\
+               }
+%%% teste 1:
+%%\newenvironment{linearprogramequationn}[0]% 5 columns (1st is dummy)
+%%               {%
+%%                \begin{equation}
+%%                \begin{array}{l         % dummy
+%%                              r@{\plspA}% \mbox{sob as restrições}\plspB\ x_j
+%%                              c@{\plspA}% \geq
+%%                              l@{\plspB}% 0
+%%                              l%          \mbox{para cada j}
+%%                             }
+%%                \rule[0ex]{0pt}{2ex}% era 3ex
+%%               }% put a \sstrut in first array element
+%%               {%
+%%                %\rule[-2ex]{0pt}{3ex}%
+%%                \end{array}
+%%                \end{equation}\\
+%%               }
+%%% teste 2:
+%%\newenvironment{linearprogramequationx}[0]% 4 columns
+%%               {%
+%%                \begin{equation}
+%%                \begin{array}{r@{\plspA}% \mbox{sob as restrições}\plspB\ x_j
+%%                              c@{\plspA}% \geq
+%%                              l@{\plspB}% 0
+%%                              l%          \mbox{para cada j}
+%%                             }
+%%               }% put a \sstrut in first array element
+%%               {%
+%%                %\rule[-2ex]{0pt}{3ex}%
+%%                \end{array}
+%%                \end{equation}\\
+%%               }
+% variante sem a primeira coluna (usado no capítulo prob.tex):
+\newenvironment{linearprogramequation*}[0]%
+               {%
+                \begin{equation}
+                \begin{array}{r@{\plspA}% x_j
+                              c@{\plspA}% \geq 
+                              l@{\plspB}% 0
+                              l}%         para cada j
+                %*% \rule[0ex]{0pt}{2ex}% era 3ex
+               }%
+               {%
+                %*% \rule[-2ex]{0pt}{3ex}%
+                \end{array}
+                \end{equation}
+               }
+% % programa linear com sigla (a sigla é argumento do ambiente)
+ \newenvironment{linearprogramwlabel}[1]% 
+                {%
+                 \[
+                 \mbox{#1}\qquad
+                 \begin{array}{l@{\plspB}% sob as restrições
+                               r@{\plspA}% x_j
+                               c@{\plspA}% \geq
+                               l@{\plspB}% 0
+                               l%          para cada j
+                              }
+                 \rule[0ex]{0pt}{4ex}%
+                }%
+                {%
+                 \rule[-2ex]{0pt}{4ex}%
+                 \end{array}
+                 \]\\
+                }
+
+\newenvironment{linearprogramequationwlabel}[1]% 
+                {%
+                 %\[
+		 \begin{eqnarray}
+                 \mbox{#1}\qquad
+                 \begin{array}{l@{\plspB}% sob as restrições
+                               r@{\plspA}% x_j
+                               c@{\plspA}% \geq
+                               l@{\plspB}% 0
+                               l%          para cada j
+                              }
+                 \rule[0ex]{0pt}{4ex}%
+                }%
+                {%
+                 \rule[-2ex]{0pt}{4ex}%
+                 \end{array}
+		 \end{eqnarray}
+                 %\]\\
+                }
+
+
+
+
+% %%%%% repete os três ambientes com um pouco mais de espaço vertical %%%%%
+% %%%%% antes e depois (para ser usado com \displaystyle\sum) %%%%%%%%%%%%%
+% % programa linear dentro de \[..\]
+% \newenvironment{displaylinearprogram}[0]%
+%                {%
+%                 \[
+%                 \begin{array}{l@{\plspB}% sob as restrições
+%                               r@{\plspA}% x_j
+%                               c@{\plspA}% \geq
+%                               l@{\plspB}% 0
+%                               l%          para cada j
+%                              }
+%                 \rule[0ex]{0pt}{4ex}%
+%                }%
+%                {%
+%                 %\rule[-3ex]{0pt}{4ex}%
+%                 \end{array}
+%                 \]\\[0.8ex] 
+%                }
+% 
+% % programa linear dentro de equation, para quem precisa da numeração 
+% \newenvironment{displaylinearprogramequation}[0]%
+%                {%
+%                 \begin{equation}
+%                 \begin{array}{l@{\plspB}% sob as restrições 
+%                               r@{\plspA}% x_j
+%                               c@{\plspA}% \geq
+%                               l@{\plspB}% 0
+%                               l%          para cada j
+%                              }
+%                 \rule[0ex]{0pt}{4ex}%
+%                }%
+%                {%
+%                 %\rule[-3ex]{0pt}{4ex}%
+%                 \end{array}
+%                 \end{equation}\\[0.8ex]
+%                }
+% % programa linear com sigla (a sigla é argumento do ambiente)
+% \newenvironment{displaylinearprogramwlabel}[1]% 
+%                {%
+%                 \[
+%                 \mbox{#1}\qquad
+%                 \begin{array}{l@{\plspB}% sob as restrições
+%                               r@{\plspA}% x_j
+%                               c@{\plspA}% \geq
+%                               l@{\plspB}% 0
+%                               l%          para cada j
+%                              }
+%                 \rule[0ex]{0pt}{4ex}%
+%                }%
+%                {%
+%                 %\rule[-3ex]{0pt}{4ex}%
+%                 \end{array}
+%                 \]\\[0.8ex]
+%                }
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Exemplo de \texttt{linearprogram}.
+% Exemplo~1 exemplo~1 exemplo~1 exemplo~1 exemplo~1
+% exemplo~1 exemplo~1 exemplo~1 exemplo~1 exemplo~1:
+% encontrar $x$ que 
+% \begin{linearprogram}
+% \mbox{maximize}
+%   &\sum_j\,c_jx_j \hfill&&&\\[1.5ex] 
+% \mbox{sob as restrições}
+%   &\sum_j\,A_{i,j} x_{j} &=& b_{i} 
+%     &\mbox{para cada $i$ em $M$ \ e}\\
+%   &x_{j} &\geq& 0 
+%     &\mbox{para cada $j$ em $N$.}
+% \end{linearprogram}%
+% Exemplo~1 exemplo~1 exemplo~1 exemplo~1 exemplo~1 exemplo~1 exemplo~1.
+% (Não recomendo deixar linha em branco 
+% antes de abrir o ambiente: o espaço vertical antes 
+% fica maior que o espaço vertical depois.)
+% 
+% 
+% Exemplo de \texttt{linearprogram}. 
+% Exemplo~3 exemplo~3 exemplo~3 exemplo~3 exemplo~3
+% exemplo~3 exemplo~3 exemplo~3 exemplo~com hfill:
+% encontrar $x$ que
+% \begin{linearprogram}
+% \mbox{maximize a expressão}\hfill
+%   &\sum_j\,c_j x_j \hfill&&&\\[1.5ex] 
+% \mbox{sujeita a}\hfill
+%   &x_i + x_j &\geq& 1 
+%     &\hfill\mbox{para toda aresta $ij$ em $E$ \ e}\\
+%   &x_j &\geq& 0 
+%     &\mbox{para cada vértice $j$ em $V$;}
+% \end{linearprogram}%
+% exemplo~3 exemplo~3 exemplo~3 exemplo~3 exemplo~3 exemplo~3 exemplo~3.
+% 
+% Exemplo de \texttt{linearprogram}.
+% Exemplo~4 exemplo~4 exemplo~4 exemplo~4 exemplo~4
+% exemplo~4 exemplo~4 exemplo~4
+% exemplo~4 exemplo~4 exemplo~4 exemplo~com displaystyle
+% (e portanto ``$\sum$'' grande):
+% encontre $x$ que
+% \begin{linearprogram}
+% \mbox{maximize o valor de}
+%   &\displaystyle \sum_j\,c_j x_j \hfill&&&\\[3ex]
+% \mbox{sob as restrições}
+%   &x_i + x_j &\geq& 1 
+%     &\mbox{($ij \in E$)}\\
+%   &x_j &\geq& 0  
+%     &\mbox{($j\in V$).}
+% \end{linearprogram}%
+% Para deixar um pouco mais de espaço vertical antes e depois do display,
+% use \texttt{displaylinearprogram}.
+% Eis um exemplo do efeito:
+% \begin{displaylinearprogram}
+% \mbox{maximize o valor de}
+%   &\displaystyle \sum_{e\in E}\,c_e x_e &&&\\[4ex]
+% \mbox{sob as restrições}
+%   &\displaystyle \sum_{\delta(S)\ni e}\,y_S &=& b_e 
+%     &\mbox{($e\in E$)}\\
+%   &y_S &\geq& 0  
+%     &\mbox{($S\subseteq V$)}
+% \end{displaylinearprogram}
+% bla bla alkh wdikx dwoo s ismkoisr sfijsdewix oioosdjweoj.
+% As armas e os barões assinalados que da ocidental praia lusitana.
+% 
+% Exemplo de \texttt{linearprogramequation}.
+% Exemplo~5 exemplo~5 exemplo~5 exemplo~5 exemplo~5
+% exemplo~5 exemplo~5 exemplo~5 exemplo~5 exemplo~5:
+% determine $x$ que 
+% \begin{linearprogramequation}
+% \mbox{maximize}
+%   &\sum_j\,c_jx_j \hfill&&&\\[1.5ex] 
+% \mbox{sujeita a}
+%   &\sum_j\,A_{i,j} x_{j} &=& b_{i} 
+%     &\mbox{para cada $i$ em $M$ \ e}\\
+%   &x_{j} &\geq& 0 
+%     &\mbox{para cada $j$ em $N$}
+% \end{linearprogramequation}%
+% exemplo~5 exemplo~5 exemplo~5 exemplo~5 exemplo~5 exemplo~5 exemplo~5.
+% 
+% Exemplo de \texttt{linearprogramwlabel}.
+% Exemplo~6 exemplo~6 exemplo~6 exemplo~6 exemplo~6
+% exemplo~6 exemplo~6 exemplo~6 exemplo~6 exemplo~6:
+% \begin{linearprogramwlabel}{(P)}
+% \mbox{maximize}
+%   &\sum_j\,c_j x_j \hfill&&&\\[1.5ex] 
+% \mbox{sob as restrições}
+%   &x_i + x_j &\geq& 1 
+%     &\mbox{para toda $ij$ em $E$ \ e}\\
+%   &x_j &\geq& 0 
+%     &\mbox{para cada $j$ em $V$.}
+% \end{linearprogramwlabel}%
+% Exemplo~6 exemplo~6 exemplo~6 exemplo~6 exemplo~6 exemplo~6 exemplo~6.
+%
+%%%%%% veja http://www.ime.usp.br/~pf/pronex/aprox/exemplo.dvi
+%%%%%% veja http://www.ime.usp.br/~pf/pronex/aprox/exemplo.ps
+
+
+
+% EXERCISES
+%%%%%%%%%%%
+\newcounter{exnum}%[section]
+\renewcommand{\theexnum}{\thechapter.\arabic{exnum}}
+\newenvironment{exercises}%
+         {%\vspace{5mm}
+          %\noindent {\large {\bf Exercícios}}
+          \begin{list}%
+                {\theexnum\hfill}%
+                {%
+                 \usecounter{exnum}%
+                 \addtolength{\partopsep}{1.5ex}%
+                 \addtolength{\topsep}{0ex}%   
+                 \addtolength{\itemsep}{0.5ex}%
+                 \setlength{\labelwidth}{4ex}%
+                 \setlength{\labelsep}{1ex}%  
+                 \setlength{\itemindent}{0ex}%
+                 \setlength{\leftmargin}{\labelwidth}%
+                 \addtolength{\leftmargin}{\labelsep}%
+                 \setlength{\parsep}{1pt}%
+                 \setlength{\listparindent}{\parindent}%
+                }%
+         }%
+         {\end{list}}
+
+%\newtheorem{exemplo}{Exemplo}[chapter]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \newcommand{\oo}{\hspace*{4ex}}
+% \newcommand{\ooo}{\hspace*{8ex}}
+% \newcommand{\oooo}{\hspace*{12ex}}
+% \newcommand{\ooooo}{\hspace*{16ex}}
+% \newcommand{\oooooo}{\hspace*{20ex}}
+
+% \newenvironment{algorithm}%
+%         {\begin{list}%
+%                {}%
+%                {%
+%                 \addtolength{\partopsep}{1ex}% =theorem
+%                 \addtolength{\topsep}{0ex}% =theorem
+%                 \setlength{\parsep}{1ex}% B
+%                 \setlength{\itemsep}{1ex}% A (was 1.5ex)
+%                 \setlength{\leftmargin}{\parindent}%
+%                 }%
+%         \slshape }% experimental
+%         {\end{list}}
+% \newcommand{\balgor}{\begin{algorithm}}
+% \newcommand{\ealgor}{\end{algorithm}}
+% \newcommand{\bsubalgor}{\begin{algorithm}}
+% \newcommand{\esubalgor}{\end{algorithm}}
+% \newcommand{\bt}[1]{\begin{quote}\textbf{{#1}.}}
+% \newcommand{\et}{\end{quote}}
+% \newcommand{\bdes}{\begin{description}}
+% \newcommand{\edes}{\end{description}}
+% \newcommand{\ds}{\displaystyle}
+
+%%----------------------------------------------------------------------------
+%%  (keidi)
+%%  Aqui a modificacao foi para colocar as linhas e mudar tipo de letra de
+%%  chapapp
+
+\def\@makechapterhead#1{%
+\ifnum \@ptsize=0  % 10pt
+  \vspace*{52\p@}%
+  {\parindent \z@ \raggedright \normalfont
+    \ifnum \c@secnumdepth >\m@ne
+      \if@mainmatter
+        \hfill\Large {\sc \@chapapp\space \thechapter}
+        \par\nobreak
+        \vskip 4\p@
+        \hrule
+        \hrule
+        \vskip 20\p@
+      \fi
+    \fi
+    \interlinepenalty\@M
+    \Huge \bfseries #1\par\nobreak
+    \vskip 40\p@
+  }
+\fi
+\ifnum \@ptsize=1  % 11pt
+  \vspace*{53\p@}%
+  {\parindent \z@ \raggedright \normalfont
+    \ifnum \c@secnumdepth >\m@ne
+      \if@mainmatter
+        \hfill\Large {\sc \@chapapp\space \thechapter}
+        \par\nobreak
+        \vskip 4\p@
+        \hrule
+        \hrule
+        \vskip 20\p@
+      \fi
+    \fi
+    \interlinepenalty\@M
+    \Huge \bfseries #1\par\nobreak
+    \vskip 40\p@
+  }
+\fi
+\ifnum \@ptsize=2  % 12pt
+  \vspace*{56\p@}%
+  {\parindent \z@ \raggedright \normalfont
+    \ifnum \c@secnumdepth >\m@ne
+      \if@mainmatter
+        \hfill\Large {\sc \@chapapp\space \thechapter}
+        \par\nobreak
+        \vskip 4\p@
+        \hrule
+        \hrule
+        \vskip 20\p@
+      \fi
+    \fi
+    \interlinepenalty\@M
+    \Huge \bfseries #1\par\nobreak
+    \vskip 40\p@
+  }
+\fi
+}
+%%----------------------------------------------------------------------------
+%%  (keidi)
+%%  Aqui a modificacao foi para colocar as linhas em chapter*
+\def\@makeschapterhead#1{%
+  \ifnum \@ptsize=0
+  \vspace*{83.5\p@}%
+  \hrule
+  \hrule
+  \vspace*{20\p@}%
+  {\parindent \z@ \raggedright
+    \normalfont
+    \interlinepenalty\@M
+    \Huge \bfseries  #1\par\nobreak
+    \vskip 40\p@
+  }
+\fi
+  \ifnum \@ptsize=1 
+  \vspace*{83.8\p@}%
+  \hrule
+  \hrule
+  \vspace*{20\p@}%
+  {\parindent \z@ \raggedright
+    \normalfont
+    \interlinepenalty\@M
+    \Huge \bfseries  #1\par\nobreak
+    \vskip 40\p@
+  }
+\fi
+  \ifnum \@ptsize=2
+  \vspace*{92.5\p@}%
+  \hrule
+  \hrule
+  \vspace*{20\p@}%
+  {\parindent \z@ \raggedright
+    \normalfont
+    \interlinepenalty\@M
+    \Huge \bfseries  #1\par\nobreak
+    \vskip 40\p@
+  }
+\fi
+}
+%%----------------------------------------------------------------------------
+
+\renewcommand{\sectionmark}[1]{\markright{\textsc{\thesection\ \ #1}}}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% REFERÊNCIAS CRUZADAS
+%\usepackage{backref}
+%\renewcommand{\backrefpagesname}{} % Inclui os [] dentro do backref.sty
+% {Citado na(s) página(s)}

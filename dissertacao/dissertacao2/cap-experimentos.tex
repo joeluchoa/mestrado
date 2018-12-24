@@ -1,0 +1,247 @@
+% -------------------------------------------------------------------- %
+\chapter{Experimentos}
+\label{cap:experimentos}
+
+No presente capítulo, iremos fazer experimentos com alguns
+dos diferentes métodos propostos para o problema de caminhos mínimos com 
+recursos limitados. Por uma questão de praticidade, todas as 
+implementações são para a versão do problema com um único recurso. Como 
+a performance dos algoritmos é variável para diferentes tipos de grafos, 
+nós iremos experimentá-los com dados reais e randômicos usando os 
+seguintes tipos de grafos: grafos em grade, grafos de ruas, grafos de 
+curva de aproximação, e grafos aleatórios.
+
+\section{Ambiente computacional}
+
+Todas as nossas experiências foram executadas em um \emph{laptop Sony 
+Vaio}, com processador \emph{Intel Core i3 CPU M 330 @ 2.13GHz} e $2$GB 
+de memória RAM. O sistema operacional utilizado é o Ubuntu, versão  
+\emph{12.04 LTS 64 bit, kernel 3.2.0-27-generic}. Os códigos foram 
+implementados usando a linguagem de programação C++ e compilados usando 
+o compilador g++ da GNU, versão $4.6.3$.
+
+\section{Dados de Teste}
+
+Nós usamos os seguintes quatro tipos de grafos:
+
+\defi{DEM}: Modelos digitais de elevação (\emph{digital elevation 
+models}) são grafos em forma de grade onde cada vértice tem um valor de 
+altura associado. Usamos exemplos de modelos de elevações da Europa 
+cedidos por Mark Ziegelmann (\cite{ziegelmann:01}). 
+
+Em nossos exemplos \textsc{DEM}, temos que arcos são bi-direcionados, ou 
+seja, $m$ é aproximadamente $4n$. Utilizamos o valor absoluto das 
+diferenças de altura dos vértices como função custo, esses valores estão 
+no intervalo $[0,600]$. Nós usamos inteiros aleatórios dentro do 
+intervalo $[10,20]$ como consumo de recursos. Por fim, estamos 
+interessados em minimizar a diferença de altura acumulada no caminho com 
+limitação do comprimento do caminho.
+
+
+\begin{table}[ht!]
+  \centering
+  \begin{tabular}{|c|c|c|c|c|c|c|c|}
+    \hline
+    & Número de Vertices & Número de Arcos \\
+    \hline
+    Austria grande & 41600 & 165584 \\
+    Austria pequeno & 11648 & 46160 \\
+    Escócia grande & 63360 & 252432 \\
+    Escócia pequeno & 16384 & 65024 \\
+    \hline
+  \end{tabular}
+  \caption{Casos de teste do tipo \textbf{DEM}}
+  \label{tab:testes_dem}
+\end{table}
+
+
+
+\defi{ROAD}: Temos exemplo de grafos de ruas dos Estados Unidos 
+fornecidos por Mark Ziegelmann. Os arcos modelando ruas são novamente 
+bi-direcionados, e a estrutura nos dá $m$ aproximadamente $2.5n$. Nós 
+usamos um indice que avalia o congestionamento como função de custo.  
+Definimos os congestionamentos como inteiros entre $[0,100]$. Nossa 
+função custo é a distancia euclidiana entre os pontos finais dos arcos.  
+Estas distâncias são números de ponto flutuante no intervalo $[0,7]$.  
+Estamos interessados em minimizar o congestionamento sujeito a um 
+comprimento limitado.
+
+\begin{table}[ht!]
+  \centering
+  \begin{tabular}{|c|c|c|c|c|c|c|c|}
+    \hline
+    & Número de Vertices & Número de Arcos \\
+    \hline
+    Road 1 & 77059 & 171536 \\
+    Road 2 & 24086 & 50826 \\
+    \hline
+  \end{tabular}
+  \caption{Casos de teste do tipo \defi{ROAD}}
+  \label{tab:testes_road}
+\end{table}
+
+
+
+\defi{CURVE}: Nos problema de curvas de aproximação nós queremos 
+aproximar uma função linear por partes (definida no capítulo de 
+introdução) por uma nova curva com menos pontos de quebra. Isto é muito 
+importante  para problemas de compressão de dados em áreas como 
+cartografia, computação gráfica, e processamento de sinais.  
+
+Assumindo que os pontos de quebra na curva dada ocorrem na ordem $v_1, 
+v_2, \cdots, v_n$, nós usamos os pontos de quebra como vértices e 
+adicionamos arcos $v_iv_j$ para cada $i < j$. O custo dos arcos é 
+atribuído como um erro de aproximação que é introduzido por tomar o 
+atalho ao invés da curva original. 
+
+\begin{table}[ht!]
+  \centering
+  \begin{tabular}{|c|c|c|c|c|c|c|}
+    \hline
+    & Número de Vertices & Número de Arcos \\
+    \hline
+    Curva 1 & 10000 & 99945 \\
+    Curva 2 & 10000 & 199790 \\
+    Curva 3 & 1000 & 9945 \\
+    Curva 4 & 1000 & 19790 \\
+    Curva 5 & 5000 & 49945 \\
+    Curva 6 & 5000 & 99790 \\
+    \hline
+  \end{tabular}
+  \caption{Casos de teste do tipo \textbf{CURVE}}
+  \label{tab:testes_curve}
+\end{table}
+
+
+
+\defi{BC}: \citet{beasley:89} disponibilizaram $24$ casos de teste para 
+o problema. Os dados foram gerados de forma randômica e contêm até $500$ 
+vértices e $4800$ arcos. Para mais informações a respeito dos dados, 
+recomendamos a leitura do artigo original.
+
+\begin{table}[ht!]
+  \centering
+  \begin{tabular}{|c|c|c|c|c|c|c|c|}
+    \hline
+    & Número de Vértices & Número de Arcos \\
+    \hline
+    1 & 100 & 955 \\
+    2 & 100 & 955 \\
+    3 & 100 & 959 \\
+    4 & 100 & 959 \\
+    5 & 100 & 990 \\
+    6 & 100 & 990 \\
+    7 & 100 & 999 \\
+    8 & 100 & 999 \\
+    9 & 200 & 2040\\
+   10 & 200 & 2040\\
+   11 & 200 & 1971\\
+   12 & 200 & 1971\\
+   13 & 200 & 2080\\
+   14 & 200 & 2080\\
+   15 & 200 & 1960\\
+   16 & 200 & 1960\\
+   17 & 500 & 4858\\
+   18 & 500 & 4858\\
+   19 & 500 & 4978\\
+   20 & 500 & 4978\\
+   21 & 500 & 4847\\
+   22 & 500 & 4847\\
+   23 & 500 & 4868\\
+   24 & 500 & 4868\\
+    \hline
+  \end{tabular}
+  \caption{Casos de teste do tipo \citet{beasley:89},}   
+  \label{tab:testes_bc}
+\end{table}
+
+
+\section{Resultados}
+
+O que primeiro se percebe, é que os algoritmo não são nada triviais de 
+serem implementados. Existe uma grande quantidade de fatores relevantes 
+a implementação. Implementamos apenas a programação dinâmica primal, o 
+algoritmo de Yen para ranqueamento de caminhos e o algoritmo proposto 
+por Hander e Zang.
+
+Dentre todos os casos de teste que utilizamos, apenas os $24$ casos de 
+\citet{beasley:89} ofereceram boas comparações entre os algoritmos. Isto 
+aconteceu porque os demais casos de teste eram muito grandes, e o fato 
+de as nossas implementações não serem tão performáticas, nos 
+impossibilitou de usar tais casos de teste de uma melhor forma. Devido a 
+pouca memória da máquina usada para os testes, aconteciam travamentos 
+por exemplo.
+
+Logo abaixo vemos os resultados obtidos com a execução das nossas 
+implementações usando as entradas de \citet{beasley:89}. O algoritmo 
+proposto por Handler e Zang nos surpreendeu bastante com uma ótima 
+performance de tempo e com uso moderado de memória. 
+
+
+\begin{table}[ht!]
+  \centering
+  \begin{tabular}{|c|c|c|c|c|c|c|c|}
+    \hline
+    &PDP t(s)&PDP m(KB)&Yen t(s)&Yen m(KB)&
+    HZ t(s)&HZ m(KB)\\
+    \hline
+    1 & 0.06 & 23248 & 0.01 & 6336&0.00&7088\\
+    2 & 0.07 & 23248 & 0.02 & 6336&0.00&7072\\
+    3 & 0.06 & 23152 & 0.01 & 6288&0.00&7056\\
+    4 & 0.07 & 23152 & 0.02 & 6320&0.00&6656\\
+    5 & 0.07 & 23376 & 0.01 & 6352&0.01&7104\\
+    6 & 0.08 & 23344 & 0.01 & 6352&0.01&7104\\
+    7 & 0.06 & 23168 & 0.01 & 6320&0.00&7088\\
+    8 & 0.07 & 23168 & 0.01 & 6336&0.00&7088\\
+    9 & 0.06 & 23264 & 0.08 & 6544&0.01&8496\\
+   10 & 0.07 & 23264 & 0.08 & 6544&0.00&8512\\
+   11 & 0.07 & 23312 & 0.01 & 6496&0.00&7456\\
+   12 & 0.07 & 23296 & 0.02 & 6496&0.00&7456\\
+   13 & 0.07 & 23376 & 0.02 & 7456&0.01&8304\\
+   14 & 0.07 & 23360 & 0.02 & 7456&0.01&8320\\
+   15 & 0.06 & 23312 & 0.02 & 6528&0.00&7456\\
+   16 & 0.07 & 23296 & 0.02 & 6512&0.00&7456\\
+   17 & 0.16 & 25120 & 0.03 & 9536&0.02&13296\\
+   18 & 0.14 & 24928 & 0.04 & 9536&0.02&13296\\
+   19 & 0.07 & 23728 & 0.04 & 9584&0.02&13408\\
+   20 & 0.07 & 23696 & 0.05 & 9584&0.01&11296\\
+   21 & 0.11 & 24272 & 0.04 & 9520&0.02&13280\\
+   22 & 0.10 & 24208 & 0.04 & 9520&0.02&13280\\
+   23 & 0.07 & 23680 & 0.04 & 9520&0.01&13360\\
+   24 & 0.07 & 23696 & 0.04 & 9520&0.01&13344\\
+    \hline
+  \end{tabular}
+  \caption{Tempo de execução para os testes \defi{BC}} Usamos \defi{PDP}
+  para denotar programação dinâmica primal. Usamos \defi{HZ} para 
+  denotar o algoritmo de Handler e Zang. As colunas que possuem $t(s)$ 
+  representam o consumo de tempo em segundos. As colunas que possuem 
+  $m(KB)$ contem o consumo de mémoria em kilobytes.\label{tab:exec_bc}
+\end{table}
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[scale=1]{figuras/pdf/bc_tempo.pdf}
+  \includegraphics[scale=1]{figuras/pdf/bc_memoria.pdf}
+  \caption[Gráficos comparando consumo de memória e tempo dos algoritmo 
+  de programação dinâmica primal, algoritmo de Yen e algoritmo de 
+Handler e Zang.]{Gráficos comparando consumo de memória e tempo dos 
+algoritmo de programação dinâmica primal, algoritmo de Yen e algoritmo 
+de Handler e Zang.} \label{fig:gps}
+\end{figure}
+
+
+Dado estes resultados, nossos próximos passos em continuidade a este 
+trabalho será revisar todos os códigos dando uma maior atenção a 
+detalhes de implementação que diminuem constantes e consumo de memória.  
+Outra coisa essencial a se implementar não as reduções das instâncias 
+sempre que possível, não podemos esquecer o problema de caminhos mínimos 
+com recursos limitados é um problema não polinomial, e qualquer corte 
+que seja, pode trazer grandes benefícios a eficiência das 
+implementações.
+
+
+% Compressão de curvas
+%Como temos consumo de recursos idênticos e $k \leq n$, o problema não é 
+%mais $\mathcal{NP}$-difícil, tendo em vista que o algoritmo por 
+%programação dinâmicas tem complexidade de templo de $O(km) = O(n^3)$.
+

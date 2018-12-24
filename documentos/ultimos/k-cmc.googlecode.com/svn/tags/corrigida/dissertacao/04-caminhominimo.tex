@@ -1,0 +1,628 @@
+\chapter{Caminho mínimo}
+\label{cap:caminho}
+
+Estradas, linhas telefônicas, circuitos elétricos, sistemas de
+distribuição de água, sistemas ferroviários, redes de computadores
+são exemplos de redes físicas que são familiares a todos nós. Em
+cada uma dessas redes, freqüentemente desejamos enviar produtos,
+eletricidade, água, mensagens de um ponto a outro, tipicamente
+através de uma rota mais eficiente possível~\cite{AMOR95}.
+
+% O problema do caminho mínimo, em linhas gerais, consiste em, dado um conjunto
+% de pontos, um custo associado a cada ligação entre dois pontos adjacentes,
+% determinar o caminho de menor custo entre dois dados pontos, considerando a soma dos
+% custos associados às ligações percorridas.
+
+Considere uma versão do problema do caminho em que um motorista
+deseja saber qual o caminho mais curto de uma cidade $s$ a uma
+cidade $t$, dado um mapa de estradas com as distâncias entre cada
+par de cidades vizinhas marcadas. A figura~\ref{fig:excaminho1}
+ilustra essa versão do problema onde cada vértice representa uma
+cidade, cada arco de uma cidade $u$ para uma cidade $v$ representa
+uma estrada de mão única ligando a cidade $u$ à cidade $v$. Cada
+estrada $uv$ está rotulada com a distância de $u$ para $v$.
+\begin{figure}[htb]
+    \psfrag{s}{\small $s$}
+    \psfrag{t}{\small $t$}
+    \psfrag{a}{\small $a$}
+    \psfrag{b}{\small $b$}
+    \psfrag{c}{\small $c$}
+    \psfrag{d}{\small $d$}
+    \psfrag{1}{\footnotesize{$1$}}
+    \psfrag{3}{\footnotesize{$3$}}
+    \psfrag{4}{\footnotesize{$4$}}
+   \center{ \includegraphics[]{fig/excaminho1.eps}}
+   \caption[{\sf Uma instância do problema do caminho mínimo.}]
+   {Uma instância do problema do caminho mínimo.}
+   \label{fig:excaminho1}
+\end{figure}
+
+A solução para o problema da da figura~\ref{fig:excaminho1} é
+mostrada na figura~\ref{fig:excaminho2}.
+\begin{figure}[htb]
+    \psfrag{s}{\small $s$}
+    \psfrag{t}{\small $t$}
+    \psfrag{a}{\small $a$}
+    \psfrag{b}{\small $b$}
+    \psfrag{c}{\small $c$}
+    \psfrag{d}{\small $d$}
+    \psfrag{1}{\footnotesize{$1$}}
+    \psfrag{3}{\footnotesize{$3$}}
+    \psfrag{4}{\footnotesize{$4$}}
+   \center{ \includegraphics[]{fig/excaminho2.eps}}
+   \caption[{\sf Um caminho mínimo para a instância da figura \ref{fig:excaminho1}.}]
+   {Um caminho mínimo para a instância da figura \ref{fig:excaminho1}.}
+   \label{fig:excaminho2}
+\end{figure}
+
+%Outras situações práticas também podem ser modeladas como o problema do
+%caminho mínimo, como por exemplo, em redes de computadores, podemos ter diversos
+%equipamentos interligados por cabos com suas respectivas taxas de transmissão
+%de dados e o que se deseja é encontrar a rota de transmissão mais rápida entre
+%dois pontos da rede.
+
+\noindent
+\textbf{Ingredientes primal-duais:} o problema é de programação inteira,
+problema dual (diferença de potencial máxima), algoritmo exato, algoritmo
+dual-ascendente, algoritmo de Dijkstra não mantém viabilidade dual.
+
+\section{Problema}
+
+Passamos a descrever o problema mais precisamente.
+
+Seja $(V,A)$ um grafo dirigido e seja $c$ uma função `custo' de $A$
+em $\NonnegInt$. Dizemos que $c[uv]$ é o custo associado ao arco
+$uv$ em $A$. O custo de um caminho $P$ em $(V,A)$ denotado por
+$c(P)$ é a soma dos custos de seus arcos. Um caminho $P^*$ tem
+custo mínimo ou é mínimo se $c(P) \geq c(P^*)$ para todo caminho
+$P$ que tenha o mesmo início e o mesmo término de $P^*$.
+
+O \defi{problema do caminho mínimo}\index{problema!do caminho mínimo} de $s$ a
+$t$ \textit{(single pair shortest path problem)}, denotado por \MinC, consiste no seguinte:
+\begin{quote}
+  \textbf{Problema \MinC} $(V, A, c, s, t)$: Dados um grafo dirigido $(V,A)$,
+  um custo $c[uv]$ em $\NonnegInt$ para cada $uv$ em $A$ e um par de vértices
+  $s,t$, encontrar um caminho de $s$ a $t$ de custo mínimo.
+\end{quote}
+
+Uma função \defi{potencial}\index{função potencial} é uma função
+de $V$ em $\Int$. Dizemos que uma função potencial $y$ é viável se
+$c[uv] \geq y[v] - y[u]$, para cada $uv$ em $A$.
+
+O lema da dualidade aplicado ao \MinC\ é o seguinte.
+
+\begin{lema}{lema da dualidade} \label{lema:dualidade}
+ Seja $(V,A)$ um grafo dirigido e seja $c$ uma função `custo' de $A$
+em $\NonnegInt$. Para todo caminho $P$ em $(V,A)$ e toda função potencial
+viável~$y$ de~$V$ em $\Int$, vale que
+\[
+y[t] - y[s] \leq c(P),
+\]
+ onde $s$ e $t$ são o início e término de P, respectivamente.
+\fimprova
+\end{lema}
+
+\section{Relaxação linear e problemas restritos}
+
+O seguinte programa linear, que chamamos de primal, é uma
+relaxação do pro\-ble\-ma do caminho mínimo: encontrar um vetor
+$x$ indexado por $A$ que
+\begin{eqnarray*}
+\begin{array}{rrlrl}
+\mbox{minimize} & cx \hfill\\
+\mbox{sob as restrições} & x(\sai(s)) - x(\entra(s)) \hfill & = & 1 \\
+& x(\sai(t)) -  x(\entra(t)) \hfill & = & -1 \\
+& x(\sai(v)) - x(\entra(v)) \hfill & = & 0 & \mbox{para cada $v$
+em $V \setminus \{s,t\}$} \\
+& x[uv] & \geq & 0 & \mbox{para cada $uv$ em $A$.}
+\end{array}
+\end{eqnarray*}
+
+De fato, cada vetor característico de um caminho se $s$ a $t$ é
+uma solução viável do problema primal.
+
+O respectivo problema dual consiste em encontrar um vetor $y$
+indexado por $V$ que
+\begin{eqnarray*}
+\begin{array}{rllll}
+\mbox{maximize} & y[t]-y[s] \\
+\mbox{sob as restrições} & y[v] -  y[u] & \leq & c[uv] &
+\mbox{para cada $uv$ em $A$.}
+\end{array}
+\end{eqnarray*}
+
+Seja $y$ uma função potencial viável. Seja $J(y) := \{uv \in A \tq
+y[v]- y[u] = c[uv]\}$. O problema restrito primal consiste em:
+encontrar um vetor $x$ indexado por $A$ tal que:
+\begin{eqnarray}
+\begin{array}{rlrl}
+\label{primal:MinC}
+x(\sai(s)) -  x(\entra(s)) & = & 1 \\
+x(\sai(t)) -  x(\entra(t)) & = & -1 \\
+x(\sai(v)) - x(\entra(v)) & = & 0 & \mbox{para cada $v$ em $V \setminus \{s,t\}$} \\
+x[uv] & \geq & 0 & \mbox{para cada $uv$ em $J(y)$} \\
+x[uv] & = & 0 & \mbox{para cada $uv$ em $A \setminus J(y)$.}
+\end{array}
+\end{eqnarray}
+
+Não é difícil ver que resolver o problema restrito primal é equivalente a
+encontrar um caminho $P$ de $s$ a $t$ que utiliza somente arcos em $J(y)$.
+Considere um tal caminho $P$ e seja $x$ um vetor indexado por $A$ tal que
+$x[uv] = 1$ se $uv$ está em $P$ e $x[uv] = 0$ se $uv$ não está em $P$. Pode-se
+verificar que o vetor $x$ é uma solução do problema restrito primal.
+
+O problema restrito dual consiste em: encontrar um vetor $\bar{y}$, tal
+que
+\begin{eqnarray*}
+\begin{array}{rlll}
+\bar{y}[t] -  \bar{y}[s]& > & 0 \\
+\bar{y}[v] -  \bar{y}[u]& \leq & 0 & \mbox{para cada $uv$ em
+$J(y)$.}
+\end{array}
+\end{eqnarray*}
+
+Se existe um caminho $P$ de $s$ a $t$ que utiliza somente arcos em $J(y)$, o
+problema restrito dual é inviável. Suponha que não existe um tal caminho e
+seja $S$ uma parte de $V$ que contém $s$ e os términos de todos os caminhos
+que começam em $s$ e utilizam somente arcos em $J(y)$. O vetor característico
+$\chi^{V \setminus S}$ é solução do problema restrito dual. Defina $y' = y +
+\theta\chi^{V \setminus S}$, onde $\theta$ é o maior valor tal que $y'$ é dual
+viável. Note que o número $\theta = \mbox{min }\{ c[uv] - y[v] + y[u] : u
+\mbox{ em } S \mbox{ e } v \mbox{ em } V \setminus S\}$ é positivo.
+
+Portanto, os problemas restritos primal e dual podem ser
+resolvidos simultaneamente por um algoritmo que procura um caminho
+de $s$ a $t$ em $(V, J(y))$.
+
+\section{Algoritmo}
+
+Utilizando-nos do método primal-dual podemos descrever um
+algoritmo puramente combinatório para o problema do caminho mínimo
+de $s$ a $t$. Na descrição do algoritmo supomos que existe um
+caminho de $s$ a $t$.
+\begin{quote}
+{\bf Algoritmo \MinC -D}. Recebe um grafo dirigido $(V,A)$, uma função
+custo $c$ de $A$ em $\NonnegInt$ e um par $s,t$ de vértices e
+devolve um caminho $P$ de $s$ a $t$ e uma função potencial $y$,
+tal que $c(P) = y[t] - y[s]$.
+\end{quote}
+
+O algoritmo é iterativo e no início de cada iteração temos uma
+função potencial viável $y$, uma parte $J$ de $A$ e uma parte $S$ de $V$.
+
+No início da primeira iteração temos $y = 0$, $J = \{uv \in A :
+c[uv] = 0 \}$ e $S = \{s\}$.
+
+Cada iteração consiste no seguinte:
+\begin{description}
+\item[Caso 1:] $t$ está em $S$.
+
+  Seja $P$ um caminho de $s$ a $t$ em $(V, J)$.
+
+  Devolva $P,y$ e pare.
+
+\item[Caso 2:] $t$ não está em $S$.
+
+  Seja $\theta$ o maior valor, tal que $y':= y + \theta \chi^{V \setminus S}$
+  é dual viável.
+
+  Seja $J' := \{ uv \in A : y'[v] - y'[u] = c[uv]\}$.
+
+  Seja $S'$ o conjunto dos vértices acessíveis a partir de $s$ em $(V, J)$.
+
+  Comece nova iteração com $y'$, $J'$ e $S'$ nos papéis de $y$, $J$ e $S$,
+  respectivamente.  \hspace*{\fill}\rule{0.15cm}{0.3cm}
+\end{description}
+
+Na figura~\ref{fig:excaminho4} vemos o algoritmo \MinC -D em execução.
+
+\begin{figure}[htbp]
+ \begin{center}
+ \psfrag{s}{\small $s$}
+    \psfrag{t}{\small $t$}
+    \psfrag{a}{\small $a$}
+    \psfrag{b}{\small $b$}
+    \psfrag{c}{\small $c$}
+    \psfrag{d}{\small $d$}
+    \psfrag{(a)}{(a)}
+    \psfrag{(b)}{(b)}
+    \psfrag{(c)}{(c)}
+    \psfrag{(d)}{(d)}
+    \psfrag{(e)}{(e)}
+    \psfrag{(f)}{(f)}
+    \psfrag{(g)}{(g)}
+    \psfrag{(h)}{(h)}
+    \psfrag{s}{\small{$s$}}
+    \psfrag{a}{\small{$a$}}
+    \psfrag{b}{\small{$b$}}
+    \psfrag{c}{\small{$c$}}
+    \psfrag{d}{\small{$d$}}
+    \psfrag{t}{\small{$t$}}
+    \psfrag{0}{\scriptsize{$0$}}
+    \psfrag{1}{\scriptsize{$1$}}
+    \psfrag{3}{\scriptsize{$3$}}
+    \psfrag{4}{\scriptsize{$4$}}
+    \psfrag{5}{\scriptsize{$5$}}
+    \psfrag{7}{\scriptsize{$7$}}
+   \includegraphics{fig/excaminho4.eps}
+  \caption[{\sf Simulação do algoritmo \MinC~-D}]
+  {\label{fig:excaminho4} Execução do algoritmo \MinC~-D. O vértice inicial é
+    $s$ e o vértice final é $t$. (a) exibe um grafo com custo nos arcos.  (b)
+    mostra a situação no início da primeira iteração. (c)-(f) exibem a
+    situação após cada iteração do caso 2. Os potenciais são os números
+    próximos a cada vértice. Os vértices cinzas são os de $S$, e os arcos
+    tracejados são os arcos de $J$.  Os valores finais da função potencial
+    $y$, e o caminho $P$ são mostrados em (g).}
+ \end{center}
+ \end{figure}
+
+O algoritmo \MinC -D pode ser adaptado para fornecer caminhos mínimos de $s$ a
+cada um dos demais vértices do grafo. De fato, supondo todos os vértices
+acessíveis a partir de $s$, basta iterarmo-no até que $S = V$.
+
+\section{Invariantes}
+
+Da maneira como está descrito o algoritmo \MinC -D é uma realização do método
+dual, já que a solução do problema primal é determinada completamente na
+última iteração. Esta descrição pode ser facilmente transformada em um
+algoritmo primal-dual 'puro'. Para isto basta ao longo das iterações do
+algoritmo manter uma arborescência $(V,J)$ com raiz $s$ e contendo todos os
+vértices acessíveis a partir de $s$. Um grafo $(V,J)$ é uma
+\defi{arborescência}\index{arborescencia@arborescência} se todo vértice de $V$
+exceto a raiz, é ponta final de exatamente um arco de $J$.
+
+No início de cada iteração valem as seguintes propriedades:
+
+\begin{itemize}
+\item[$\iten{d1}$] (viabilidade) Para cada vértice $u$ e $v$ em $V$ vale que
+  $c[uv] \geq y[v] - y[u]$.
+
+\item[$\iten{d2}$] (folgas complementares) Para cada arco $uv$ em $J$ vale
+  que $c[uv] = y[v] - y[u]$.
+
+\item[$\iten{d3}$] Se $y$ é dual viável e $P$ é um caminho de $u$ a $v$ em
+  $(V, A)$ então $c[uv] \geq y[v] - y[u]$.
+
+\item[$\iten{d4}$] Para cada vértice $v$ em $S$ tem-se que qualquer caminho
+de $s$ a $V$ em $(V,J)$ é um caminho mínimo.
+
+\end{itemize}
+
+\begin{provainv}{\iten{d4}}
+Seja $v$ um vértice em $S$ e $$P = \seq{s=v_0, \alpha_1,v_1,
+\ldots, \alpha_k, v_k = v}$$ um caminho de $s$ a $v$ em $(V,J)$.
+Um tal caminho existe pela definição de $S'$. Temos que
+
+\begin{subequations}
+    \begin{align}
+      c(P)  & = \sum^{k}_{i = 1} c(\alpha_i)\nonumber\\
+            & = \sum^{k}_{i = 1} (y[v_i] - y[v_{i-1}])\label{lin1}\\
+            & = y[v_k] - y[v_0]\nonumber\\
+            & =  y[v] - y[s]\nonumber
+    \end{align}
+  \end{subequations}
+  onde a igualdade \eqref{lin1} segue do invariante \iten{d2} (ou da definição de
+  $J'$). Portanto do corolário X.X tem-se que $P$ é um caminho
+  mínimo de $s$ a $v$.
+
+\end{provainv}
+
+
+% logo, ao final do algoritmo $y$ é uma
+% solução viável do problema primal. Temos ainda que para cada $uv$
+% em $J$ vale que $y[v] - y[u] = c[uv]$ e portanto $c(P) = y[t] -
+% y[s]$.
+
+
+\section{Correção}
+
+O algoritmo realiza no máximo $|V|$ iterações: $|V|-1$ ocorrências do caso 2 e
+1 ocorrência do caso 1. Cada iteração consome uma quantidade de tempo
+proporcional a $|V| + |E|$. Portanto, o consumo total de tempo do algoritmo é
+$O(|V|^2 + |V||E|)$.
+
+\begin{teorema}{da correção}
+\label{teo:correcao} O algoritmo \MinC -D devolve um caminho mínimo de $s$ a
+$t$ em tempo polinomial.
+\end{teorema}
+\begin{prova}
+O algoritmo pára em no máximo |V| - 1 iterações, já que ao final de cada
+iteração $|S'| > |S|$. Quando o algoritmo pára tem-se que $t$ está em $S$ e
+portanto, pelo invariante \iten{d3}, o caminho $P$ devolvido pelo algoritmo é
+um caminho mínimo $P$ de $s$ a $t$.
+\end{prova}
+
+
+O lema da dualidade aplicado ao problema do caminho mínimo de $s$
+a $t$ nos diz que se $P$ é um caminho de $s$ a $t$ e $y$ é uma
+função potencial viável, então $c(P) \geq y[t] - y[s]$. Assim,
+como o algoritmo devolve um caminho $P$ e uma função potencial
+viável $y$ tal que $c(P) \geq y[t] - y[s]$, então $P$ é um caminho
+mínimo e $y$ é uma função potencial que maximiza $y[t] - y[s]$. O
+seguinte teorema é uma conseqüência da correção do algoritmo.
+
+\begin{teorema}{do caminho mínimo e potencial máximo}
+\label{teo:otimalidade} O custo mínimo de um caminho de $s$ a $t$
+é igual ao máximo valor de $y[t] - y[s]$, onde $y$ é uma função
+potencial viável. \hspace*{\fill}\rule{0.15cm}{0.3cm}
+\end{teorema}
+
+\section{Algoritmo de Dijkstra}
+
+O algoritmo mais conhecido pra solucionar o problema \MinC\ é o algoritmo de
+Dijkstra. Este algoritmo, até onde vemos, não se encaixa no método primal-dual
+como descrito. O algoritmo de Dijkstra mantém as condições de folgas
+complementares, mas não mantém viabilidade dual.
+
+A idéia geral do algoritmo de Dijkstra para resolver o problema é a seguinte.
+O algoritmo é iterativo.  No início de cada iteração tem-se dois conjuntos
+disjuntos de vértices $S$ e $\L$. O algoritmo conhece caminhos de $s$ a cada
+vértice em $S \cup \L$ e para os vértices em $S$ o algoritmo sabe que o
+caminho conhecido tem comprimento mínimo. Cada iteração consiste em remover um
+vértice apropriado de $\L$, incluí-lo em $S$ e examiná-lo, acrescentando,
+eventualmente, novos vértices a~$\L$.
+
+A descrição abaixo segue de perto a feita por
+Feofiloff~\cite{Feo97}, assumindo que existe um caminho de $s$ a
+$t$.
+
+Para cada vértice $u$, acessível a partir do vértice $s$, o
+algoritmo de Dijkstra encontra um caminho de $s$ a $u$ que tem
+comprimento mínimo.  Da condição de otimalidade
+(teorema~\ref{teo:otimalidade}) tem-se que, para provar que um
+caminho $P$ de um vértice $s$ a um vértice $t$ tem comprimento
+mínimo, basta exibir uma função potencial viável $\fp$ tal que
+$c(P) = \fp[t] - \fp[s]$.
+
+\begin{quote}
+  \textbf{Algoritmo de Dijkstra}.  Recebe um grafo $(V,A)$, uma função
+  comprimento $c$ de $A$ em $\NonnegInt$ e um par de vértices $s$ e $t$ e
+  devolve função potencial $\fp$ que respeita $c$ e um caminho $P$ de $s$
+  a $t$ que tem comprimento $\fp[t] - \fp[s]$.
+\end{quote}
+
+Cada iteração começa com uma função potencial $\fp{}$, partes $S,
+\L$ e $U$ de $V$ e uma parte $J$ de $E$.
+
+No início da primeira iteração $\fp[s] = 0$ e $\fp[v] = nC + 1$
+para cada vértice $v$ distinto de $s$, $S = \emptyset$, $\L =
+\{s\}$, $U = V \setminus \{s\}$ e $J = \emptyset$, onde $C$ é o
+maior custo de um arco.
+
+Cada iteração consiste no seguinte.
+
+\begin{description}
+\item[Caso 1:] $t$ está em $S$.
+
+Seja $P$ um caminho de $s$ a $t$ em $(V, J)$.
+
+Devolva $y$ e $P$ e pare.
+
+\item[Caso 2:] $t$ não está em $S$.
+
+  Escolha $u$ em $\L$ tal que $\fp[u]$ seja mínimo.
+
+  $S' := S \cup \{u\}$.
+
+  $\L' := \L \setminus \{u\}$.
+
+  $U'  := U$.
+
+  Para cada $v$ em $V$ faça
+
+  \x $\fp'[v] := \fp[v]$.
+
+  \x $J' := J$.
+
+  Para cada arco $uv$ faça
+
+  \x Se\ $\fp'[v] > \fp[u] + c[uv]$ então
+
+  \xx $\fp'[v] := \fp[u] + c[uv]$.
+
+  \xx $J' := (J'\setminus \{wv \tq wv \in J\}) \cup \{uv\}$.
+
+  \xx $\L':= \L' \cup \{v\} $.
+
+  \xx $U' := U' \setminus \{v\}$.
+
+Comece nova iteração com $\fp'$, $J'$, $S'$, $\L'$ e $U'$ nos papéis de
+$\fp{}$, $J$, $S$, $\L$ e $U$.
+\hspace*{\fill}\rule{0.15cm}{0.3cm}
+\end{description}
+
+Nas interpretações intuitivas do algoritmo de Dijkstra é comum dizer que $\fp$
+guarda \defi{distâncias tentativas}\index{distancia@distância tentativa}, que
+$S$ é o conjunto dos vértices
+\defi{examinados},\index{vertice@vértice!examinado} $\L$ é o conjunto dos
+vértices \defi{visitados}\index{vertice@vértice!visitado} e que $U$ é o
+conjunto dos vértices \defi{adormecidos}.\index{vertice@vértice!adormecido} A
+figura~\ref{fig:sim_djk} ilustra o algoritmo de Dijkstra em ação.
+\begin{figure}[htbp]
+ \begin{center}
+ \psfrag{s}{\small $s$}
+    \psfrag{t}{\small $t$}
+    \psfrag{a}{\small $a$}
+    \psfrag{b}{\small $b$}
+    \psfrag{c}{\small $c$}
+    \psfrag{d}{\small $d$}
+
+    \psfrag{(a)}{(a)}
+    \psfrag{(b)}{(b)}
+    \psfrag{(c)}{(c)}
+    \psfrag{(d)}{(d)}
+    \psfrag{(e)}{(e)}
+    \psfrag{(f)}{(f)}
+    \psfrag{(g)}{(g)}
+    \psfrag{(h)}{(h)}
+    \psfrag{s}{\small{$s$}}
+    \psfrag{a}{\small{$a$}}
+    \psfrag{b}{\small{$b$}}
+    \psfrag{c}{\small{$c$}}
+    \psfrag{d}{\small{$d$}}
+    \psfrag{t}{\small{$t$}}
+     \psfrag{0}{\scriptsize{$0$}}
+     \psfrag{1}{\scriptsize{$1$}}
+     \psfrag{2}{\scriptsize{$2$}}
+     \psfrag{3}{\scriptsize{$3$}}
+     \psfrag{4}{\scriptsize{$4$}}
+     \psfrag{5}{\scriptsize{$5$}}
+     \psfrag{6}{\scriptsize{$6$}}
+     \psfrag{7}{\scriptsize{$7$}}
+     \psfrag{25}{\scriptsize{$25$}}
+   \includegraphics{fig/excaminho3.eps}
+%    \includegraphics{fig/dijk_simulacao1.eps}
+  \caption[{\sf Simulação do algoritmo de Dijkstra}]
+  {\label{fig:sim_djk} Execução do algoritmo de Dijkstra. O vértice inicial é
+    $s$. (a) exibe um grafo com comprimento nos arcos.  (b) mostra a situação
+    no início da primeira iteração. Os arcos mais escuros são arcos de $J$. Os
+    potenciais são os números próximos a cada vértice.  Os
+    vértices cinza-escuros são os de $S$, os vértices cinza-claros são os de
+    $\L$, e os vértices brancos estão em $U$.  (c)-(g) exibem a situação após
+    cada iteração do caso 2.  Os valores finais da função potencial $\fp$, e
+    a parte $J$, são mostrados em (h).}
+ \end{center}
+ \end{figure}
+
+\subsection*{Invariantes}
+\label{sec:dijkstra-invariantes}
+
+A correção do algoritmo de Dijkstra baseia-se nas demonstrações da validade de
+uma série de invariantes, enunciados a seguir. Estes invariantes são
+afirmações envolvendo os dados do problema $V,A,c$ e $s$ e os objetos $\fp,
+\pred, S, \L$ e $U$. As afirmações são válidas no início de cada iteração do
+algoritmo e dizem como estes objetos se relacionam entre si e com os dados do
+problema.
+
+
+Os invariantes estão agrupados conforme os objetos envolvidos.
+
+\paragraph{Estrutura do grafo.} Os dois invariantes a seguir envolvem somente
+as partes $S, \L$ e $U$.
+
+\begin{enumerate}
+%%% Estrutura do grafo em relação à partição
+\item[(dk1)] (partição) As partes $S, \L$ e $U$ formam uma partição de $V$
+  \eqref{fig:djkinv1}.
+
+\begin{figure}[htb]
+ \begin{center}
+    \psfrag{S}{{$S$}}
+    \psfrag{Q}{{$Q$}}
+    \psfrag{U}{{$U$}}
+   \includegraphics{fig/djkinv1.eps}
+  \caption[{\sf Estrutura do grafo em relação à partição $S,\L$ e $U$ de $V$}]
+  {\label{fig:djkinv1} Estrutura do grafo em relação à partição $S,\L$ e
+    $U$ de $V$.}
+ \end{center}
+ \end{figure}
+
+\item[(dk2)] ($A(S,U) = \emptyset$) não existe arco $uv$ com $u$ em $S$ e $v$
+  em $U$ \eqref{fig:djkinv2}.
+\end{enumerate}
+
+
+%%% Figura representando os invariantes.
+\begin{figure}[htb]
+ \begin{center}
+    \psfrag{S}{{$S$}}
+    \psfrag{Q}{{$\L$}}
+    \psfrag{U}{{$U$}}
+    \psfrag{y(u)}{{$y[u]$}}
+    \psfrag{y(v)}{{$y[v]$}}
+    \psfrag{y(w)=nC+1}{{$y[w] = nC+1$}}
+    \psfrag{<=}{{$\leq$}}
+    \psfrag{<}{{$<$}}
+    \psfrag{u}{{$u$}}
+    \psfrag{v}{{$v$}}
+    \psfrag{w}{{$w$}}
+    \psfrag{(a)}{(a)}
+    \psfrag{(b)}{(b)}
+    \psfrag{(c)}{(c)}
+    \psfrag{(d)}{(d)}
+  \includegraphics{fig/djkinv2.eps}
+  \caption[{\sf Relação de ordem envolvendo os potenciais dos vértices e as
+    partes $S$, $Q$ e $U$}]
+  {\label{fig:djkinv2} Relação de ordem
+    envolvendo os potenciais dos vértices e as partes $S$, $Q$ e $U$.}
+ \end{center}
+ \end{figure}
+
+\paragraph{Função potencial e $\{S,\L,U\}$.}
+O próximo invariante reflete o fato do algoritmo examinar os vértices em ordem
+não-decrescente da distância a partir de $s$ (figura \ref{fig:djkinv3}).
+\begin{enumerate}
+\item[$\iten{dk3}$] (monotonicidade) para cada $u$ em $S$, $v$ em $\L$ e $w$
+  em $U$ vale que\footnote{A expressão~``$\fp[u] \leq \fp[v] < \fp(w) = nC +
+    1$''~deve ser entendida como uma abreviação. Se algum dos conjuntos
+    envolvidos é vazio, considere as desigualdades que fazem sentido.}
+\[
+\fp[u] \leq \fp[v] < \fp(w) = nC + 1.
+\]
+\end{enumerate}
+\begin{figure}[htb]
+ \begin{center}
+    \psfrag{S}{{$S$}}
+    \psfrag{Q}{{$\L$}}
+    \psfrag{U}{{$U$}}
+  \includegraphics{fig/djkinv3.eps}
+  \caption[{\sf Viabilidade da função potencial.}]
+  {\label{fig:djkinv3} Viabilidade da função potencial. Os arcos
+    ``pontilhados'' são os que desrespeitam $c$, os com o símbolo ``?'' ao
+    lado são os que podem ou não respeitar $c$, e o arcos ``cheios'' são os
+    que respeitam $c$.}
+ \end{center}
+ \end{figure}
+
+\subsection*{Comentários}
+
+Combinatória poliédrica trata das aplicações de métodos de
+programação linear, especialmente dualidade, à resolução de
+problemas em otimização combinatória.
+
+O problema do caminho mínimo $\MinC$ não é um problema de programação
+linear. O programa linear \eqref{primal:MinC} é uma relaxação do $\MinC$. Na
+verdade, o problema $\MinC$ é equivalente a resolver o seguinte problema de
+programação inteira:
+
+\begin{eqnarray}
+\begin{array}{rlrl}
+\label{primal:IntMinC}
+x(\sai(s)) -  x(\entra(s)) & = & 1 \\
+x(\sai(t)) -  x(\entra(t)) & = & -1 \\
+x(\sai(v)) - x(\entra(v)) & = & 0 & \mbox{para cada $v$ em $V \setminus \{s,t\}$} \\
+x[uv] & \geq & 0 & \mbox{para cada $uv$ em $J(y)$} \\
+x[uv] & \in  & \{0,1\} & \mbox{para cada $uv$ em $A \setminus J(y)$.}
+\end{array}
+\end{eqnarray}
+
+Apesar do $\MinC$ não ser um legítimo problema de programação linear, o método
+primal-dual tem sucesso na missão de resolver o problema. Observando o
+algoritmo \MinC\-D mais atentamente nota-se que o valor $\theta$ computado em
+cada iteração é inteiro. Isto tem como conseqüência que os vetores duais
+viáveis produzidos durante a execução tem todos os seus componentes em
+$\Int$. Portanto, o próprio vetor $y$ devolvido pelo algoritmo, tem
+componentes em $\Int$. Muitas vezes, quando o método primal-dual é aplicado a
+um problema de otimização combinatória vetores primais viáveis ou duais
+viáveis correspondem a objetos combinatórios como caminhos ou cortes
+(capítulo~\ref{cap:fluxo}).
+
+O lema da dualidade muitas vezes é escrito através da abreviação
+\begin{equation}
+\label{PLabrev}
+\textrm{min}\{cx : Ax \geq b\} \geq \textrm{min}\{yb : yA = c, y \geq 0\}
+\end{equation}
+
+Vários algoritmos do tipo primal-dual tem como conseqüência que a desigualdade
+acima é, para muitos problemas de interesse, uma igualdade. A correção desses
+algoritmos tem, portanto, como corolários famosos, teoremas do tipo min-max.
+Motivados por esses fatos, Edmonds e Giles~\cite{EG77} definiram os chamados
+sistemas totalmente duais integrais. Um sistema $Ax \geq b$ é dito
+\defi{totalmente dual integral}\index{sistema totalmente dual integral}
+(TDI~-~\textit{totally dual integral}) se o mínimo em \eqref{PLabrev} é obtido
+por um vetor dual viável $y$ inteiro, para cada vetor $c$ inteiro, se o máximo
+existe. Uma característica interessante é que se $Ax \geq b$ é TDI, então,
+$\textrm{min}\{cx : Ax \geq b\}$ tem como solução um vetor $x$ inteiro.
+Portanto, para tais sistemas, as restrições de integralidade como $x[uv] \in
+\{0,1\}$ em \eqref{primal:IntMinC} podem ser substituídas por $x[uv] \geq 0$.
+Este é o fenômeno que ocorreu nesse capítulo.

@@ -1,0 +1,46 @@
+\section{Ranqueamento de caminhos}
+\label{sec:ksp}
+
+O problema de ranqueamento do caminhos, mais conhecido como o problema 
+dos $k$ menores caminhos ($\textsc{KSP}$ -- \emph{$k$ shortest path}), 
+consiste me determinar o $k$-ésimo menor caminho em um grafo. Este 
+problema foi estudado primeiramente por \citet{hoffman:xx}. Desde então, 
+o problema tem sido massivamente estudado e várias soluções foram 
+propostas.
+
+Muitos desses métodos tem complexidade de tempo polinomial para um $k$ 
+fixo. \citet{eppstein:xx} descreveu um algoritmo como complexidade $O(m 
++ n \lg{n} + k)$ que resolve o problema quando ciclos são permitidos.  
+Podemos usar o $\textsc{KSP}$ para resolver o \rcsp.  Neste caso, 
+ignoramos o $k$ e enumeramos os caminhos em ordem não decrescente de 
+custo até encontrar um caminho viável, tal abordagem resulta em um 
+algoritmo de complexidade exponencial para o \rcsp.
+
+O uso do \textsc{KSP} não é recomendado para ser usado diretamente para 
+resolver o \rcsp. Porem, ele tem sido usado com sucesso como 
+sub-problema para métodos mais sofisticados coma a relaxação lagrangiana 
+proposta por \citet{zang:80}. Uma extensa bibliografia para o problema 
+dos $k$ menores caminhos pode ser encontrado em \citet{eppstein:xx};
+
+%Path ranking, often known as the K shortest path problem, seeks the K 
+%(unconstrained)
+%shortest paths in a graph. This problem was first studied by Hoffman and 
+%Pavley [67]. Since
+%then, several methods have been proposed (see for example [37, 73, 78, 
+%91, 114]). Most of
+%the methods have polynomial time complexity for fixed K. Eppstein [37] 
+%describes an
+%algorithm with complexity O(|A| + |V | log |V | + K) that solves the 
+%problem when cycles are
+%allowed. When used to solve the RCSPP, however, K is ignored and paths 
+%are enumerated
+%in non-decreasing order of cost until the first weight feasible path is 
+%found, resulting in
+%an exponential time algorithm. While this discourages the use of path 
+%ranking to solve
+%the RCSPP directly, it has been used successfully as a subroutine in 
+%more complicated
+%approaches [61, 92]. An extensive bibliography for the K shortest path 
+%problem can be
+%found on the website of Eppstein [38].
+

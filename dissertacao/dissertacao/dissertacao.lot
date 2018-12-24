@@ -1,0 +1,22 @@
+\select@language {brazil}
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {2.1}{\ignorespaces Complexidade do algoritmo de Dijkstra de acordo com as filas de prioridade.\relax }}{23}{table.caption.24}
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {3.1}{\ignorespaces Principais algoritmos dispon\IeC {\'\i }veis para o \textsc {RCSP}.\relax }}{28}{table.caption.26}
+\contentsline {table}{\numberline {3.2}{\ignorespaces Tabela exemplo da programa\c c\~ao din\^amica primal}}{35}{table.caption.29}
+\contentsline {table}{\numberline {3.3}{\ignorespaces Tabela exemplo da programa\c c\~ao din\^amica dual}}{39}{table.caption.30}
+\contentsline {table}{\numberline {3.4}{\ignorespaces Tabela exemplo de compacta\c c\~ao da tabela por programa\c c\~ao din\^amica primal}}{39}{table.caption.32}
+\contentsline {table}{\numberline {3.5}{\ignorespaces Tabela exemplo de compacta\c c\~ao da tabela por programa\c c\~ao din\^amica primal}}{40}{table.caption.33}
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {4.1}{\ignorespaces Casos de teste do tipo \textbf {DEM}\relax }}{60}{table.caption.46}
+\contentsline {table}{\numberline {4.2}{\ignorespaces Casos de teste do tipo \textbf {ROAD}\relax }}{60}{table.caption.47}
+\contentsline {table}{\numberline {4.3}{\ignorespaces Casos de teste do tipo \textbf {CURVE}\relax }}{60}{table.caption.48}
+\contentsline {table}{\numberline {4.4}{\ignorespaces Casos de teste do tipo \citet {beasley:89},\relax }}{61}{table.caption.49}
+\contentsline {table}{\numberline {4.5}{\ignorespaces Tempo de execu\c c\~ao para os testes \textbf {BC}\relax }}{62}{table.caption.50}
+\contentsline {table}{\numberline {4.6}{\ignorespaces Resultados dos casos de teste do tipo \textbf {DEM}\relax }}{62}{table.caption.52}
+\contentsline {table}{\numberline {4.7}{\ignorespaces Resultados dos casos de teste do tipo \textbf {ROAD}\relax }}{63}{table.caption.53}
+\contentsline {table}{\numberline {4.8}{\ignorespaces Resultados dos casos de teste do tipo \textbf {CURVE}\relax }}{63}{table.caption.54}
+\contentsfinish 

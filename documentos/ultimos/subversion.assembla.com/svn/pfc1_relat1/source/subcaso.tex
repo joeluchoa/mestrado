@@ -1,0 +1,55 @@
+%===============================
+% Sub-Caso do Problema Geral
+%===============================
+O Problema do Caminho Mínimo com Restrição de Subcaminhos foi definido formalmente na Seção \ref{sppfp}. Este Capítulo aborda o subcaso em que todos os caminhos proibidos possuem comprimento igual a dois, levando em consideração o número de arcos.
+
+A escolha de caminhos proibidos de tamanho igual a dois foi motivada por aplicações na área de modelagem e simulação do tráfego urbano, uma vez que há conversões proibidas que impossibilitam a utilização de uma rota específica. A proibição de uma conversão depende do trecho de via (Rua, Avenida etc) em que a pessoa se encontra, do sentido de sua direção e de qual trecho de via pretente tomar. Como exemplo, suponha que um usuário pretenda seguir o caminho marcado pela seta na figura que ilustra uma parte do mapa do centro da cidade de Goiânia (Figura \ref{centrogyn}). Partindo da Rua Sete, no trecho entre a Rua Quatro e a Avenida Anhanguera, sentido Avenida Anhanguera, o usuário pode fazer a conversão à sua direita pois, segundo o trecho de rua e o sentido especificados, tal conversão é válida (conversão marcada com o número 1 no mapa). Estando na Avenida Anhanguera, trecho entre Rua Sete e Avenida Goiás, sentido Avenida Goiás, o usuário faz uma conversão à sua esquerda (conversão de número 2 no mapa). Mas, apesar de estar no sentido correto do fluxo de veículos da Avenida Goiás, esta última conversão é proibida, não sendo permitido ao usuário realizá-la. Tal conversão é uma instância dos caminhos proibidos que ocorrem no trânsito urbano e que desejamos tratar com os resultados deste projeto.
+
+Dois trechos consecutivos de via devem ser levados em consideração para definir se uma conversão é permitida ou proibida, justificando assim a decisão de abordar um subcaso do SPPFP no qual os caminhos são formados por caminhos menores de tamanho dois.
+
+
+\begin{figure*}[hct]
+  \centering
+  \includegraphics[scale = 0.6]{\locimg sub-fig1.png}
+  \caption{Mapa com caminho proibido no centro de Goiânia.}
+  \label{centrogyn}
+\end{figure*}
+
+
+Nos mapas, a identificação de um determinado local se dá através dos nomes das vias ou de suas intersecções. Na tradução dos mapas para grafos, as identificações são através dos vértices, que são as intersecções das vias em um mapa. Para definir se uma conversão é permitida ou não utiliza-se a informação de três vértices consecutivos, que correspondem a dois trechos de via no mapa. Dessa forma, o caminho ilustrado no mapa da Figura \ref{centrogyn} é representado em um grafo segundo a Figura \ref{centrogyn2}.
+
+
+\begin{figure*}[hct]
+  \centering
+  \includegraphics[scale = 0.6]{\locimg sub-fig2.png}
+  \caption{Grafo com caminho proibido no centro de Goiânia.}
+  \label{centrogyn2}
+\end{figure*}
+
+
+A Figura \ref{centrogyn2} permite introduzir algumas idéias que serão amplamente utilizadas neste projeto. A primeira trata de caminho proibido de comprimento igual a dois, na quantidade de arestas, que não pode ou não deve ser percorrido. Dados $u, v, w$, vértices de um grafo $G$, e $(u,v)$, $(v,w)$ arcos de $G$. O caminho $(u,v,w)$ é um caminho proibido de $G$ caso não seja permitida a tomada do arco $(v,w)$ logo após o arco $(u,v)$ ter sido percorrido. Como exemplo, se o caminho $(i,h,m)$ da Figura \ref{centrogyn2} for um caminho proibido, não se pode tomar o arco $(h,m)$ dado que o arco $(i,h)$ foi o último arco percorrido para se chegar em $h$.
+
+A segunda idéia trata de conversão livre, que é um caminho válido (não proibido) de tamanho igual a dois (no número de arcos), entre um par de vértices de um grafo. Dados $u, v, w$, vértices de um grafo $G$, de tal forma que $(u,v)$, $(v,w)$ sejam arcos de $G$ e $(u,v,w)$ não pertença ao conjunto de caminhos proibidos em $G$, $(u,v,w)$ é uma conversão livre de $G$. Na Figura \ref{centrogyn2}, o caminho que percorre os arcos $(d,i)$ e $(i,h)$ forma a conversão livre $(d,i,h)$.
+
+Por fim, definimos ``caminho livre'' como sendo um caminho de qualquer tamanho no qual nenhum subcaminho proibido pode ser encontrado. Caminhos livres são formados por ligações diretas entre vértices, por uma conversão livre ou por uma sequência de conversões livres. Dados $u, v, w, x, \ldots,p, q, t$ vértices de um grafo $G$, $(u,v)$, $(v,w)$, $(w,x)$, $\ldots$, $(p,q)$, $(q,t)$ arcos de $G$, o caminho $u \rightsquigarrow t$ é um caminho livre se nenhum dos seus subcaminhos $(u,v,w)$, $(v,w,x)$, \ldots, $(p,q,t)$ pertence ao conjunto de caminhos proibidos de $G$. 
+
+Fazendo uso das ideias acima, serão apresentadas quatro propostas de modelagens (Seções \ref{mod1} a \ref{mod4}). A intenção em todas elas é, a partir de um grafo original $G$ do SPPFP, criar um grafo resultante $G'$ onde não existam transições proibidas e, desta forma, resolver o problema como um SPP. Para cada uma das modelagens é feita a análise do tamanho do grafo resultante, em relação ao grafo original. A análise temporal para a busca de caminhos em $G'$ não é abordada uma vez que estes problemas devem ser resolvidos como um SPP em $G'$, e a complexidade deste problema já é bem conhecida nos dias atuais.
+
+Para melhor compreensão dos trabalhos seguem as notações que serão utilizadas na descrição das modelagens.
+
+\label{notacoes}
+\begin{itemize}
+  \item $G(V,A) = G \Rightarrow $ grafo direcionado, aresta valorado, com o conjunto $V$ de vértices e $A$ de arcos;
+  \item $V(G) \Rightarrow $ conjunto dos vértices de um grafo $G$;
+  \item $A(G) \Rightarrow $ conjunto dos arcos de um grafo $G$;
+  \item $(u,v) \Rightarrow $ arco entre vértices $u$ e $v$;
+  \item $(u,v,w) \Rightarrow $ conversão livre e/ou caminho proibido.
+  \item $c(u,v) \Rightarrow $ custo para percorrer o arco $(u,v)$;
+  \item $d^+(u) \Rightarrow $ grau de saída de um vértice $u$. O grau de saída é a quantidade de arcos que partem de um determinado vértice;
+  \item $F(G) \Rightarrow $ conjunto dos caminhos proibidos de tamanho igual a dois no grafo $G$;
+  \item $L(G) \Rightarrow $ conjunto dos conversões livres de um grafo $G$;
+  \item $C_2(G) \Rightarrow $ conjunto dos caminhos de tamanho dois no grafo $G$.\\$C_2(G) = F(G)\bigcup L(G)$, e $F(G)\bigcap L(G) = \emptyset$;
+  \item $L_c(G) \Rightarrow $ conjunto das conversões livres consecutivas em um grafo $G$. Dados duas conversões livres $(u,v,w)$ e $(v,w,z) \in L(G)$ o par $((u,v,w),(v,w,z)) \in L_c(G)$;
+  \item $L(u) \Rightarrow $ conjunto das conversões livres em um grafo $G$ que iniciam no vértice $u$;
+  \item $|\ |$ \textit{(Módulo)} $\Rightarrow $ quantidade de elementos de um conjunto. Exemplo: $|V(G)|$ é a quantidade de vértices de $G$.
+\end{itemize}

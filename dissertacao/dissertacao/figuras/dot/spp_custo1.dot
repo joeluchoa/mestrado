@@ -1,0 +1,24 @@
+digraph G {
+  node [shape=circle, texmode="math"];
+  edge [label=" ", lblstyle=auto, topath="bend left"];
+
+  s -> v [texlbl="$7$", topath="bend right"];
+  s -> w [texlbl="$3$"];
+  s -> u [texlbl="$5$", style=bold];
+  v -> w [texlbl="$1$"];
+  u -> w [texlbl="$1$", style=bold];
+  u -> z [texlbl="$2$"];
+  w -> t [texlbl="$1$"];
+  w -> z [texlbl="$3$", style=bold, topath="bend right"];
+  z -> t [texlbl="$5$", style=bold];
+  t -> v [texlbl="$3$"];
+
+  node [style=invis, shape=none];
+  edge [style=invis, len=0.2];
+  s -> 1;
+  u -> 2;
+  v -> 3;
+  t -> 4;
+  z -> 5;
+  w -> 6;
+}

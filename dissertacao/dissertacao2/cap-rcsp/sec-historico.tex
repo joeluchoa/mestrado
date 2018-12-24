@@ -1,0 +1,80 @@
+%% ------------------------------------------------------------------ %%
+\section{Revisão bibliográfica}
+\label{sec:revisao}
+
+Pelo fato do \rcsp~estar ``embutido'' em um grande número de problemas 
+práticos, ele tem sido extensivamente estudado como é mostrado na tabela 
+\ref{tab:algs} que mostra uma lista com algumas características dos 
+principais algoritmos disponíveis.
+
+Basicamente, duas famílias de algoritmos tem sido propostas: uma envolve 
+resolver o problema relaxado usando relaxação linear ou relaxação 
+lagrangiana e a outra usa programação dinâmica. Métodos baseados em 
+relaxações geralmente consistem em três passos: $(1)$ computar limites 
+inferior e superior para a solução ótima resolvendo o problema relaxado, 
+$(2)$ usar os resultados do primeiro passo para reduzir o grafo, e $(3)$
+eliminar a folga da dualidade.
+
+Seguindo esta linha, \citet{zang:80} resolveram um dual lagrangiano 
+(para a versão com um único recurso) no passo $(1)$, para eliminar a 
+folga da dualidade, eles usaram o algoritmo de \citet{yen:71} (que é um 
+algoritmo que calcula todos os caminhos entre um par de vértices em 
+ordem crescente de custo, desenvolvido para o problema do $k$-ésimo 
+menor caminho, ou \textsc{KSP} -- \emph{$k$ shortest path problem}).  A 
+ideia era que, embora estivessem usando o algoritmo de Yen que é 
+exponencial, o número de caminhos computados seria bastante reduzido.  
+\citet{beasley:89} apresentaram uma abordagem baseada em relaxação 
+lagrangiana que usa o método do sub-gradiente para resolver o dual 
+lagrangiano como primeiro passo e \emph{branch and bound} para eliminar 
+a folga da dualidade.  \citet{mehlhorn:00} propuseram o método do 
+envoltório que resolve uma relaxação linear para o caso com múltiplos 
+recursos, para eliminar a folga eles usam um método de enumeração de 
+caminhos como em \citet{hassin:92}.
+
+\begin{table}[ht!]
+\centering
+\begin{tabular}{|c|c|c|c|c|}
+  \hline
+  Referencia & Versão do \rcsp &  Método & Custo & Grafo\\
+  \hline
+  \citet{zang:80} & único recurso & \textsc{RL} + \textsc{Yen} & $c_{uv} 
+          \geq 0$ & gerais\\
+  \hline
+  \citet{beasley:89} & múltiplos recursos & \textsc{RL} + \textsc{BB} & irrestrito & gerais\\
+  \hline
+  \citet{mehlhorn:00} & múltiplos recursos & \textsc{PL} & $c_{uv} \geq 0$ & gerais\\
+  \hline
+  \citet{joksch:66} & único recurso & \textsc{PD} & $c_{uv} > 0$ & gerais\\
+  \hline
+  \citet{aneja:83} & múltiplos recursos & \textsc{LS} & $c_{uv} \geq 0$ & gerais\\
+  \hline
+  \citet{hassin:92} & único recurso & \textsc{PD} & $c_{uv} > 0$ & acíclicos\\
+  \hline
+  \citet{dumitrescu:03} & múltiplos recursos & \textsc{LS} & $c_{uv} 
+                \geq 0$ & gerais\\
+  \hline
+\end{tabular}
+\caption{Principais algoritmos disponíveis para o \rcsp.}
+\textsc{RL} -- relaxação lagrangiana; \textsc{KSP} -- $k$-ésimo menor 
+caminho; \textsc{BB} -- \emph{branch and bound}; \textsc{PL} -- 
+relaxação linear; \textsc{PD} -- programação dinâmica; \textsc{LS} -- 
+rotulamento permanente.
+\label{tab:algs}
+\end{table}
+
+
+Um número considerável de publicações abordam soluções baseadas em 
+programação dinâmica para o \rcsp. \citet{joksch:66} propôs uma 
+programação dinâmica, bem como \citet{hassin:92}, que apresentou dois 
+algoritmos exatos para uso com grafos acíclicos. \citet{aneja:83} 
+adaptou o esquema de rotulamento permanente (\emph{label-setting}) de 
+\citet{dijkstra:59}. A abordagem de rotulamento permanente é uma 
+generalização do algoritmo \Dijkstra, que rotula e processa os vértices 
+em ordem, baseado nos consumos de recursos. Alem do método de 
+rotulamento permanente, temos a abordagem de rotulamento corretivo 
+(\emph{label-correcting}) que é uma generalização do algoritmo \Ford; 
+este trata cada vértice várias vezes, atualizando os rótulos quando 
+necessário. \cite{dumitrescu:03} investigaram variações do algoritmo de 
+rotulamento corretivo, eles apresentaram uma versão melhorada do 
+algoritmo de \citet{aneja:83}, alem de apresentar um algoritmo baseado 
+em um método de escalar pesos. %descrito em \citet{dumitrescu:01}.

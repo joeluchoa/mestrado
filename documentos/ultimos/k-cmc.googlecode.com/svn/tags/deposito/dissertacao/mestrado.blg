@@ -1,0 +1,61 @@
+This is BibTeX, Version 0.99c (TeX Live 2009/Debian)
+The top-level auxiliary file: mestrado.aux
+A level-1 auxiliary file: capa.aux
+A level-1 auxiliary file: 01-resumo.aux
+A level-1 auxiliary file: abstract.aux
+A level-1 auxiliary file: 02-introducao.aux
+A level-1 auxiliary file: 03-preliminares.aux
+A level-1 auxiliary file: 04-caminhos-minimos.aux
+A level-1 auxiliary file: 05-k-caminhos.aux
+A level-1 auxiliary file: 07-kim.aux
+A level-1 auxiliary file: 08-resultados.aux
+A level-1 auxiliary file: 09-final.aux
+The style file: joseplain.bst
+Database file #1: ./refs.bib
+Repeated entry---line 408 of file ./refs.bib
+ : @article{thorup:sssp-1999
+ :                          ,
+I'm skipping whatever remains of this entry
+Warning--missing pages in hershberger:acmta-3-??
+You've used 29 entries,
+            2206 wiz_defined-function locations,
+            667 strings with 7960 characters,
+and the built_in function-call counts, 8075 in all, are:
+= -- 746
+> -- 353
+< -- 0
++ -- 149
+- -- 112
+* -- 684
+:= -- 1371
+add.period$ -- 29
+call.type$ -- 29
+change.case$ -- 147
+chr.to.int$ -- 0
+cite$ -- 30
+duplicate$ -- 279
+empty$ -- 703
+format.name$ -- 112
+if$ -- 1648
+int.to.chr$ -- 0
+int.to.str$ -- 29
+missing$ -- 29
+newline$ -- 91
+num.names$ -- 56
+pop$ -- 125
+preamble$ -- 1
+purify$ -- 115
+quote$ -- 0
+skip$ -- 185
+stack$ -- 0
+substring$ -- 540
+swap$ -- 38
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 106
+warning$ -- 1
+while$ -- 87
+width$ -- 31
+write$ -- 249
+(There was 1 error message)

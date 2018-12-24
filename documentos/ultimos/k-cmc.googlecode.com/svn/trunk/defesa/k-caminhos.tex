@@ -1,0 +1,594 @@
+\section{$k$-menores caminhos}
+\subsection*{Definição}
+\begin{frame}{Problema $k$-menores caminhos}
+  \begin{quote}
+    \textbf{Problema} \kCM$(V,A,c,s,t,k)$:\\
+   Dados: 	
+ 	\begin{itemize}   
+ 	\item Grafo: $(V,A)$
+ 	\item Função custo: $c$
+ 	\item Vértices: $s$ e $t$ 
+ 	\item Inteiro positivo: $k$ 
+	\end{itemize}	
+	Encontrar os $k$-menores caminhos de $s$ a~$t$.
+	\end{quote}
+\end{frame}
+
+\begin{frame}{Exemplo}
+  \begin{columns}
+    \column{.7\textwidth}
+  \begin{tikzpicture}[auto,thick,sloped,node distance=15mm]
+    \tikzstyle{node}=%
+    [%
+      minimum size=8pt,%
+      inner sep=0pt,%
+      outer sep=0pt,%
+      ball color=example text.fg,%
+      circle%
+    ]
+        \node[node,ball color=red]  (S) [label=left:{s}] {};
+        \node[node] (B) [right of=S,label=below:{b}] {};
+        \node[node] (G) [right of=B,label=45:{g}] {};
+        \node[node] (L) [right of=G,label=45:{l}] {};
+        \node[node,ball color=red,label=above:{t}] (T) [right of=L,label=above:{t}] {};
+        \node[node] (F) [above of=G,label=45:{f}] {};
+        \node[node] (E) [above of=F,label=above:{e}] {};
+        \node[node] (H) [below of=G,label=right:{h}] {};
+        \node[node] (I) [below of=H,label=right:{i}] {};
+        \node[node] (C) [above of=S,label=above:{c}] {};
+        \node[node] (A) [below of=S,label=left:{a}] {};
+        \node[node] (J) [above of=L,label=above:{j}] {};
+        \node[node] (D) [left of=E,label=above:{d}] {};
+
+          
+          \path [-,thick,black] (S) edge (A)
+                                    edge (B)
+                                    edge (C)
+                                (B) edge (C)
+                                    edge (D)
+                                    edge (F)
+                                    edge (G)
+                                    edge (H)
+                                (D) edge (E)   
+                                (A) edge (I)
+                                (I) edge (H)
+                                    edge (T)
+                                (E) edge (F)
+                                    edge (J)
+                                (F) edge (G)
+                                (F) edge (L)
+                                (G) edge (H)
+                                    edge (L)  
+                                (J) edge (L)
+                                (L) edge (T)
+                                (H) edge (L)
+                                (C) edge (D);
+
+          \uncover<2>{
+          \path[-,thick,red,line width=1mm] (S) edge (A)
+                            (A) edge (I)
+                            (I) edge (T);
+          }
+          \uncover<3>{
+          \path[-,thick,red,line width=1mm] (S) edge (B)
+                            (B) edge (F)
+                            (F) edge (L)
+                            (L) edge (T) ;
+          }
+          \uncover<4>{
+          \path[-,thick,red,line width=1mm] (S) edge (B)
+                            (B) edge (G)
+                            (G) edge (L)
+                            (L) edge (T) ;
+          }
+          \uncover<5>{
+          \path[-,thick,red,line width=1mm] (S) edge (B)
+                            (B) edge (H)
+                            (H) edge (L)
+                            (L) edge (T) ;
+          }
+          \uncover<6>{
+          \path[-,thick,red,line width=1mm] (S) edge (B)
+                            (B) edge (H)
+                            (H) edge (I)
+                            (I) edge (T) ;
+          }
+          \uncover<7>{
+          \path[-,thick,red,line width=1mm] (S) edge (A)
+                            (A) edge (I)
+                            (I) edge (H)
+                            (H) edge (L)
+                            (L) edge (T);
+          }
+  \end{tikzpicture}
+
+    \column{.3\textwidth}
+   \begin{block}{Caminhos}
+      \onslide<2->{$\seq{s,a,i,t}$} \\
+      \onslide<3->{$\seq{s,b,f,l,t}$} \\
+      \onslide<4->{$\seq{s,b,g,l,t}$} \\
+      \onslide<5->{$\seq{s,b,h,l,t}$} \\
+      \onslide<6->{$\seq{s,b,h,i,t}$} \\
+      \onslide<7->{$\seq{s,a,i,h,l,t}$}
+ \end{block}
+
+  \end{columns}  
+
+\end{frame}
+
+%\begin{frame}{Exemplo}
+%	\only<1>
+%	{%
+%	\begin{figure}
+%	\pgfuseimage{grafoExemplo1}
+%	\caption{6-caminhos mínimos}
+%	\end{figure}
+%	}
+%	\only<2>
+%	{%
+%	\begin{figure}
+%	\pgfuseimage{grafoExemplo2}
+%	\caption{	$\seq{s,a,i,t}$
+%		}
+%	\end{figure}
+%	}
+%	\only<3>
+%	{%
+%	\begin{figure}
+%	\pgfuseimage{grafoExemplo3}
+%	\caption{	$\seq{s,a,i,t}$,
+%			$\seq{s,b,f,l,t}$
+%		}
+%	\end{figure}
+%	}
+%	\only<4>
+%	{%
+%	\begin{figure}
+%	\pgfuseimage{grafoExemplo4}
+%	\caption{	$\seq{s,a,i,t}$,
+%			$\seq{s,b,f,l,t}$,
+%			$\seq{s,b,g,l,t}$
+%		}
+%	\end{figure}
+%	}
+%	\only<5>
+%	{%
+%	\begin{figure}
+%	\pgfuseimage{grafoExemplo5}
+%	\caption{	$\seq{s,a,i,t}$,
+%			$\seq{s,b,f,l,t}$,
+%			$\seq{s,b,g,l,t}$,
+%			$\seq{s,b,h,l,t}$
+%	}
+%	\end{figure}
+%	}
+%	\only<6>
+%	{%
+%	\begin{figure}
+%	\pgfuseimage{grafoExemplo6}
+%	\caption{	$\seq{s,a,i,t}$,
+%			$\seq{s,b,f,l,t}$,
+%			$\seq{s,b,g,l,t}$,
+%			$\seq{s,b,h,l,t}$,
+%			$\seq{s,b,h,i,t}$
+%	}
+%	\end{figure}
+%	}
+%	\only<7>
+%	{%
+%	\begin{figure}
+%	\pgfuseimage{grafoExemplo7}
+%	\caption{	$\seq{s,a,i,t}$,
+%			$\seq{s,b,f,l,t}$,
+%			$\seq{s,b,g,l,t}$,
+%			$\seq{s,b,h,l,t}$,
+%			$\seq{s,b,h,i,t}$,
+%			$\seq{s,a,i,h,l,t}$
+%	}
+%	\end{figure}
+%	}
+%
+%\end{frame}
+
+
+\subsection*{Soluções}
+
+\begin{frame}{Algoritmo existente na empresa}
+\framesubtitle{Busca exaustiva}
+	\onslide<6->
+	{	
+	\alert{Consumo elevado de memória}.
+	}
+\begin{center}
+\begin{tikzpicture}[auto,thick,sloped,node distance=7mm]
+\tikzstyle{node}=%
+[%
+  minimum size=8pt,%
+  inner sep=0pt,%
+  outer sep=0pt,%
+  ball color=example text.fg,%
+  circle%
+]
+    \node[node,ball color=red] 	(A) [label=above:{a}]  {};
+    \node[node,right of=A,node distance=20mm] 		(C) [label=45:{c}] {};
+    \node[node,above of=C] 		(B) [label=above:{b}] {};
+    \node[node,below of=C] 		(D) [label=right:{d}] {};
+    \node[node,right of=C,,node distance=20mm,ball color=red] 		(E) [label=above:{e}] {};
+      
+    \path (A) edge (B);
+    \path (A) edge (C);
+	 \path (A) edge (D);
+    \path (B) edge (C);
+    \path (C) edge (D);
+    \path (D) edge (E);
+    \path (C) edge (E);
+    \path (B) edge (E);
+%\pgfuseimage{algoritmoAntigo}
+\end{tikzpicture}
+\end{center}
+	\begin{columns}[t]
+	  \begin{column}{2cm}
+	    \onslide<2->
+		{
+		\begin{block}
+			\small{$\seq{a,b}$\\$\seq{a,c}$\\$\seq{a,d}$}
+	  	\end{block}
+		}
+
+	  \end{column}
+
+	  \begin{column}{2cm}
+	    \onslide<3->
+	    {
+	    \begin{block}
+		    \small{$\seq{a,b,c}$\\\textcolor{red}{$\seq{a,b,e}$}\\$\seq{a,c,b}$\\\textcolor{red}{$\seq{a,c,e}$}\\$\seq{a,c,d}$\\$\seq{a,d,c}$\\\textcolor{red}{$\seq{a,d,e}$}}
+		 \end{block}	    
+	    }
+	  \end{column}
+          \begin{column}{2cm}
+   	 \onslide<4->
+	    {%
+	    \begin{block}
+	    	\small{\textcolor{red}{$\seq{a,b,c,e}$}\\$\seq{a,b,c,d}$\\\textcolor{red}{$\seq{a,c,b,e}$}\\\textcolor{red}{$\seq{a,c,d,e}$}\\\textcolor{red}{$\seq{a,d,c,e}$}\\$\seq{a,d,c,b}$}
+       \end{block}	     
+       }
+	  \end{column}
+          \begin{column}{2cm}
+	 \onslide<5->
+	    {
+	  	 \begin{block}
+	   	 \small{\textcolor{red}{$\seq{a,b,c,d,e}$}\\\textcolor{red}{$\seq{a,d,c,b,e}$}}
+		 \end{block}	    	    
+	    }
+	  \end{column}
+	\end{columns}
+\end{frame}
+
+\begin{frame}{Primeiro algoritmo implementado}
+\framesubtitle{Busca em profundidade iterativa}
+\begin{center}
+\begin{tikzpicture}[auto,thick,sloped,node distance=7mm]
+\tikzstyle{node}=%
+[%
+  minimum size=8pt,%
+  inner sep=0pt,%
+  outer sep=0pt,%
+  ball color=example text.fg,%
+  circle%
+]
+    \node[node,ball color=red] 	(A) [label=above:{a}]  {};
+    \node[node,right of=A,node distance=20mm] 		(C) [label=45:{c}] {};
+    \node[node,above of=C] 		(B) [label=above:{b}] {};
+    \node[node,below of=C] 		(D) [label=right:{d}] {};
+    \node[node,right of=C,,node distance=20mm,ball color=red] 		(E) [label=above:{e}] {};
+      
+    \path (A) edge (B);
+    \path (A) edge (C);
+	 \path (A) edge (D);
+    \path (B) edge (C);
+    \path (C) edge (D);
+    \path (D) edge (E);
+    \path (C) edge (E);
+    \path (B) edge (E);
+%\pgfuseimage{algoritmoAntigo}
+\end{tikzpicture}
+\end{center}
+	\begin{columns}[t]
+	  \begin{column}{2cm}
+		\onslide<1->
+		{%
+		\begin{block}{nível 1}
+		\end{block}
+		}
+	  \end{column}
+	  \begin{column}{2cm}
+		\onslide<2->
+		{%
+   	    \begin{block}{nível 2}
+		 \textcolor{red}{$\seq{a,b,e}$}\\\textcolor{red}{$\seq{a,c,e}$}\\\textcolor{red}{$\seq{a,d,e}$}
+	    \end{block}
+		}
+	  \end{column}
+          \begin{column}{2cm}
+	\onslide<3->
+		{%
+		\begin{block}{nível 3}
+    	\textcolor{red}{$\seq{a,b,c,e}$}\\\textcolor{red}{$\seq{a,c,b,e}$}\\\textcolor{red}{$\seq{a,c,d,e}$}\\\textcolor{red}{$\seq{a,d,c,e}$}
+	        \end{block}
+		}
+	  \end{column}
+     \begin{column}{2cm}
+	\onslide<4->
+		{%
+           \begin{block}{nível 4}
+           \textcolor{red}{$\seq{a,b,c,d,e}$}\\\textcolor{red}{$\seq{a,d,c,b,e}$}
+           \end{block}
+		}
+          \end{column}
+      	\end{columns}
+	\onslide<5->
+	{%		
+	\alert{Menor consumo de memória e maior consumo de processador}.
+	}
+\end{frame}
+
+\begin{frame}{Método genérico}
+\begin{algoritmo}
+
+\textbf{Método} \Generico{} $(V,A,c,s,t,k)$ %\\[2mm]
+   
+0\x $\Pcal \larr \mbox{conjunto dos caminhos de $s$ a~$t$}$ 
+
+1\x \para{} $i=1,\ldots,k$ \faca %\\[1mm]
+
+2\xx  $P_i \larr \mbox{caminho de custo mínimo em $\Pcal$}$ %\\[1mm]
+
+3\xx  $\Pcal \larr \Pcal - P_i$
+
+4\x \devolva{} $\seq{P_1,\ldots,P_k}$
+
+\end{algoritmo}
+
+\end{frame}
+
+\begin{frame}
+
+%% \begin{tikzpicture}
+%% \foreach \x/\y/\tokennumber in {0/2/1,1/2/2,2/2/3,
+%% 0/1/4,1/1/5,2/1/6,
+%% 0/0/7,1/0/8,2/0/9}
+%% \node [place,structured tokens={1,...,\tokennumber}] at (\x,\y) {};
+%% \end{tikzpicture}
+\begin{columns}[t]
+\column{.5\textwidth}
+\only<1>{
+\begin{center}
+\begin{tikzpicture}
+\tikzstyle{every place}=[draw=blue,fill=blue!20,thick,minimum size=50mm]
+\tikzstyle{every token}=[draw=blue,fill=blue!20,thick,minimum size=10mm]
+\node[place,label=above:$\Pcal$] {}
+[children are tokens,token distance=10mm]
+child {node [token,fill=red]  {$P_1$}}
+child {node [token,fill=red]  {$P_2$}}
+child {node [token,fill=red]  {$P_3$}}
+child {node [token,fill=red]  {$P_4$}}
+child {node [token,fill=red]  {$P_5$}}
+child {node [token,fill=red] {$P_k$}}
+child {node [token,fill=red] {$P_{k+1}$}}
+child {node [token,fill=red] {$\ldots$}};
+\end{tikzpicture}
+\end{center}
+}
+\only<2>{
+\begin{center}
+\begin{tikzpicture}
+\tikzstyle{every place}=[draw=blue,fill=blue!20,thick,minimum size=50mm]
+\tikzstyle{every token}=[draw=blue,fill=blue!20,thick,minimum size=10mm]
+\node[place,label=above:$\Pcal$] {}
+[children are tokens,token distance=10mm]
+child {node [token,fill=red]  {$P_2$}}
+child {node [token,fill=red]  {$P_3$}}
+child {node [token,fill=red]  {$P_4$}}
+child {node [token,fill=red]  {$P_5$}}
+child {node [token,fill=red] {$P_k$}}
+child {node [token,fill=red] {$P_{k+1}$}}
+child {node [token,fill=red] {$\ldots$}};
+\end{tikzpicture}
+\end{center}
+}
+\only<3>{
+\begin{center}
+\begin{tikzpicture}
+\tikzstyle{every place}=[draw=blue,fill=blue!20,thick,minimum size=50mm]
+\tikzstyle{every token}=[draw=blue,fill=blue!20,thick,minimum size=10mm]
+\node[place,label=above:$\Pcal$] {}
+[children are tokens,token distance=10mm]
+child {node [token,fill=red]  {$P_3$}}
+child {node [token,fill=red]  {$P_4$}}
+child {node [token,fill=red]  {$P_5$}}
+child {node [token,fill=red] {$P_k$}}
+child {node [token,fill=red] {$P_{k+1}$}}
+child {node [token,fill=red] {$\ldots$}};
+\end{tikzpicture}
+\end{center}
+}
+\only<4>{
+\begin{center}
+\begin{tikzpicture}
+\tikzstyle{every place}=[draw=blue,fill=blue!20,thick,minimum size=50mm]
+\tikzstyle{every token}=[draw=blue,fill=blue!20,thick,minimum size=10mm]
+\node[place,label=above:$\Pcal$] {}
+[children are tokens,token distance=10mm]
+child {node [token,fill=red] {$P_{k+1}$}}
+child {node [token,fill=red] {$\ldots$}};
+\end{tikzpicture}
+\end{center}
+}
+\column{.5\textwidth}
+\only<1>{
+\begin{center}
+\begin{tikzpicture}
+\tikzstyle{every place}=[draw=blue,fill=blue!20,thick,minimum size=50mm]
+\tikzstyle{every token}=[draw=blue,fill=blue!20,thick,minimum size=10mm]
+\node[place,label=above:$\Qcal$] {}
+[children are tokens,token distance=10mm];
+\end{tikzpicture}
+\end{center}
+}
+\only<2>{
+\begin{center}
+\begin{tikzpicture}
+\tikzstyle{every place}=[draw=blue,fill=blue!20,thick,minimum size=50mm]
+\tikzstyle{every token}=[draw=blue,fill=blue!20,thick,minimum size=10mm]
+\node[place,label=above:$\Qcal$] {}
+[children are tokens,token distance=10mm]
+child {node [token,fill=red]  {$P_1$}};
+\end{tikzpicture}
+\end{center}
+}
+\only<3>{
+\begin{center}
+\begin{tikzpicture}
+\tikzstyle{every place}=[draw=blue,fill=blue!20,thick,minimum size=50mm]
+\tikzstyle{every token}=[draw=blue,fill=blue!20,thick,minimum size=10mm]
+\node[place,label=above:$\Qcal$] {}
+[children are tokens,token distance=10mm]
+child {node [token,fill=red]  {$P_1$}}
+child {node [token,fill=red]  {$P_2$}};
+\end{tikzpicture}
+\end{center}
+}
+\only<4>{
+\begin{center}
+\begin{tikzpicture}
+\tikzstyle{every place}=[draw=blue,fill=blue!20,thick,minimum size=50mm]
+\tikzstyle{every token}=[draw=blue,fill=blue!20,thick,minimum size=10mm]
+\node[place,label=above:$\Qcal$] {}
+[children are tokens,token distance=10mm]
+child {node [token,fill=red]  {$P_1$}}
+child {node [token,fill=red]  {$P_2$}}
+child {node [token,fill=red]  {$P_3$}}
+child {node [token,fill=red]  {$P_4$}}
+child {node [token,fill=red]  {$P_5$}}
+child {node [token,fill=red]  {$\ldots$}}
+child {node [token,fill=red] {$P_k$}};
+\end{tikzpicture}
+\end{center}
+}
+\end{columns}
+\end{frame}
+
+
+%% \begin{frame}{Exemplo: Árvore de caminhos}
+%% 	$\seq{s,a,i,t}$,
+%% 	$\seq{s,b,f,l,t}$,
+%% 	$\seq{s,b,g,l,t}$,
+%% 	$\seq{s,b,h,l,t}$,
+%% 	$\seq{s,b,h,i,t}$,
+%% 	$\seq{s,a,i,h,l,t}$
+%% \begin{center}
+%% \begin{tikzpicture}[auto,thick,sloped]
+%%   \tikzstyle{node}=%
+%%   [%
+%%     minimum size=8pt,%
+%%     inner sep=0pt,%
+%%     outer sep=0pt,%
+%%     ball color=example text.fg,%
+%%     circle%
+%%   ]
+%%   \tikzstyle{leaf}=%
+%%   [%
+%%     minimum size=10pt,%
+%%     inner sep=0pt,%
+%%     outer sep=0pt,%
+%%     ball color=red,%
+%%     circle%
+%%   ]
+%% 
+%% % Set the overall layout of the tree
+%% \tikzstyle{level 1}=[level distance=1cm, sibling distance=5cm]
+%% \tikzstyle{level 2}=[level distance=1cm, sibling distance=2cm]
+%% 
+%% % Define styles for bags and leafs
+%% \tikzstyle{bag} = [text width=4em, text centered]
+%% \tikzstyle{end} = [circle, minimum width=3pt,fill, inner sep=0pt]
+%%   \node [leaf,label=above:{s}] {} [->] 
+%%     child {
+%% 	node [node,label=above:{a}] {} 
+%% 	child {
+%% 		node [node,label=right:{i}] {} 
+%% 		child 	{
+%% 				node [leaf,label=below:{t1}] {} 	
+%% 				edge from parent 
+%% 			}
+%% 		child 	{
+%% 				node [node,label=right:{h}] {} 
+%% 				child {
+%% 					node [node,label=right:{l}] {} 
+%% 					child{
+%% 						node [leaf,label=below:{t6}] {} 
+%% 						edge from parent 
+%% 					}
+%% 					edge from parent 
+%% 				}
+%% 				edge from parent 
+%% 			}
+%% 		edge from parent 
+%% 		}
+%% 	edge from parent 
+%%         }	
+%% 	child {
+%% 		node [node,label=above:{b}] {} 	
+%%    		child {
+%% 			node [node,label=above:{f}] {} 	
+%%    			child {
+%% 				node [node,label=left:{l}] {} 
+%% 				child{
+%% 					node [leaf,label=below:{t2}] {} 
+%% 					edge from parent 
+%% 				}
+%% 				edge from parent 
+%% 			}
+%% 			edge from parent 
+%% 		}	
+%% 	  	child {
+%% 			node [node,label=left:{g}] {} 	
+%%    			child {
+%% 				node [node,label=left:{l}] {} 
+%% 				child{
+%% 					node [leaf,label=below:{t3}] {} 
+%% 					edge from parent
+%% 				}
+%% 				edge from parent 
+%% 			}
+%% 			edge from parent 
+%% 		}		
+%% 	  	child {
+%% 			node [node,label=above:{h}] {} 	
+%%    			child {
+%% 				node [node,label=above:{l}] {} 
+%% 				child{
+%% 					node [leaf,label=below:{t4}] {} 
+%% 					edge from parent
+%% 				}
+%% 				edge from parent 
+%% 			}
+%%    			child {
+%% 				node [node,label=above:{i}] {} 
+%% 				child{
+%% 					node [leaf,label=below:{t5}] {} 
+%% 					edge from parent 
+%% 				}
+%% 				edge from parent 
+%% 			}
+%% 			edge from parent 
+%% 		}	
+%% 		edge from parent 
+%% 	};
+%% \end{tikzpicture}
+%% \end{center}
+%% \end{frame}
+
+
+
+

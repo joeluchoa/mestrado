@@ -1,0 +1,777 @@
+%% ------------------------------------------------------------------ %%
+\chapter{Caminhos mínimos (sem restrições)}
+\label{cap:spp}
+
+Como dito anteriormente, o problema de caminhos mínimos com recursos 
+limitados é uma generalização do problema de caminho mínimo clássico 
+(\spp~-- \emph{shortest-path problem}).  Tal problema consiste em 
+encontrar um caminho de um vértice origem até um vértice destino com 
+menor custo em um grafo direcionado.  A importância do \spp~se deve a 
+suas inúmeras aplicações e generalizações.
+
+Dada a sua relevância, vamos dedicar este capítulo ao \spp.  Na primeira 
+parte descrevemos os principais conceitos relacionados ao problema, em 
+seguida definimos o problema formalmente e por fim fazemos uma exposição 
+de alguns algoritmos que resolvem o problema. Este capítulo foi 
+desenvolvido baseado em \citet{paulo:97}, \citet{fabio:09}  e 
+\citet{shigueo:02}.  
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%  SEÇÃO: Descrição
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\section{Definições básicas}
+\label{sec:definicao}
+
+%
+% função custo
+%
+
+Podemos definir uma \defi{função custo} $c$ em um grafo direcionado $G = 
+(V,A)$ como sendo uma função sobre $A$, onde, para todo $uv \in A$, 
+$c(uv)$ é o valor de $c$ em $uv$ (o custo do arco $uv$). 
+
+%
+% Custo de um passeio e passeio de custo mínimo.
+% 
+Seja um caminho $P$ e uma função custo $c$ em um grafo $G = (V, A)$,  
+definimos o \defi{custo do caminho} $P$ como $c(P) = 
+\displaystyle\sum_{uv \in P}{c(uv)}$ a soma dos custos de todos os arcos 
+em $P$. 
+
+Dizemos ainda que um caminho $P$ tem \defi{custo mínimo} se, seja $\scor$ e 
+$\tcor$ o início e o fim de $P$ respectivamente, vale que $c(P) \leq c(Q)$ 
+para todo caminho $Q$ que começa em $\scor$ e termina em $\tcor$.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[!ht]
+  \begin{center}
+    \includegraphics[scale=1]{figuras/pdf/spp_custo1.pdf}
+    \quad \quad
+    \includegraphics[scale=1]{figuras/pdf/spp_custo2.pdf}
+    \caption{\label{fig:custo1} Exemplo de um grafo com uma função custo 
+      sobre os arcos. No lado esquerdo temos um caminho $\seq{\scor,u,w,z,\tcor}$ 
+      com custo igual a 14. À direita temos o caminho
+      $\seq{\scor,w,\tcor}$ em vermelho, que é um caminho de custo mínimo de $\scor$ à 
+    $\tcor$.}
+  \end{center}
+\end{figure}
+
+Definimos a	\defi{distância} de um vértice $\scor$ a um
+vértice $\tcor$ como o custo de um menor caminho de $\scor$ a~$\tcor$.  
+Representamos a distância de $\scor$ a $\tcor$ por $\dist{\scor,\tcor}$.
+A distância de $\scor$ a $\tcor$, na figura~\ref{fig:custo1}, é $4$.
+
+Vamos denotar por $C = \max\{c(uv) \tq uv \in A \}$ o \defi{maior custo} 
+de um arco. No grafo representado na figura~\ref{fig:custo1} temos que o 
+maior custo é $C=7$.  
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%  DEFINIÇÃO
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+
+\section{Definição formal do problema}
+%
+% Problema dos menores caminhos 
+% 
+
+Com as definições que acabamos de apresentar podemos fazer uma definição 
+formal para o \defi{problema do caminho mínimo}, denotado por \spp:
+
+\begin{problema}{\spp$(G,c,\scor,\tcor)$} Como parâmetros do problema são dados
+  \begin{itemize}
+    \item\ um grafo direcionado $G = (V, A)$,
+    \item\ uma função custo $c$ sobre $G$,
+    \item\ um vértice origem $\scor$ e
+    \item\ um vértice destino $\tcor$.
+  \end{itemize}
+
+  O problema consiste em encontrar um caminho de custo mínimo de $\scor$ a 
+  $\tcor$.
+\end{problema}
+
+Na literatura essa versão é conhecida como \textit{single-pair
+shortest path problem} ou ainda como \emph{single-source, single-sink 
+shortest-path problem} \citep{zhu:05}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%  SEÇÃO: FUNÇÕES POTENCIAL
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+
+\section{Funções potenciais}
+\label{sec:criterio-otimalidade}
+
+Vamos definir o seguinte programa linear, que chamamos de primal: 
+encontrar um vetor $x$ indexado por $A$ que
+\begin{linearprogram}
+  \mbox{minimize}
+  & \displaystyle\sum_{uv \in A} c(uv)x_{uv} \\
+  \mbox{sob as restrições}
+  &\displaystyle\sum_{vw \in A}{x_{vw}} - \displaystyle\sum_{uv \in 
+  A}{x_{uv}} &=& \left\{ \begin{array}{rl}
+           1 & \text{para } v = \scor\\
+           0 & \text{para todo } v \in V \setminus \{\scor, \tcor\} \\
+          -1 & \text{para } v = \tcor\\
+          \end{array} \right. & \\
+                              & x_{uv} & \geq & 0\ \text{ para todo } uv 
+                       \in A. & 
+
+\end{linearprogram}
+
+O vetor característico de qualquer caminho de $\scor$ a $\tcor$ é
+uma solução viável do problema primal. Dessa forma, o problema é uma 
+relaxação do \spp. Vamos definir agora, o respectivo problema dual, que 
+consiste em encontrar um vetor $y$ indexado por $V$ que
+\begin{linearprogram}
+  \mbox{maximize} & y(\tcor)-y(\scor) \\
+\mbox{sob as restrições} & y(v) -  y(u) & \leq & c(uv) &
+  \mbox{para todo $uv \in A$.}
+\end{linearprogram}
+
+Uma \textbf{função-potencial} é uma função sobre $V$ que associa a cada 
+vértice um valor. Se $y$ é uma função potencial e $c$ é uma função 
+custo, então, dizemos que $y$ é um \defi{$c$-potencial} se 
+\begin{center}
+  $y(v) - y(u) \leq c(uv)$ para cada arco $uv \in A$.
+\end{center}
+
+\begin{figure}[!ht]
+  \begin{center}
+    \includegraphics[scale=1]{figuras/pdf/spp_potencial1.pdf}
+  \end{center}
+  \caption{\label{fig:potencial} Grafo com uma função custo $c$ sobre os 
+  arcos e um $c$-potencial associado aos vértices em azul.}
+\end{figure}
+
+
+É interessante que um algoritmo que resolve o \spp, apresente, 
+juntamente com a solução, certificados como garantia que sua solução é 
+correta. O primeiro seria um certificado que garanta que os caminhos 
+fornecidos são mínimos (\defi{certificado de otimalidade}), este pode 
+ser extraído a partir de uma particularização do lema da dualidade de 
+programação linear \citep{pf:proglin}. O segundo seria o certificado de 
+\defi{não acessibilidade}, que pode ser apresentado da seguinte forma: 
+se não é possível atingir um vértice $\tcor$ a partir de $\scor$, mostrar uma 
+parte $S$ de $V$ tal que $\scor \in S$, $\tcor \not\in S$ e não existe $uv \in 
+A$ com $u$ em $S$ e $v$ em $V\setminus S$. A partir de um $c$-potencial, 
+podemos extrair ambos os certificados de otimalidade dos caminhos 
+encontrados, e o certificado de não acessibilidade de alguns vértices a 
+partir de $\scor$.
+
+
+\begin{lema}{lema da dualidade}
+  \label{lema:dualidade}
+  Seja $G = (V,A)$ um grafo e $c$ uma função custo sobre $V$.  Para todo 
+  caminho $P$ com início em $\scor$ e término em $\tcor$ e todo 
+  $c$-potencial $y$ vale que \[
+    c(P) \geq y(\tcor) - y(\scor). 
+  \]
+\end{lema}
+
+\begin{prova}
+  Suponha que $P$ é o caminho $\seq{\scor = v_{0}, \alpha_{1}, v_{1}, \ldots,
+  \alpha_{k}, v_{k} = \tcor }$. 
+  Temos que
+  \[
+    \begin{array}{ccl}
+      c(P)& =    & c(\alpha_{1}) + \ldots + c (\alpha_{k})\\
+          & \geq & (y(v_{1}) - y(v_{0})) + (y(v_{2}) - y(v_{1})) 
+      + \ldots + (y(v_{k}) - y(v_{k-1}))\\
+      & =    & y(v_{k}) - y(v_{0}) = y(\tcor) - y(\scor).
+    \end{array}
+  \]
+\end{prova}
+
+Do lema~\ref{lema:dualidade} temos imediatamente os seguintes 
+corolários.
+
+\begin{corolario}{condição de inacessabilidade}%
+  \label{corolario:inacessabilidade}
+  Se $G = (V,A)$ é um grafo, $c$ é uma função custo, $y$ é um 
+  $c$-potencial
+  e $\scor$ e $\tcor$ são vertices tais que 
+  \[
+    y(\tcor) - y(\scor) \geq nC + 1
+  \]
+  então, $\tcor$ não é acessível a partir de $\scor$.
+  \fimprova
+\end{corolario}
+
+
+\begin{corolario}{condição de otimalidade}%
+  \label{corolario:otimalidade}
+  Seja $G = (V,A)$ um grafo e $c$ é uma função custo.
+  Se $P$ é um caminho de $\scor$ a $\tcor$ e $y$ é um $c$-potencial tal 
+  que $y(\tcor) - y(\scor) = c(P)$, então $P$ é um caminho de custo 
+  mínimo.
+  \fimprova
+\end{corolario}
+
+\begin{figure}[!ht]
+  \begin{center}
+    \includegraphics{figuras/pdf/spp_potencial2.pdf}
+  \end{center}
+  \caption{\label{fig:potencial-otimo} Grafo com custos nos arcos e um 
+    potencial nos vértices. O potencial exibido garante que qualquer caminho 
+    formado por vértices vermelhos a partir de $\scor$ é um caminho de custo 
+  mínimo.}
+\end{figure}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%  SEÇÃO:  FUNÇÃO-PREDECESSOR 
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+
+\section{Representação de caminhos}
+\label{sec:predecessor}
+
+%%% FUNÇÃO-PREDECESSOR 
+Uma \textbf{função predecessor} $\pred$ é uma função sobre $V$ tal que, 
+para cada $v$ em $V$,
+\[
+  \pred(v) = \nil \quad \mbox{ou} \quad (\pred(v),v) \in A\mbox{.}
+\] Funções desse tipo são uma maneira compacta e eficiente de 
+representar caminhos de um dado vértice até cada um dos
+demais vértices de um grafo.
+
+Dado um grafo direcionado $G = (V,A)$, uma função predecessor $\pred$ 
+sobre $V$ e um caminho $P = \seq{v_{0}, v_{1}, \ldots,v_{k}}$, dizemos 
+que $P$ é um \textbf{caminho determinado por $\pred$} se
+$$ v_{0} = \pred(v_{1}), v_{1} = \pred(v_{2}),
+\ldots, v_{k-1} = \pred(v_{k})\mbox{.}$$
+
+Dado um grafo $G = (V, A)$ e uma função predecessor $\pred$ em $V$, 
+dizemos que o grafo induzido por $\pred$, da forma $(V, \Psi)$ é o 
+\textbf{grafo de predecessores}, onde $\Psi = \{ uv \in A \tq u = 
+\pred(v)\}$.
+
+\begin{figure}[!ht]
+  \begin{center}
+    \begin{tabular}{c ^^7c c}
+      vértice & $\pred$ \\ \hline
+       $\scor$     & $\nil$ \\
+       $w$     & $\scor$ \\
+       $u$     & $\scor$ \\
+       $\tcor$     & $w$ \\
+       $z$     & $w$ \\
+       $v$     & $\tcor$ \\
+    \end{tabular}
+
+    \includegraphics[scale=1]{figuras/pdf/spp_predecessores1.pdf}
+    \quad \quad
+    \includegraphics[scale=1]{figuras/pdf/spp_predecessores2.pdf}
+
+    \caption[Exemplo de uma função predecessor e de um grafo de 
+    predecessores induzido por ela.] {\label{fig:pred} Exemplo de uma 
+      função predecessor $\pred$ e de um grafo de predecessores induzido 
+      por ela. Acima temos os valores de $\pred$ para cada vértice. O 
+    grafo da esquerda mostra os arcos induzidos por $\pred$ em vermelho.  
+  A grafo da direita é o grafo de predecessores a partir de $\pred$.}
+  \end{center}
+\end{figure}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%  SEÇÃO: EXAMINANDO UM VÉRTICE
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Examinando arcos e vértices}
+\label{sec:examinar}
+
+%%%% Blá inicial
+Temos que além de uma função predecessor para representar os caminhos, 
+um outro elemento muito útil em algoritmos que resolvem o \spp~é uma 
+função potencial.  Os custos dos caminhos que têm como origem o vértice 
+$\scor$ são limitados inferiormente por esta função.
+
+%%% Examinar arco
+\defi{Examinar um arco} ou \defi{relaxar/rotular um arco} 
+(\textit{relaxing}~\cite{clrs:introalg-2001}, \textit{labeling 
+step}~\cite{tarjan:data}) é uma operação básica envolvendo uma função 
+predecessor $\pred$ e uma função potencial $y$, e consiste em verificar 
+se $y$ respeita $c$ em $uv$ e, caso não respeite, ou seja, \[
+  y(v) - y(u) > c(uv)
+  \ \ \mbox{ou, equivalentemente}
+  \ \ y(v) > y(u) + c(uv)
+\]
+fazer 
+\[
+  y(v) \larr y(u) + c(uv) \ \ \mbox{e} \ \ \pred(v) \larr u\mbox{.}
+\]
+
+Podemos interpretar esta operação como a tentativa de encontrar um 
+"atalho" para o caminho de $\scor$ a $v$ no grafo de predecessores, passando 
+pelo arco $uv$.
+
+\begin{algoritmo}
+  \ExamineArco{} $(uv)$ \quad $\rhd$ examina o arco $uv$
+
+  1 \x \se{} $y(v) > y(u) + c(u,v)$ 
+
+  2 \xx \entao\ $y(v) \larr y(u) + c(uv)$ 
+
+  3 \xx \phentao{}  $\pred(v) \larr u$
+\end{algoritmo}
+
+%%%% Examinar vértice
+Podemos estender a operação de examinar um arco em outra operação 
+básica, que seria \defi{examinar um vértice}. Examinar um vértice $u$
+consiste em examinar todos os arcos da forma $uv$, $v \in V$.
+
+\begin{algoritmo}
+  \ExamineVertice{} $(u)$ \quad $\rhd$ examina o vértice $u$
+
+  1\x   \para{} \cada{} $uv$ em $A$ \faca{}
+
+  2 \xx \se{} $y(v) > y(u) + c(uv)$ 
+
+  3 \xxx \entao\ $y(v) \larr y(u) + c(uv)$ 
+
+  4 \xxx \phentao{}  $\pred(v) \larr u$
+\end{algoritmo}
+
+
+As operações de examinar arcos ou vértices sempre diminuem o valor da  
+função potencial em um vértice visando respeitar a função custo no 
+elemento em que se está examinando. Ou seja, tentando tornar $y$ em um 
+$c$-potencial.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%  SEÇÃO: DIJKSTRA 
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Algoritmos}
+
+Existem vários algoritmos eficientes para resolver o problema de caminho 
+mínimo, sendo os mais conhecidos os algoritmos de Dijkstra e o de Ford.  
+Ambos aplicam-se ao problema como definimos, caminho mínimo de um 
+vértice inicial $\scor$ para um vértice final $\tcor$ ou de $\scor$ para 
+todos os outros vértices. Apresentamos com detalhes o algoritmo de 
+Dijkstra.
+
+\subsection{Algoritmo de Dijsktra}
+\label{subsec:dijkstra}
+
+Vamos descrever agora o famoso algoritmo de Edsger Wybe 
+Dijkstra~\citep{dijkstra:59} que resolve o problema do caminho mínimo em 
+grafos para o caso em que a função custo possui apenas custos não 
+negativos, ou seja, $c(uv) \geq 0$ para todo $uv \in A$. Nosso texto 
+segue de perto \citet{fabio:09} e \citet{pf:fluxos}.
+
+\subsubsection{Descrição}
+
+O algoritmo é iterativo. No início de cada iteração tem-se os conjuntos 
+$S$ e $Q$, que são uma partição do conjunto de vértices do grafo ($S 
+\cap Q = \emptyset$ e $S \cup Q = V$). O algoritmo define caminhos 
+partindo de $\scor$ a cada vértice em $S$, caminhos estes que são 
+garantidamente de custo mínimo, e define caminhos a uma parte dos 
+vértices em $Q$.  Antes da primeira iteração temos $S = \emptyset$ e $Q 
+= V$.  Cada iteração consiste em retirar um determinado vértice de $Q$, 
+examiná-lo e adicioná-lo a $S$.  Eventualmente, ao examinar tal vértice, 
+descobrimos caminhos a vértices em $Q$ até então não alcançados, ou 
+melhores que os já conhecidos. Se o conjunto $Q$ é vazio, já examinamos 
+todos os vértices e podemos parar o processamento.
+
+O algoritmo recebe um grafo direcionado $G = (V,A)$, uma função custo 
+$c$ de $A$ em $\NonnegInt$ e um vértice~$\scor$ e devolve uma 
+função-predecessor $\pred$ e uma função-potencial~$y$ que respeita~$c$ 
+tal que, para cada vértice $\tcor$, se $\tcor$ é acessível a partir de 
+$\scor$, então $\pred$ determina um caminho de $\scor$ a $\tcor$ que tem 
+comprimento $y(\tcor) - y(\scor)$, caso contrário $y(\tcor)-y(\scor) = 
+nC+1$, onde $C = \max\{ c(uv) \tq uv \in A\}$ \footnote{
+  Se $\pred$ determina um caminho de $\scor$ a um vértice $\tcor$, então este 
+  caminho tem custo mínimo (condição de otimalidade, 
+  corolário~\ref{corolario:otimalidade}). Se $y$ é um $c$-potencial com 
+  $y(\tcor) - y(\scor) = nC + 1$, então não existe caminho de $\scor$ a 
+$\tcor$ (condição de inacessibilidade, 
+corolário~\ref{corolario:inacessabilidade}).}. Convenientemente 
+definimos $y(\scor) = 0$.
+
+\begin{algoritmo}
+  \Dijkstra{} $(V, A, c, \scor)$ \quad {$\rhd$  $c \geq 0$}
+
+  \d1\x \para{} \cada{} $v$ em $V$ \faca
+
+  \d2\xx    $y(v) \larr nC+1$ \quad {$\rhd$  $nC+1$ faz o papel de $\infty$} 
+
+  \d3\xx    $\pred(v) \larr \nil$
+
+  \d4\x  $y(\scor) \larr 0$
+
+  \d5\x $Q \larr V$  \quad {$\rhd$  $Q$ é uma fila com
+  prioridades} 
+
+  \d6\x \enquanto{} $Q \neq \seq{}$ \faca
+
+  \d7\xx retire de $Q$ um vértice $u$ com $y(u)$ mínimo
+
+  \d8\xx \para{} \cada{} $uv$ em $A$ \faca{}
+
+  \d9\xxx \se{} $y(v) > y(u) + c(uv)$ \entao{}
+
+  10\xxxx $y(v) \larr y(u)+ c(uv) $
+
+  11\xxxx $\pred(v) \larr u$
+
+  12\x \devolva{} $\pred$ e $y$
+\end{algoritmo}
+
+
+\subsubsection*{Simulação}
+
+A seguir, temos uma simulação para uma chamada do algoritmo \Dijkstra.  
+No estado~(1) temos o grafo $G = (V,A)$ com custo sobre os arcos.  Nos 
+estados os vértices em $Q$ têm interior azul claro. A função-potencial 
+$y$ é indicada pelos números em azul próximos cada vértice.  No 
+estado~(2) temos que todos os vértices foram inseridos em $Q$ e os 
+potencias foram inicializados ($y(\scor)=0$ e o potencial dos demais 
+vértices é $n \times C + 1 = 6 \times 7 + 1 = 43$).
+
+Um vértice que está sendo examinado tem a cor rosa. O arco que está 
+sendo examinado tem a cor azul (no estado~(3) o vértice que está sendo 
+examinado é $\scor$ e o arco sendo examinado é $sv$).
+
+Os vértices em $S$ (já examinados) têm a cor verde. No estado~(10) vemos 
+que $w$ está sendo examinado, $\scor$ e $u$ são os vértices em $S$ e os 
+demais estão em $Q$.
+
+Os arcos já examinados têm a cor vermelha se fazem parte do grafo de 
+predecessores, caso contrário são tracejados.
+
+\begin{center}
+  \includegraphics[scale=1]{figuras/pdf/spp_dijkstra1.pdf}
+  \quad\quad
+  \includegraphics[scale=1]{figuras/pdf/spp_dijkstra2.pdf}
+
+  \includegraphics[scale=1]{figuras/pdf/spp_dijkstra3.pdf}
+  \quad\quad
+  \includegraphics[scale=1]{figuras/pdf/spp_dijkstra4.pdf}
+
+  \includegraphics[scale=1]{figuras/pdf/spp_dijkstra5.pdf}
+  \quad\quad
+  \includegraphics[scale=1]{figuras/pdf/spp_dijkstra6.pdf}
+
+  \includegraphics[scale=1]{figuras/pdf/spp_dijkstra7.pdf}
+  \quad\quad
+  \includegraphics[scale=1]{figuras/pdf/spp_dijkstra8.pdf}
+
+  \includegraphics[scale=1]{figuras/pdf/spp_dijkstra9.pdf}
+  \quad\quad
+  \includegraphics[scale=1]{figuras/pdf/spp_dijkstra10.pdf}
+
+  \includegraphics[scale=1]{figuras/pdf/spp_dijkstra11.pdf}
+  \quad\quad
+  \includegraphics[scale=1]{figuras/pdf/spp_dijkstra12.pdf}
+
+  \includegraphics[scale=1]{figuras/pdf/spp_dijkstra13.pdf}
+  \quad\quad
+  \includegraphics[scale=1]{figuras/pdf/spp_dijkstra14.pdf}
+
+  \includegraphics[scale=1]{figuras/pdf/spp_dijkstra15.pdf}
+  \quad\quad
+  \includegraphics[scale=1]{figuras/pdf/spp_dijkstra16.pdf}
+
+  \includegraphics[scale=1]{figuras/pdf/spp_dijkstra17.pdf}
+  \quad\quad
+  \includegraphics[scale=1]{figuras/pdf/spp_dijkstra18.pdf}
+\end{center}
+
+
+\subsubsection*{Corretude}
+
+A corretude do algoritmo de Dijkstra baseia-se nas demonstrações da 
+validade de uma série de relações invariantes. Estas relações são 
+afirmações envolvendo os dados do problema $V,A,c$ e $\scor$ e os objetos 
+$y, \pred, S$ e $Q$. Para uma prova detalhada recomendamos a leitura de 
+\citet{shigueo:02}. Aqui faremos apenas uma argumentação básica para 
+mostrar que o algoritmo é correto.
+
+\begin{teorema}{da corretude}
+  \label{teorema:correcao}
+  Dado um grafo $G = (V,A)$, uma função custo~$c$ e um vértice $\scor$ o 
+  algoritmo \Dijkstra\ corretamente encontra um caminho de custo mínimo 
+  de $\scor$ a~$\tcor$, para todo vértice $\tcor$ acessível a partir de 
+  $\scor$.  \end{teorema}
+
+A seguir um prova indutiva do teorema~\ref{teorema:correcao}.
+
+\begin{prova}
+  Como $Q$ é vazio no final do processo, vale que todos os vértices, e 
+  portanto todos os arcos, foram examinados, o que garante que a função 
+  $y$ é um $c$-potencial. Se $y(\tcor) < n C+1$ então o valor de $y(\tcor)$ foi 
+  atualizado ao menos uma vez, e assim vale que $\pred(\tcor) \neq \nil$.  
+  Logo, segue que existe um $st$-caminho $P$ no grafo de predecessores e 
+  $P$ é uma caminho de custo mínimo pela condição de otimalidade porque \[
+    y(v) = y(u) + c(uv), \forall uv \in \Psi \Rightarrow c(P) = y(\tcor) - y(\scor) 
+    = y(\tcor).
+  \]
+
+  Já, se $y(\tcor) = nC+1$, temos que $y(\tcor) - y(\scor) = nC+1$ e da condição de 
+  inexistência concluímos que não existe caminho de $\scor$ a $\tcor$ no grafo.
+
+  Concluímos portanto que o algoritmo faz o que promete.
+\end{prova}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%  SEÇÃO: CONSUMO DE TEMPO 
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Consumo de tempo}
+\label{sec:consumo-dijkstra}
+
+As duas principais operações no algoritmo são as seguintes (analisadas 
+no pior caso):
+\begin{enumerate}
+  \item escolher um vértice com potencial mínimo, que pode exigir tempo 
+    $O(n)$ e é executada até $n$ vezes (até $Q$ ficar vazio), ou seja, 
+    consome tempo $O(n^{2})$;
+  \item atualizar o potencial, que pode acontecer para todas as arestas, 
+    ou seja, exige tempo $O(m)$.
+\end{enumerate}
+
+Assim, o consumo de tempo do algoritmo no pior caso é $O(n^{2} + m) = 
+O(n^{2})$. Para grafos esparsos, existem métodos sofisticados, como o 
+heap de Johnson \citep{johnson:heap}, o heap de Fibonacci 
+\citep{FredTarjan:Fibonacci}, que permitem diminuir o tempo consumido 
+para encontrar um vértice com potencial mínimo, gerando assim 
+implementações que consomem menos tempo para resolver o problema.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%  SEÇÃO: FILAS DE PRIORIDADE
+%%
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Dijkstra e filas de prioridades}
+
+Uma \defi{fila de prioridades}~\citep{ahuja:netflows, clr:introalg-1999} 
+é uma estrutura de dados que armazena uma coleção de itens, cada um com 
+uma prioridade associada. Os itens serão basicamente vértices em nosso 
+contexto.
+
+Temos as seguintes operações para uma fila de prioridade $Q$:
+\begin{itemize}
+  \item $\Insert (v, p, Q)$: adiciona o vértice $v$ com prioridade $p$
+    em $Q$.
+  \item $\Delete(v, Q)$: remove o vértice $v$ de $Q$.
+  \item $\ExtractMin (Q)$: devolve o vértice com a menor prioridade e o 
+    remove de $Q$.
+  \item $\DecreaseKey (v, p, Q)$: muda para $p$ a prioridade associada
+    ao vértice $v$ em $Q$ ($p$ deve ser menor que a atual prioridade 
+    associada a $v$).
+  \item $\BuildMinHeap(V)$: recebe o conjunto $V$ de vértices em que
+    cada vértice $v$ tem prioridade $y(v)$ e constrói uma fila de 
+    prioridades $Q$.
+\end{itemize}
+
+A maneira mais popular para implementar o algoritmo de Dijkstra é
+utilizando uma fila de prioridades para representar $\Qcor$, onde a
+prioridade de cada vértice $v$ é o seu potencial $y(v)$. A descrição do
+algoritmo de Dijkstra logo a seguir faz uso das operações
+\BuildMinHeap, \ExtractMin\ e \DecreaseKey, especificadas acima.
+
+\begin{algoritmo}
+  {\HeapDijkstra{}} $(V, A, c, \scor)$ \quad {\gray $\rhd$  $c \geq 0$}
+
+  \d1\x \para{} \cada{} $v$ em $V$ \faca
+
+  \d2\xx    $y(v) \larr nC+1$ \quad $\rhd$  $nC+1$ faz o papel de $\infty$ 
+
+  \d3\xx    $\pred(v) \larr \nil$
+
+  \d4\x  $y(\scor) \larr 0$
+
+  \d5\x $Q \larr \BuildMinHeap\,(\Ncor)$  \quad $\rhd$ $Q$ é um min-heap
+
+  \d6\x \enquanto{} $Q \neq \seq{}$ \faca
+
+  \d7\xx $u \larr \ExtractMin\,(Q)$
+
+  \d8\xx \para{} \cada{} $uv$ em $A(u)$ \faca{}
+
+  \d9\xxx $\valor \larr y(u) + c(uv)$ 
+
+  10\xxx \se{} $y(v) > \valor$ \entao{}
+
+  11\xxxx $\DecreaseKey(\valor,v,Q)$
+
+  12\xxxx $\pred(u) \larr v$
+
+  13\x \devolva{} $\pred$ e $y$
+\end{algoritmo}
+
+O consumo de tempo  do algoritmo de Dijkstra pode variar conforme a 
+implementação de cada uma dessas operações da fila de prioridade:  
+\Insert{}, \Delete{} e \DecreaseKey{}.  Existem muitos trabalhos 
+envolvendo implementações de filas de prioridade com o intuito de 
+melhorar a complexidade do algoritmo de Dijkstra. Para citar alguns 
+exemplos temos ~\cite{ahuja:radixheap, boris:buckets, 
+FredTarjan:Fibonacci}.
+
+A tabela~\ref{complexidade:dijkstra} resume as complexidades de tempo de 
+várias implementações de
+filas de prioridade e o respectivo consumo de tempo resultante para o 
+algoritmo de Dijkstra~\cite{clrs:introalg-2001}.
+
+\begin{table}
+%\footnotesize
+\noindent
+\begin{tabular}{^^7cl^^7c^^7cc^^7cc^^7cc^^7cc^^7cc^^7c}\hline
+  & heap & \dheap & fibonacci heap & bucket heap & radix 
+  heap\\\hline\hline
+\BuildMinHeap  & $O(\log n)$& $O(\log_{D} n)$
+               &$O(1)$&$O(1)$&$O(\log (nC))$ \\\hline
+\textsf{\ExtractMin}  & $O(\log n)$& $O(\log_{D} n)$ &$O(\log 
+                   n)$&$O(C)$&$O(\log (nC))$\\\hline
+ \textsf{\DecreaseKey}& $O(\log n)$& $O(\log_{D} n)$ 
+                      &$O(1)$&$O(1)$&$O(1)$
+  \\ \hline \hline
+  Dijkstra & $O(m \log n)$ & $O(m\log_{D} n)$ &$O(m + n \log n)$&$O(m
+     + nC)$&$O(m +n\log (nC))$ \\ \hline \end{tabular}
+
+  \caption{Complexidade do algoritmo de Dijkstra de acordo com as filas 
+  de prioridade.}
+  \label{complexidade:dijkstra}
+\end{table}
+%normalsize
+
+\citet{FredTarjan:Fibonacci} observaram que como o algoritmo de Dijkstra 
+examina os vértices em ordem de distância a partir de $\scor$, o 
+algoritmo está, implicitamente, ordenando estes valores.  Assim, 
+qualquer implementação do algoritmo de Dijkstra realiza pelo menos 
+$\Omega(n \log n)$ comparações e faz $\Omega(m + n \log n)$ operações 
+elementares. 
+
+\subsection{Algoritmo de Ford}
+\label{subsec:dijkstra}
+
+Ao contrário do algoritmo \Dijkstra, este algoritmo, que foi proposto 
+por Ford \citep{bellman:58}, pode ser aplicado a grafos cujos arcos têm 
+associado custos negativos, não podendo contudo existir circuitos de 
+custo negativo \citep{carlos:98}.
+
+Este algoritmo consiste em examinar os vértices do grafo, corrigindo os 
+potenciais tantas vezes quantas forem necessárias, até que todos os 
+potenciais satisfaçam a condição de otimalidade. Neste algoritmo, os 
+potenciais dos vértices têm o mesmo significado dos potenciais 
+utilizados no algoritmo \Dijkstra, só que agora os potenciais só se 
+tornam definitivos após terminar a execução do algoritmo.
+
+O algoritmo recebe um grafo $G = (V,A)$, uma função custo $c$ de $A$ em 
+$\Int$ e um vértice~$\scor$ e devolve uma função-predecessor $\pred$ e 
+uma função-potencial~$y$ que respeita~$c$ tais que, para cada vértice 
+$\tcor$, se $\tcor$ é acessível a partir de $\scor$, então $\pred$ 
+determina um caminho de $\scor$ a $\tcor$ que tem comprimento $y(\tcor) 
+- y(\scor)$, caso contrário $y(\tcor)-y(\scor) = nC+1$, onde $C := 
+\max\{ c(uv) \tq uv \in A\}$.
+Versão genérica do algoritmo.
+
+\begin{algoritmo}
+  \Ford{} $(V, A, c, \scor)$ \quad {$\rhd$  $(V, A, c)$ não possui 
+  ciclos negativos}
+
+  1\x \para{} \cada{} $v$ em $V$ \faca
+
+  2\xx    $y(v) \larr nC+1$ \quad {$\rhd$  $nC+1$ faz o papel de 
+  $\infty$} 
+
+  3\xx    $\pred(v) \larr \nil$
+
+  4\x  $y(\scor) \larr 0$
+
+  5\x \enquanto{} $y(v) > y(u) + c(uv)$ \para~{\bf algum} $uv \in A$ 
+  \faca
+
+  6 \xx $y(v) \larr y(u) + c(uv)$ 
+
+  7 \xx $\pred(v) \larr u$
+
+  8\x \devolva{} $\pred$ e $y$
+\end{algoritmo}
+
+A complexidade de tempo desta versão é $O(n^2mC)$ \citep{pf:fluxos}.  A 
+complexidade de tempo é tão elevado porque o algoritmo pode examinar 
+cada arco muitas vezes (o valor de $y(v)$ pode diminuir muitas vezes 
+antes de atingir seu valor final). A seguir temos a melhor versão 
+conhecida, do ponto de vista do consumo assintótico de tempo, para o 
+problema do caminho mínimo com custos arbitrários.
+
+\begin{algoritmo}
+  \Ford{} $(V, A, c, \scor)$ \quad {$\rhd$  $(V, A, c)$ não possui 
+  ciclos negativos}
+
+  \d1\x \para{} \cada{} $v$ em $V$ \faca
+
+  \d2\xx    $y(v) \larr nC+1$ \quad {$\rhd$  $nC+1$ faz o papel de 
+  $\infty$} 
+
+  \d3\xx    $\pred(v) \larr \nil$
+
+  \d4\x  $y(\scor) \larr 0$
+
+  \d5\x \repita{} $n - 1$ {\bf vezes}
+
+  \d6\xx \para{} \cada{} $uv$ em $A$ \faca{}
+
+  \d7\xxx \se{} $y(v) > y(u) + c(uv)$ \entao{}
+
+  \d8\xxxx $y(v) \larr y(u)+ c(uv) $
+
+  \d9\xxxx $\pred(v) \larr u$
+
+  10\x \devolva{} $\pred$ e $y$
+\end{algoritmo}
+
+O algoritmo consome $O(nm)$ unidades de tempo. Como $m = O(n^2)$ no pior 
+caso tem complexidade de tempo $O(n^3)$.
+
+\subsubsection*{Algoritmo de Ford e programação dinâmica}
+
+Podemos descrever o método de Ford de uma forma alternativa que deixa 
+mais claro que o algoritmo proposto se trata de uma programação 
+dinâmica.
+
+Vamos descrever a recorrência sobre a qual o algoritmo é implementado da 
+seguinte forma. Definimos $d_k(v)$ como sendo o menor comprimento de uma 
+caminho de $\scor$ a $v$ que possui no máximo $k$ arcos. Caso não exista 
+nenhum caminho de $\scor$ a $v$, definimos $d_k(v) = \infty$. Com essa 
+definição temos que o caminho mínimo de $\scor$ a $\tcor$ é igual a 
+$d_{n}(\tcor)$ pois um caminho contém no máximo $n - 1$ arcos e 
+precisamos de uma iteração a mais para detectar se há ciclos negativos.
+
+Em termos algorítmicos, a função $d_0$ pode ser calculada de forma 
+trivial, onde $d_0(\scor) = 0$ e $d_0(v) = \infty$ para $v \in V 
+\setminus \{\scor\}$.  Os demais valores podem ser calculados da 
+seguinte forma:
+
+\begin{displaymath}
+d_k(v) = %\left\{
+\begin{array}{lcl}
+%0, & &\text{se } v=\scor  \\ & & \text{ e } r=0,\dots,\lambda\\
+% & & \\
+%\infty, & & \text{se } v\neq \scor  \\ & & \text{ e } r=0\\
+% & & \\
+  \min\left\{d_{k-1}(v), \displaystyle\min_{u|uv \in 
+  A}\{d_{k-1}(u)+c_{uv}\}\right\}\\
+\end{array}
+%\right.
+\end{displaymath}
+
+A partir dessa recorrência, podemos de forma direta, extrair um 
+algoritmo recursivo e a partir da recursão extrair um algoritmo 
+iterativo que resolve o problema.

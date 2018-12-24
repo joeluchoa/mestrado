@@ -1,0 +1,130 @@
+%\pagestyle{empty}
+\addcontentsline{toc}{section}{Resumo}
+\longpage
+
+\centerline{\bf Resumo}
+
+\vspace{0.4cm}
+
+\noindent O \textit{problema do caminho mínimo} consiste em: \textit{dados} um
+grafo $(V,A)$, uma função comprimento $c$ de $A$ em $\NonnegInt$ e um vértice
+$s$ \textit{encontrar} um caminho de comprimento mínimo de $s$ até $t$, para
+cada vértice $t$ em $V$.
+ 
+\noindent Desde 1959, quase todos os desenvolvimentos teóricos para esse
+problema têm se baseado no algoritmo de Dijkstra~\cite{dijkstra59:note}. Foram
+desenvolvidas várias estruturas de dados que aumentam a eficiência desse
+algoritmo. Porém, qualquer implementação do mesmo, examina
+ os vértices em ordem crescente de distância a partir do vértice inicial $s$. 
+ Portanto, ocorre uma ordenação implícita dos vértices de acordo com
+essas distâncias. Assim, no modelo de comparação-adição, qualquer
+ implementação deste algoritmo consome tempo $\Omega(m + n \log n)$, onde $n$
+ é o número de vértices e $m$ é o número de arcos do grafo dado.
+
+ \noindent Para grafos simétricos e comprimentos em $\PosInt$,
+ Thorup~\cite{thorup:sssp-1999} projetou um algoritmo, no modelo RAM, que
+ consome tempo e espaço $O(m + n)$.  O algoritmo utiliza uma decomposição
+ hierárquica do grafo e ``bucketing'' para identificar eficientemente conjuntos de vértices
+ que podem ser examinados em qualquer ordem, evitando assim, o ``gargalo'' da
+ ordenação.
+ 
+ \noindent Nesta dissertação são descritos e implementados vários algoritmos
+ para o problema do caminho mínimo,
+ inclusive os mencionados acima. Ao final, 
+ é feita uma análise experimental das implementações realizadas.\\
+ 
+ 
+ \centerline{\bf Abstract}
+
+ \vspace{0.4cm}
+  
+ \noindent The \textit{single source shortest path problem} consists
+ of: \textit{given} a graph $(V, A)$, a weight function $c$ from $A$ to
+ $\NonnegInt$ and a source vertex $s$ \textit{find} a shortest path from $s$
+ to $t$, for each vertex $t$ in $V$.
+ 
+ \noindent Since 1959, almost all theoretical developments on this problem have
+ been based on Dijkstra's algorithm~\cite{dijkstra59:note}. Several data structures 
+ were developed to speedup its running time. However, any
+ implementation of Dijkstra's algorithm scans the vertices in increasing order
+ of distance from $s$. Thus, the vertices are implicitly sorted according to
+ their distances from $s$. Therefore, in the comparation-addition model, any
+ implementation of this algorithm has running time $\Omega(m + n \log n)$,
+ where $n$ is the number of vertices and $m$ is the number of arcs of
+ the given graph.
+ 
+ \noindent For undirected graphs and edge lengths in $\PosInt$,
+ Thorup~\cite{thorup:sssp-1999} proposed an algorithm, on the RAM model, that
+ has running time $O(m + n)$. The algorithm avoids the sorting
+ bottleneck by building a hierarchical bucketing structure identifying
+ vertices that may be scanned in any order.
+ 
+ \noindent This dissertation describes several algorithms for
+ the single source shortest path problem, including the ones mentioned above.
+ 
+
+%\centerline{\Large{\textbf{Abstract}}}
+%\renewcommand{\baselinestretch}{1.1}
+%\normalsize
+
+%\vspace{0.3cm}
+%   The single single source shortest path problem: \textit{given} a
+% graph $(V, A)$, a weight function $c: A \rightarrow \NonnegInt$ and a source
+% vertex $s$; \textit{find} a shortest path from $s$ to $t$, for each vertex
+% $t$ in $V$.
+ 
+%  Since 1959, almost all theoretical development for this problem
+% have been based on Dijkstra's algorithm~\cite{dijkstra59:note}. It was
+% developed several data structures to speedup its complexity. However, any
+% implementation of Dijkstra's algorithm exam the vertex in order of increasing
+% distance from $s$. Thus, the vertex are implicity sort according to their
+% distances form $s$. Therefore, in comparation-addition model, any
+% implementation of this algorithm spends $\Omega(m + n \log n)$ time, where
+% $n$ is the number of vertex and $m$ is the number of arcs.
+ 
+%  For undirected graphs and positively weight function,
+% Thorup~\cite{thorup:sssp-1999} has developed an algorithm in the RAM model
+% that spends $O(m + n)$ time and space. The algorithm avoids the sorting
+% bottle-neck by building a hierarchical
+% bucketing structure identifying vertex that may be examed in any order. 
+ 
+% In this dissertation we have described and implemented many
+% algoritms for the single source shortest path problem. 
+ 
+% \vspace{0.8cm}
+
+%\centerline{\Large{\textbf{Resumo}}}
+%\addcontentsline{toc}{section}{Resumo}
+
+%\vspace{0.3cm}
+
+% O problema do caminho mínimo consiste em: \textit{dados} um grafo
+%$(V,A)$, uma função comprimento $c$ de $A$ em $\NonnegInt$ e um vértice $s$;
+%\textit{encontrar} um caminho de comprimento mínimo de $s$ até $t$, para cada
+%vértice $t$ em $V$. 
+ 
+% Desde 1959, quase todos os desenvolvimentos teóricos para esse
+%problema tem se baseado no algoritmo de Dijkstra~\cite{dijkstra59:note}. Foram
+%desenvolvidas várias estruturas de dados para melhorar a complexidade desse
+%algoritmo. Porém, qualquer implementação do mesmo examina
+% os vértices em ordem crescente de distância à partir do vértice inicial $s$. 
+% Portanto, ocorre uma ordenação implícita dos vértices de acordo com suas
+% distâncias a partir  de $s$. Assim, no modelo de comparação-adição, qualquer
+% implementaçào deste algoritmo consome tempo $\Omega(m + n \log n)$, onde $n$
+% é o número de vértices e $m$ é o número de arcos do grafo dado.
+
+%  Para grafos simétricos e função comprimento positivas,
+% Thorup~\cite{thorup:sssp-1999} desenvolveu um algoritmo, no modelo RAM que
+% consome tempo e espaço $O(m + n)$.
+% O algoritmo  utiliza uma estrutura hierárquica de ``bucketing'' para
+% identificar conjuntos de vértices que podem ser visitados em qualquer ordem,
+% evitando o ``gargalo'' da ordenação.
+ 
+% Nesta dissertação descrevemos e implementamos vários algoritmos,
+% inclusive os mencionados acima, para o problema do caminho mínimo. Ao final, 
+% fazemos uma análise experimental dessas implementações.
+ 
+%\renewcommand{\baselinestretch}{1.3}
+%\normalsize
+
+%\clearemptydoublepage

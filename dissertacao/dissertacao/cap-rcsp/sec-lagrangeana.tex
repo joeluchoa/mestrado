@@ -1,0 +1,377 @@
+\section{Relaxação Lagrangiana}
+\label{sec:lagrangiana}
+
+A seguir vamos apresentar o algoritmo proposto por \citet{zang:80}, que 
+se utiliza de uma relaxação de uma formulação em programação linear. 
+
+Nela temos uma variável $x_{uv}$ para cada $uv\in A$, com a seguinte 
+interpretação: $x_{uv} = 1$ significa
+dizer que o arco $uv$ está na solução e $x_{uv} = 0$
+o contrário. Vamos nos referir ao problema abaixo como $(P)$.
+
+\begin{linearprogram}
+\mbox{minimize}
+  & c(x) & = & \displaystyle\sum_{uv \in A} c_{uv}x_{uv} \\
+\mbox{sob as restrições}
+  &\displaystyle\sum_{vw \in A}{x_{vw}} - \displaystyle\sum_{uv \in 
+  A}{x_{uv}} &=& \left\{ \begin{array}{rl}
+               1, & \text{para } v = \scor\\
+               0, & \text{para todo } v \in V \setminus \{\scor, 
+               \tcor\}\\
+              -1, & \text{para } v = \tcor\\
+       		\end{array} 
+        	\right. & (1)\\
+      &\displaystyle\sum_{uv \in A} r_{uv}x_{uv} &\le& \lambda & (2)\\
+      & x_{uv} & \in & \{0,1\},\ uv \in A & (3)
+
+\end{linearprogram}
+
+Na formulação acima, a restrição $(3)$ é responsável por delimitar os 
+possíveis valores que um componente do vetor $x$ pode assumir.  A 
+restrição $(1)$, por sua vez, é responsável por garantir que para um 
+vetor $x$ ser solução viável do problema, ele deve ``conter'' um caminho 
+do vértice $\scor$ ao vértice $\tcor$. Por fim, a restrição $(2)$ nos 
+garante que o conjunto de arcos induzido por um vetor $x$ viável, não 
+excede os recursos disponíveis.
+
+Por conveniência de notação, nós iremos definir os seguintes termos.
+Vamos denotar por $\cal{X}$ o conjunto de vetores $x$ que satisfazem as 
+restrições $(1)$ e $(3)$, ou seja, vetores $x$ que contêm um caminho de 
+$\scor$ a $\tcor$. Vamos definir também a seguinte função.
+$$g(x) = \displaystyle\sum_{uv \in A}{r_{uv} x_{uv}} - \lambda$$
+tal que $x \in \cal{X}$.
+
+Com as definições acima, resolver $(P)$ é equivalente a resolver o
+seguinte.
+$$c^* = c(x^*) = 
+min \left\{\ c(x) \mid x \in {\cal{X}} \mbox{ e } g(x) \leq 0\ \right\} $$
+
+Agora iremos aplicar a teoria da dualidade lagrangiana (como apresentada,
+por exemplo, em \cite{geoffrion:74}, \cite{fisher:78}) para resolver o 
+\rcsp.  Tendo em vista que o problema pode ser resolvido em tempo 
+polinomial quando a restrição $g(x) \leq 0$ é relaxada (sem esta 
+restrição, o
+problema se reduz a buscar caminho mínimo), nossa estratégia
+será justamente retirar essa ``restrição complicada'' do conjunto de
+restrições e a usarmos como penalidade na função objetivo (técnica essa
+que é a essência da relaxação lagrangiana).
+
+Para qualquer $u \in \mathbb{R}$, definimos a função
+Lagrangiana:
+$$L(u) = \displaystyle\min_{x \in \cal{X}}{L(u,x)} \text{, onde }
+L(u,x) = c(x) + u g(x)$$
+
+Perceba que encontrar uma solução para $L(u)$ é o problema de caminho 
+mínimo no grafo original, porém
+onde os custos dos arcos foram alterados para $c_{uv} + u r_{uv}$, $uv 
+\in A$.
+Temos que $L(u) \leq c^*$ para qualquer $u \geq 0$ (teorema da dualidade 
+fraca), pois
+$$ g(x^*) \leq 0 \Rightarrow L(u) \leq c(x^*) + u g(x^*) \leq c(x^*) = c^* \text{,}$$
+o que nos permite usar $L(u)$ como um limite inferior para
+o problema original. Para encontrarmos o limite inferior mais justo
+possível, resolvemos o problema dual a seguir. Vamos nos referir ao 
+problema abaixo como $(D)$.
+
+\begin{linearprogram}
+	& L^* = L(u^*) = \displaystyle\max_{u \geq 0}{L(u)} \hfill &&&
+\end{linearprogram}
+
+Pode ser que exista uma folga na
+dualidade ({\it duality gap}), ou seja, pode ser que $L^*$ seja 
+estritamente menor que $c^*$. Nos casos em que existir essa folga, 
+teremos que trabalhar um pouco mais para eliminá-la. 
+
+Vamos, agora, descrever um método para
+resolver o problema $(P)$, que usa como passo, resolver o
+problema $(D)$. Por praticidade vamos denotar por $x(u)$ como um caminho
+que possui valor ótimo associado à função $L(u)$.
+
+O mais natural é que, como primeiro passo, verifiquemos se o menor caminho
+(não limitado, $\displaystyle\min_{x \in \cal{X}}{c(x)}$) respeita nossas restrições. Vamos chamar esse caminho de $x(0)$, pois 
+$L(0) = c^* $. 
+\begin{itemize}
+\item Se $g(x(0)) \leq 0$, então $x(0)$ é claramente uma solução ótima de $(P)$.
+\item Senão, $x(0)$ nos serve, pelo menos, como limite inferior para uma 
+  solução ótima.
+\end{itemize}
+
+Como segundo passo, devemos verificar se o caminho que consome menor quantidade de 
+recursos ($\displaystyle\min_{x \in \cal{X}}{g(x)}$) respeita nossas restrições.
+Vamos chamar esse caminho de $x(\infty)$, pois para valores muito grandes de $u$, o parâmetro
+$c(x)$ na função $L(u)$ é ``dominado'' por $ug(x)$.
+\begin{itemize}
+\item Se $g(x(\infty)) > 0$, o problema não tem solução, pois o consumo 
+  do caminho que consome a menor quantidade de recursos ultrapassa o 
+  limite dado.
+\item Senão, $x(\infty)$ é uma solução viável para a instância e nos serve de
+limite superior para o problema.
+\end{itemize}
+
+Agora com os resultados dos passos anteriores, se não temos ainda a solução
+ou a prova de que a instância é inviável, temos a seguinte situação:
+Dois caminhos, $x(0)$, que {\bf não é solução} e é um {\bf limite 
+inferior}; e $x(\infty)$,
+que {\bf é solução viável} e é um {\bf limite superior}, $g(x(0)) > 0$ e $g(x(\infty)) \leq 0$.
+
+Da forma como desenvolvemos a solução até então, podemos interpretar cada caminho no grafo como
+uma reta no espaço $(u,L)$ da forma  $L = c(x) + u g(x)$, onde $u$ é nossa variável,
+$c(x)$ é nosso termo independente (ponto onde a reta corta o eixo $L$) e 
+$g(x)$ é nosso coeficiente angular. Isso nos permite
+dar uma interpretação geométrica para a função $L(u)$, que será o envelope inferior do
+conjunto de retas (caminhos), ou seja, $L(u)$ será um conjunto de segmentos de retas,
+tal que cada ponto $(u,L)$ nesses segmentos está abaixo ou na mesma altura de qualquer 
+ponto $(u,L')$ pertencente às retas associadas aos caminhos.
+
+Com a interpretação geométrica dos caminhos, temos a informação que retas {\bf crescentes}
+são associadas a caminhos {\bf não viáveis} para o nosso problema, enquanto as retas 
+{\bf não crescentes} são {\bf soluções viáveis}. Como estamos procurando o valor
+de $L^*$ (o ponto ``mais alto'' da função $L(u)$) vamos analisar o ponto 
+$(u',L')$ que é a intersecção
+das retas associadas a $x(0)$ e $x(\infty)$. 
+$$u' = (c(x(\infty)) - c(x(0))) / (g(x(0)) - g(x(\infty)))$$ 
+$$L' = c(x(0)) + u' \cdot g(x(0))$$
+
+É fato que $u' \geq 0$, pois $c(x(0))$ é mínimo, $g(x(\infty)) \leq 0$ 
+e $g(x(0)) > 0$. Claramente, se existem apenas dois caminhos
+o ponto $(u', L')$ é o
+que maximiza $L(u)$. O mesmo acontece quando existem vários caminhos
+e $L(u') = L'$, ou seja, $L(u', x) \geq L'$ para qualquer $x \in \cal{X}$.
+Um último caso ``especial'' é quando existe um caminho $x_h \in \cal{X}$
+tal que $g(x_h) = 0$ e $L(u') = L(u', x_h) < L'$. Como a reta associada a $x_h$ é horizontal,
+ela limita superiormente $L(u)$, e como temos o ponto $(u',L(u'))$
+sobre ela, $c^* = c(x_h) = L^* = L(u')$ (neste caso não existe folga na dualidade).
+
+Escrevemos, especificamente, sobre os caminhos $x(0)$ e $x(\infty)$ no 
+parágrafo anterior,
+mas o que foi dito vale no caso geral, onde temos dois caminhos disponíveis $x^+,x^- \in \cal{X}$,
+tal que 
+$g^+ \equiv g(x^+) > 0$, 
+$g^- \equiv g(x^-) \leq 0$ e 
+$c^- \equiv c(x^-) \geq c^+ \equiv c(x^+)$.
+Então, temos que $u' = (c^- - c^+) / (g^+ - g^-)$ e $L' = c^+ + u'g^+$ definem o ponto
+de intersecção, no espaço $(u,L)$, das retas associadas aos caminhos 
+$x^+$ e $x^-$.
+Se $L(u') = L'$ ou se $g(x(u')) = 0$, então $L(u^*) = L(u')$ é uma 
+solução do nosso
+problema dual $(D)$. Caso contrário, se $g(x(u')) < 0$, então $x(u')$ é o nosso novo
+caminho $x^-$, e se $g(x(u')) > 0$, então $x(u')$ é o nosso novo caminho $x^+$.
+O procedimento se repete até determinarmos uma solução do problema 
+$(D)$.
+Com a realização do procedimento temos disponíveis um limite inferior $LB$ ({\it lower bound})
+e um limite superior $UB$ ({\it upper bound}) para o valor de $c^*$. Nós temos
+que $LB = L(u^*) \leq c(x^*)$ (pelo teorema da dualidade fraca); e por 
+definição segue que qualquer $x^-$ usado durante
+o procedimento é uma solução viável, assim $UB$ é o valor do último $c^-$ ou o valor
+de $c(x(u'))$ associado com o último caminho $x(u')$ {\bf se $g(x(u')) \leq 0$}.
+
+Tendo resolvido o problema $(D)$, temos limites $LB \leq c^* \leq UB$ e uma solução
+viável associada a $UB$ para o \rcsp. Quando $LB = UB$, esta solução é ótima.
+Porém, quando $LB < UB$ temos uma folga na dualidade. Para eliminarmos 
+essa folga poderíamos usar um algoritmo de $k$-ésimo menor caminho ({\it 
+k-shortest path}) a partir do primeiro caminho $x$ tal que $c(x) \geq 
+LB$ até o primeiro $x_k$ tal que $g(x_k) \leq 0$.
+Como esse algoritmo precisa do conhecimento de todos os caminhos anteriores para gerar o próximo,
+essa abordagem não tomaria nenhum proveito da resolução do dual.
+Em contraste, determinar o $k$-ésimo menor caminho em 
+relação à função Lagrangiana $L(u^*,x)$ (o que é equivalente a  
+usar a função $c'$ como custo, $c'_{uv} = c_{uv} + u^* \cdot r_{uv}$, $uv \in A$) 
+é perfeitamente aplicável a partir da solução dual.
+
+Vamos denotar $L_k(u^*)$, para $k = 1, 2, \dots$, como sendo o valor do 
+$k$-ésimo menor
+caminho $x_k \in \cal{X}$ em relação a função de custo $L(u^*,x)$.
+Os caminhos $x_1$ e $x_2$ já são conhecidos, eles são $x^+$ e $x^-$ 
+respectivamente, pois
+se interceptam no ponto $(u^*,L(u^*))$, o que significa que possuem 
+valor mínimo em relação
+a função $L(u^*,x)$.  Iterando sobre o $k$-ésimo caminho, $k \geq 3$, 
+nós atualizamos $UB$ quando $g(x_k) \leq 0$ e $c(x_k) < UB$; e 
+atualizamos $LB = L_k(u^*)$, pois essa é uma sequência não decrescente 
+($L_{k-1}(u^*) \leq L_k(u^*)$).
+O procedimento continua até que $LB \geq UB$, e então temos a solução
+do problema $(P)$, associada a $UB = c^*$, solução do \rcsp.
+
+\begin{algoritmo}
+\rcsp-LAGRANGIANA($G$, $\scor$, $\tcor$, $k=1$, $r$, $\lambda$, $c$)
+    
+    \hspace{-0.35cm}\quad $\rhd$ Inicialização
+
+{\d1} \x $x_0,c_0,g_0 \leftarrow L(0)$
+
+{\d2} \x \se{} $g_0 \leq 0$
+
+{\d3} \xx \entao{} $x^*, c^* \leftarrow x_0, c_0$
+
+{\d4} \xx \senao{} $x^+, c^+, g^+ \leftarrow x_0, c_0, g_0$
+
+{\d5} \x $x_{\infty},c_{\infty},g_{\infty} \leftarrow L(\infty)$
+
+{\d6} \x \se{} $g_{\infty} > 0$
+
+{\d7} \xx \entao{} $x^*, c^* \leftarrow NULL, NULL$ \quad $\rhd$ Não tem 
+solução!
+
+{\d8} \xx \senao{} $x^-, c^-, g^- \leftarrow x_{\infty}, c_{\infty}, 
+g_{\infty}$
+
+    \quad $\rhd$ Resolvendo o Dual
+    
+    {\d9} \x \se{} $x^+ \neq NIL$ e $x^- \neq NIL$ \quad$\rhd$ Se entrou 
+    nos dois ``então'' acima
+
+{10} \xx $LB \leftarrow 0$; $UB \leftarrow c^-$
+
+{11} \xx \enquanto{} $LB < UB$ \faca{}
+
+{12} \xxx $u' \leftarrow (c^- - c^+) / (g^+ - g^-)$; $L' \leftarrow c^+ 
++ u'g^+$; $x', c', g' \leftarrow L(u')$
+
+{13} \xxx \se{} $g' = 0$
+
+{14} \xxxx \entao{} $x^*, c^* \leftarrow x', c'$; $LB \leftarrow UB 
+\leftarrow c'$ 
+
+{15} \xxxxxx \textbf{PÁRA} o enquanto 
+
+{16} \xxx \se{} $L(u') = L'$ e $g' < 0$ 
+
+{17} \xxxx \entao{} $LB \leftarrow L'$; $ UB \leftarrow \min\{UB,c'\}$; 
+$x^- \leftarrow x'$; $u^* \leftarrow u'$ 
+
+{18} \xxxxxx \textbf{PÁRA} o enquanto 
+
+{19} \xxx \se{} $L(u') = L'$ e $g' > 0$ 
+
+{20} \xxxx \entao{} $LB \leftarrow L'$; $u^* \leftarrow u'$ 
+
+{21} \xxxxxx \textbf{PÁRA} o enquanto 
+
+{22} \xxx \se{} $L(u') < L'$ e $g' > 0$ 
+
+{23} \xxxx \entao{} $x^+, c^+, g^+ \leftarrow x', c', g'$ 
+
+{24} \xxx \se{} $L(u') < L'$ e $g' < 0$ 
+
+{25} \xxxx \entao{} $x^-, c^-, g^- \leftarrow x', c', g'$; $ UB 
+\leftarrow \min\{UB,c'\}$ 
+
+    \quad $\rhd$ Eliminando a folga da dualidade
+
+{26} \xx $x_1, x_2 \leftarrow x^+, x^-$; $k \leftarrow 2$
+
+{27} \xx \enquanto{} $LB < UB$ \faca{}
+
+{28} \xxx $k \leftarrow k + 1$; $x_k, c_k, g_k \leftarrow L_k(u^*)$; $LB 
+\leftarrow L_k(u^*)$
+
+{29} \xxx \se{} $g_k \leq 0$ e $c_k < UB$
+
+{30} \xxxx \entao{} $x^-, UB \leftarrow x_k, c_k$ 
+
+{31} \xxx \se{} $LB \geq UB$ 
+
+{32} \xxxx \entao{} $x^*, c^* \leftarrow x^-, UB$ 
+
+{33} \x \devolva{} $x^*, c^*$
+\end{algoritmo}
+
+A seguir temos um exemplo do algoritmo executando no grafo representado 
+na figura~\ref{fig:exemplo_grafo}. No exemplo temos $\scor = 0$, $\tcor 
+= 9$, e o limite de recursos é $1$. Os caminhos e retas em vermelho 
+estão associados à $x^+$ enquanto os azuis à $x^-$. Já os caminhos 
+verdes são os caminhos calculados no procedimento que elimina a folga do 
+problema dual.
+
+\begin{figure}[ht!]
+    \centering
+        \includegraphics[scale=0.6]{figuras/pdf/grafo_lagrangeana.pdf}
+    \caption{\it Grafo exemplo; os rótulos dos arcos representam 
+    $(c_{uv}, r_{uv})$. }
+    \label{fig:exemplo_grafo}
+\end{figure}
+
+%\begin{figure}[ht!]
+    %\centering
+        %\includegraphics[scale=0.6]{figuras/png/exemplo_funcao_L.png}
+    %\caption{\it Representação geométrica do grafo da Figura \ref{fig:exemplo_grafo}.
+        %As retas pretas representam os caminhos que são relevantes ao 
+        %algoritmo. A ``curva'' de segmentos
+    %mais espessos representa o função $L(u)$. }
+    %\label{fig:exemplo_funcao_L}
+%\end{figure}
+
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[scale=0.6]{figuras/pdf/zang1a.pdf}
+  \includegraphics[scale=1]{figuras/pdf/zang1b.pdf}
+  \caption[Exemplo do algoritmo de Handler e Zang]{Inicialmente 
+    encontramos $x_0=[0,1,4,9]$ e $x_{\infty}=[0,3,6,9]$. As restas 
+    correspondentes são $L=5+u$ e $L=20-0.65u$ que se intersectam no 
+    ponto $u' = 9.09$ e $L'=14.09$. Nesta primeira iteração temos $LB = 
+  5$ e $UB = 20$.}
+  \label{fig:zang1}
+\end{figure}
+\begin{figure}[h!]
+  \centering
+  \includegraphics[scale=0.6]{figuras/pdf/zang2a.pdf}
+  \includegraphics[scale=1]{figuras/pdf/zang2b.pdf}
+  \caption[Exemplo do algoritmo de Handler e Zang]{Calculando a função 
+  $L$ no ponto $u'$ encontramos um novo caminho para $x^+$ que passa a 
+ser $[0,2,4,9]$.  Temos agora $LB = 10.8$ e $UB = 20$. A interseção das 
+restas é sobre o ponto $u' = 12.94$ e $L' = 11.59$.}
+  \label{fig:zang1}
+\end{figure}\begin{figure}[h!]
+  \centering
+  \includegraphics[scale=0.6]{figuras/pdf/zang3a.pdf}
+  \includegraphics[scale=1]{figuras/pdf/zang3b.pdf}
+  \caption[Exemplo do algoritmo de Handler e Zang]{Avaliando a função 
+    $L$ no ponto de interseção encontramos um caminho para substituir 
+    $x^-$, a saber $[0,2,6,9]$. Agora na interseção de $x^+$ e $x^-$ 
+    encontramos o ponto máximo da função $L$ que é $L^* = 11$ e $u^* = 
+  10$.  Terminamos o dual com $LB = 11$ e $UB = 15$.}
+  \label{fig:zang1}
+\end{figure}\begin{figure}[h!]
+  \centering
+  \includegraphics[scale=0.6]{figuras/pdf/zang6a.pdf}
+  \includegraphics[scale=1]{figuras/pdf/zang6b.pdf}
+  \caption[Exemplo do algoritmo de Handler e Zang]{A partir daqui, 
+  executamos o algortimo de Yen para eliminação da folga da dualidade.}
+  \label{fig:zang1}
+\end{figure}\begin{figure}[h!]
+  \centering
+  \includegraphics[scale=0.6]{figuras/pdf/zang7a.pdf}
+  \includegraphics[scale=1]{figuras/pdf/zang7b.pdf}
+  \caption[Exemplo do algoritmo de Handler e Zang]{Eliminando a folga da 
+  dualidade.}
+  \label{fig:zang1}
+\end{figure}\begin{figure}[h!]
+  \centering
+  \includegraphics[scale=0.6]{figuras/pdf/zang8a.pdf}
+  \includegraphics[scale=1]{figuras/pdf/zang8b.pdf}
+  \caption[Exemplo do algoritmo de Handler e Zang]{Eliminando a folga da 
+  dualidade.}
+  \label{fig:zang1}
+\end{figure}\begin{figure}[h!]
+  \centering
+  \includegraphics[scale=0.6]{figuras/pdf/zang9a.pdf}
+  \includegraphics[scale=1]{figuras/pdf/zang9b.pdf}
+  \caption[Exemplo do algoritmo de Handler e Zang]{Eliminando a folga da 
+  dualidade.}
+  \label{fig:zang1}
+\end{figure}\begin{figure}[h!]
+  \centering
+  \includegraphics[scale=0.6]{figuras/pdf/zang10a.pdf}
+  \includegraphics[scale=1]{figuras/pdf/zang10b.pdf}
+  \caption[Exemplo do algoritmo de Handler e Zang]{Eliminando a folga da 
+  dualidade.}
+  \label{fig:zang1}
+\end{figure}\begin{figure}[h!]
+  \centering
+  \includegraphics[scale=0.6]{figuras/pdf/zang11a.pdf}
+  \includegraphics[scale=1]{figuras/pdf/zang11b.pdf}
+  \caption[Exemplo do algoritmo de Handler e Zang]{Solução encontrada 
+  para o exemplo.}
+  \label{fig:zang1}
+\end{figure}

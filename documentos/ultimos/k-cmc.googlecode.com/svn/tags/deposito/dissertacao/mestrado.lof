@@ -1,0 +1,72 @@
+\select@language {brazil}
+\contentsline {figure}{\numberline {1}{\ignorespaces Em ($a$) vemos um esquema solicita\c c\~ao da SoftSOF, um link de 2000 Kbits/s entre as filiais. Em ($b$) est\'a descrita a solu\c c\~ao encontrada pela TeleMax, com base na disponibilidade de sua rede.}}{2}
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {1.1}{\ignorespaces $\textrm {(a)}$, $\textrm {(b)}$, $\textrm {(c)}$ e $\textrm {(d)}$ s\~ao exemplos de grafos. $\textrm {(b)}$ \'e um grafo sim\'etrico.}}{6}
+\contentsline {figure}{\numberline {1.2}{\ignorespaces Matriz de adjac\^encia do grafo da figura~\ref {fig:grafo}$\textrm {(d)}$.}}{8}
+\contentsline {figure}{\numberline {1.3}{\ignorespaces Matriz de incid\^encia do grafo da figura~\ref {fig:grafo}$\textrm {(d)}$.}}{8}
+\contentsline {figure}{\numberline {1.4}{\ignorespaces Listas de adjac\^encia do grafo da figura~\ref {fig:grafo}$\textrm {(d)}$.}}{9}
+\contentsline {figure}{\numberline {1.5}{\ignorespaces Grafo sim\'etrico sem custos nas arestas}}{12}
+\contentsline {figure}{\numberline {1.6}{\ignorespaces Grafo sim\'etrico com custos nas arestas}}{14}
+\contentsline {figure}{\numberline {1.7}{\ignorespaces Grafo assim\'etrico sem custos nas arestas}}{15}
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Um grafo com custos nos arcos. O custo do caminho $\delimiter "426830A s,u,w,z,t \delimiter "526930B $ \'e 14. \`A direita o caminho de custo m\IeC {\'\i }nimo $\delimiter "426830A s,w,t \delimiter "526930B $ est\'a em destaque.}}{20}
+\contentsline {figure}{\numberline {2.2}{\ignorespaces (a) Um grafo com custos nos arcos. e um c-potencial. Os n\'umeros pr\'oximos aos v\'ertices s\~ao os seu ponteciais.}}{21}
+\contentsline {figure}{\numberline {2.3}{\ignorespaces Um grafo com custos nos arcos e um potencial que certifica que qualquer um dos caminhos com arcos em destaque t\^em custo m\IeC {\'\i }nimo.}}{22}
+\contentsline {figure}{\numberline {2.4}{\ignorespaces Representa\c c\~ao de caminhos atrav\'es da fun\c c\~ao-predecessor}}{23}
+\contentsline {figure}{\numberline {2.5}{\ignorespaces Ilustra\c c\~ao de uma itera\c c\~ao de \textsc {Dijkstra}}}{31}
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {3.1}{\ignorespaces (b) mostra a \'arvore dos prefixos dos caminhos $\delimiter "426830A s,a,c,t \delimiter "526930B $, $\delimiter "426830A s,a,d,t \delimiter "526930B $, $\delimiter "426830A s,b,a,c,t \delimiter "526930B $ e $\delimiter "426830A s,b,a,d,c,t \delimiter "526930B $ no grafo em~(a). Na \'arvore, um s\IeC {\'\i }mbolo ao lado de um n\'o \'e o r\'otulo desse n\'o. Os r\'otulos dos arcos n\~ao est\~ao representados na figura. O s\IeC {\'\i }mbolo dentro de um n\'o \'e o seu nome. }}{45}
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {4.1}{\ignorespaces A partir do menor caminho, $P1$, calculamos o segundo menor caminho, $P2$. $P1$ e $P2$ formam a base para a obten\c c\~ao do pr\'oximo caminho, $P3$. O caminho $Pa$ corresponde ao menor caminho que se desvia do caminho $P2$ em algum momento depois que o caminho $P2$ se desviou do $P1$. O caminho $Pb$ corresponde ao menor caminho que se desvia do caminho $P1$ depois do v\'ertice comum a $P1$ e $P2$. O caminho $Pc$ corresponde ao menor caminho que se desvia de P1 antes do v\'ertice comum a $P1$ e $P2$. Tomando-se estes tr\^es caminhos candidatos para $P3$, basta analisar o de menor custo o qual ser\'a o $P3$. }}{55}
+\contentsline {figure}{\numberline {4.2}{\ignorespaces Em (a) temos o grafo de exemplo a partir do qual geraremos \'arvores com raiz em $s$=$a$ e $t$=$e$. Em vermelho est\'a marcado o menor caminho de $a$ a $e$. Em (b) temos a \'arvore de menores caminhos com raiz em $a$. Em (c) temos a \'arvore de menores caminhos com raiz em $e$. Em ambas as \'arvores a linha vermelha corresponde ao menos caminho de $a$ a $e$ e este \'e o mesmo que o assinalado no grafo~\ref {fig:rotulacao}(a).}}{55}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Grafo}}}{55}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {\'Arvore Ts}}}{55}
+\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {\'Arvore Tt}}}{55}
+\contentsline {figure}{\numberline {4.3}{\ignorespaces Em (a) temos o grafo de exemplo a partir do qual geraremos \'arvores com raiz em $s$=$a$ e $t$=$e$. Em vermelho est\'a marcado o menor caminho de $a$ a $e$. Em (b) temos a \'arvore de menores caminhos com raiz em $a$. Em (c) temos a \'arvore de menores caminhos com raiz em $e$. Em ambas as \'arvores a linha vermelha corresponde ao menor caminho de $a$ a $e$ e este \'e o mesmo que o assinalado no grafo~\ref {fig:grafoComZero}(a). Observe que na \'arvore $Ts$ $\epsilon (c)=3$ e na \'arvore $Tt$ $\zeta (c)=2$, ou seja, $\epsilon (c) > \zeta (c)$, o que viola a regra b\'asica do algoritmo. }}{56}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Grafo}}}{56}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {\'Arvore Ts}}}{56}
+\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {\'Arvore Tt}}}{56}
+\contentsline {figure}{\numberline {4.4}{\ignorespaces Em (a) temos o grafo base usado na simula\c c\~ao. Em vermelho temos o caminho $P1$ gerado a partir de uma chamada ao algoritmo Dijkstra com origem $a$ e destino $d$. Em (b) temos a \'arvore de menores caminhos com raiz em $a$. Em (c) temos a \'arvore de menores caminhos com raiz em $e$. Em ambas as \'arvores a linha vermelha corresponde ao menor caminho de $a$ a $e$ e este \'e o mesmo que o assinalado no grafo em (a).}}{57}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Grafo}}}{57}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {\'Arvore Ts}}}{57}
+\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {\'Arvore Tt}}}{57}
+\contentsline {figure}{\numberline {4.5}{\ignorespaces Esquema de gera\c c\~ao do caminho $Pa$ derivado do caminho $P2=\delimiter "426830A a, f, g, d \delimiter "526930B $}}{58}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Grafo}}}{58}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {\'Arvore Ts}}}{58}
+\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {\'Arvore Tt}}}{58}
+\contentsline {figure}{\numberline {4.6}{\ignorespaces Esquema de gera\c c\~ao do caminho $Pb$ derivado do caminho $P1 = \delimiter "426830A a, b, g, d \delimiter "526930B $}}{59}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Grafo}}}{59}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {\'Arvore Ts}}}{59}
+\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {\'Arvore Tt}}}{59}
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {5.1}{\ignorespaces Desempenho do algoritmo com um grafo de densidade 0.1 e 100 v\'ertices}}{73}
+\contentsline {figure}{\numberline {5.2}{\ignorespaces Desempenho do algoritmo com um grafo de densidade 0.2 e 100 v\'ertices}}{73}
+\contentsline {figure}{\numberline {5.3}{\ignorespaces Desempenho do algoritmo com um grafo de densidade 0.3 e 100 v\'ertices}}{74}
+\contentsline {figure}{\numberline {5.4}{\ignorespaces Desempenho do algoritmo com um grafo de densidade 0.4 e 100 v\'ertices}}{74}
+\contentsline {figure}{\numberline {5.5}{\ignorespaces Desempenho do algoritmo com um grafo de densidade 0.5 e 100 v\'ertices}}{75}
+\contentsline {figure}{\numberline {5.6}{\ignorespaces Desempenho do algoritmo com um grafo de densidade 0.6 e 100 v\'ertices}}{75}
+\contentsline {figure}{\numberline {5.7}{\ignorespaces Desempenho do algoritmo com um grafo de densidade 0.7 e 100 v\'ertices}}{76}
+\contentsline {figure}{\numberline {5.8}{\ignorespaces Desempenho do algoritmo com um grafo de densidade 0.8 e 100 v\'ertices}}{76}
+\contentsline {figure}{\numberline {5.9}{\ignorespaces Desempenho do algoritmo com um grafo de densidade 0.9 e 100 v\'ertices}}{77}
+\contentsline {figure}{\numberline {5.10}{\ignorespaces Desempenho do algoritmo com um grafo de densidade 1.0 e 100 v\'ertices}}{77}
+\contentsline {figure}{\numberline {5.11}{\ignorespaces Comparativo entre as principais subrotinas e o tempo total do KIM. Densidade 0.1}}{79}
+\contentsline {figure}{\numberline {5.12}{\ignorespaces Comparativo entre as principais subrotinas e o tempo total do KIM. Densidade 0.2}}{79}
+\contentsline {figure}{\numberline {5.13}{\ignorespaces Comparativo entre as principais subrotinas e o tempo total do KIM. Densidade 0.3}}{80}
+\contentsline {figure}{\numberline {5.14}{\ignorespaces Comparativo entre as principais subrotinas e o tempo total do KIM. Densidade 0.4}}{80}
+\contentsline {figure}{\numberline {5.15}{\ignorespaces Comparativo entre as principais subrotinas e o tempo total do KIM. Densidade 0.5}}{81}
+\contentsline {figure}{\numberline {5.16}{\ignorespaces Comparativo entre as principais subrotinas e o tempo total do KIM. Densidade 0.6}}{81}
+\contentsline {figure}{\numberline {5.17}{\ignorespaces Comparativo entre as principais subrotinas e o tempo total do KIM. Densidade 0.7}}{82}
+\contentsline {figure}{\numberline {5.18}{\ignorespaces Comparativo entre as principais subrotinas e o tempo total do KIM. Densidade 0.8}}{82}
+\contentsline {figure}{\numberline {5.19}{\ignorespaces Comparativo entre as principais subrotinas e o tempo total do KIM. Densidade 0.9}}{83}
+\contentsline {figure}{\numberline {5.20}{\ignorespaces Comparativo entre as principais subrotinas e o tempo total do KIM. Densidade 1.0}}{83}
+\contentsline {figure}{\numberline {5.21}{\ignorespaces Comparativo entre a propor\c c\~ao de tempo utilizada pelas duas principais subrotinas do KIM. Densidade 0.1}}{84}
+\contentsline {figure}{\numberline {5.22}{\ignorespaces Comparativo entre a propor\c c\~ao de tempo utilizada pelas duas principais subrotinas do KIM. Densidade 0.2}}{84}
+\contentsline {figure}{\numberline {5.23}{\ignorespaces Comparativo entre a propor\c c\~ao de tempo utilizada pelas duas principais subrotinas do KIM. Densidade 0.3}}{85}
+\contentsline {figure}{\numberline {5.24}{\ignorespaces Comparativo entre a propor\c c\~ao de tempo utilizada pelas duas principais subrotinas do KIM. Densidade 0.4}}{85}
+\contentsline {figure}{\numberline {5.25}{\ignorespaces Comparativo entre a propor\c c\~ao de tempo utilizada pelas duas principais subrotinas do KIM. Densidade 0.5}}{86}
+\contentsline {figure}{\numberline {5.26}{\ignorespaces Comparativo entre a propor\c c\~ao de tempo utilizada pelas duas principais subrotinas do KIM. Densidade 0.6}}{86}
+\contentsline {figure}{\numberline {5.27}{\ignorespaces Comparativo entre a propor\c c\~ao de tempo utilizada pelas duas principais subrotinas do KIM. Densidade 0.7}}{87}
+\contentsline {figure}{\numberline {5.28}{\ignorespaces Comparativo entre a propor\c c\~ao de tempo utilizada pelas duas principais subrotinas do KIM. Densidade 0.8}}{87}
+\contentsline {figure}{\numberline {5.29}{\ignorespaces Comparativo entre a propor\c c\~ao de tempo utilizada pelas duas principais subrotinas do KIM. Densidade 0.9}}{88}
+\contentsline {figure}{\numberline {5.30}{\ignorespaces Comparativo entre a propor\c c\~ao de tempo utilizada pelas duas principais subrotinas do KIM. Densidade 1.0}}{88}
+\addvspace {10\p@ }

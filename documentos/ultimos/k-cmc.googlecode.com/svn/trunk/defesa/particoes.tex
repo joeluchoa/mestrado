@@ -1,0 +1,623 @@
+\section{Partições}
+
+ \begin{frame}{Questões}
+ \begin{itemize}
+ \item<1-> $k$ é, potencialmente, exponencial no número de vértices
+ \item<2-> um grafo completo com $15$ vértices possui $16.926.797.485$ de caminhos entre dois vértices fixados
+ \item<3-> particionar os caminhos utilizando a árvore dos prefixos
+ \end{itemize}
+ \end{frame}
+  \begin{frame}
+ \begin{block}{Descrição}
+ \begin{itemize}
+ \item $\Qcal$: coleção de caminhos
+ \item $(N,E,f)$: árvore dos prefixos de $\Qcal$ 
+ \item Para cada nó $u$ da árvore temos uma partição $\pi_u$
+ \item $\Pi = \{\pi_u, u \in (N,E,f)\}$
+ \end{itemize}
+ \end{block}
+%\end{frame}
+ 
+ \begin{block}{Partição $\pi_u$}
+\begin{itemize}
+ \item caminhos com ponta inicial na raiz
+ \item compartilham o prefixo $f(R_u)$
+ \item não possuem arcos em $A_u$
+ \end{itemize}
+ \end{block}
+ \end{frame}
+
+\begin{frame}
+\only<1>{
+\alert{$\Pi$ contém todos os caminhos de $s$ a $t$}
+\begin{center}
+\begin{tikzpicture}
+\tikzstyle{every place}=[draw=blue,fill=blue!20,thick,minimum size=50mm]
+\tikzstyle{every token}=[draw=blue,fill=blue!20,thick,minimum size=10mm]
+\node[place,label=above:$\Pi$] {}
+[children are tokens,token distance=10mm]
+child {node [token,fill=red]  {$P_1$}}
+child {node [token,fill=red]  {$P_2$}}
+child {node [token,fill=red]  {$P_3$}}
+child {node [token,fill=red]  {$P_4$}}
+child {node [token,fill=red]  {$P_5$}}
+child {node [token,fill=red] {$P_k$}}
+child {node [token,fill=red] {$P_{k+1}$}}
+child {node [token,fill=red] {$\ldots$}};
+\end{tikzpicture}
+\end{center}
+}
+\only<2>{
+\alert{$\Qcal \larr P_1=\seq{s,a,i,t}$}
+\begin{center}
+\begin{tikzpicture}
+\tikzstyle{every place}=[draw=blue,fill=blue!20,thick,minimum size=70mm]
+\tikzstyle{every token}=[draw=blue,fill=blue!20,thick,minimum size=10mm]
+\node[place,label=above:$\Pi$] {}
+[children are tokens,token distance=30mm]
+child {node [token,fill=red,label=above:{$\pi_s$}]  {} }
+child {node [token,fill=red,label=above:{$\pi_a$}]  {}}
+child {node [token,fill=red,label=above:{$\pi_i$}]  {}};
+\end{tikzpicture}
+\end{center}
+}
+\only<3>{
+\alert{$\Qcal \larr \seq{s,a,i,t} \cup \seq{s,b,f,l,t}$}
+\begin{center}
+\begin{tikzpicture}
+\tikzstyle{every place}=[draw=blue,fill=blue!20,thick,minimum size=70mm]
+\tikzstyle{every token}=[draw=blue,fill=blue!20,thick,minimum size=10mm]
+\node[place,label=above:$\Pi$] {}
+[children are tokens,token distance=30mm]
+child {node [token,fill=red,label=above:{$\pi_s$}]  {} }
+child {node [token,fill=red,label=above:{$\pi_{a}$}]  {}}
+child {node [token,fill=red,label=above:{$\pi_{i}$}]  {}}
+child {node [token,fill=red,label=above:{$\pi_{b}$}]  {}}
+child {node [token,fill=red,label=above:{$\pi_{l}$}]  {}};
+
+\end{tikzpicture}
+\end{center}
+}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Exemplo}
+  \begin{columns}  
+    \column{.4\textwidth}
+   \begin{tikzpicture}[auto,thick,sloped,node distance=10mm,scale=0.7]
+    \tikzstyle{node}=%
+    [%
+      minimum size=8pt,%
+      inner sep=0pt,%
+      outer sep=0pt,%
+      ball color=example text.fg,%
+      circle%
+    ]
+        \node[label distance=1mm,node,ball color=red,label=left:{s}]  (S)  {};
+        \node[node] (B) [right of=S,label=below:{b}] {};
+        \node[node] (G) [right of=B,label=45:{g}] {};
+        \node[node,right of=G] (L) [label distance=5mm,label=45:{l}] {};
+        \node[node,ball color=red,label=above:{t}] (T) [right of=L,label=above:{t}] {};
+        \node[node] (F) [above of=G,label=45:{f}] {};
+        \node[node] (E) [above of=F,label=above:{e}] {};
+        \node[node] (H) [below of=G,label=right:{h}] {};
+        \node[node] (I) [below of=H,label=right:{i}] {};
+        \node[node] (C) [above of=S,label=above:{c}] {};
+        \node[node] (A) [below of=S,label=left:{a}] {};
+        \node[node] (J) [right of=E,label=above:{j}] {};
+        \node[node] (D) [left of=E,label=above:{d}] {};
+
+          
+          \path [-,thick,black] (S) edge (A)
+                                    edge (B)
+                                    edge (C)
+                                (B) edge (C)
+                                    edge (D)
+                                    edge (F)
+                                    edge (G)
+                                    edge (H)
+                                (D) edge (E)   
+                                (A) edge (I)
+                                (I) edge (H)
+                                    edge (T)
+                                (E) edge (F)
+                                    edge (J)
+                                (F) edge (G)
+                                (F) edge (L)
+                                (G) edge (H)
+                                    edge (L)  
+                                (J) edge (L)
+                                (L) edge (T)
+                                (H) edge (L)
+                                (C) edge (D);
+
+          \uncover<2-5>{
+          \path[-,thick,red,line width=1mm] (S) edge (A)
+                            (A) edge (I)
+                            (I) edge (T);
+          }
+          \uncover<6-11>{
+          \path[-,thick,red,line width=1mm] (S) edge (B)
+                            (B) edge (F)
+                            (F) edge (L)
+                            (L) edge (T) ;
+          }
+          \uncover<12>{
+          \path[-,thick,red,line width=1mm] (S) edge (B)
+                            (B) edge (G)
+                            (G) edge (L)
+                            (L) edge (T) ;
+          }
+%%           \uncover<5>{
+%%           \path[-,thick,red,line width=1mm] (S) edge (B)
+%%                             (B) edge (H)
+%%                             (H) edge (L)
+%%                             (L) edge (T) ;
+%%           }
+%%           \uncover<6>{
+%%           \path[-,thick,red,line width=1mm] (S) edge (B)
+%%                             (B) edge (H)
+%%                             (H) edge (I)
+%%                             (I) edge (T) ;
+%%           }
+%%           \uncover<7>{
+%%           \path[-,thick,red,line width=1mm] (S) edge (A)
+%%                             (A) edge (I)
+%%                             (I) edge (H)
+%%                             (H) edge (L)
+%%                             (L) edge (T);
+%%           }
+  \end{tikzpicture}
+
+    \column{.6\textwidth}
+\begin{tikzpicture}[auto,thick,sloped,scale=0.7]
+  \tikzstyle{node}=%
+  [%
+    minimum size=8pt,%
+    inner sep=0pt,%
+    outer sep=0pt,%
+    ball color=example text.fg,%
+    circle%
+  ]
+  \tikzstyle{leaf}=%
+  [%
+    minimum size=10pt,%
+    inner sep=0pt,%
+    outer sep=0pt,%
+    ball color=red,%
+    circle%
+  ]
+  \tikzstyle{ghost}=%
+  [%
+    minimum size=8pt,%
+    inner sep=0pt,%
+    outer sep=0pt,%
+    ball color=gray,%
+    circle%
+  ]
+
+% Set the overall layout of the tree
+\tikzstyle{level 1}=[level distance=1cm, sibling distance=5cm]
+\tikzstyle{level 2}=[level distance=1cm, sibling distance=2cm]
+
+% Define styles for bags and leafs
+\tikzstyle{bag} = [text width=4em, text centered]
+\tikzstyle{end} = [circle, minimum width=3pt,fill, inner sep=0pt]
+\uncover<3-6>{
+  \node [leaf,label=above:{s}] (raiz){} [] 
+    child {
+	node [node,label=right:{a}] (sa) {} 
+  	child {
+		node [node,label=right:{i}] (sai) {} 
+		child 	{
+				node [leaf,label=below:{t1}] (sait){} 	
+				edge from parent 
+			}
+		edge from parent 
+	}
+	edge from parent
+   };
+	\path[opacity=1,color=red,->] [-latex]
+	(raiz) edge (sa)
+	(sa) edge (sai)
+	(sai) edge (sait);
+}
+%%particao de pi_s 
+\uncover<4>{
+  	\node [leaf,label=above:{s}] (raiz){} [] 
+	 child[sibling distance=15mm]{
+	 										node[ghost,label=left:{b}] {} 
+	 										child[grow=down] {
+	 																node {...}
+							 										child[grow=down] {
+							 											node[leaf,label=below:{t}] {}
+		 																edge from parent[dashed]
+							 										}
+	 																edge from parent[dashed]
+	 																}
+	 										edge from parent[dashed]
+	 }
+  	 child[sibling distance=15mm] {
+				node [node,label=right:{a}] (sa) {} 
+			  	child {
+						node [node,label=right:{i}] (sai) {} 
+						child{
+								node [leaf,label=below:{t1}] (sait){} 	
+								edge from parent 
+						}
+				edge from parent 
+	}
+	edge from parent
+   }
+   child[sibling distance=15mm]{
+	 										node[ghost,label=right:{c}] {} 
+	 										child[grow=down] {
+	 																node {...}
+							 										child[grow=down] {
+							 											node[leaf,label=below:{t}] {}
+		 																edge from parent[dashed]
+							 										}
+	 																edge from parent[dashed]
+	 																}
+	 										edge from parent[dashed]
+	 }
+;
+   
+	\path[opacity=1,color=red,->] [-latex]
+	(raiz) edge (sa)
+	(sa) edge (sai)
+	(sai) edge (sait);
+}
+
+%%particao de pi_sai 
+\uncover<5>{
+  	\node [leaf,label=above:{s}] (raiz){} [] 
+  	 child[sibling distance=15mm] {
+				node [node,label=right:{a}] (sa) {} 
+			  	child {
+						node [node,label=right:{i}] (sai) {} 
+						child[grow=down]{
+								node [leaf,label=below:{t1}] (sait){} 	
+								edge from parent 
+						}
+  					   child{
+	 										node[ghost,label=right:{h}] {} 
+	 										child[grow=down] {
+	 																node {...}
+						 										child[grow=down] {
+						 											node[leaf,label=below:{t}] {}
+	 																edge from parent[dashed]
+						 										}
+	 																edge from parent[dashed]
+	 																}
+	 										edge from parent[dashed]
+	 					}
+						edge from parent 
+				}
+	edge from parent
+   };
+   
+	\path[opacity=1,color=red,->] [-latex]
+	(raiz) edge (sa)
+	(sa) edge (sai)
+	(sai) edge (sait);
+}
+
+%caminhos s,b,f,l,t
+\uncover<7>{
+  \node [leaf,label=above:{s}] (raiz) {} [] 
+    	child[sibling distance=15mm] {
+		node [node,label=above:{a}] {} [->]
+		child {
+			node [node,label=right:{i}] {} [->]
+			child 	{
+					node [leaf,label=below:{t1}] {} [->]	
+					edge from parent 
+				}
+			edge from parent 
+			}
+		edge from parent 
+        }	
+	child[sibling distance=15mm] {
+		node [node,label=above:{b}] (sb){} 	
+   		child {
+			node [node,label=right:{f}] (sbf) {} 	
+   			child {
+				node [node,label=right:{l}] (sbfl) {} 
+				child{
+					node [leaf,label=below:{t2}] (sbflt) {} 
+					edge from parent 
+				}
+				edge from parent 
+			}
+			edge from parent 
+		}	
+		edge from parent 
+	};
+	\path[opacity=1,color=red,->] [-latex]
+	(raiz) edge (sb)
+	(sb) edge (sbf)
+	(sbf) edge (sbfl)
+	(sbfl) edge (sbflt);
+}
+
+%particao pi_s
+\uncover<8>{
+  \node [leaf,label=above:{s}] (raiz) {} [] 
+    	child[sibling distance=15mm] {
+		node [node,label=above:{a}] {} [->]
+		child {
+			node [node,label=right:{i}] {} [->]
+			child 	{
+					node [leaf,label=below:{t1}] {} [->]	
+					edge from parent 
+				}
+			edge from parent 
+			}
+		edge from parent 
+        }	
+	child[sibling distance=15mm] {
+		node [node,label=right:{b}] (sb){} 	
+   		child {
+			node [node,label=right:{f}] (sbf) {} 	
+   			child {
+				node [node,label=right:{l}] (sbfl) {} 
+				child{
+					node [leaf,label=below:{t2}] (sbflt) {} 
+					edge from parent 
+				}
+				edge from parent 
+			}
+			edge from parent 
+		}	
+		edge from parent 
+	}
+   child[sibling distance=15mm]{
+	 										node[ghost,label=right:{c}] {} 
+	 										child[grow=down] {
+	 																node {...}
+							 										child[grow=down] {
+							 											node[leaf,label=below:{t}] {}
+		 																edge from parent[dashed]
+							 										}
+	 																edge from parent[dashed]
+	 																}
+	 										edge from parent[dashed]
+	 }	
+	;
+	\path[opacity=1,color=red,->] [-latex]
+	(raiz) edge (sb)
+	(sb) edge (sbf)
+	(sbf) edge (sbfl)
+	(sbfl) edge (sbflt);
+}
+
+%particao pi_sb
+\uncover<9>{
+  \node [leaf,label=above:{s}] (raiz) {} [] 
+    	child[sibling distance=40mm] {
+		node [node,label=above:{a}] {} [->]
+		child {
+			node [node,label=left:{i}] {} [->]
+			child 	{
+					node [leaf,label=below:{t1}] {} [->]	
+					edge from parent 
+				}
+			edge from parent 
+			}
+		edge from parent 
+        }	
+	child[sibling distance=40mm] {
+			node [node,label=above:{b}] (sb){} 	
+			child[sibling distance=15mm]{
+	 										node[ghost,label=above:{c}] {} 
+	 										child[grow=down] {
+	 																node {...}
+							 										child[grow=down] {
+							 											node[leaf,label=below:{t}] {}
+		 																edge from parent[dashed]
+							 										}
+	 																edge from parent[dashed]
+	 																}
+	 										edge from parent[dashed]
+	 		}	 		
+			child[sibling distance=15mm]{
+	 										node[ghost,label=right:{d}] {} 
+	 										child[grow=down] {
+	 																node {...}
+							 										child[grow=down] {
+							 											node[leaf,label=below:{t}] {}
+		 																edge from parent[dashed]
+							 										}
+	 																edge from parent[dashed]
+	 																}
+	 										edge from parent[dashed]
+	 		}	
+	  		child[sibling distance=15mm] {
+						node [node,label=right:{f}] (sbf) {} 	
+			   			child {
+							node [node,label=right:{l}] (sbfl) {} 
+							child{
+								node [leaf,label=below:{t2}] (sbflt) {} 
+								edge from parent 
+							}
+							edge from parent 
+						}
+						edge from parent 
+			}	 			
+			child[sibling distance=15mm]{
+	 										node[ghost,label=right:{g}] {} 
+	 										child[grow=down] {
+	 																node {...}
+							 										child[grow=down] {
+							 											node[leaf,label=below:{t}] {}
+		 																edge from parent[dashed]
+							 										}
+	 																edge from parent[dashed]
+	 																}
+	 										edge from parent[dashed]
+	 		}		 		
+			child[sibling distance=15mm]{
+	 										node[ghost,label=right:{h}] {} 
+	 										child[grow=down] {
+	 																node {...}
+							 										child[grow=down] {
+							 											node[leaf,label=below:{t}] {}
+		 																edge from parent[dashed]
+							 										}
+	 																edge from parent[dashed]
+	 																}
+	 										edge from parent[dashed]
+	 		}	
+		edge from parent 
+	};
+	\path[opacity=1,color=red,->] [-latex]
+	(raiz) edge (sb)
+	(sb) edge (sbf)
+	(sbf) edge (sbfl)
+	(sbfl) edge (sbflt);
+}
+
+%particao pi_sbf
+\uncover<10>{
+  \node [leaf,label=above:{s}] (raiz) {} [] 
+    	child[sibling distance=40mm] {
+		node [node,label=above:{a}] {} [->]
+		child {
+			node [node,label=left:{i}] {} [->]
+			child 	{
+					node [leaf,label=below:{t1}] {} [->]	
+					edge from parent 
+				}
+			edge from parent 
+			}
+		edge from parent 
+        }	
+	child[sibling distance=40mm] {
+		node [node,label=above:{b}] (sb){} 	
+   		child {
+						node [node,label=right:{f}] (sbf) {} 	
+						child[sibling distance=15mm]{
+				 										node[ghost,label=right:{e}] {} 
+				 										child[grow=down] {
+				 																node {...}
+										 										child[grow=down] {
+										 											node[leaf,label=below:{t}] {}
+					 																edge from parent[dashed]
+										 										}
+				 																edge from parent[dashed]
+				 																}
+				 										edge from parent[dashed]
+				 		}		 		
+						child[sibling distance=15mm] {
+									node [node,label=right:{l}] (sbfl) {} 
+									child{
+										node [leaf,label=below:{t2}] (sbflt) {} 
+										edge from parent 
+									}
+									edge from parent 
+						}
+						child[sibling distance=15mm]{
+				 										node[ghost,label=right:{g}] {} 
+				 										child[grow=down] {
+				 																node {...}
+										 										child[grow=down] {
+										 											node[leaf,label=below:{t}] {}
+					 																edge from parent[dashed]
+										 										}
+				 																edge from parent[dashed]
+				 																}
+				 										edge from parent[dashed]
+				 		}		 				 		
+						edge from parent 
+			}	
+			edge from parent 
+	};
+	\path[opacity=1,color=red,->] [-latex]
+	(raiz) edge (sb)
+	(sb) edge (sbf)
+	(sbf) edge (sbfl)
+	(sbfl) edge (sbflt);
+}
+
+%particao pi_sbfl
+\uncover<11>{
+
+  \node [leaf,label=above:{s}] (raiz) {} [] 
+	child[sibling distance=40mm] {
+			node [node,label=above:{a}] {} [->]
+			child {
+				node [node,label=right:{i}] {} [->]
+				child 	{
+						node [leaf,label=below:{t1}] {} [->]	
+						edge from parent 
+					}
+				edge from parent 
+				}
+			edge from parent 
+	}	
+	child[sibling distance=40mm] {
+		node [node,label=above:{b}] (sb){} 	
+		child[sibling distance=15mm] {
+					node [node,label=right:{f}] (sbf) {} 	
+					child {
+								node [node,label=right:{l}] (sbfl) {} 
+								child{
+				 										node[ghost,label=right:{g}] {} 
+				 										child[grow=down] {
+				 																node {...}
+										 										child[grow=down] {
+										 											node[leaf,label=below:{t}] {}
+					 																edge from parent[dashed]
+										 										}
+				 																edge from parent[dashed]
+				 																}
+				 										edge from parent[dashed]
+								}								
+								child[level distance=20mm,grow=down]{
+									node [leaf,label=below:{t2}] (sbflt) {} 
+									edge from parent 
+								}
+								child{
+				 										node[ghost,label=right:{h}] {} 
+				 										child[grow=down] {
+				 																node {...}
+										 										child[grow=down] {
+										 											node[leaf,label=below:{t}] {}
+					 																edge from parent[dashed]
+										 										}
+				 																edge from parent[dashed]
+				 																}
+				 										edge from parent[dashed]
+								}
+								child{
+				 										node[ghost,label=right:{j}] {} 
+				 										child[grow=down] {
+				 																node {...}
+										 										child[grow=down] {
+										 											node[leaf,label=below:{t}] {}
+					 																edge from parent[dashed]
+										 										}
+				 																edge from parent[dashed]
+				 																}
+				 										edge from parent[dashed]
+								}
+								edge from parent
+				}
+					edge from parent 
+		}	
+		edge from parent 
+	};
+	
+	\path[opacity=1,color=red,->] [-latex]
+	(raiz) edge (sb)
+	(sb) edge (sbf)
+	(sbf) edge (sbfl)
+	(sbfl) edge (sbflt);
+
+}
+\end{tikzpicture}
+\end{columns}
+\end{frame}

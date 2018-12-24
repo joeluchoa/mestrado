@@ -1,0 +1,64 @@
+% -------------------------------------------------------------------- %
+\chapter{Experimentos}
+\label{cap:experimentos}
+
+Nós iremos executar uma comparação experimental de diferentes métodos 
+propostos para o o problema de caminhos mínimos com um único recurso.  
+Desde que a performance dos algoritmos é variável para diferentes tipos 
+de grafos, nós iremos exeperimentá-los com dados reais e randomicos 
+usnado os seguintes tipos de grafos: grafos em grade, grafos de ruas, e 
+grafos de curva de aproximação.
+
+Todas as nossas experiencias foram executadas em um laptop Sony Vaio...
+Rodando Ubuntu 12.04... Os códigos foram implementados usando a 
+linguagem de programação C++... e compilados com GNU g++...
+
+\section{Dados de Teste}
+
+Nós usamos os seguintes três tipos grafos:
+
+\defi{DEM}: Modelos digitais de elevação (\emph{digital elevation 
+models}) são grafos em forma de grade onde cada vértice tem um valor de 
+altura associado. Nós usamos exemplos de modelos de elevações da Europa 
+sedidos por Mark Ziegelmann (\cite{mark:2001}). 
+
+Nossos exemplos \textsc{DEM} são bi-direcionads, ou seja, $m ~ 4n$.  Nós 
+usamos o valor absoluto para as diferenças de altura dós vértices como 
+função custo, esses valores estão no intervalor $\[0,600\]$. Nós usamos 
+inteiros aleatórios dentro do intervalo $\[10,20\]$ como consumo de 
+recursos. Nós estamos interessados em minimizar a diferença de altura 
+acumulada no caminho com limitação no comprimento do caminho.
+
+\defi{ROAD}: Nós usamos grafos de ruas dos Estatudos Unidos fornecidos 
+por Mark Ziegelmann. Os arcos modelando ruas sáo novamente 
+bi-direcionados, e a estrutura nos dá $m ~ 2.5m$. Nós usamos 
+congestionamento como função de custo. Nós definimos os congestionamento 
+como inteiros entre $\[0,100\]$. Nós usamos a distancia euclidiana entre 
+os pontos finais dos arcos como função recurso. Estas distancias são 
+núemros de ponto flutuante no intervalo $\[\0,7]$. Nós estamos 
+interessados em minimizar o congestionamento sujeito a um comprimento 
+limidado.
+
+\defi{CURVE}: Nos problema de curvas de aproximação nós requemos 
+aproximar uma piecewise linear curve por uma nova curva com menos pontos 
+de quebra. Esto é muito importante problemas de compressão de dados em 
+áreas como cartografia, computação gráfica, e processamento de sinais 
+\citep{dahl:00, nygaard:00} tem estudado como modeloar este problema 
+como uma \rcsp.
+
+Assumindo que os pontos de quebra na curva dada ocorrem na ordem $v_1, 
+v_2, \cdots, v_n$, nós usamos os pontos de quebra como vértices e 
+adicionamos arcos $v_iv_j$ para cada $i < j$. O custo dos arcos é 
+atribuido como um erro de aproximação que é introduzido por tomar o 
+atalho ao invés da curva original. 
+
+Nós usamos um teste de sinal randomico como função linear. Nós assumimos 
+que um pode alcançar os $20$ próximos pontos, assim $m ~ 20n$. Nós 
+usamos a \emph{$l_1$-metric} para computar os erros de aproximação e 
+obtemos valores reais no intervalo $[0,300]$ como custos.
+
+% Compressão de curvas
+%Como temos consumo de recursos idênticos e $k \leq n$, o problema não é 
+%mais $\mathcal{NP}$-difícil, tendo em vista que o algoritmo por 
+%programação dinâmica tem complexidade de templo de $O(km) = O(n^3)$.
+

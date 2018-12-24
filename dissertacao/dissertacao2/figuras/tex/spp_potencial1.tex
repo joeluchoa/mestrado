@@ -1,0 +1,57 @@
+\documentclass{article}
+\usepackage[x11names, rgb]{xcolor}
+\usepackage[utf8]{inputenc}
+\usepackage{tikz}
+\usetikzlibrary{snakes,arrows,shapes}
+\usepackage{amsmath}
+%
+%
+
+\usepackage[active,tightpage]{preview}
+\PreviewEnvironment{tikzpicture}
+\setlength\PreviewBorder{0pt}%
+
+%
+
+\begin{document}
+\pagestyle{empty}
+%
+%
+%
+
+\enlargethispage{100cm}
+% Start of code
+\begin{tikzpicture}[>=latex',line join=bevel,]
+%%
+\node (vv) at (99.412bp,19bp) [draw=blue,draw=none] {\color{blue}4};
+  \node (ss) at (28bp,91.006bp) [draw=blue,draw=none] {\color{blue}2};
+  \node (tt) at (190.28bp,64.001bp) [draw=blue,draw=none] {\color{blue}3};
+  \node (ww) at (106.94bp,110.03bp) [draw=blue,draw=none] {\color{blue}3};
+  \node (uu) at (76.117bp,182.66bp) [draw=blue,draw=none] {\color{blue}4};
+  \node (s) at (42.327bp,93.702bp) [draw,circle] {$s$};
+  \node (u) at (81.711bp,169.2bp) [draw,circle] {$u$};
+  \node (t) at (177.41bp,70.844bp) [draw,circle] {$t$};
+  \node (w) at (117.35bp,101.33bp) [draw,circle] {$w$};
+  \node (v) at (101.91bp,33.362bp) [draw,circle] {$v$};
+  \node (z) at (165.35bp,154.61bp) [draw,circle] {$z$};
+  \node (zz) at (176.57bp,163.92bp) [draw=blue,draw=none] {\color{blue}4};
+  \draw [->] (s) to[bend right] node[auto] {$7$} (v);
+  \draw [->] (s) to[bend left] node[auto] {$3$} (w);
+  \draw [->] (u) to[bend left] node[auto] {$1$} (w);
+  \draw [->] (z) to[bend left] node[auto] {$5$} (t);
+  \draw [->] (w) to[bend right] node[auto] {$3$} (z);
+  \draw [->] (v) to[bend left] node[auto] {$1$} (w);
+  \draw [->] (t) to[bend left] node[auto] {$3$} (v);
+  \draw [->] (w) to[bend left] node[auto] {$1$} (t);
+  \draw [->] (s) to[bend left] node[auto] {$5$} (u);
+  \draw [->] (u) to[bend left] node[auto] {$2$} (z);
+%
+\end{tikzpicture}
+% End of code
+
+%
+\end{document}
+%
+
+
+

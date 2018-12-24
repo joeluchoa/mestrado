@@ -1,0 +1,46 @@
+
+Um problema bastante conhecido é o de escolher uma rota para se fazer 
+uma viagem, tal que a rota minimize a distância 
+do percurso. Nesta forma básica, esse problema é o problema de caminho 
+mínimo em grafos onde as arestas são possíveis trechos, valorados por 
+seu comprimento. Algumas vezes um caminho mínimo desta forma é bom, 
+outras vezes não. Existem ocasiões, onde tal caminho possui propriedades
+indesejáveis. Por exemplo, alguns trechos podem ter tráfego denso e nos 
+fazer perder muito tempo na travessia, ou existem muitos pedágios com taxas
+que, acumuladas pelo caminho, vão exceder o dinheiro que temos disponível.
+Isso nos leva a considerar um ou mais parâmetros adicionais para a escolha
+do caminho. Os casos mais comuns de parâmetros a considerar 
+envolvem o consumo de recursos
+em um orçamento que limita a quantidade disponível desses
+recursos. Um caminho mínimo com essas limitações adicionais é chamado de
+{\bf caminho mínimo com recursos limitados } 
+({\it resource constrained shortest path - RCSP}) \cite{BC89}. 
+
+\begin{problema}{\rcsp($G, s, t, k, r, l, c$)} 
+Como parâmetros do problema são dados:
+\begin{itemize}
+\item\ um grafo dirigido $G=(V,A)$,
+\item\ um vértice origem $s \in V$ e um vértice destino $t \in V$, $s \neq t$,
+\item\ um número $k \in \mathbb{N}$ de recursos disponíveis $\{1,\dots,k\}$,
+\item\ o consumo de recursos $r^i_a \in \mathbb{N}_0$ de cada arco 
+de $G$ sobre os  $k$ recursos disponíveis, $i = 1, \dots, k$, $a \in A$,
+\item\ o limite $l^i \in \mathbb{N}_0$ que dispomos de cada recurso, 
+$i = 1, \dots, k$,
+\item\ o custo $c_a \in \mathbb{N}_0$, para cada arco, $a \in A$.
+\end{itemize}
+
+O consumo de um recurso $i$, $i = 1, \dots, k$ em um $st$-caminho $P$ é 
+$r^i(P) = \sum_{a \in P}{r^i_a}$. Um $st$-caminho $P$ é 
+limitado pelos recursos $1, \dots, k$ se este consome não mais que o limite
+disponível de cada recurso, ou seja, se $ r^i(P) \leq l^i$, $i = 1, \dots, k$.
+O custo de um $st$-caminho $P$ é $c(P) = \sum_{a \in P}{c_a}$.
+O problema \rcsp\ consiste em encontrar o caminho limitado pelos recursos de
+menor custo.
+
+\end{problema}
+
+Usaremos no decorrer deste trabalho $n = |V|$ e $m = |A|$. Quando
+estivermos tratando de um contexto onde existe apenas um recurso, ou seja,
+$k = 1$, usaremos apenas $l$ para representar $l^1$ e apenas $r_a$ para
+representar $r^1_a$. 
+\end{frame}

@@ -1,0 +1,284 @@
+% Arquivo LaTeX de exemplo de dissertação/tese a ser apresentados à CPG do IME-USP
+% 
+% Versão 4: Sun Feb 20 18:25:33 BRT 2011
+%
+% Criação: Jesús P. Mena-Chalco
+% Revisão: Fabio Kon e Paulo Feofiloff
+%  
+% Obs: Leia previamente o texto do arquivo README.txt
+
+\documentclass[12pt,twoside,a4paper]{book}
+
+\input{Header}
+% ---------------------------------------------------------------------------- %
+
+\definecolor{MyGrey}{rgb}{0.96,0.97,0.98}
+\makeatletter\newenvironment{greybox}{%
+   \begin{lrbox}{\@tempboxa}\begin{minipage}{\columnwidth}}{\end{minipage}\end{lrbox}%
+   \colorbox{MyGrey}{\usebox{\@tempboxa}}
+}\makeatother
+
+%Todo: Arrumar para não imprimir a seção 0
+\makeatletter\renewcommand{\thesection}{%
+	\@arabic\c@chapter
+    \ifnum \c@section=0 \relax \else .\@arabic\c@section \fi
+}\makeatother
+% ---------------------------------------------------------------------------- %
+\graphicspath{{./figuras/}}              % caminho das figuras (recomendável)
+\frenchspacing                          % arruma o espaço: id est (i.e.) e exempli gratia (e.g.) 
+\urlstyle{same}                         % URL com o mesmo estilo do texto e não mono-spaced
+%\makeindex                              % para o índice remissivo
+\raggedbottom                           % para não permitir espaços extra no texto
+\fontsize{60}{62}\usefont{OT1}{cmr}{m}{n}{\selectfont}
+\cleardoublepage
+\normalsize
+
+\input{SymbolDefs}
+\input{MathDefs}
+\input{DefsAlgorithm}
+
+\renewcommand{\thesubfigure}{\Alph{subfigure}}
+
+
+%Necessário para forçar o conclusão estar fora das partes
+
+% Redefinition of \cleardoublepage. Even pages are left completely blank.
+\let\origdoublepage\cleardoublepage
+\renewcommand{\cleardoublepage}{%
+  \clearpage{\pagestyle{empty}\origdoublepage}}
+
+% ---------------------------------------------------------------------------- %
+% Alterando o sumário
+%\renewcommand{\cftdotsep}{\cftnodots}
+
+%\cftpagenumbersoff{part}
+%\renewcommand{\cftpartpresnum}{\sffamily\large\bfseries\color{blue}\partname\ }
+%\renewcommand{\cftpartaftersnumb}{\\}
+%\cftsetindents{part}{0em}{0em}
+
+%\renewcommand{\cftchapterleader}{\hskip1cm}
+%\renewcommand{\cftchapterafterpnum}{\cftparfillskip}
+
+%\renewcommand{\cftsectionleader}{\hskip1cm}
+%\renewcommand{\cftsectionafterpnum}{\cftparfillskip}
+% ---------------------------------------------------------------------------- %
+
+% ---------------------------------------------------------------------------- %
+% Corpo do texto
+\begin{document}
+\frontmatter 
+% cabeçalho para as páginas das seções anteriores ao capítulo 1 (frontmatter)
+\fancyhead[RO]{{\footnotesize\rightmark}\hspace{2em}\thepage}
+\setcounter{tocdepth}{2}
+\fancyhead[LE]{\thepage\hspace{2em}\footnotesize{\leftmark}}
+\fancyhead[RE,LO]{}
+\fancyhead[RO]{{\footnotesize\rightmark}\hspace{2em}\thepage}
+
+\onehalfspacing  % espaçamento
+
+% ---------------------------------------------------------------------------- %
+% CAPA
+% Nota: O título para as teses/dissertações do IME-USP devem caber em um 
+% orifício de 10,7cm de largura x 6,0cm de altura que há na capa fornecida pela SPG.
+\thispagestyle{empty}
+\begin{center}
+    \vspace*{2.3cm}
+    \textbf{\Large{Caminhos mínimos com\\
+                   recursos limitados}}\\
+    
+    \vspace*{1.2cm}
+    \Large{Joel Silva Uchoa}
+    
+    \vskip 2cm
+    \textsc{
+    Dissertação apresentada\\[-0.25cm] 
+    ao\\[-0.25cm]
+    Instituto de Matemática e Estatística\\[-0.25cm]
+    da\\[-0.25cm]
+    Universidade de São Paulo\\[-0.25cm]
+    para\\[-0.25cm]
+    obtenção do título\\[-0.25cm]
+    de\\[-0.25cm]
+    Mestre}
+    
+    \vskip 1.5cm
+    Programa: Ciência da Computação\\
+    Orientador: Prof. Dr. Carlos Eduardo Ferreira\\
+
+   	\vskip 1cm
+    \normalsize{Durante o desenvolvimento deste trabalho o autor recebeu auxílio
+    financeiro da CAPES}
+    
+    \vskip 0.5cm
+    \normalsize{São Paulo, agosto de 2012}
+\end{center}
+
+% ---------------------------------------------------------------------------- %
+% Página de rosto (SÓ PARA A VERSÃO DEPOSITADA - ANTES DA DEFESA)
+% Resolução CoPGr 5890 (20/12/2010)
+%
+% Nota: O título para as teses/dissertações do IME-USP devem caber em um 
+% orifício de 10,7cm de largura x 6,0cm de altura que há na capa fornecida pela SPG.
+
+\newpage
+\thispagestyle{empty}
+   \begin{center}
+        \vspace*{2.3 cm}
+        \textbf{\Large{Caminhos mínimos com\\
+                       recursos limitados}}\\
+        \vspace*{2 cm}
+    \end{center}
+
+    \vskip 2cm
+
+    \begin{flushright}
+	Esta dissertação trata-se da versão original\\
+  do aluno (Joel Silva Uchoa).
+    \end{flushright}
+
+\pagebreak
+
+
+% ---------------------------------------------------------------------------- %
+% Página de rosto (SÓ PARA A VERSÃO CORRIGIDA - APÓS DEFESA)
+% Resolução CoPGr 5890 (20/12/2010)
+%
+% Nota: O título para as teses/dissertações do IME-USP devem caber em um 
+% orifício de 10,7cm de largura x 6,0cm de altura que há na capa fornecida pela SPG.
+%%%%\newpage
+%%%%\thispagestyle{empty}
+%%%%    \begin{center}
+%%%%        \vspace*{2.3 cm}
+%%%%        \textbf{\Large{Representação retangular de grafos planares}}\\
+%%%%        \vspace*{2 cm}
+%%%%    \end{center}
+
+%%%%    \vskip 2cm
+
+%%%%    \begin{flushright}
+%%%%	Esta tese/dissertação contém as correções e	alterações\\
+%%%%	sugeridas pela Comissão Julgadora durante a defesa\\
+%%%%	realizada por (Guilherme Puglia Assunção) em 14/12/2010.\\
+%%%%	O original encontra-se disponível no Instituto de\\ 
+%%%%	Matemática e Estatística da Universidade de São Paulo.
+
+%%%%    \vskip 2cm
+
+%%%%    \end{flushright}
+%%%%    \vskip 4.2cm
+
+%%%%    \begin{quote}
+%%%%    \noindent Comissão Julgadora:
+    
+%%%%    \begin{itemize}
+%%%%		\item Profa. Dra. Nome Completo (orientadora) - IME-USP [sem ponto final]
+%%%%		\item Prof. Dr. Nome Completo - IME-USP [sem ponto final]
+%%%%		\item Prof. Dr. Nome Completo - IMPA [sem ponto final]
+%%%%    \end{itemize}
+      
+%%%%    \end{quote}
+%%%%\pagebreak
+
+
+\pagenumbering{roman}     % começamos a numerar 
+
+% ---------------------------------------------------------------------------- %
+% Agradecimentos
+\chapter*{Agradecimentos}
+
+Primeiramente, agradeço a Deus pela oportunidade de desenvolver este trabalho
+e de encontrar pessoas nesta jornada que me fazem crescer tanto intelectualmente
+como moralmente.
+
+
+% ---------------------------------------------------------------------------- %
+% Resumo
+\chapter*{Resumo}
+
+\begin{center}
+  \Large{Caminhos mínimos com recursos limitados}
+\end{center}
+
+\noindent \textbf{Palavras-chave:} Otimização combinatória, .
+
+% ---------------------------------------------------------------------------- %
+\chapter*{Abstract}
+
+\begin{center}
+  \Large{Resource constrained shortest path problem}
+\end{center}
+
+\noindent \textbf{Keywords:} Combinatorial Optimization, .
+
+% ---------------------------------------------------------------------------- %
+% Sumário
+\pdfbookmark[-1]{\contentsname}{toc}
+\tableofcontents    % imprime o sumário
+
+% ---------------------------------------------------------------------------- %
+%%%%\chapter{Lista de Abreviaturas}
+%%%%\begin{tabular}{ll}
+%         CFT         & Transformada contínua de Fourier (\emph{Continuous Fourier Transform})\\
+%         DFT         & Transformada discreta de Fourier (\emph{Discrete Fourier Transform})\\
+%        EIIP         & Potencial de interação elétron-íon (\emph{Electron-Ion Interaction Potentials})\\
+%        STFT         & Tranformada de Fourier de tempo reduzido (\emph{Short-Time Fourier Transform})\\
+%%%%	xxx & xxx (\emph{english(xxx)})\\
+%%%%\end{tabular}
+
+% ---------------------------------------------------------------------------- %
+%%%%\chapter{Lista de Símbolos}
+%%%%\begin{tabular}{ll}
+%%%%        $\omega$    & Frequência angular\\
+%%%%        $\psi$      & Função de análise \emph{wavelet}\\
+%%%%        $\Psi$      & Transformada de Fourier de $\psi$\\
+%%%%end{tabular}
+
+% ---------------------------------------------------------------------------- %
+% Listas de figuras e tabelas criadas automaticamente
+%%%%\listoffigures            
+%%%%\listoftables            
+
+% ---------------------------------------------------------------------------- %
+% Capítulos do trabalho
+\mainmatter
+
+% cabeçalho para as páginas de todos os capítulos
+\fancyhead[RE,LO]{\thesection}
+
+%\singlespacing\ch              % espaçamento simples
+\onehalfspacing            % espaçamento um e meio
+
+%\cleardoublepage\pdfbookmark[-1]{Introduction}{introduction}
+%\input cap-introducao
+
+%\input cap-spp
+
+%\input cap-rcsp/cap 
+
+%\input cap-experimentos
+
+
+
+%\cleardoublepage\pagestyle{empty}\mbox{}\cleardoublepage
+\addtocontents{toc}{\protect\addvspace{2.25em}}
+\cleardoublepage\pdfbookmark[-1]{Conclusions}{conclusions}
+\input cap-conclusoes
+
+%\begin{comment}
+% cabeçalho para os apêndices
+\renewcommand{\chaptermark}[1]{\markboth{\MakeUppercase{\appendixname\ \thechapter}} {\MakeUppercase{#1}} }
+%\fancyhead[RE,LO]{}
+\fancyhead[RE,LO]{\thesection}
+
+\appendix
+%\input{./Chapters/Apendice/Ape1}
+%\end{comment}
+
+% ---------------------------------------------------------------------------- %
+% Bibliografia
+\cleardoublepage\pdfbookmark[-1]{\bibname}{bibliography}
+%\phantomsection\addcontentsline{toc}{chapter}{\bibname}
+\bibliographystyle{plainnat-ime} % citação bibliográfica textual
+\bibliography{bibliografia}  % associado ao arquivo: 'bibliografia.bib'
+
+\end{document}

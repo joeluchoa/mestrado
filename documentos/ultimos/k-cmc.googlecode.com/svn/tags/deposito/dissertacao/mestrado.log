@@ -1,0 +1,965 @@
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=latex 2012.6.20)  23 JUL 2012 01:34
+entering extended mode
+ %&-line parsing enabled.
+**mestrado.tex
+(./mestrado.tex
+LaTeX2e <2009/09/24>
+Babel <v3.8l> and hyphenation patterns for english, usenglishmax, dumylang, noh
+yphenation, farsi, arabic, croatian, bulgarian, ukrainian, russian, czech, slov
+ak, danish, dutch, finnish, french, basque, ngerman, german, german-x-2009-06-1
+9, ngerman-x-2009-06-19, ibycus, monogreek, greek, ancientgreek, hungarian, san
+skrit, italian, latin, latvian, lithuanian, mongolian2a, mongolian, bokmal, nyn
+orsk, romanian, irish, coptic, serbian, turkish, welsh, esperanto, uppersorbian
+, estonian, indonesian, interlingua, icelandic, kurmanji, slovenian, polish, po
+rtuguese, spanish, galician, catalan, swedish, ukenglish, pinyin, loaded.
+(/usr/share/texmf-texlive/tex/latex/base/book.cls
+Document Class: book 2007/10/19 v1.4h Standard LaTeX document class
+(/usr/share/texmf-texlive/tex/latex/base/bk12.clo
+File: bk12.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
+)
+\c@part=\count79
+\c@chapter=\count80
+\c@section=\count81
+\c@subsection=\count82
+\c@subsubsection=\count83
+\c@paragraph=\count84
+\c@subparagraph=\count85
+\c@figure=\count86
+\c@table=\count87
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+)
+(/usr/share/texmf-texlive/tex/latex/tools/indentfirst.sty
+Package: indentfirst 1995/11/23 v1.03 Indent first paragraph (DPC)
+)
+(/var/lib/texmf/tex/generic/babel/babel.sty
+Package: babel 2008/07/06 v3.8l The Babel package
+
+(/usr/share/texmf-texlive/tex/generic/babel/portuges.ldf
+Language: portuges 2008/03/18 v1.2q Portuguese support from the babel system
+
+(/usr/share/texmf-texlive/tex/generic/babel/babel.def
+File: babel.def 2008/07/06 v3.8l Babel common definitions
+\babel@savecnt=\count88
+\U@D=\dimen103
+)
+\l@brazil = a dialect from \language\l@portuges 
+Package babel Info: Making " an active character on input line 145.
+))
+(/usr/share/texmf-texlive/tex/latex/base/fontenc.sty
+Package: fontenc 2005/09/27 v1.99g Standard LaTeX package
+
+(/usr/share/texmf-texlive/tex/latex/base/t1enc.def
+File: t1enc.def 2005/09/27 v1.99g Standard LaTeX file
+LaTeX Font Info:    Redeclaring font encoding T1 on input line 43.
+))
+(/usr/share/texmf-texlive/tex/latex/base/inputenc.sty
+Package: inputenc 2008/03/30 v1.1d Input encoding file
+\inpenc@prehook=\toks14
+\inpenc@posthook=\toks15
+
+(/usr/share/texmf-texlive/tex/latex/base/latin1.def
+File: latin1.def 2008/03/30 v1.1d Input encoding file
+))
+(/usr/share/texmf-texlive/tex/latex/graphics/graphicx.sty
+Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
+
+(/usr/share/texmf-texlive/tex/latex/graphics/keyval.sty
+Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
+\KV@toks@=\toks16
+)
+(/usr/share/texmf-texlive/tex/latex/graphics/graphics.sty
+Package: graphics 2009/02/05 v1.0o Standard LaTeX Graphics (DPC,SPQR)
+
+(/usr/share/texmf-texlive/tex/latex/graphics/trig.sty
+Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
+)
+(/etc/texmf/tex/latex/config/graphics.cfg
+File: graphics.cfg 2009/08/28 v1.8 graphics configuration of TeX Live
+)
+Package graphics Info: Driver file: dvips.def on input line 91.
+
+(/usr/share/texmf-texlive/tex/latex/graphics/dvips.def
+File: dvips.def 1999/02/16 v3.0i Driver-dependant file (DPC,SPQR)
+))
+\Gin@req@height=\dimen104
+\Gin@req@width=\dimen105
+)
+(/usr/share/texmf-texlive/tex/latex/psfrag/psfrag.sty
+Package: psfrag 1998/04/11 v3.04 PSfrag (MCG)
+\pfg@pcount=\count89
+\pfg@scount=\count90
+\pfg@temp=\write3
+)
+(/usr/share/texmf-texlive/tex/latex/psnfss/palatino.sty
+Package: palatino 2005/04/12 PSNFSS-v9.2a (SPQR) 
+)
+(/usr/share/texmf-texlive/tex/latex/psnfss/mathpazo.sty
+Package: mathpazo 2005/04/12 PSNFSS-v9.2a Palatino w/ Pazo Math (D.Puga, WaS) 
+\symupright=\mathgroup4
+)
+(/usr/share/texmf-texlive/tex/latex/tools/multicol.sty
+Package: multicol 2008/12/05 v1.6h multicolumn formatting (FMi)
+\c@tracingmulticols=\count91
+\mult@box=\box26
+\multicol@leftmargin=\dimen106
+\c@unbalance=\count92
+\c@collectmore=\count93
+\doublecol@number=\count94
+\multicoltolerance=\count95
+\multicolpretolerance=\count96
+\full@width=\dimen107
+\page@free=\dimen108
+\premulticols=\dimen109
+\postmulticols=\dimen110
+\multicolsep=\skip43
+\multicolbaselineskip=\skip44
+\partial@page=\box27
+\last@line=\box28
+\mult@rightbox=\box29
+\mult@grightbox=\box30
+\mult@gfirstbox=\box31
+\mult@firstbox=\box32
+\@tempa=\box33
+\@tempa=\box34
+\@tempa=\box35
+\@tempa=\box36
+\@tempa=\box37
+\@tempa=\box38
+\@tempa=\box39
+\@tempa=\box40
+\@tempa=\box41
+\@tempa=\box42
+\@tempa=\box43
+\@tempa=\box44
+\@tempa=\box45
+\@tempa=\box46
+\@tempa=\box47
+\@tempa=\box48
+\@tempa=\box49
+\c@columnbadness=\count97
+\c@finalcolumnbadness=\count98
+\last@try=\dimen111
+\multicolovershoot=\dimen112
+\multicolundershoot=\dimen113
+\mult@nat@firstbox=\box50
+\colbreak@box=\box51
+)
+(/usr/share/texmf-texlive/tex/latex/base/ifthen.sty
+Package: ifthen 2001/05/26 v1.1c Standard LaTeX ifthen package (DPC)
+)
+(/usr/share/texmf-texlive/tex/latex/base/makeidx.sty
+Package: makeidx 2000/03/29 v1.0m Standard LaTeX package
+)
+(/usr/share/texmf-texlive/tex/latex/tools/enumerate.sty
+Package: enumerate 1999/03/05 v3.00 enumerate extensions (DPC)
+\@enLab=\toks17
+)
+(/usr/share/texmf-texlive/tex/latex/fancyhdr/fancyhdr.sty
+\fancy@headwidth=\skip45
+\f@ncyO@elh=\skip46
+\f@ncyO@erh=\skip47
+\f@ncyO@olh=\skip48
+\f@ncyO@orh=\skip49
+\f@ncyO@elf=\skip50
+\f@ncyO@erf=\skip51
+\f@ncyO@olf=\skip52
+\f@ncyO@orf=\skip53
+) (./estilo/estilo.sty (/usr/share/texmf-texlive/tex/latex/base/latexsym.sty
+Package: latexsym 1998/08/17 v2.2e Standard LaTeX package (lasy symbols)
+\symlasy=\mathgroup5
+LaTeX Font Info:    Overwriting symbol font `lasy' in version `bold'
+(Font)                  U/lasy/m/n --> U/lasy/b/n on input line 47.
+)
+(/usr/share/texmf-texlive/tex/latex/graphics/color.sty
+Package: color 2005/11/14 v1.0j Standard LaTeX Color (DPC)
+
+(/etc/texmf/tex/latex/config/color.cfg
+File: color.cfg 2007/01/18 v1.5 color configuration of teTeX/TeXLive
+)
+Package color Info: Driver file: dvips.def on input line 130.
+
+(/usr/share/texmf-texlive/tex/latex/graphics/dvipsnam.def
+File: dvipsnam.def 1999/02/16 v3.0i Driver-dependant file (DPC,SPQR)
+))
+\c@theoremnumber=\count99
+
+(/usr/share/texmf-texlive/tex/latex/hyperref/backref.sty
+Package: backref 2006/09/05 v1.28 Bibliographical back referencing
+))
+(/usr/share/texmf-texlive/tex/latex/wrapfig/wrapfig.sty
+\wrapoverhang=\dimen114
+\WF@size=\dimen115
+\c@WF@wrappedlines=\count100
+\WF@box=\box52
+\WF@everypar=\toks18
+Package: wrapfig 2003/01/31  v 3.6
+)
+(/usr/share/texmf-texlive/tex/latex/sidecap/sidecap.sty
+Package: sidecap 2003/06/06 v1.6f SideCap Package (RN/HjG)
+\SC@BOXWD=\dimen116
+\SC@CAPWD=\dimen117
+\SC@tempdima=\dimen118
+\SC@tempdimb=\dimen119
+\c@SC@C=\count101
+\SC@BOX=\box53
+)
+(/usr/share/texmf-texlive/tex/latex/listings/listings.sty
+\lst@mode=\count102
+\lst@gtempboxa=\box54
+\lst@token=\toks19
+\lst@length=\count103
+\lst@currlwidth=\dimen120
+\lst@column=\count104
+\lst@pos=\count105
+\lst@lostspace=\dimen121
+\lst@width=\dimen122
+\lst@newlines=\count106
+\lst@lineno=\count107
+\lst@maxwidth=\dimen123
+
+(/usr/share/texmf-texlive/tex/latex/listings/lstmisc.sty
+File: lstmisc.sty 2007/02/22 1.4 (Carsten Heinz)
+\c@lstnumber=\count108
+\lst@skipnumbers=\count109
+\lst@framebox=\box55
+)
+(/usr/share/texmf-texlive/tex/latex/listings/listings.cfg
+File: listings.cfg 2007/02/22 1.4 listings configuration
+))
+Package: listings 2007/02/22 1.4 (Carsten Heinz)
+
+(/usr/share/texmf-texlive/tex/latex/subfigure/subfigure.sty
+Package: subfigure 2002/03/15 v2.1.5 subfigure package
+\subfigtopskip=\skip54
+\subfigcapskip=\skip55
+\subfigcaptopadj=\dimen124
+\subfigbottomskip=\skip56
+\subfigcapmargin=\dimen125
+\subfiglabelskip=\skip57
+\c@subfigure=\count110
+\c@lofdepth=\count111
+\c@subtable=\count112
+\c@lotdepth=\count113
+
+****************************************
+* Local config file subfigure.cfg used *
+****************************************
+(/usr/share/texmf-texlive/tex/latex/subfigure/subfigure.cfg)
+\subfig@top=\skip58
+\subfig@bottom=\skip59
+)
+
+! LaTeX Error: File `floatflt.sty' not found.
+
+Type X to quit or <RETURN> to proceed,
+or enter new name. (Default extension: sty)
+
+Enter file name: 
+\@indexfile=\write4
+\openout4 = `mestrado.idx'.
+
+Writing index file mestrado.idx
+(./mestrado.aux (./capa.aux) (./01-resumo.aux) (./abstract.aux)
+(./02-introducao.aux) (./03-preliminares.aux) (./04-caminhos-minimos.aux)
+(./05-k-caminhos.aux) (./07-kim.aux) (./08-resultados.aux
+
+LaTeX Warning: Label `stopwatchsample' multiply defined.
+
+
+LaTeX Warning: Label `stopwatchsample' multiply defined.
+
+) (./09-final.aux))
+\openout1 = `mestrado.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 95.
+LaTeX Font Info:    ... okay on input line 95.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 95.
+LaTeX Font Info:    ... okay on input line 95.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 95.
+LaTeX Font Info:    ... okay on input line 95.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 95.
+LaTeX Font Info:    ... okay on input line 95.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 95.
+LaTeX Font Info:    ... okay on input line 95.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 95.
+LaTeX Font Info:    ... okay on input line 95.
+LaTeX Font Info:    Try loading font information for T1+ppl on input line 95.
+ (/usr/share/texmf-texlive/tex/latex/psnfss/t1ppl.fd
+File: t1ppl.fd 2001/06/04 font definitions for T1/ppl.
+)
+\big@size=\dimen126
+
+(/usr/share/texmf-texlive/tex/latex/ms/ragged2e.sty
+Package: ragged2e 2009/05/21 v2.1 ragged2e Package (MS)
+
+(/usr/share/texmf-texlive/tex/latex/ms/everysel.sty
+Package: everysel 1999/06/08 v1.03 EverySelectfont Package (MS)
+LaTeX Info: Redefining \selectfont on input line 125.
+)
+\CenteringLeftskip=\skip60
+\RaggedLeftLeftskip=\skip61
+\RaggedRightLeftskip=\skip62
+\CenteringRightskip=\skip63
+\RaggedLeftRightskip=\skip64
+\RaggedRightRightskip=\skip65
+\CenteringParfillskip=\skip66
+\RaggedLeftParfillskip=\skip67
+\RaggedRightParfillskip=\skip68
+\JustifyingParfillskip=\skip69
+\CenteringParindent=\skip70
+\RaggedLeftParindent=\skip71
+\RaggedRightParindent=\skip72
+\JustifyingParindent=\skip73
+)
+\c@lstlisting=\count114
+\openout2 = `capa.aux'.
+
+ (./capa.tex
+LaTeX Font Info:    Font shape `T1/ppl/bx/n' in size <14.4> not available
+(Font)              Font shape `T1/ppl/b/n' tried instead on input line 3.
+LaTeX Font Info:    Try loading font information for OT1+ppl on input line 3.
+
+(/usr/share/texmf-texlive/tex/latex/psnfss/ot1ppl.fd
+File: ot1ppl.fd 2001/06/04 font definitions for OT1/ppl.
+)
+LaTeX Font Info:    Try loading font information for OML+zplm on input line 3.
+
+(/usr/share/texmf-texlive/tex/latex/psnfss/omlzplm.fd
+File: omlzplm.fd 2002/09/08 Fontinst v1.914 font definitions for OML/zplm.
+)
+LaTeX Font Info:    Try loading font information for OMS+zplm on input line 3.
+
+(/usr/share/texmf-texlive/tex/latex/psnfss/omszplm.fd
+File: omszplm.fd 2002/09/08 Fontinst v1.914 font definitions for OMS/zplm.
+)
+LaTeX Font Info:    Try loading font information for OMX+zplm on input line 3.
+
+(/usr/share/texmf-texlive/tex/latex/psnfss/omxzplm.fd
+File: omxzplm.fd 2002/09/08 Fontinst v1.914 font definitions for OMX/zplm.
+)
+LaTeX Font Info:    Try loading font information for OT1+zplm on input line 3.
+
+(/usr/share/texmf-texlive/tex/latex/psnfss/ot1zplm.fd
+File: ot1zplm.fd 2002/09/08 Fontinst v1.914 font definitions for OT1/zplm.
+)
+LaTeX Font Info:    Try loading font information for U+lasy on input line 3.
+
+(/usr/share/texmf-texlive/tex/latex/base/ulasy.fd
+File: ulasy.fd 1998/08/17 v2.2e LaTeX symbol font definitions
+)) [1
+
+
+] [2
+
+]
+
+! LaTeX Error: File `agradecimentos.tex' not found.
+
+Type X to quit or <RETURN> to proceed,
+or enter new name. (Default extension: tex)
+
+Enter file name: 
+\openout2 = `01-resumo.aux'.
+
+(./01-resumo.tex
+LaTeX Font Info:    Font shape `T1/ppl/bx/n' in size <12> not available
+(Font)              Font shape `T1/ppl/b/n' tried instead on input line 5.
+) [1
+
+]
+\openout2 = `abstract.aux'.
+
+
+No file abstract.tex.
+[2
+
+
+
+
+]
+LaTeX Font Info:    Font shape `T1/ppl/bx/n' in size <24.88> not available
+(Font)              Font shape `T1/ppl/b/n' tried instead on input line 176.
+ (./mestrado.toc
+Underfull \vbox (badness 1881) has occurred while \output is active []
+
+ [3]
+[4])
+\tf@toc=\write5
+\openout5 = `mestrado.toc'.
+
+ [5] [6
+
+] (./mestrado.lof
+Overfull \hbox (8.397pt too wide) in paragraph at lines 2--2
+ [][] []\T1/ppl/m/n/12 Em ($\OML/zplm/m/it/12 a$\T1/ppl/m/n/12 ) ve-mos um es-q
+uema so-li-ci-ta-ção da Soft-SOF, um link de 2000 Kbits/s 
+ []
+
+
+Overfull \hbox (21.3172pt too wide) in paragraph at lines 18--18
+ [][] []\T1/ppl/m/n/12 (b) mos-tra a ár-vore dos pre-fi-xos dos ca-mi-nhos $\OM
+S/zplm/m/n/12 h\OML/zplm/m/it/12 s\OT1/ppl/m/n/12 , \OML/zplm/m/it/12 a\OT1/ppl
+/m/n/12 , \OML/zplm/m/it/12 c\OT1/ppl/m/n/12 , \OML/zplm/m/it/12 t\OMS/zplm/m/n
+/12 i$\T1/ppl/m/n/12 , $\OMS/zplm/m/n/12 h\OML/zplm/m/it/12 s\OT1/ppl/m/n/12 , 
+\OML/zplm/m/it/12 a\OT1/ppl/m/n/12 , \OML/zplm/m/it/12 d\OT1/ppl/m/n/12 , \OML/
+zplm/m/it/12 t\OMS/zplm/m/n/12 i$\T1/ppl/m/n/12 , $\OMS/zplm/m/n/12 h\OML/zplm/
+m/it/12 s\OT1/ppl/m/n/12 , \OML/zplm/m/it/12 b\OT1/ppl/m/n/12 , \OML/zplm/m/it/
+12 a\OT1/ppl/m/n/12 , \OML/zplm/m/it/12 c\OT1/ppl/m/n/12 , \OML/zplm/m/it/12 t\
+OMS/zplm/m/n/12 i$ 
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [7
+
+]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [8]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [9])
+\tf@lof=\write6
+\openout6 = `mestrado.lof'.
+
+
+[10] (./mestrado.lol)
+\tf@lol=\write7
+\openout7 = `mestrado.lol'.
+
+ [11
+
+]
+\openout2 = `02-introducao.aux'.
+
+ (./02-introducao.tex
+
+! LaTeX Error: Environment floatingfigure undefined.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.13 \begin{floatingfigure}
+                           [l]{30mm}
+? 
+File: ./figs/rede.eps Graphic file (type eps)
+<./figs/rede.eps>
+
+! LaTeX Error: \begin{document} ended by \end{floatingfigure}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.19 \end{floatingfigure}
+                         
+? 
+[1
+
+
+]
+File: ./figs/introducaoTeleMax.eps Graphic file (type eps)
+ <./figs/introducaoTeleMax.eps>
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 14.49998pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[2]
+LaTeX Font Info:    Font shape `T1/ppl/bx/n' in size <17.28> not available
+(Font)              Font shape `T1/ppl/b/n' tried instead on input line 116.
+ [3]) [4]
+\openout2 = `03-preliminares.aux'.
+
+ (./03-preliminares.tex
+Cap\'{\i }tulo 1.
+LaTeX Font Info:    Try loading font information for U+fplmbb on input line 28.
+
+(/usr/share/texmf-texlive/tex/latex/psnfss/ufplmbb.fd
+File: ufplmbb.fd 2003/10/30 Fontinst v1.914 font definitions for U/fplmbb.
+) [5
+
+
+
+]
+File: ./figs/grafo.eps Graphic file (type eps)
+ <./figs/grafo.eps>
+[6]
+Overfull \hbox (20.32182pt too wide) in paragraph at lines 220--228
+[]\T1/ppl/m/n/12 Uma \T1/ppl/b/n/12 ma-triz de in-ci-dên-cia \T1/ppl/m/n/12 de 
+um grafo $\OT1/zplm/m/n/12 (\OML/zplm/m/it/12 V\OT1/ppl/m/n/12 , \OML/zplm/m/it
+/12 A\OT1/zplm/m/n/12 )$ \T1/ppl/m/n/12 é uma ma-triz com va-lo-res em $\OMS/zp
+lm/m/n/12 f^^@\OT1/ppl/m/n/12 1, 0, \OT1/zplm/m/n/12 +\OT1/ppl/m/n/12 1\OMS/zpl
+m/m/n/12 g$
+ []
+
+[7] [8]
+LaTeX Font Info:    Try loading font information for OMS+ppl on input line 325.
+
+ (/usr/share/texmf-texlive/tex/latex/psnfss/omsppl.fd
+File: omsppl.fd 
+)
+LaTeX Font Info:    Font shape `OMS/ppl/m/n' in size <12> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 325.
+ [9] [10]
+LaTeX Font Info:    Font shape `OMS/ppl/m/n' in size <6> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 420.
+ [11]
+File: ./figs/grafoSimetricoSemCustos.eps Graphic file (type eps)
+
+<./figs/grafoSimetricoSemCustos.eps> [12]
+File: ./figs/grafoSimetricoComCustos.eps Graphic file (type eps)
+ <./figs/grafoSimetricoComCustos.eps>
+Overfull \hbox (88.17993pt too wide) in paragraph at lines 527--528
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
+][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
+ []
+
+File: ./figs/grafoAssimetricoSemCustos.eps Graphic file (type eps)
+<./figs/grafoAssimetricoSemCustos.eps>
+(/usr/share/texmf-texlive/tex/latex/listings/lstlang1.sty
+File: lstlang1.sty 2004/09/05 1.3 listings language file
+) [13] [14] [15]
+LaTeX Font Info:    Font shape `T1/ppl/bx/n' in size <10.95> not available
+(Font)              Font shape `T1/ppl/b/n' tried instead on input line 564.
+
+Overfull \hbox (23.61388pt too wide) in paragraph at lines 568--569
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
+ []
+
+
+Overfull \hbox (10.47377pt too wide) in paragraph at lines 596--597
+[][][][][][][][][][][][][][][][][][][][][][] 
+ []
+
+[16] [17]
+Overfull \hbox (7.48953pt too wide) in paragraph at lines 649--650
+[]\T1/ppl/m/n/12 Adiciona ou subs-ti-tui o ob-jeto cuja chave
+ []
+
+
+Overfull \hbox (20.1383pt too wide) in paragraph at lines 658--659
+[][][][][][][][][][][][][][][][][][][][][] 
+ []
+
+) [18]
+\openout2 = `04-caminhos-minimos.aux'.
+
+ (./04-caminhos-minimos.tex
+Cap\'{\i }tulo 2.
+File: ./figs/caminho-custo2.eps Graphic file (type eps)
+<./figs/caminho-custo2.eps>
+File: ./figs/caminho-custo3.eps Graphic file (type eps)
+ <./figs/caminho-custo3.eps> [19
+
+
+
+] [20]
+File: ./figs/c-potencial.eps Graphic file (type eps)
+
+<./figs/c-potencial.eps> [21]
+Overfull \hbox (4.67458pt too wide) in paragraph at lines 328--336
+[]\T1/ppl/b/n/12 Corolário 2.3 \T1/ppl/m/n/12 (con-di-ção de oti-ma-li-dade): [
+][] []\T1/ppl/m/sl/12 Seja $\OT1/zplm/m/n/12 (\OML/zplm/m/it/12 V\OT1/ppl/m/n/1
+2 , \OML/zplm/m/it/12 A\OT1/zplm/m/n/12 )$ \T1/ppl/m/sl/12 um grafo e $\OML/zpl
+m/m/it/12 c$ \T1/ppl/m/sl/12 é uma função-
+ []
+
+File: ./figs/potencial-otimo.eps Graphic file (type eps)
+<./figs/potencial-otimo.eps> [22]
+File: ./figs/caminho-custo4.eps Graphic file (type eps)
+ <./figs/caminho-custo4.eps> [23]
+LaTeX Font Info:    Font shape `T1/ppl/bx/sl' in size <12> not available
+(Font)              Font shape `T1/ppl/b/sl' tried instead on input line 506.
+ [24]
+[25] [26]
+File: ./figs/dijkstra01.eps Graphic file (type eps)
+ <./figs/dijkstra01.eps>
+File: ./figs/dijkstra02.eps Graphic file (type eps)
+ <./figs/dijkstra02.eps>
+File: ./figs/dijkstra03.eps Graphic file (type eps)
+
+<./figs/dijkstra03.eps>
+File: ./figs/dijkstra04.eps Graphic file (type eps)
+ <./figs/dijkstra04.eps>
+File: ./figs/dijkstra05.eps Graphic file (type eps)
+ <./figs/dijkstra05.eps>
+File: ./figs/dijkstra06.eps Graphic file (type eps)
+
+<./figs/dijkstra06.eps>
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [27]
+File: ./figs/dijkstra07.eps Graphic file (type eps)
+
+<./figs/dijkstra07.eps>
+File: ./figs/dijkstra08.eps Graphic file (type eps)
+ <./figs/dijkstra08.eps>
+File: ./figs/dijkstra09.eps Graphic file (type eps)
+ <./figs/dijkstra09.eps>
+File: ./figs/dijkstra10.eps Graphic file (type eps)
+
+<./figs/dijkstra10.eps>
+File: ./figs/dijkstra11.eps Graphic file (type eps)
+ <./figs/dijkstra11.eps>
+File: ./figs/dijkstra12.eps Graphic file (type eps)
+ <./figs/dijkstra12.eps>
+File: ./figs/dijkstra13.eps Graphic file (type eps)
+
+<./figs/dijkstra13.eps>
+File: ./figs/dijkstra14.eps Graphic file (type eps)
+ <./figs/dijkstra14.eps>
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [28]
+File: ./figs/dijkstra15.eps Graphic file (type eps)
+
+<./figs/dijkstra15.eps>
+File: ./figs/dijkstra16.eps Graphic file (type eps)
+ <./figs/dijkstra16.eps>
+File: ./figs/dijkstra17.eps Graphic file (type eps)
+ <./figs/dijkstra17.eps>
+File: ./figs/dijkstra18.eps Graphic file (type eps)
+
+<./figs/dijkstra18.eps>
+Underfull \vbox (badness 2142) has occurred while \output is active []
+
+ [29]
+File: ./figs/iteracao.eps Graphic file (type eps)
+
+<./figs/iteracao.eps>
+File: ./figs/iteracao1.eps Graphic file (type eps)
+ <./figs/iteracao1.eps>
+File: ./figs/iteracao2.eps Graphic file (type eps)
+ <./figs/iteracao2.eps> [30]
+[31] [32]
+Underfull \hbox (badness 10000) in paragraph at lines 1424--1425
+
+ []
+
+
+Underfull \vbox (badness 5064) has occurred while \output is active []
+
+ [33]
+[34]
+LaTeX Font Info:    Try loading font information for T1+phv on input line 1523.
+
+ (/usr/share/texmf-texlive/tex/latex/psnfss/t1phv.fd
+File: t1phv.fd 2001/06/04 scalable font definitions for T1/phv.
+)
+Overfull \hbox (1.19183pt too wide) in paragraph at lines 1518--1529
+[] 
+ []
+
+
+Overfull \hbox (36.78732pt too wide) in paragraph at lines 1554--1562
+\T1/ppl/m/n/12 com-pa-ra-ções. Por-tanto, qual-quer im-ple-men-ta-ção do al-go-
+ritmo para o mo-delo de comparação-
+ []
+
+[35]
+Overfull \hbox (20.3189pt too wide) in paragraph at lines 1584--1589
+[]\T1/ppl/m/n/12 Responsável por
+ []
+
+
+Overfull \hbox (5.24728pt too wide) in paragraph at lines 1603--1605
+[]\T1/ppl/m/n/12 Retorna a dis-
+ []
+
+
+Overfull \hbox (4.02332pt too wide) in paragraph at lines 1606--1610
+[]\T1/ppl/m/n/12 Retorna o ma-pe-a-mento como des-crito
+ []
+
+[36] [37] [38]
+Overfull \hbox (55.24097pt too wide) in paragraph at lines 1703--1704
+[]\T1/ppl/m/n/12 O vér-tice com me-nor custo será re-ti-rado da lista de vér-ti
+-ces não ana-li-sa-dos(\T1/ppl/m/it/12 unknownVertices\T1/ppl/m/n/12 ). 
+ []
+
+
+Overfull \hbox (1.15523pt too wide) in paragraph at lines 1725--1727
+[]\T1/ppl/m/n/12 : Re-torna uma lista de ar-cos que fa-zem parte
+ []
+
+[39]
+Overfull \hbox (1.98363pt too wide) in paragraph at lines 1736--1739
+[]\T1/ppl/m/n/12 : Um ma-pe-a-mento se-me-lhante ao an-te-rior, mas con-
+ []
+
+) [40]
+\openout2 = `05-k-caminhos.aux'.
+
+ (./05-k-caminhos.tex
+Cap\'{\i }tulo 3.
+[41
+
+
+
+] [42]
+Overfull \hbox (3.15865pt too wide) in paragraph at lines 197--210
+[]\T1/ppl/b/n/12 Problema \T1/ppl/m/n/12 PCM$\OT1/zplm/m/n/12 (\OML/zplm/m/it/1
+2 V\OT1/ppl/m/n/12 , \OML/zplm/m/it/12 A\OT1/ppl/m/n/12 , \OML/zplm/m/it/12 c\O
+T1/ppl/m/n/12 , \OML/zplm/m/it/12 s\OT1/zplm/m/n/12 )$\T1/ppl/m/n/12 :[] Dado u
+m grafo $\OT1/zplm/m/n/12 (\OML/zplm/m/it/12 V\OT1/ppl/m/n/12 , \OML/zplm/m/it/
+12 A\OT1/zplm/m/n/12 )$\T1/ppl/m/n/12 , uma fun-ção com-pri-mento
+ []
+
+[43]
+File: ./figs/prefixo.eps Graphic file (type eps)
+ <./figs/prefixo.eps>
+Underfull \hbox (badness 1019) in paragraph at lines 309--309
+[]\T1/ppl/m/n/12 Figura 3.1: [](b) mos-tra a ár-vore dos pre-fi-xos dos ca-mi-n
+hos $\OMS/zplm/m/n/12 h\OML/zplm/m/it/12 s\OT1/ppl/m/n/12 , \OML/zplm/m/it/12 a
+\OT1/ppl/m/n/12 , \OML/zplm/m/it/12 c\OT1/ppl/m/n/12 , \OML/zplm/m/it/12 t\OMS/
+zplm/m/n/12 i$\T1/ppl/m/n/12 , $\OMS/zplm/m/n/12 h\OML/zplm/m/it/12 s\OT1/ppl/m
+/n/12 , \OML/zplm/m/it/12 a\OT1/ppl/m/n/12 , \OML/zplm/m/it/12 d\OT1/ppl/m/n/12
+ , \OML/zplm/m/it/12 t\OMS/zplm/m/n/12 i$\T1/ppl/m/n/12 ,
+ []
+
+
+Package Fancyhdr Warning: \headheight is too small (14.49998pt): 
+ Make it at least 15.47992pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[44] [45] [46]
+
+LaTeX Warning: Marginpar on page 47 moved.
+
+[47] [48] [49]) [50]
+\openout2 = `07-kim.aux'.
+
+ (./07-kim.tex
+Cap\'{\i }tulo 4.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [51
+
+
+
+]
+File: ./figs/kimCaminhos.eps Graphic file (type eps)
+
+<./figs/kimCaminhos.eps> [52] [53]
+File: ./figs/grafoExemploTsETt.eps Graphic file (type eps)
+ <./figs/grafoExemploTsETt.eps>
+File: ./figs/exemploTs.eps Graphic file (type eps)
+
+<./figs/exemploTs.eps>
+File: ./figs/exemploTt.eps Graphic file (type eps)
+ <./figs/exemploTt.eps> [54] [55]
+File: ./figs/grafoComZero.eps Graphic file (type eps)
+
+<./figs/grafoComZero.eps>
+File: ./figs/arvoresTsComZero.eps Graphic file (type eps)
+ <./figs/arvoresTsComZero.eps>
+File: ./figs/arvoresTtComZero.eps Graphic file (type eps)
+
+<./figs/arvoresTtComZero.eps> [56]
+File: ./figs/simulacaoGrafo1.eps Graphic file (type eps)
+ <./figs/simulacaoGrafo1.eps>
+File: ./figs/simulacaoArvoreTs1.eps Graphic file (type eps)
+
+<./figs/simulacaoArvoreTs1.eps>
+File: ./figs/simulacaoArvoreTt1.eps Graphic file (type eps)
+ <./figs/simulacaoArvoreTt1.eps> [57]
+File: ./figs/simulacaoGrafo2.eps Graphic file (type eps)
+
+<./figs/simulacaoGrafo2.eps>
+File: ./figs/simulacaoArvoreTs2.eps Graphic file (type eps)
+ <./figs/simulacaoArvoreTs2.eps>
+File: ./figs/simulacaoArvoreTt2.eps Graphic file (type eps)
+
+<./figs/simulacaoArvoreTt2.eps>
+File: ./figs/simulacaoGrafo3.eps Graphic file (type eps)
+ <./figs/simulacaoGrafo3.eps>
+File: ./figs/simulacaoArvoreTs3.eps Graphic file (type eps)
+
+<./figs/simulacaoArvoreTs3.eps>
+File: ./figs/simulacaoArvoreTt3.eps Graphic file (type eps)
+ <./figs/simulacaoArvoreTt3.eps> [58] [59]
+[60]
+LaTeX Font Info:    Font shape `T1/ppl/bx/n' in size <6> not available
+(Font)              Font shape `T1/ppl/b/n' tried instead on input line 314.
+ [61] [62] [63] [64] [65]) [66]
+\openout2 = `08-resultados.aux'.
+
+ (./08-resultados.tex
+Cap\'{\i }tulo 5.
+[67
+
+
+
+] [68]
+LaTeX Font Info:    Font shape `OMS/ppl/m/it' in size <6> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 115.
+ [69] [70]
+Underfull \vbox (badness 2941) has occurred while \output is active []
+
+ [71]
+File: ./graficos/tempo_x_k.gnuplot_0.1.ps Graphic file (type eps)
+
+<./graficos/tempo_x_k.gnuplot_0.1.ps>
+File: ./graficos/tempo_x_k.gnuplot_0.2.ps Graphic file (type eps)
+ <./graficos/tempo_x_k.gnuplot_0.2.ps>
+File: ./graficos/tempo_x_k.gnuplot_0.3.ps Graphic file (type eps)
+
+<./graficos/tempo_x_k.gnuplot_0.3.ps>
+File: ./graficos/tempo_x_k.gnuplot_0.4.ps Graphic file (type eps)
+ <./graficos/tempo_x_k.gnuplot_0.4.ps>
+File: ./graficos/tempo_x_k.gnuplot_0.5.ps Graphic file (type eps)
+
+<./graficos/tempo_x_k.gnuplot_0.5.ps>
+File: ./graficos/tempo_x_k.gnuplot_0.6.ps Graphic file (type eps)
+ <./graficos/tempo_x_k.gnuplot_0.6.ps>
+File: ./graficos/tempo_x_k.gnuplot_0.7.ps Graphic file (type eps)
+
+<./graficos/tempo_x_k.gnuplot_0.7.ps>
+File: ./graficos/tempo_x_k.gnuplot_0.8.ps Graphic file (type eps)
+ <./graficos/tempo_x_k.gnuplot_0.8.ps>
+File: ./graficos/tempo_x_k.gnuplot_0.9.ps Graphic file (type eps)
+
+<./graficos/tempo_x_k.gnuplot_0.9.ps>
+File: ./graficos/tempo_x_k.gnuplot_1.0.ps Graphic file (type eps)
+ <./graficos/tempo_x_k.gnuplot_1.0.ps>
+[72] [73] [74] [75] [76] [77]
+File: ./graficos/comparacao_arvores_sep_total.gnuplot_0.1.ps Graphic file (type
+ eps)
+
+<./graficos/comparacao_arvores_sep_total.gnuplot_0.1.ps>
+File: ./graficos/comparacao_arvores_sep_total.gnuplot_0.2.ps Graphic file (type
+ eps)
+
+<./graficos/comparacao_arvores_sep_total.gnuplot_0.2.ps>
+File: ./graficos/comparacao_arvores_sep_total.gnuplot_0.3.ps Graphic file (type
+ eps)
+
+<./graficos/comparacao_arvores_sep_total.gnuplot_0.3.ps>
+File: ./graficos/comparacao_arvores_sep_total.gnuplot_0.4.ps Graphic file (type
+ eps)
+
+<./graficos/comparacao_arvores_sep_total.gnuplot_0.4.ps>
+File: ./graficos/comparacao_arvores_sep_total.gnuplot_0.5.ps Graphic file (type
+ eps)
+
+<./graficos/comparacao_arvores_sep_total.gnuplot_0.5.ps>
+File: ./graficos/comparacao_arvores_sep_total.gnuplot_0.6.ps Graphic file (type
+ eps)
+
+<./graficos/comparacao_arvores_sep_total.gnuplot_0.6.ps>
+File: ./graficos/comparacao_arvores_sep_total.gnuplot_0.7.ps Graphic file (type
+ eps)
+
+<./graficos/comparacao_arvores_sep_total.gnuplot_0.7.ps>
+File: ./graficos/comparacao_arvores_sep_total.gnuplot_0.8.ps Graphic file (type
+ eps)
+
+<./graficos/comparacao_arvores_sep_total.gnuplot_0.8.ps>
+File: ./graficos/comparacao_arvores_sep_total.gnuplot_0.9.ps Graphic file (type
+ eps)
+
+<./graficos/comparacao_arvores_sep_total.gnuplot_0.9.ps>
+File: ./graficos/comparacao_arvores_sep_total.gnuplot_1.0.ps Graphic file (type
+ eps)
+
+<./graficos/comparacao_arvores_sep_total.gnuplot_1.0.ps>
+File: ./graficos/comparacao_arvores_sep_total_percentual.gnuplot_0.1.ps Graphic
+ file (type eps)
+
+<./graficos/comparacao_arvores_sep_total_percentual.gnuplot_0.1.ps>
+File: ./graficos/comparacao_arvores_sep_total_percentual.gnuplot_0.2.ps Graphic
+ file (type eps)
+
+<./graficos/comparacao_arvores_sep_total_percentual.gnuplot_0.2.ps>
+File: ./graficos/comparacao_arvores_sep_total_percentual.gnuplot_0.3.ps Graphic
+ file (type eps)
+
+<./graficos/comparacao_arvores_sep_total_percentual.gnuplot_0.3.ps>
+File: ./graficos/comparacao_arvores_sep_total_percentual.gnuplot_0.4.ps Graphic
+ file (type eps)
+
+<./graficos/comparacao_arvores_sep_total_percentual.gnuplot_0.4.ps>
+File: ./graficos/comparacao_arvores_sep_total_percentual.gnuplot_0.5.ps Graphic
+ file (type eps)
+
+<./graficos/comparacao_arvores_sep_total_percentual.gnuplot_0.5.ps>
+File: ./graficos/comparacao_arvores_sep_total_percentual.gnuplot_0.6.ps Graphic
+ file (type eps)
+
+<./graficos/comparacao_arvores_sep_total_percentual.gnuplot_0.6.ps>
+File: ./graficos/comparacao_arvores_sep_total_percentual.gnuplot_0.7.ps Graphic
+ file (type eps)
+
+<./graficos/comparacao_arvores_sep_total_percentual.gnuplot_0.7.ps>
+File: ./graficos/comparacao_arvores_sep_total_percentual.gnuplot_0.8.ps Graphic
+ file (type eps)
+
+<./graficos/comparacao_arvores_sep_total_percentual.gnuplot_0.8.ps>
+File: ./graficos/comparacao_arvores_sep_total_percentual.gnuplot_0.9.ps Graphic
+ file (type eps)
+
+<./graficos/comparacao_arvores_sep_total_percentual.gnuplot_0.9.ps>
+File: ./graficos/comparacao_arvores_sep_total_percentual.gnuplot_1.0.ps Graphic
+ file (type eps)
+
+<./graficos/comparacao_arvores_sep_total_percentual.gnuplot_1.0.ps>) [78]
+[79] [80] [81] [82] [83] [84] [85] [86] [87] [88]
+\openout2 = `09-final.aux'.
+
+ (./09-final.tex
+Cap\'{\i }tulo 6.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [89
+
+
+
+]
+[90]) [91] [92
+
+
+] (./mestrado.bbl (./mestrado.brf)
+\tf@brf=\write8
+\openout8 = `mestrado.brf'.
+
+ [93
+
+]
+LaTeX Font Info:    Try loading font information for T1+pcr on input line 49.
+
+(/usr/share/texmf-texlive/tex/latex/psnfss/t1pcr.fd
+File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
+) [94]) [95] [96
+
+]
+(./mestrado.ind [97
+
+] [98
+
+]) (./mestrado.aux (./capa.aux) (./01-resumo.aux)
+(./abstract.aux) (./02-introducao.aux) (./03-preliminares.aux)
+(./04-caminhos-minimos.aux) (./05-k-caminhos.aux) (./07-kim.aux)
+(./08-resultados.aux) (./09-final.aux))
+
+LaTeX Warning: There were multiply-defined labels.
+
+ ) 
+Here is how much of TeX's memory you used:
+ 5713 strings out of 493849
+ 77350 string characters out of 1152846
+ 580024 words of memory out of 3000000
+ 8718 multiletter control sequences out of 15000+50000
+ 62392 words of font info for 129 fonts, out of 3000000 for 9000
+ 714 hyphenation exceptions out of 8191
+ 38i,13n,43p,751b,1744s stack positions out of 5000i,500n,10000p,200000b,50000s
+
+Output written on mestrado.dvi (111 pages, 780792 bytes).

@@ -1,0 +1,82 @@
+% Pacotes 
+\usepackage[T1]{fontenc}
+\usepackage[brazil]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{graphicx}
+\usepackage{setspace}                   % espaçamento flexível
+\usepackage{indentfirst}                % indentação do primeiro parágrafo
+\usepackage[nottoc]{tocbibind}          % acrescentamos a bibliografia/indice/conteudo no Table of Contents
+%\usepackage{courier}                    % usa o Adobe Courier no lugar de Computer Modern Typewriter
+\usepackage{type1cm}                    % fontes realmente escaláveis
+\usepackage{listings}                   % para formatar código-fonte (ex. em Java)
+\usepackage{titletoc}
+%\usepackage[bf,small,compact]{titlesec} % cabeçalhos dos títulos: menores e compactos
+\usepackage[fixlanguage]{babelbib}
+\usepackage[font=small,format=plain,labelfont=bf,up,textfont=it,up]{caption}
+\usepackage[usenames,svgnames,dvipsnames]{xcolor}
+
+\usepackage[a4paper,top=2.54cm,bottom=2.0cm,left=2.0cm,right=2.54cm]{geometry} % margens
+%\usepackage[pdftex,plainpages=false,pdfpagelabels,pagebackref,colorlinks=true,citecolor=black,linkcolor=black,urlcolor=black,filecolor=black,bookmarksopen=true]{hyperref} % links em preto
+\usepackage[plainpages=false,pdfpagelabels,pagebackref,colorlinks=true,citecolor=DarkGreen,linkcolor=NavyBlue,urlcolor=DarkRed,filecolor=green,bookmarksopen=true]{hyperref} % links coloridos
+\usepackage[all]{hypcap}                % soluciona o problema com o hyperref e capitulos
+\fontsize{60}{62}\usefont{OT1}{cmr}{m}{n}{\selectfont}
+
+% Util
+\usepackage{enumerate}
+\usepackage{verbatim}
+%\usepackage[svgnames]{xcolor}
+
+% Figures
+\usepackage{float}
+\usepackage{subfig}
+
+%\usepackage{ upgreek }
+
+\hyphenpenalty=10000000
+\tolerance=10000000
+% to avoid annoying message "Underful [h/v]box"
+\hbadness=100000
+\vbadness=100000
+
+\setlength\parskip{0.3cm}
+
+%-------------------------------------------------------%
+% Chapter marks and page headers
+\usepackage{fancyhdr}
+\usepackage[avantgarde]{quotchap2}
+
+
+% ---------------------------------------------------------------------------- %
+% Cabeçalhos similares ao TAOCP de Donald E. Knuth
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\chaptermark}[1]{\markboth{\rm\textsc{#1}}{}}
+\renewcommand{\sectionmark}[1]{\markright{\rm\textsc{#1}}{}}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}
+
+\usepackage{titlesec}
+\titleformat{\section}
+{\normalfont\Large\scshape\bfseries}{\thesection}{1em}{}
+\titleformat{\subsection}
+{\normalfont\large\scshape\bfseries}{\thesubsection}{1em}{}
+\titleformat{\subsubsection}
+{\normalfont\normalsize\scshape\bfseries}{\thesubsubsection}{1em}{}
+\titleformat{\paragraph}[runin]
+{\normalfont\normalsize\scshape\bfseries}{\theparagraph}{1em}{}
+\titleformat{\subparagraph}[runin]
+{\normalfont\normalsize\scshape\bfseries}{\thesubparagraph}{1em}{}
+\titlespacing*{\chapter}
+{0pt}{50pt}{40pt}
+\titlespacing*{\section}
+{0pt}{3.5ex plus 1ex minus .2ex}{2.3ex plus .2ex}
+\titlespacing*{\subsection}
+{0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
+\titlespacing*{\subsubsection}{0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
+\titlespacing*{\paragraph}
+{0pt}{3.25ex plus 1ex minus .2ex}{1em}
+\titlespacing*{\subparagraph} {\parindent}{3.25ex plus 1ex minus .2ex}{1em}
+

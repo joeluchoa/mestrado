@@ -1,0 +1,49 @@
+This is BibTeX, Version 0.99d (TeX Live 2010/Arch Linux)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: dissertacao.aux
+A level-1 auxiliary file: ape-conjuntos.aux
+The style file: alpha-ime.bst
+Database file #1: bibliografia.bib
+Warning--empty publisher in bobaoglu93:concepts
+You've used 17 entries,
+            2543 wiz_defined-function locations,
+            662 strings with 7152 characters,
+and the built_in function-call counts, 6039 in all, are:
+= -- 579
+> -- 275
+< -- 14
++ -- 93
+- -- 91
+* -- 384
+:= -- 1011
+add.period$ -- 55
+call.type$ -- 17
+change.case$ -- 99
+chr.to.int$ -- 17
+cite$ -- 18
+duplicate$ -- 266
+empty$ -- 455
+format.name$ -- 117
+if$ -- 1243
+int.to.chr$ -- 1
+int.to.str$ -- 0
+missing$ -- 16
+newline$ -- 91
+num.names$ -- 53
+pop$ -- 133
+preamble$ -- 1
+purify$ -- 119
+quote$ -- 0
+skip$ -- 208
+stack$ -- 0
+substring$ -- 210
+swap$ -- 42
+text.length$ -- 14
+text.prefix$ -- 10
+top$ -- 0
+type$ -- 112
+warning$ -- 1
+while$ -- 49
+width$ -- 21
+write$ -- 224
+(There was 1 warning)

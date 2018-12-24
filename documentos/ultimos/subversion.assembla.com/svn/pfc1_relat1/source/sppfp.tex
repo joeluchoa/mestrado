@@ -1,0 +1,9 @@
+%==========================
+% O Problema do Caminho Mínimo com Restrição de Subcaminhos
+%==========================
+O Problema do Caminho Mínimo com Restrição de Subcaminhos (SPPFP -- \textit{Shortest Path Problem with Forbidden Paths}) é uma variante do Problema do Caminho Mínimo na qual deseja-se encontrar um caminho de menor custo entre uma origem e todos os destinos possíveis, sem que algum subcaminho proibido seja percorrido durante o processo. 
+
+Formalmente, dado um grafo direcionado e aresta valorado $G(V,A)$, onde $V$ e $A$ são, respectivamente, o conjunto de vértices e o conjunto de arcos pertencentes a $G$, dados ainda o vértice $s \in V$ como vértice origem,  $c : A \rightarrow \sR$ como a função de custo dos arcos, e um conjunto de caminhos proibidos $F = \{u \leadsto v, w \leadsto z, \ldots \}$, $u,v,w,z \in V$, encontre um caminho mais curto $P$ de $s$ a todos os outros vértices $t \in V$, sob a restrição de que nenhum caminho $f \in F$ seja um subcaminho de $P$ \cite{Villeneuve:2005}.
+
+Em \cite{Szeider:2003} é provado que o problema em encontrar um caminho mínimo simples com restrição de subcaminhos é $\mathcal{NP}$-Completo para determinadas classes de grafos, mesmo considerando caminhos proibidos pequenos, com apenas duas arestas \cite{Ahmed:2009}. A prova utiliza uma redução do 3-SAT, problema este apresentado por \cite{Garey:1979} como um problema $\mathcal{NP}$-Completo.
+% ===MOSTRAR QUE EH NP PRA ALGUMAS CLASSES, NAO PARA TODAS===

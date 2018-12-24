@@ -1,0 +1,77 @@
+% ================================
+% Modelagem 2
+% ================================
+
+A Modelagem 2 surge a partir de uma modificação da Modelagem 1, na qual não são incluídos em $G'$ os vértices de $G$ diferentes do vértice inicial $s$. O grafo $G'$ também é construído através do mapeamento de arcos em vértices, onde cada arco $(u,v)$ em $G$ se torna um vértice $\<u,v\>$ em $G'$, exatamente como na Modelagem 1 (vide Figura \ref{mod1-fig1}). Cada conversão livre $\ell = (u,v,w)$ em $G$ gera um arco entre os vértices $\<u,v\>$ e  $\<v,w\>$ em $G'$. O custo $c'$ do arco em $G'$ sofre uma pequena alteração e é dado por $c'(\<u,v\>, \<v,w\>)=c(v,w)$, levando em consideração apenas o custo do arco de $v$ a $w$, último arco do caminho $u,v,w$ em $G$ (Figura \ref{mod2-fig1}).
+
+\begin{figure*}[hct]
+\centering
+\includegraphics[scale = 0.75]{\locimg mod2-fig1.pdf}
+\caption{Grafo $G'$ após inclusão dos primeiros vértices e dos primeiros arcos.}
+\label{mod2-fig1}
+\end{figure*}
+
+Diferentemente da Modelagem 1, onde todos os vértices de $G$ se fazem presentes em $G'$, nesta Modelagem apenas o vértice origem $s$, dos vértices de $G$,  é adicionado a $G'$ (Figura \ref{mod2-fig2}). Ele será a origem de caminhos em $G'$ e os vértices destino serão vértices do tipo $\<u,v\>$, que representam os arcos de $G$. Cada arco $(s,v)$ em $G$ gera ainda um arco $(s,\<s,v\>)$ em $G'$ com custo $c'(s,\<s,v\>) = c(s,v)$ (Figura \ref{mod2-fig2}).
+
+\begin{figure*}[hct]
+\centering
+\includegraphics[scale = 0.75]{\locimg mod2-fig2.pdf}
+\caption{Grafo $G'$ após inclusão do vértice origem e seus arcos.}
+\label{mod2-fig2}
+\end{figure*}
+
+Até o momento, a modelagem foi definida pressupondo caminhos do tipo $s \leadsto x$, onde $s$ é o vértice de interesse inicial e $x$ é todo outro vértice pertencente ao grafo. Para tratar caminhos entre quaisquer pares de vértices, todo vértice $v \in V$ que é origem de pelo menos um arco deve ser inserido em $G'$ e seus arcos $(v,x) \in A$ devem gerar arcos $(v, \<v,x\>)$ em $A'$. Note, consultando a Figura \ref{mod2-fig2b}, que, devido a essa regra para inserção de novos vértices, o vértice $t$ não aparece em $G'$ por não ser origem de nenhum arco e, portanto, não iniciar nenhum caminho.
+
+\begin{figure*}[hct]
+  \centering
+  \includegraphics[scale = 0.6, angle = 270]{\locimg mod2-fig2b.pdf}
+  \caption{Grafo $G'$ com todos os vértices e arcos.}
+  \label{mod2-fig2b}
+\end{figure*}
+
+Finalizando a descrição desta modelagem, o processo de encontrar um caminho $P$ em $G$, correspondente a um caminho $P'$ já encontrado em $G'$, é semelhante ao processo realizado na Modelagem 1, com a diferença de que o vértice destino não é um vértice ``herdado'' de $G$, mas sim um vértice $\<u,t\>$ referente a um arco em $G$. O rótulo do vértice destino de $G'$ conterá o rótulo do vértice destino de $G$ como um sufixo. Como pode existir mais que um vértice de $G'$ com o sufixo do vértice destino $t$, é necessário selecionar o vértice $\<u,t\>$, $\forall u \in V$, que resulta no menor caminho para $t$.
+
+
+%-----------------------------------------------------------------------------
+\subsection{Análise}
+\label{mod2-analise}
+
+A grande maioria dos vértices do grafo $G'(V',A')$ resultante é formada a partir dos arcos do grafo original $G(V,A)$. Seguindo a nomenclatura utilizada na Modelagem 1, esses vértices são os chamados vértices ``internos'' de $G'$ e compõem quase que a totalidade dos vértices dos caminhos em $G'$, excluindo-se apenas os vértices origem e destino que são vértices ``externos''. Mas, nesta Modelagem, os vértices destino também são ``internos'' -- ou do tipo $\<v,t\>$ -- o que diminui a quantidade de vértices no grafo final. Mesmo assim ainda temos que $|V'| \geq |A|$. Adicionando a essa conta apenas uma unidade, referente ao vértice $s$ origem, temos:
+$$|V'| = |A| + 1$$
+
+Mas, da mesma forma que ocorre na Modelagem anterior, essa conta leva em consideração apenas o vértice inicial $s$ do caminho. Para que seja possível iniciar um caminho de qualquer vértice deve-se adicionar a $G'$, inicialmente, todos os vértices de $G$. Isso nos leva a:
+
+\
+$$|V'| = |A|+|V|$$
+
+\
+
+Entretanto uma análise mais cuidadosa pode trazer uma redução desses números baseando-se no fato de que há grafos que possuem vértices com $d^+(v) = 0$, ou seja, vértices que não são origem de nenhum arco. Sendo assim tais vértices seriam apenas vértices finais de qualquer caminho neste grafo e sua inclusão no grafo auxiliar não se mostra necessária. Não incluindo esses vértices no grafo auxiliar temos:
+$$|V'| \leq |A|+|V|$$
+
+\noindent
+ou, de forma mais específica,
+
+$$|V'| = |A|+\sum \delta(v)$$
+
+\begin{equation*}
+\text{tal que, }\forall v \in G(V)\text{, }\delta(v) =
+\begin{cases}
+1 & \text{se } d^+(v) > 0,\\
+0 & \text{se } d^+(v) = 0.\\
+\end{cases}
+\end{equation*}
+
+\
+
+
+Partindo para análise dos arcos de $G'$, os primeiros arcos criados são os que unem os vértices do tipo $\<u,v\>$ de $G'$. A ligação de dois vértices $\<u,v\>$ e $\<v,w\>$ de $G'$ corresponde à formação de uma conversão livre $\<u,v,w\>$ no grafo original $G$. Isso garante que $|A'| \geq |L|$. Os últimos arcos criados são os que partem do vértice origem $s$. Todo arco $(s,v)$ de $G$ gera um arco $(s,\<s,v\>)$ em $G'$ e são os primeiros arcos a serem percorridos em qualquer caminho do grafo final iniciado em $s$ . Adicionando essa quantidade de vértices que partem de $s$ em $G$ temos:
+$$|A'| = |L| + d^+(s)$$
+
+\
+
+Como pode-se notar, a análise acima leva em consideração apenas caminhos que iniciam no vértice $s$. Para que sejam formados caminhos que iniciem em qualquer vértice de $G$ devemos adicionar a $G'$ todos os arcos de $v \in V(G)$ da mesma forma que os arcos de $s$ foram adicionados. Somando os arcos adicionados temos 
+$d^+(s) + \displaystyle \sum d^+(v) \ \forall v \in V(G)-\{s\} \ \Rightarrow \ \displaystyle \sum d^+(v) \  \forall v \in V(G)$
+que, na verdade, é o conjunto completo de arcos no grafo original. Assim, considerando caminhos que iniciam em qualquer vértice de $G$, temos:
+$$|A'| = |L| + |A|$$
+

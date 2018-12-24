@@ -1,0 +1,11 @@
+% ================================
+% O Problema do Caminho Mais Longo
+% ================================
+
+O Problema do Caminho Mais Longo (LPP -- \textit{Longest Path Problem}) é o problema no qual deseja-se encontrar o  caminho de maior custo entre um ponto de origem e um ponto de destino. O custo neste caso pode ser a quantidade de vértices no caminho ou uma função que leva em consideração valores associados às arestas.
+
+De um modo mais formal, o Problema do Caminho Mais Longo pede que, dado um grafo não-direcionado $G(V,A)$ e um $K \geq 0$, $K \in \mathds{N}$, decida se existe ou não em $G$ um caminho simples de tamanho $N$, tal que $N \geq K$. Um caminho simples entende-se como um caminho que não contém ciclos, ou seja, não pode haver repetições de vértices ao longo de todo o caminho.
+
+O LPP é outro problema que, embora resolvido de forma eficiente para algumas poucas classes de grafos, não possui uma solução conhecida de ordem polinomial para o caso geral \cite{Uehara:2005}. Uma prova de que o LPP pertence à classe de problemas $\mathcal{NP}$-Completo utiliza a redução do Caminho Hamiltoniano ao mesmo.
+
+Para a prova de tal complexidade do LPP, considere a variante deste problema onde dado um grafo não-direcionado $G(V,A)$, dois vértices $s,t \in V$, e um inteiro positivo $K \leq |V|$, decida se $G$ possui um caminho simples $s \leadsto t$ com uma quantidade $N \geq K$ de arestas. Agora, o Caminho Hamiltoniano pode ser reduzido ao LPP descrevendo-o da seguinte forma: dado um grafo não-direcionado $H$ e $v,w \in V(H)$ dois de seus vértices, decida se há um caminho hamiltoniano $v \leadsto w$ entre os dois vértices. Como este último problema é provado ser $\mathcal{NP}$-Completo em \cite{Garey:1979}, temos que LPP pertence também à mesma classe de complexidade.

@@ -1,0 +1,944 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%    PRELIMINARES
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter{Preliminares}
+\markboth{Preliminares}{Preliminares}
+\addcontentsline{toc}{chapter}{Preliminares}
+
+
+
+\section{Grafos, passeios e caminhos}
+
+
+Estão descritos nesta seção os ingredientes básicos que envolvem os
+problemas que serão tratados. A notação básica que utilizamos é a de
+Paulo Feofillof~\cite{pf:aula}
+
+Um \defi{grafo}\index{grafo} é um objeto da forma $(V,A)$, 
+onde $V$ é um conjunto finito e $A$ é um conjunto de pares ordenados 
+de elementos de $V$. 
+
+Os elementos de $V$ são chamados \defi{vértices}\index{vértices@vértices} e os
+elementos de $A$ são chamados \defi{arcos}\index{arcos}.  Para cada arco
+$(u,v)$, os vértices $u$ e $v$ representam a ponta inicial e a ponta final de
+$(u,v)$, respectivamente.  Um arco $(u,v)$ também poderá ser representado por
+$uv$.
+
+Um grafo é \defi{simétrico}\index{grafo!simétrico@simétrico} 
+se para cada arco $uv$ existir também o arco $vu$. Diremos às vezes
+que o arco $vu$ é \defi{reverso}\index{arco!reverso}
+ do arco $uv$ e que o par $\{(u,v),(v,u)\}$ é uma \defi{aresta}\index{aresta}.
+ 
+Um grafo pode ser naturalmente representado através de um
+diagrama, como o da figura~\ref{fig:grafo}, onde os vértices são
+pequenas bolas e os arcos são as flechas ligando estas bolas. 
+
+\begin{figure}[htbp]
+ \begin{center}
+    \psfrag{(a)}{$\iten{a}$}
+    \psfrag{(b)}{$\iten{b}$}
+    \psfrag{(c)}{$\iten{c}$}
+    \psfrag{(d)}{$\iten{d}$}
+    \psfrag{a}{{$a$}}
+    \psfrag{b}{{$b$}}
+    \psfrag{c}{{$c$}}
+    \psfrag{d}{{$d$}}
+    \psfrag{e}{{$e$}}   
+    \psfrag{f}{{$f$}}
+  \includegraphics{./figs/grafo.eps}
+  \caption[Um exemplo de grafo]{\label{fig:grafo} $\iten{a}$, $\iten{b}$, $\iten{c}$ e 
+    $\iten{d}$ são exemplos de grafos. $\iten{b}$ é um grafo simétrico.}
+ \end{center}
+ \end{figure}
+
+%%% Passeio 
+ Um \defi{passeio}\index{passeio} num grafo $(V,A)$ é qualquer seqüência da forma
+ \begin{eqnarray}
+ \label{passeio}
+ \seq{v_{0}, a_{1}, v_{1}, \ldots, a_{t}, v_{t}}
+ \end{eqnarray}
+onde $v_{0}, \ldots, v_{t}$ são vértices, $a_{1}, \ldots, a_{t}$ 
+são arcos e, para cada $i$, $a_{i}$ é o arco $v_{i-1}v_{i}$. 
+O vértice
+$v_{0}$ é o \defi{início} ou \defi{ponta inicial} do passeio
+e o $v_{t}$ é seu \defi{término} ou \defi{ponta final}.
+%Uma \defi{passeio não-orientado}\index{passeio! não orientado@não orientado}
+%é uma seqüência como (\ref{passeio}) onde,
+%para cada $i$, $\alpha_{i}$ é o arco $v_{i-1}v_{i}$ ou o arco
+% $v_{i}v_{i-1}$. 
+Na figura~\ref{fig:grafo}$\iten{a}$ a seqüência
+$\seq{a, ab, b, be, e, ef, f, fd, d, db, b, be, e, ef, f}$ é um passeio com início em $a$ e 
+ término em $f$.
+% e a seqüência $\seq{a, ac, c, ce, e, be, b, bd, d,df,f}$
+% é um passeio não-orientado com início em $a$ e término em $f$. 
+
+%%%% 
+Se $P:=\seq{v_{0}, a_{1}, v_{1}, \ldots, a_{t}, v_{t}}$, então qualquer 
+subseqüência da forma  
+ \begin{eqnarray}
+  \label{subpasseio}
+   \seq{v_{i}, a_{i+1}, v_{i+1}, \ldots, a_{j}, v_{j}}
+ \end{eqnarray}
+com $0 \leq i \leq j \leq t$ será um \defi{sub-passeio} de $P$. 
+Além disso, se $i=0$,  então o sub-passeio será dito um 
+\defi{prefixo} de $P$.
+Na figura~\ref{fig:grafo}$\iten{a}$ a seqüência $\seq{a, ab, b, be, e, ef, f,
+fd, d}$ é um sub-passeio e prefixo de do passeio 
+$\seq{a, ab, b, be, e, ef, f, fd, d, db, b, be, e, ef, f}$.
+
+
+%%% Caminhos
+Um \defi{caminho}\index{caminho} é um passeio
+sem vértices repetidos.
+%Um \defi{caminho não-orientado}\index{caminho!não-orientado@não-orientado} 
+%é um passeio não-orientado sem vértices repetidos.
+Na figura~\ref{fig:grafo}$\iten{a}$ a seqüência
+ $\seq{a, ab, b, be, e, ef, f}$ é um caminho com início em $a$ e 
+ término em $f$.
+% e a seqüência $\seq{a, ac, c, ce, e, be, b, bd, d, df,
+% f}$ é um caminho não-orientado com início em $a$ e término em $f$. 
+
+ 
+%
+% função custo
+%
+
+Uma \defi{função custo}\index{função@função!custo}\index{custo} em
+$(V,A)$ é uma função de $A$ em $\NonnegInt$. Se $c$ for uma função
+custo em $(V,A)$ e $uv$ estiver em $A$, então
+$c(u,v)$ será o valor de $c$ em $uv$. 
+%
+% Custo de um passeio e passeio de custo mínimo.
+% 
+Se $P$ for um passeio em um grafo $(V,A)$ e $c$ uma função custo, 
+denotaremos por $c(P)$ o \defi{custo do caminho} $P$%
+\index{custo do caminho}, ou seja, $c(P)$ é o somatório dos custos
+de todos os arcos em $P$.  Um passeio $P$ tem \defi{custo mínimo} se
+$c(P) \leq c(P')$ para todo passeio $P'$ que tenha o mesmo início e término
+que $P$. Um passeio de custo mínimo é comumente chamado de \defi{caminho
+mínimo}.
+ 
+%
+% Problema dos menores caminhos 
+% 
+ 
+Um problema fundamental em otimização combinatória que tem um papel de
+destaque neste projeto é o 
+\defi{problema do caminho mínimo}, denotado por
+\PCM:\index{problema!do caminho mínimo@do caminho mínimo}
+ \begin{quote}
+   \textbf{Problema} \PCM$(V,A,c,s,t)$: 
+   \index{\PCM}\mar{\PCM}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+   Dado um grafo $(V,A)$, uma função
+   custo~$c$ e dois vértice $s$ e $t$, 
+   encontrar um caminho de custo mínimo 
+   de $s$ a~$t$.
+ \end{quote}
+Na literatura essa versão é conhecida como \textit{single-pair shortest path
+problem}\index{single-pair shortest path@single-source shortest path}. 
+O celebrado algoritmo de Edsger Wybe Dijkstra~\cite{dijkstra59:note} 
+resolve o problema do caminho mínimo.
+
+
+
+Denotaremos, quando não houver
+ambigüidade, por $n$ e $m$ os números $|V|$ e $|A|$, respectivamente.
+Além disso, representaremos por $T(n,m)$ o consumo de tempo de uma
+subrotina genérica para resolver o \PCM\ em um grafo com $n$ vértices
+e $m$ arestas.
+O algoritmo mais eficiente  conhecido para o \PCM\ foi 
+projetado por Michael L. Fredman e Robert Endre
+Tarjan~\cite{FredTarjan:Fibonacci}
+e consome tempo $\Oh(m + n \log n)$. Existe ainda um algoritmo que consome
+tempo linear \textit{sob um outro modelo de computação} que foi
+desenvolvido por Mikkel Thorup~\cite{thorup:sssp-1999}.    
+
+\section{Árvores dos prefixos}
+
+
+Descrevemos aqui uma ``arborescência rotulada'' que de certa forma
+codifica os prefixos dos caminhos em uma dada coleção.
+Esta representação será particularmente útil quando, mais
+adiante, discutirmos o método de Yen.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+No que segue $\Qcal$ é uma coleção de caminhos de um grafo e  
+$V(\Qcal)$ e $A(\Qcal)$ são o conjunto dos vértices e o
+conjunto dos arcos presentes nos caminhos, respectivamente.
+
+Um grafo acíclico $(N,E)$ com $|N| = |E| + 1$ é uma
+\defi{arborescência}\index{arborescencia@@arborescência} 
+se todo vértice, exceto um 
+vértice especial chamado de \defi{raiz}\index{raiz da arborescência@@raiz da
+arborescência},
+ for ponta final de exatamente um arco. 
+Será conveniente tratarmos os vértices 
+ de uma arborescência por \defi{nós}. 
+Uma arborescência está ilustrada na 
+figura~\ref{fig:grafo}(c). 
+A raiz dessa arborescência é o
+nó $a$. Uma \defi{folha}\index{folha de uma arborescência@@folha de uma
+arborescência}
+ de uma arborescência é um nó
+que não é ponta inicial de nenhum arco. 
+
+
+Suponha que $(N,E)$ seja uma arborescência e  
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+$f$ uma \defi{função rótulo}\index{função@função!rotulo@rótulo} 
+que associa a cada nó em $N$ um vértice em $V(\Qcal)$ e a
+cada arco em $E$ um arco em $A(\Qcal)$. 
+Se 
+\begin{eqnarray*}
+ R=\seq{u_{0}, e_{1}, u_{1}, \ldots, e_{t}, u_{t}}
+\end{eqnarray*}
+for um caminho em  $(N,E)$, então
+\begin{eqnarray*}
+ f(R):=\seq{f(u_{0}), f(e_{1}), f(u_{1}), \ldots, f(e_{t}), f(u_{t})}
+\end{eqnarray*}
+será uma seqüência de vértices e arcos dos caminhos em $\Qcal$.
+Diremos que $(N,E,f)$ é \defi{árvore dos prefixos} de $\Qcal$ se 
+\begin{enumerate}[(p1)]
+\item para cada caminho $R$ em $(N,E)$ com início na
+      raiz, $f(R)$ for prefixo de algum caminho em $\Qcal$; e
+\item para cada prefixo $Q$ de algum caminho em $\Qcal$
+      existir um caminho $R$ em $(N,E)$ com início na
+      raiz tal que $f(R)=Q$; e
+\item o caminho $R$ do item anterior for único. 
+\end{enumerate}
+
+Não é verdade que para cada coleção $\Qcal$ de caminhos em
+um grafo existe uma árvore dos prefixos de $\Qcal$.
+No entanto, se todos os caminhos em $\Qcal$
+tiverem a mesma ponta inicial, então existe uma árvore dos prefixo de
+$\Qcal$ e esta é única. Na figura~\ref{fig:prefixo}(b) vemos 
+a ilustração da árvore dos prefixos de quatro caminhos de $s$ a~$t$ no grafo
+da figura~\ref{fig:prefixo}(a). Na árvore da ilustração $w,x,y$ 
+e $z$ são nós e $f(w)=s, f(x)=a, f(y)=d$ e $f(z)=d$.
+
+\begin{figure}[htbp]
+ \begin{center}
+    \psfrag{(a)}{$\iten{a}$}
+    \psfrag{(b)}{$\iten{b}$}
+    \psfrag{a}{{$s$}}
+    \psfrag{b}{{$a$}}
+    \psfrag{c}{{$b$}}
+    \psfrag{d}{{$c$}}
+    \psfrag{e}{{$d$}}   
+    \psfrag{f}{{$t$}}
+    \psfrag{x}{{$x$}}
+    \psfrag{y}{{$y$}}
+    \psfrag{z}{{$z$}}
+    \psfrag{w}{{$w$}}
+    \psfrag{grafo}{grafo}
+    \psfrag{arvore dos prefixos}{árvore dos prefixos}
+  \includegraphics{./figs/prefixo.eps}
+  \caption{\label{fig:prefixo} (b) mostra a árvore dos prefixos dos
+   caminhos
+   $\seq{s,a,c,t}$,
+   $\seq{s,a,d,t}$,
+   $\seq{s,b,a,c,t}$ e 
+   $\seq{s,b,a,d,c,t}$ no grafo em~(a).
+  Na árvore, um símbolo ao lado de um nó é o rótulo desse nó.
+  Os rótulos dos arcos não estão representados na figura. O símbolo 
+  dentro de um nó é o seu nome.
+  }
+ \end{center}
+ \end{figure}
+
+\section{Java Universal Network/Graph Framework}
+
+O Java Universal Network/Graph Framework(JUNG) é uma biblioteca de software livre, escrita em Java, 
+desenvolvida para permitir a modelagem, análise 
+e visualização de dados passíveis de serem representados na forma de grafos. 
+Além de permitir a visualização de grafos, conta com diversos algoritmos implementados e estruturas de 
+dados 
+pertinentes à área de grafos.
+
+A biblioteca foi criada de modo a abranger as mais diversas necessidades, sendo assim bastante genérica,
+ capaz de representar grafos 
+na forma de matrizes e listas de adjacência e tratar de grafos simétricos e assimétricos.
+No nível mais elevado, ou seja, de maior abstração, temos as interfaces com prefixo Archetype,
+ as quais definem as diretrizes 
+dos tipos mais genéricos de elementos componentes de um grafo: vértices, arcos e o grafo em si.
+São representantes deste nível as interfaces: \emph{ArchetypeGraph}, \emph{ArchetypeVertex} e 
+\emph{ArchetypeEdge}.
+
+
+No nível imediatamente inferior, especializando as interfaces anteriores, encontramos as interfaces:
+ \emph{Graph}, \emph{Vertex} e \emph{Edge}.
+Estas objetivam representar elementos de grafos sem arestas paralelas, uma vez que estes permitem que
+ novos operações sejam definidas.
+
+
+Para se trabalhar com grafos simétricos e distingui-los dos demais foram criadas duas interfaces: 
+\emph{DirectedGraph} e \emph{UndirectedGraph} 
+e as respectivas \emph{DirectedEdge} e \emph{UndirectedEdge}. 
+Estas interfaces permitem validações em tempo de compilação.
+Nenhuma delas possue métodos próprios, apenas estendem a interface \emph{Graph}. 
+A validação em tempo de compilação ocorre por conta da comparação entre a assinatura das funções que 
+as utilizam.
+Se uma dada função possuir na sua assinatura um parâmetro do tipo \emph{UndirectedGraph} e for invocada
+ com um argumento do tipo \emph{DirectedGraph} 
+teremos um erro de compilação. Observe, no entanto, que a interface \emph{UndirectedGraph} por si só
+ não valida a simetria do grafo. 
+Esta valição fica a cargo da implementação da mesma.
+
+
+A seguir temos as implementações das interfaces citadas acima.
+Numa camada intermédiaria, existem três classes abstratas implementando funcionalidades comuns a 
+grafos simétricos e não-simétricos, 
+são elas: \emph{AbstractSparseGraph}, \emph{AbstractSparseVertex} e \emph{AbstractSparseEdge}.
+No momento, apenas temos implementada a representação de grafos como listas de adjacência, 
+como pode ser notado nos próprios nomes das classes, os quais contêm a palavra Sparse; 
+vale lembrar que grafos esparsos, ou seja, com poucas arestas, se comparado à quantidade máxima possível, 
+são, em geral, representados de maneira mais eficiente e econônica usando-se listas de adjacência e 
+grafos densos como matrizes.
+ 
+Por fim, temos as implementações específicas para grafos simétricos: 
+\emph{UndirectedSparseGraph}, \emph{UndirectedSparseVertex} e \emph{UndirectedSparseEdge}
+, e não-simétricos: \emph{DirectedSparseGraph}, \emph{DirectedSparseVertex} e \emph{DirectedSparseEdge} 
+ 
+
+
+Visto um pouco da arquitetura vamos a alguns exemplos e aplicações.
+Criar um grafo é um processo bem simples, basta instar a classe referente ao tipo grafo 
+desejado, como no exemplo a seguir:
+\lstset{basicstyle=\small}
+\begin{lstlisting}
+	Graph g = new DirectedSparseGraph();
+\end{lstlisting}
+
+	cria um grafo não-simétrico baseado numa representação na forma de lista de adjacência.
+
+Também é possivel criar um grafo lendo seus dados de um arquivo. Apresentaremos apenas um exemplo usando o 
+padrão Pajek uma vez que o JUNG é capaz de ler e escrever apenas neste formato
+(o formato GraphML é suportado somente no modo leitura).
+O formato Pajek é muito abrangente, permitindo definições bem complexas de grafos contudo, apresentaremos
+apenas dois exemplos que ilustram muito bem a simplicidade deste padrão.
+\begin{description}
+\item[Grafo simétrico sem custos nas arestas]  
+\lstset{basicstyle=\small}
+\begin{lstlisting}
+
+/*Cria um grafo simétrico com 14 vértices.*/
+/*Os vértices saõ numerados a partir do 1.*/
+/*Cada vértice pode ter um rótulo que deve vir após seu número. */
+/*No caso o vértice 2 tem o rótulo W2.*/
+/*Para definir as arestas usamos o *Edges.*/
+/*Cada aresta é definida a partir dos vértices que ela interliga*/
+/*O arquivo não pode conter linhas em branco ao final.*/
+*Vertices 14
+1 I1
+2 I3
+3 W1
+4 W2
+5 W3
+6 W4
+7 W5
+8 W6
+9 W7
+10 W8
+11 W9
+12 S1
+13 S2
+14 S4
+*Edges
+1 5
+3 5
+3 6
+5 6
+9 10
+9 11
+10 11
+3 12
+5 12
+6 12
+10 14
+11 14
+9 12
+\end{lstlisting}
+A figura~\ref{fig:grafoSimetricoSemCustos}  mostra o grafo descrito acima.
+\begin{figure}[htp]
+ \begin{center}
+  \includegraphics[scale=0.5]{./figs/grafoSimetricoSemCustos.eps} 
+  \label{fig:grafoSimetricoSemCustos}
+  \caption{Grafo simétrico sem custos nas arestas}
+ \end{center}
+ \end{figure}
+\item[Grafo simétrico com custos nas arestas]  
+\lstset{basicstyle=\small}
+\begin{lstlisting}
+
+/*Cria um grafo simétrico com 14 vértices.*/
+/*Os vértices saõ numerados a partir do 1.*/
+/*Cada vértice pode ter um rótulo que deve vir após seu número. */
+/*No caso o vértice 2 tem o rótulo W2.*/
+/*Para definir as arestas usamos o *Edges.*/
+/*Cada aresta é definida a partir dos vértices que ela interliga*/
+/*O custo de cada aresta vem logo após o segundo vértice que o compõe. */
+Por exemplo, a aresta que liga os vértices 3 e 5 tem custo 2.9 */
+/*O arquivo não pode conter linhas em branco ao final.*/
+*Vertices 14
+1 I1
+2 I3
+3 W1
+4 W2
+5 W3
+6 W4
+7 W5
+8 W6
+9 W7
+10 W8
+11 W9
+12 S1
+13 S2
+14 S4
+*Edges
+1 5 1
+3 5 2.9
+3 6 3
+5 6 90
+9 10 1
+9 11 2
+10 11 3
+3 12 66
+5 12 6.7
+6 12 21
+10 14 2
+11 14 33
+9 12 1
+\end{lstlisting}
+A figura~\ref{fig:grafoSimetricoComCustos}  mostra o grafo descrito acima.
+\begin{figure}[htp]
+ \begin{center}
+  \includegraphics[scale=0.5]{./figs/grafoSimetricoComCustos.eps} 
+  \label{fig:grafoSimetricoComCustos}
+  \caption{Grafo simétrico com custos nas arestas}
+ \end{center}
+ \end{figure}
+
+\item[Grafo não-simétrico]
+\lstset{basicstyle=\small}
+\begin{lstlisting}
+
+/*Cria um grafo não-simétrico com 19 vértices.*/
+/*Os vértices saõ numerados a partir do 1.*/
+/*Cada vértice pode ter um rótulo que deve vir após seu número.*/
+/*No caso, optamos por não rotulá-los.*/
+/*Para definir os arcos usamos o *Arcslist.*/
+/*Cada arco é definido a partir do vértice de origem e uma lista de vértices de chegada*/
+Por exemplo, a linha "1 4 6 17 5 13 12 9 8 7" significa que saem arcos com origem no vértice 1 e chegada nos vértices "4 6 17 5 13 12 9 8 7".*/
+/*O arquivo não pode conter linhas em branco ao final.*/
+*Vertices 19
+*Arcslist
+1 4 6 17 5 13 12 9 8 7
+3 13 12 8 7
+4 6 5 9
+2 6 5
+13 16
+12 16
+9 16
+9 19
+8 16 18
+7 16 18
+15 16 19
+14 16 19
+6 18
+5 18
+16 19 18
+11 18
+10 18
+\end{lstlisting}
+\begin{figure}[htp]
+ \begin{center}
+  \includegraphics[scale=0.5]{./figs/grafoAssimetricoSemCustos.eps} 
+  \label{fig:grafoAssimetricoSemCustos}
+  \caption{Grafo assimétrico sem custos nas arestas}
+ \end{center}
+ \end{figure}
+\end{description}
+
+
+Para ler o grafo a partir do arquivo basta criar um leitor PajekNet, 
+instar a classe referente ao tipo de grafo desejado(simétrico ou não-simétrico), definir como os 
+custos são atribuídos e informar ao leitor o arquivo com o grafo.
+\lstset{language=Java,caption=Leitura usando PajNetReader,captionpos=b,basicstyle=\small}
+\begin{lstlisting}
+PajekNetReader pajekNetReader = new PajekNetReader(false);
+UndirectedGraph g = new UndirectedSparseGraph();
+NumberEdgeValue nev = new UserDatumNumberEdgeValue(g);
+Path.setNumberEdgeValue(nev);
+g = (UndirectedGraph) pajekNetReader.load("data/pajNetTest.dat", g, nev); 
+\end{lstlisting}		
+
+
+O JUNG permite flexibilidade na maneira como os custos são atribuidos às arestas.
+Existe uma interface chamada \emph{NumberEdgeValue} que define apenas dois métodos: \emph{getNumber} e \emph{setNumber}.
+A idéia é que o desenvolvedor fique livre para criar qualquer tipo de implementação 
+que defina os custos dos arcos/arestas do seu grafo.
+A  biblioteca JUNG já conta com quatro implementações desta interface: \emph{ConstantDirectionalEdgeValue},
+ \emph{ConstantEdgeValue}, \emph{EdgeWeightLabeller} e \emph{UserDatumNumberEdgeValue}
+Nosso projeto fez uso apenas de duas destas: 
+\begin{description}
+\item[ConstantEdgeValue] define todos os arcos como tendo o mesmo custo.
+\item[UserDatumNumberEdgeValue] obtém os custos dos arcos no repositório de dados do usuário.
+\end{description}
+Caso o grafo tenha sido obtido a partir de um arquivo no formato Pajek contendo custos devemos usar o UserDatumNumberEdgeValue.
+
+Uma vez criado o grafo, podemos adicionar-lhe vértices da seguinte forma:
+\lstset{language=Java,caption=Criação e adição de vértices ao grafo,captionpos=b,basicstyle=\small}
+\begin{lstlisting}
+	Vertex v1 = (Vertex) new DirectedSparseVertex();
+	Vertex v2 = (Vertex) new DirectedSparseVertex();
+	g.addVertex(v1);
+	g.addVertex(v2);
+\end{lstlisting}
+e depois adicionar-lhe os arcos:
+\lstset{language=Java,caption=Criação e adição de arcos ao grafo,captionpos=b,basicstyle=\small}
+\begin{lstlisting}
+    	DirectedEdge e = (DirectedEdge) new DirectedSparseEdge(v1, v2);
+    	g.addEdge(e);
+\end{lstlisting}
+
+Observe nos exemplos acima que tanto arcos quanto vértices são independentes do grafo: 
+primeiramente são criados e só então adicionados a ele.
+Algumas observações importantes:
+\begin{itemize}
+\item Um vértice/arco só pode pertencer a um grafo.
+\item Um vértice/arco só pode ser adicionado uma vez a um grafo.
+\item A direcionalidade de um vértice deve coincidir com a do grafo no qual ele será inserido. 
+Por exemplo, não é possível adicionar um vértice \emph{DirectedSparseVertex} a uma implementação de 
+\emph{UndirectedGraph}.
+\item A direcionalidade de um arco deve coincidir com a dos vértices que este conecta e 
+também com a do grafo.
+\end{itemize}
+
+Citamos anteriormente o repositório de dados do usuário. 
+O JUNG permite que o usuário adicione dados a cada um dos elementos do grafo.
+Para tal, o usuário pode optar por especializar uma classe que implemente a 
+interface \emph{ArchetypeVertex} ou utilizar os métodos de anotação oferecidos. 
+\begin{description}
+\item[Especialização:] Suponha que cada vértice contenha um nome.
+Usando-se especialização de classes, o usuário pode criar a classe \emph{MeuVertice} 
+contendo o atributo nome e métodos que definam e obtenham este dado, 
+como é mostrado no exemplo a seguir:
+\lstset{language=Java,caption=Especialização da classe DirectedSparseVertex,captionpos=b,basicstyle=\small}
+\begin{lstlisting}
+class MeuVertice extends DirectedSparseVertex {
+    private String nome;
+
+    public MeuVertice( String nome ) {
+       this.nome = nome;
+    }
+
+	 public String getNome(){
+	 	 return nome;
+	 }
+	 
+	 public void setNome(String nome){
+	 	 this.nome=nome;
+	 }
+}
+\end{lstlisting}
+\item[Anotações:] Podemos realizar a mesma tarefa utilizando uma solução bem mais flexível: anotações.
+Cada uma das implementações das interfaces \emph{Vertex}, \emph{Edge} e \emph{Graph} implementa também a 
+interface \emph{UserData} a qual define operações 
+que permitem adicionar dados a cada um dos elementos do grafo. 
+São elas:
+\begin{description}
+    \item[addUserDatum(key, datum, copyaction):] Adiciona o objeto datum usando o objeto key como chave além de especificar o copyaction.
+    \item[getUserDatum(key):] Obtém o objeto armanezado com a chave key.
+    \item[removeUserDatum(key):] Remove o objeto armazenado com a chave key.
+    \item[setUserDatum(key, datum, copyaction):] Adiciona ou substitui o objeto cuja chave seja key, além de redefinir o copyaction.
+    \item[importUserData(udc):] Importa os dados do repositório de usuário udc.
+    \item[getUserDatumKeyIterator():] Retorna um objeto de iteração que permite navegadar pelos dados armazenados pelo usuário no seu repositório.
+    \item[getUserDatumCopyAction(key):] retorna o copyaction especificado pelo usuário para o objeto armazenado segundo a chave key. 
+\end{description}
+
+Como adicionar a informação nome a um vértice:
+\lstset{language=Java,caption=Adicionando dados ao repositório do usuário,captionpos=b,basicstyle=\small}
+\begin{lstlisting}
+	Vertex v = (Vertex) g.addVertex(new DirectedSparseVertex());
+	v.addUserdatum("nome","Pisaruk",UserData.SHARED);
+	g.addUserdatum("id","10",UserData.CLONE);
+\end{lstlisting}
+
+
+Quando um grafo ou qualquer de seus elementos constituintes é copiado, o destino dos dados do 
+repositório do usuário de cada um deles é determinado pelo seu copyaction.
+JUNG fornece três diferentes soluções, sendo que o usuário pode criar 
+outras implementando a interface CopyAction: 
+
+\begin{description}
+\item[UserData.CLONE:] retorna uma cópia dos dados armazenados segundo a implementação do método clone(), definido na classe Object do Java.
+\item[UserData.REMOVE:] retorna null, ou seja, o dado não é copiado.
+\item[UserData.SHARED:] retorna uma referência ao objeto armazenado, ou seja, qualquer mudança será refletida nas duas referências.
+\end{description}
+
+\end{description}
+
+\section{Problema dos $k$-caminhos}
+
+O problema central deste projeto se assemelha muito ao  
+do $k$-ésimo menor elemento, que é estudado em disciplinas 
+básicas de análise de algoritmos:
+ \begin{quote}
+   \textbf{Problema} \kesimo$(\Scal,k)$:%
+ \index{\kesimo}\mar{\kesimo}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+   Dado um conjunto $\Scal$ de números inteiros 
+   e um número inteiro positivo
+   $k$, encontrar o $k$-ésimo menor elemento de $\Scal$.
+ \end{quote}
+Os algoritmos conhecidos para o problema \kesimo\ são
+facilmente adap\-tá\-veis para, além do $k$-ésimo menor, fornecerem, em tempo 
+linear, os $k$ menores elementos de $\Scal$ \textit{em ordem crescente}.
+
+A diferença entre o problema \kesimo\ e o problema que
+consideraremos é que o conjunto $\Scal$ dado é ``muito grande'' e, portanto,
+nos é dado de uma maneira compacta, o que torna o problema sensivelmente
+mais difícil do ponto de vista computacional. 
+%O conjunto $\Scal$ será o conjunto de caminhos entre dois vértices
+%determinados  em um grafo com custo
+%nas nos arcos. 
+Adiante tornamos o problema mais preciso.  
+
+Suponha que $(V,A)$ seja um grafo, $c$ uma função custo e $s$ e $t$ 
+dois de seus vértices. Considere o conjunto $\Pcal_{st}$ de todos $st$-caminhos,
+ou seja, caminhos de $s$ a~$t$. 
+Uma lista $\seq{P_1,\ldots,P_k}$ $st$-caminhos  distintos é de \defi{custo mínimo} se 
+$$
+c(P_1) \leq c(P_2) \leq \cdots \leq c(P_k) \leq \min\{ c(P) : P
+\in \Pcal -\{P_1,\ldots,P_k\}\}.
+$$
+De uma maneira mais breve, diremos que $\seq{P_1,\ldots,P_k}$ são 
+\defi{$k$-menores caminhos} (de $s$ a~$t$).
+
+Em termos da teoria dos grafos o  problema que foi discutido na 
+introdução é o \defi{problema dos $k$-menores caminhos}\index{problema!dos
+k-menores caminhos@do $k$-menores caminhos}, denotado por \kCM:
+ \begin{quote}
+   \textbf{Problema} \kCM$(V,A,c,s,t,k)$:%
+   \index{\kCM}\mar{\kCM}
+   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+   Dado um grafo $(V,A)$, uma função
+   custo $c$, dois vértice $s$ e $t$ e um inteiro positivo $k$, 
+   encontrar $k$-caminhos de custos mínimos 
+   de $s$ a~$t$.
+ \end{quote}
+É evidente que o \PCM\ nada mais é que o \kCM\ com $k=1$.
+
+O \kCM\ é, em essência, o problema \kesimo\ com $\Pcal_{st}$ no papel do
+conjunto $\Scal$. A grande diferença computacional é que o conjunto
+$\Pcal_{st}$ não é fornecido explicitamente, mas sim de uma maneira
+compacta: um grafo, uma função custo e um par de vértices. Desta
+forma, o número de elementos em $\Pcal_{st}$ é potencialmente exponencial no
+tamanho da entrada, tornando impraticável resolvermos o \kCM\
+utilizando meramente algoritmos para o \kesimo\ como subrotina.
+
+Na próxima seção é descrito o método genérico para resolver o \kCM.
+Este método é um passo intermediário para chegarmos no método desenvolvido 
+por Jin Y. Yen~\cite{yen:ms-17-712}  para o \kCM.
+Antes disto, apresentamos aqui um problema intimamente 
+relacionado ao \kCM\ e que também é considerado por este projeto: 
+
+\begin{quote}
+  \textbf{Problema} \KCM$(V,A,c,s,t,K)$:%
+  \index{\KCM}\mar{\KCM}
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  Dado um grafo $(V,A)$, uma função
+  custo $c$, dois vértice $s$ e $t$ e um inteiro positivo $K$, 
+  encontrar os caminhos de $s$ a~$t$ de custos não superiores a $K$.
+\end{quote}
+
+
+\section{Método genérico}
+
+A descrição que fazemos é, de certa forma, \textit{top-down}. 
+Começaremos com um método genérico que será refinado a cada passo incluindo,
+convenientemente, algumas subrotinas auxiliares.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+O nosso interesse aqui é numa descrição mais conceitual em que 
+a correção e o consumo de tempo polinomial do método sejam um tanto quanto
+evidentes. 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Não temos a intenção de descrever um algoritmo com o menor consumo de tempo. 
+
+O método abaixo recebe um grafo $(V,A)$, uma função custo, dois vértices $s$ e
+$t$ e um inteiro positivo $k$ e devolve uma lista $\seq{P_1,\ldots,P_k}$ de
+$k$-menores caminhos de $s$ a~$t$.
+
+\begin{algoritmo}
+
+\textbf{Método} \Generico{} $(V,A,c,s,t,k)$ %\\[2mm]
+   
+0\x $\Pcal \larr \mbox{conjunto dos caminhos de $s$ a~$t$}$ 
+
+1\x \para{} $i=1,\ldots,k$ \faca %\\[1mm]
+
+2\xx  $P_i \larr \mbox{caminho de custo mínimo em $\Pcal$}$ %\\[1mm]
+
+3\xx  $\Pcal \larr \Pcal - P_i$
+
+4\x \devolva{} $\seq{P_1,\ldots,P_k}$
+
+\end{algoritmo}
+
+No início de cada iteração da linha~1 o conjunto $\Pcal$ contém os
+candidatos a $i$-ésimo caminho mínimo de $s$ a~$t$. 
+O método de Yen é uma elaboração do método \Generico.
+Em vez do conjunto 
+$\Pcal$, Yen mantém, pelo menos conceitualmente, uma partição
+$\Pi$ de $\Pcal$.
+Em cada iteração, é escolhido o caminho mais barato
+dentre um conjunto $\Lcal$ formado por \textit{um} caminho 
+mínimo $P_{\pi}$ representante de
+cada parte $\pi$ de~$\Pi$ e depois a partição é atualizada. 
+
+\begin{algoritmo}
+
+\textbf{Método} \YenGenerico{} $(V,A,c,s,t,k)$ %\\[2mm]
+   
+0\x $\Pi \larr \{\{\mbox{conjunto dos caminhos de $s$ a~$t$}\}\}$
+
+1\x $\Qcal \larr \emptyset $
+
+2\x \para{} $i=1,\ldots,k$ \faca %\\[1mm]
+
+3\xx  $\Lcal  \larr \seq{P_{\pi} : P_{\pi} \ \mbox{é caminho mínimo da parte $\pi$
+de~$\Pi$}}$
+
+4\xx  $P_i \larr \mbox{caminho de custo mínimo em $\Lcal$}$ %\\[1mm]
+
+5\xx  $\Qcal \larr \Qcal \cup \{P_i\}$
+
+6\xx  $\Pi \larr \AtualizeGenerico~(V,A,\Qcal)$
+
+7\x \devolva{} $\seq{P_1,\ldots,P_k}$
+
+\end{algoritmo}
+
+Como veremos, a eficiência do método de Yen dependerá fortemente da estrutura
+restrita dos caminhos nas partes de~$\Pi$: cada parte é formada por
+caminhos que têm um certo prefixo comum. 
+
+Seja $\Pcal_{st}$ a coleção
+dos caminhos de $s$ a~$t$ em $(V,A)$.
+Suponha que $\Qcal$ seja a lista de 
+caminhos distintos de $s$ a~$t$ na linha~5 do método
+\YenGenerico{}.  Passamos a descrever a partição
+$\Pi$ dos caminhos em $\Pcal := \Pcal_{st} \setminus \Qcal$.
+Para isto é conveniente utilizarmos a 
+\textit{árvore dos prefixos} de
+$\Qcal$, como foi feito por John Hershberger,
+Matthew Maxel e Subhash Suri~\cite{hershberger:acmta-3-??}.
+
+No que segue suponha que $(N,E,f)$ seja 
+a árvore dos prefixos de $\Qcal$ e $u$ seja um nó em $N$.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Representaremos por $R_u$\mar{$R_u$} o
+caminho da raiz a $u$ na árvore. Assim,  $f(R_u)$\mar{$f(R_u)$} é
+o prefixo de um caminho em $\Qcal$. 
+Por exemplo, na árvore dos prefixos da figura~\ref{fig:prefixo}(b)
+temos que $R_y = \seq{w,wx,x,xy,y}$ e $f(R_y) = \seq{s,sa,a,ad,d}$.
+
+Seja\mar{$A_u$}
+%$A_u$ a
+%coleção dos arcos em $A$ com ponta inicial em $f(u)$ e
+%ponta final $f(w)$ para todo arco $uw$ em $E$, isto é,
+\begin{eqnarray*}
+A_u := \{ (f(u),f(w)) : uw \in E\}. 
+\end{eqnarray*}  
+e seja $\pi_u$\mar{$\pi_u$} o conjunto dos caminhos em $\Pcal$ com
+prefixo $f(R_u)$ e que não possuem arcos em~$A_u$.
+Para o exemplo na figura~\ref{fig:prefixo} temos que 
+\begin{eqnarray*}
+A_w = \{sa,sb\}, 
+A_x = \{ac,ad\}, 
+A_y = \{dt\} \ \mbox{e} \ 
+A_z = \{dc\} \\
+\pi_w = \emptyset, 
+\pi_x = \emptyset,
+\pi_y = \{\seq{s,a,d,c,t}\},  \ \mbox{e} \
+\pi_z = \{\seq{s,b,a,d,t}\}.  
+\end{eqnarray*}
+
+A partição~$\Pi$\mar{$\Pi$} é formada por uma parte $\pi_u$ para
+cada vértice $u$ em $N$, ou seja,
+\[
+\Pi := \{\pi_u : u \in N\}.
+\]
+No início de cada iteração da linha~2 o número de partes é certamente não
+superior a $n \times i$.
+O algoritmo \AtualizeGenerico{} resume toda a discussão acima.
+
+
+\begin{algoritmo}
+
+\textbf{Algoritmo} \AtualizeGenerico{} $(V,A,\Qcal)$ %\\[2mm]
+   
+0\x $\Pi \larr \emptyset \quad \quad \Pcal \larr \Pcal_{st} \setminus \Qcal$
+
+1\x $(N,E,f) \larr$ árvore dos prefixos de $\Qcal$
+
+2\x \para{} \cada{} $u \in N$ \faca %\\[1mm]
+
+3\xx  $\pi_u \larr \{\mbox{caminhos em $\Pcal$ com prefixo $f(R_u)$}$
+
+\xxxxx \quad e que não possuem arcos em $A_u \}$
+
+4\xx  $\Pi \larr  \Pi \cup \{\pi_u\}$ %\\[1mm]
+
+5\x \devolva{} $\Pi$
+
+\end{algoritmo}
+
+Podemos verificar que cada caminho em $\Qcal$ não pertence a
+nenhuma parte de~$\Pi$. Também podemos verificar que cada
+caminho $P$ em $\Pcal$ está em uma única 
+parte de~$\Pi$. De fato, seja $P'$ o maior prefixo de~$P$ 
+que é prefixo de algum caminho em $\Qcal$. Pela definição
+de árvore de prefixos, existe um único caminho $R'$ em 
+$(N,E)$ com início na raiz e tal que $P' = f(R')$. 
+Para o vértice $u$ término de $R'$ temos que $P$ está em
+$\pi_u$ e é a única parte que possui $P$. 
+
+Desta forma, no início de cada iteração das linhas
+2--6  do método \YenGenerico{}, $\Pi$ é uma partição de
+$\Pcal$, portanto a correção
+do método é evidente.
+
+
+%% ???Ainda utilizando a estrutura da árvore dos prefixos de  
+
+As árvores dos prefixos de duas
+execuções consecutivas do algoritmo \AtualizeGenerico{} são
+muito semelhantes: apenas um novo caminho é acrescentado à
+árvore anterior.  Isto, em particular, significa que as
+partições de duas iterações consecutivas das linhas 2--6 do
+método \YenGenerico{} são muitos semelhantes. Esta
+observação pode ser utilizada para o algoritmo
+\AtualizeGenerico{} obter mais eficientemente
+uma partição a partir da partição anterior.
+ 
+
+
+
+
+
+\section{Método de Yen}
+
+O método que Jin Y. Yen~\cite{yen:ms-17-712} desenvolveu para resolver
+o \kCM{} parece ter um papel central entre os algoritmos que foram
+posteriormente projetados para o \kCM\ ou mesmo para versões mais
+restritas do
+problema~\cite{eppstein:siamjc-28-652,katoh:n-12-411,hershberger:acmta-3-??}.
+Várias melhorias práticas do método de Yen têm sido implementadas e
+testadas~\cite{brander:370,eleni:n-34-88,martins:qjbfiors-1-121,martins:relatorio,perko:n-16-149}
+
+Antes de prosseguirmos, mencionamos que o método de Yen foi generalizado por
+Eugene L. Lawler~\cite{lawler:ms-18-401} para problemas de otimização
+combinatória, contanto que seja fornecida uma subrotina para determinar uma
+solução ótima sujeita a condição de que certas variáveis têm seus valores
+fixados. Por exemplo, no caso do método de Yen para o \kCM{} essa subrotina
+resolve o seguinte \defi{problema do sub-caminho mínimo}\index{problema!do
+sub-caminho mínimo@do sub-caminhos mínimo}, denotado por \PSM:
+ \begin{quote}
+   \textbf{Problema} \PSM$(V,A,c,s,t,P,F)$:%
+   \index{PSM@\PSM}\mar{\PSM}
+   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+   Dado um grafo $(V,A)$, uma função
+   custo $c$, dois vértice $s$ e $t$, um caminho $P$ e uma parte $F$ de $A$, 
+   encontrar um caminho de custo mínimo 
+   de $s$ a~$t$ que tem $P$ como prefixo e não contém arcos em $F$.
+ \end{quote}
+É evidente que se $P$ não tem início em $s$ então o problema é
+inviável. Do ponto de vista de método Lawler, o prefixo $P$ e o conjunto $F$
+são as `variáveis' com valores fixados. 
+ 
+Resolver o \PCM$(V,A,c,s,t)$ é o mesmo que resolver
+\PSM$(V,A,c,s,t,\seq{s},\emptyset)$.  Por outro lado, o
+\PSM{} pode ser solucionado aplicando-se um algoritmo para o
+\PCM{} em um sub-grafo apropriado de $(V,A)$.  Desta forma, o
+\PCM{} e o \PSM{} são computacionalmente equivalentes e
+podem ser resolvidos em tempo $T(n,m)$.
+
+
+Conceitualmente, o método de Yen é uma elaboração do método \YenGenerico.
+No início de cada iteração da linha~2, $\Lcal$ é uma lista dos
+candidatos a $i$-ésimo caminho mínimo de $s$ a~$t$. 
+Ao invés da partição  $\Pi$ 
+de $\Pcal$, Yen mantém em $\Lcal$ um caminho mínimo de
+cada parte de $\Pi$. 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%de $\Pcal$ em não mais do que $2i$ partes e uma lista $L$ com 
+%um caminho mais barato de cada uma das partes. 
+Em cada iteração é escolhido  o caminho mais barato entre 
+todos em $\Lcal$  e a partição é \textit{levemente} atualizada.
+
+\begin{algoritmo}
+
+\textbf{Método} \Yen{} $(V,A,c,s,t,k)$ %\\[2mm]
+   
+
+1\x $\Lcal \larr \{ \mbox{um caminho de custo mínimo de $s$ a $t$} \}$
+
+2\x $\Qcal \larr \emptyset$
+
+3\x \para{} $i=1,\ldots,k$ \faca %\\[1mm]
+
+4\xx  $P_i \larr \mbox{caminho de custo mínimo em $\Lcal$}$
+%\\[1mm]
+
+%4\xx  $\Lcal \larr \Lcal \setminus \{P_i\}$
+
+5\xx  $\Qcal \larr \Qcal \cup \{P_i\}$
+
+6\xx  $\Lcal \larr \Atualize~(V,A,c,\Qcal)$
+
+7\x \devolva{} $\seq{P_1,\ldots,P_k}$
+
+\end{algoritmo}
+
+
+%%Na verdade, com o número dos caminhos em $\Pcal$ é muito grande
+
+
+\begin{algoritmo}
+
+\textbf{Algoritmo} \Atualize{} $(V,A,c,\Qcal)$ %\\[2mm]
+   
+0\x $\Lcal \larr \emptyset$
+
+1\x $(N,E,f) \larr$ árvore dos prefixos de $\Qcal$
+
+2\x \para{} \cada{} $u \in N$ \faca %\\[1mm]
+
+3\xx  $P_u \larr \mbox{caminho de $s$ a~$t$ de custo mínimo com prefixo $f(R_u)$}$
+
+\xxxxx e que não possui arcos em $A_u$
+
+4\xx  $\Lcal \larr  \Lcal \cup \{P_u\}$ %\\[1mm]
+
+5\x \devolva{} $\Lcal$
+
+
+\end{algoritmo}
+
+
+Na linha~3 do algoritmo \Atualize{}, na verdade, 
+estamos resolvendo 
+o problema \PSM $(V,A,c,s,t,f(R_u),A_u)$. Assim, o consumo de tempo do
+  algoritmo resultante é $n \, i \, T(n,m))$. Em chamadas consecutivas do
+  algoritmo \Atualize{}, as árvores dos prefixos calculadas são muito
+  semelhantes.
+%Logo, é possível fazermos com que o consumo de tempo seja $n \, T(n,m)$.
+De fato, o algoritmo  pode ser implementado de tal maneira
+que o consumo o seu consumo de tempo seja $n \, T(n,m)$.
+
+O método de \Yen{} pode ser implementado de tal maneira que o seu consumo de
+tempo seja proporcional a $k \, n \, T(n,m)$.

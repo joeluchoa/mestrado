@@ -1,0 +1,676 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%    PRELIMINARES
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter{Preliminares}
+\label{cap:preliminares}
+\markboth{Preliminares}{Preliminares}
+%\addcontentsline{toc}{chapter}{Preliminares}
+
+Neste capítulo apresentamos notações e definições que serão
+extensivamente empregadas ao longo deste trabalho.
+
+A maior parte das definições seguem de perto as empregadas por 
+Paulo Feofiloff~\cite{pf:fluxos}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%  SEÇÃO: NOTAÇÃO BÁSICA
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\section{Notação básica}
+
+
+
+O conjunto dos números inteiros será denotado por
+$\Int$\index{$\Int$}\mar{$\Int$}. 
+O conjunto dos números inteiros não-negativos e positivos
+$\NonnegInt$\index{$\NonnegInt$}\mar{$\NonnegInt$}.
+
+É escrito $S$ é uma \defi{parte}\index{parte} de um conjunto $V$ significando
+que $S$ é um subconjunto de $V$.
+
+Uma \defi{lista}\index{lista} é uma seqüência $\seq{v_1,v_2, \ldots, v_k}$ de
+itens. 
+
+Um \defi{intervalo}\index{intervalo} $[j\tdots k]$\index{$[j\tdots k]$}\mar{$[j\tdots k]$} é
+uma seqüência de inteiros $j, j+1, \ldots,k$.  Se $i$ é um número em $[j\tdots k]$,
+então $i$ é um número inteiro tal que $j \leq i \leq k$.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%  SEÇÃO: GRAFOS, PASSEIOS E CAMINHOS
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+
+
+\section{Grafos, passeios e caminhos}
+
+
+Um \defi{grafo}\index{grafo} é um objeto da forma $(V,A)$, 
+onde $V$ é um conjunto finito e $A$ é um conjunto de pares ordenados 
+de elementos de $V$. 
+
+Os elementos de $V$ são chamados \defi{vértices}\index{vértices@vértices} e os
+elementos de $A$ são chamados \defi{arcos}\index{arcos}.  Para cada arco
+$(u,v)$, os vértices $u$ e $v$ representam a \defi{ponta inicial}\index{ponta!inicial} 
+e a \defi{ponta final}\index{ponta!final} de
+$(u,v)$, respectivamente.  
+
+Um arco $(u,v)$ também será representado por
+$uv$. Diremos que um tal arco \defi{sai} de $u$ e
+\defi{entra} em $v$. 
+O \defi{grau de entrada}\index{grau!entrada} 
+de um vértice $v$ é o número de arcos que entram em $v$; o \defi{grau
+de saída}\index{grau!saida@saída} de $v$ é o número de arcos que saem de $v$.
+
+O conjunto de todos os arcos que têm ponta inicial em um dado vértice $v$
+é denotado por $A(v)$.\mar{$A(v)$}
+
+Um grafo é \defi{simétrico}\index{grafo!simétrico@simétrico} 
+se para cada arco $uv$ existir também o arco $vu$. Diremos às vezes
+que o arco $vu$ é \defi{reverso}\index{arco!reverso}
+do arco $uv$ e que o par $\{(u,v),(v,u)\}$ é uma \defi{aresta}\index{aresta}.
+ 
+Um grafo pode ser naturalmente representado através de um
+diagrama, como o da figura~\ref{fig:grafo}, onde os vértices são
+pequenas bolas e os arcos são as flechas ligando estas bolas. 
+
+\begin{figure}[htbp]
+ \begin{center}
+    \psfrag{(a)}{$\iten{a}$}
+    \psfrag{(b)}{$\iten{b}$}
+    \psfrag{(c)}{$\iten{c}$}
+    \psfrag{(d)}{$\iten{d}$}
+    \psfrag{a}{{$a$}}
+    \psfrag{b}{{$b$}}
+    \psfrag{c}{{$c$}}
+    \psfrag{d}{{$d$}}
+    \psfrag{e}{{$e$}}   
+    \psfrag{f}{{$f$}}
+  \includegraphics{./figs/grafo.eps}
+  \caption{\label{fig:grafo} $\iten{a}$, $\iten{b}$, $\iten{c}$ e 
+    $\iten{d}$ são exemplos de grafos. $\iten{b}$ é um grafo simétrico.}
+ \end{center}
+ \end{figure}
+
+
+
+%%% Passeio 
+ Um \defi{passeio}\index{passeio} num grafo $(V,A)$ é qualquer seqüência da forma
+ \begin{eqnarray}
+ \label{passeio}
+ \seq{v_{0}, a_{1}, v_{1}, \ldots, a_{t}, v_{t}}
+ \end{eqnarray}
+onde $v_{0}, \ldots, v_{t}$ são vértices, $a_{1}, \ldots, a_{t}$ 
+são arcos e, para cada $i$, $a_{i}$ é um arco com ponta inicial $v_{i-1}$ e ponta final 
+$v_{i}$. 
+O vértice $v_{0}$ é o \defi{início} ou \defi{ponta inicial}\index{passeio!inicio@início}
+ do passeio e o $v_{t}$ é seu \defi{término}\index{passeio!termino@término} 
+ou \defi{ponta final}.
+
+ 
+
+%Uma \defi{passeio não-orientado}\index{passeio! não orientado@não orientado}
+%é uma seqüência como (\ref{passeio}) onde,
+%para cada $i$, $\alpha_{i}$ é o arco $v_{i-1}v_{i}$ ou o arco
+% $v_{i}v_{i-1}$. 
+Na figura~\ref{fig:grafo}$\iten{a}$ a seqüência
+$\seq{a, ab, b, be, e, ef, f, fd, d, db, b, be, e, ef, f}$ é um passeio 
+com início em $a$ e  término em $f$.
+% e a seqüência $\seq{a, ac, c, ce, e, be, b, bd, d,df,f}$
+% é um passeio não-orientado com início em $a$ e término em $f$. 
+
+%%%% 
+Se $P:=\seq{v_{0}, a_{1}, v_{1}, \ldots, a_{t}, v_{t}}$ é um passeio, 
+então qualquer subseqüência da forma  
+ \begin{eqnarray}
+   \label{subpasseio}
+   \seq{v_{i}, a_{i+1}, v_{i+1}, \ldots, a_{j}, v_{j}}
+ \end{eqnarray}
+com $0 \leq i \leq j \leq t$ será um \defi{subpasseio} de $P$. 
+Além disso, se $i=0$,  então o subpasseio será dito um 
+\defi{prefixo} de $P$.
+Na figura~\ref{fig:grafo}$\iten{a}$ a seqüência $\seq{a, ab, b, be, e, ef, f,
+fd, d}$ é um subpasseio e prefixo de do passeio 
+$\seq{a, ab, b, be, e, ef, f, fd, d, db, b, be, e, ef, f}$.
+
+
+%%% Caminhos
+Um \defi{caminho}\index{caminho} é um passeio
+sem vértices repetidos.
+%Um \defi{caminho não-orientado}\index{caminho!não-orientado@não-orientado} 
+%é um passeio não-orientado sem vértices repetidos.
+Na figura~\ref{fig:grafo}$\iten{a}$ a seqüência
+ $\seq{a, ab, b, be, e, ef, f}$ é um caminho com início em $a$ e 
+ término em $f$.
+% e a seqüência $\seq{a, ac, c, ce, e, be, b, bd, d, df,
+% f}$ é um caminho não-orientado com início em $a$ e término em $f$. 
+
+Por conveniência, nossa definição de grafos não têm `"arcos paralelos":
+dois arcos diferentes
+não podem ter a mesma ponta inicial e a mesma ponta final.
+Assim, podemos representar o passeio em (\ref{passeio}) simplesmente por
+\[
+ \seq{v_{0}, v_{1}, v_2, \ldots,  v_{t}}.
+\]
+
+
+\section{Grafos no computador}
+
+Existem pelo menos três maneiras populares de representar um grafo em um
+computador, são elas: (1)~matriz de adjacência; (2)~matriz de
+incidência e (3)~listas des adjacência. Nesta 
+dissertação, matriz de adjacência e listas de adjacência são as
+representação utilizadas.
+
+% A seguir é decrita a representação de um grafo $(V,A)$ com $n$ vértices
+% e $m$ arestas por meio de cada uma dessas estruturas.
+
+% A seguir descrevemos como cada uma dessas representações 
+
+\subsection*{Matriz de adjacência}\index{matriz de!adjacencia@adjacência}
+
+Uma \defi{matriz de adjacência} de um grafo $(V,A)$
+é uma matriz com valores em $\{0,1\}$, e indexada por $V \times V$, onde
+cada entrada $(u,v)$ da matriz tem valor $1$ se existe no grafo um arco de
+$u$ a $v$, e $0$ caso contrário. Para grafos simétricos a matriz de
+adjacências é simétrica.  O espaço gasto com esta representação é
+proporcional a $n^2$, onde $n$ é o número de vértices do grafo.  Uma matriz de
+adjacência é mostrada na figura~\ref{fig:matriz_adj}. 
+
+
+\begin{figure}[htbp]
+ \centering
+  \begin{tabular}{c|c|c|c|c|} 
+   \multicolumn{1}{c}{} & 
+   \multicolumn{1}{c}{$a$} & 
+   \multicolumn{1}{c}{$b$} & 
+   \multicolumn{1}{c}{$c$} & 
+   \multicolumn{1}{c}{$d$}
+   \\ \cline{2-5}
+  $a$ & $0$ & $1$ & $1$ & $0$\\ \cline{2-5}
+  $b$ & $0$ & $0$ & $0$ & $1$\\ \cline{2-5}
+  $c$ & $0$ & $1$ & $0$ & $1$\\ \cline{2-5}
+  $d$ & $0$ & $0$ & $0$ & $0$\\ \cline{2-5}
+ \end{tabular}
+  \caption{Matriz de adjacência do grafo da figura~\ref{fig:grafo}$\iten{d}$.}
+ \label{fig:matriz_adj}
+\end{figure}
+
+%\begin{figure}[htbp]
+% \centering
+% \begin{tabular}{cc}
+%      &\begin{tabular}{cccc} $a$ & $b$ & $c$ & $d$ \\ \end{tabular} \\
+%  $a$ &\begin{tabular}{|c|c|c|c|}\hline $0$ & $1$ & $1$ & $0$ \\\end{tabular}\\
+%  $b$ &\begin{tabular}{|c|c|c|c|}\hline $0$ & $0$ & $0$ & $1$ \\\end{tabular} \\
+%  $c$ &\begin{tabular}{|c|c|c|c|}\hline $0$ & $1$ & $0$ & $1$ \\\end{tabular}\\
+%  $d$ &\begin{tabular}{|c|c|c|c|}\hline $0$ & $0$ & $0$ & $0$ \\\hline 
+%       \end{tabular} \\
+% \end{tabular}
+%  \caption{Matriz de adjacência do grafo da figura~\ref{fig:grafo}$\iten{d}$.}
+% \label{fig:matriz_adj}
+%\end{figure}
+
+
+\subsection*{Matriz de incidência}\index{matriz de!incidencia@incidência}
+
+Uma \defi{matriz de incidência}  de um grafo $(V,A)$ é
+uma matriz  com valores em $\{-1,0,+1\}$ e indexada por $V \times A$, 
+onde cada entrada $(u,a)$ é $-1$ se $u$ é ponta inicial de $a$, $+1$
+se $u$ é ponta final de $a$, e $0$ caso contrário.
+O espaço gasto com esta representação é
+proporcional a $nm$, onde $n$ é o número de vértices e $m$ é o número de
+arcos do grafo. Uma matriz de incidência da
+figura~\ref{fig:grafo}$\iten{d}$ pode ser vista em ~\ref{fig:matriz_inc}.
+
+\begin{figure}[htbp]
+ \centering
+  \begin{tabular}{r|r|r|r|r|r|} 
+   \multicolumn{1}{c}{} & 
+   \multicolumn{1}{c}{$ab$} & 
+   \multicolumn{1}{c}{$ac$} & 
+   \multicolumn{1}{c}{$cb$} & 
+   \multicolumn{1}{c}{$cd$} & 
+   \multicolumn{1}{c}{$bd$}
+   \\ \cline{2-6}
+  $a$ & $-1$ & $-1$ & $0$ & $0$ &$0$ \\ \cline{2-6}
+  $b$ & $+1$ & $0$ & $+1$ & $0$ & $-1$ \\ \cline{2-6}
+  $c$ & $0$ & $+1$ & $-1$ &$-1$ &$0$ \\ \cline{2-6}
+  $d$ & $0$ & $0$ & $0$ & $+1$ & $+1$\\ \cline{2-6}
+ \end{tabular}
+  \caption{Matriz de incidência do grafo da figura~\ref{fig:grafo}$\iten{d}$.}
+ \label{fig:matriz_inc}
+\end{figure}
+ 
+\subsection*{Listas de adjacência}\index{listas de!adjacencia@adjacência}
+
+
+Na representação de um grafo $(V,A)$ através de \defi{listas de 
+adjacência} tem-se, para cada vértice $u$, 
+uma lista dos arcos com ponta inicial $u$. 
+Desta forma, para cada vértice $u$, o conjunto $A(u)$ é 
+representado por uma lista.
+O espaço gasto com esta representação é
+proporcional a $n+m$, onde $n$ é o número de vértices e $m$ é o número de
+arcos do grafo. Uma lista de adjacência está ilustrada na
+figura~\ref{fig:lista_adj}.
+
+\begin{figure}[htbp]
+ \centering
+ \begin{tabular}{ccc}
+   $A(a)$: & $ab$, & $ac$ \\
+   $A(b)$: & $bd$  &      \\
+   $A(c)$: & $cb$, & $cd$ \\
+   $A(d)$: &       &      \\
+ \end{tabular}
+  \caption{Listas de adjacência do grafo da figura~\ref{fig:grafo}$\iten{d}$.}
+ \label{fig:lista_adj}
+\end{figure}
+ 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%  SEÇÃO:  FILAS DE PRIORIDADE
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\section{Filas de prioridade} 
+\label{sec:filadeprioridade}
+
+Sempre que representamos dados em um computador nós consideramos
+cada um dos seguintes aspectos:
+\begin{enumerate}
+ \item[$\iten{1}$] a maneira que essas informações (ou objetos do
+ mundo real) são modelados como objetos matemáticos; 
+ \item[$\iten{2}$] o conjunto de operações que definiremos sobre estes
+ objetos matemáticos; 
+ \item[$\iten{3}$] a maneira na qual estes objetos serão armazenados
+ (representados) na memória de um computador; 
+ \item[$\iten{4}$] os algoritmos que são usados para executar as
+ operações sobre os objetos com a representação escolhida. 
+\end{enumerate}
+ Para proceguir, precisamos entender a diferença entre
+ os seguintes termos, tipo de dados, tipo abstrato de dados e estrutura de dados.
+ 
+O \defi{tipo de dado}\index{tipo!de dado} de uma variável é o conjunto de valores 
+que esta variável pode assumir. 
+Por exemplo, uma variável do tipo boolean só pode assumir 
+os valores \textsc{true} e \textsc{false}. 
+
+Os itens $\iten{1}$ e $\iten{2}$ acima dizem respeito ao
+\defi{tipo abstrato de dados}%
+\index{tipo!abstrato}, ou seja, ao modelo matemático junto com uma
+coleção de operações 
+definidas sobre este modelo. Um exemplo de tipo abstrado de dados é o conjunto 
+dos números inteiros com as operações de \textit{adição}, \textit{subtração}, 
+\textit{multiplicação} e \textit{divisão} sobre inteiros. 
+
+Já os itens $\iten{3}$ e $\iten{4}$ estão relacionados aos
+aspectos de implementação. 
+
+Para representar um tipo abstrato de dados em um computador nós usamos uma 
+\defi{estrutura de dados}\index{estrutura de dados}, que é uma coleção
+de variáveis, 
+possivelmente de diferentes tipos, ligadas (relacionas) de diversas maneiras. 
+
+ Uma \defi{fila de prioridades}\index{fila de!prioridades}%
+~\cite{ahuja:netflows, clr:introalg-1999}
+ é um tipo abstrato de dados que consiste de 
+uma coleção de itens, cada um, com um valor ou prioridade associada.
+
+ Uma fila de prioridade têm suporte para as seguintes operações:
+\begin{itemize}
+\item $\Insert (v, \val)$: adiciona o vértice $v$ com valor $\val$
+para a coleção.
+\item $\Delete(v)$: remove o vértice $v$ da coleção.
+\item $\ExtractMin (~)$: devolve o vértice com o menor valor 
+e o remove da coleção.
+\item $\DecreaseKey (v, \val)$: Muda para $\val$ o valor associado
+ao vértices $v$; assume-se que $\val$ não é maior que o valor corrente
+associado a $v$. Note que  \DecreaseKey{} sempre pode ser
+implementada como um \Delete{}
+seguido por um \Insert{}.
+\end{itemize}
+
+ Uma seqüência de operações é chamada \defi{monótona}\index{monotona@monótona}
+se os valores retornados por sucessivos \ExtractMin's são
+não-decrescentes.
+O algoritmo \Dijkstra{} (seção~\ref{sec:dijkstra}) 
+executa uma seqüência monótona de operações.
+
+
+
+\section{Java Universal Network/Graph Framework}
+
+O Java Universal Network/Graph Framework(JUNG) é uma biblioteca de software livre, escrita em Java, 
+desenvolvida para permitir a modelagem, análise 
+e visualização de dados passíveis de serem representados na forma de grafos. 
+Além de permitir a visualização de grafos, conta com diversos algoritmos implementados e estruturas de 
+dados 
+pertinentes à área de grafos.
+
+A biblioteca foi criada de modo a abranger as mais diversas necessidades, sendo assim bastante genérica,
+ capaz de representar grafos 
+na forma de matrizes e listas de adjacência e tratar de grafos simétricos e assimétricos.
+No nível mais elevado, ou seja, de maior abstração, temos as interfaces com prefixo Archetype,
+ as quais definem as diretrizes 
+dos tipos mais genéricos de elementos componentes de um grafo: vértices, arcos e o grafo em si.
+São representantes deste nível as interfaces: \emph{ArchetypeGraph}, \emph{ArchetypeVertex} e 
+\emph{ArchetypeEdge}.
+
+
+No nível imediatamente inferior, especializando as interfaces anteriores, encontramos as interfaces:
+ \emph{Graph}, \emph{Vertex} e \emph{Edge}.
+Estas objetivam representar elementos de grafos sem arestas paralelas, uma vez que estes permitem que
+ novos operações sejam definidas.
+
+
+Para se trabalhar com grafos simétricos e distingui-los dos demais foram criadas duas interfaces: 
+\emph{DirectedGraph} e \emph{UndirectedGraph} 
+e as respectivas \emph{DirectedEdge} e \emph{UndirectedEdge}. 
+Estas interfaces permitem validações em tempo de compilação.
+Nenhuma delas possue métodos próprios, apenas estendem a interface \emph{Graph}. 
+A validação em tempo de compilação ocorre por conta da comparação entre a assinatura das funções que 
+as utilizam.
+Se uma dada função possuir na sua assinatura um parâmetro do tipo \emph{UndirectedGraph} e for invocada
+ com um argumento do tipo \emph{DirectedGraph} 
+teremos um erro de compilação. Observe, no entanto, que a interface \emph{UndirectedGraph} por si só
+ não valida a simetria do grafo. 
+Esta valição fica a cargo da implementação da mesma.
+
+
+A seguir temos as implementações das interfaces citadas acima.
+Numa camada intermédiaria, existem três classes abstratas implementando funcionalidades comuns a 
+grafos simétricos e não-simétricos, 
+são elas: \emph{AbstractSparseGraph}, \emph{AbstractSparseVertex} e \emph{AbstractSparseEdge}.
+No momento, apenas temos implementada a representação de grafos como listas de adjacência, 
+como pode ser notado nos próprios nomes das classes, os quais contêm a palavra Sparse; 
+vale lembrar que grafos esparsos, ou seja, com poucas arestas, se comparado à quantidade máxima possível, 
+são, em geral, representados de maneira mais eficiente e econônica usando-se listas de adjacência e 
+grafos densos como matrizes.
+ 
+Por fim, temos as implementações específicas para grafos simétricos: 
+\emph{UndirectedSparseGraph}, \emph{UndirectedSparseVertex} e \emph{UndirectedSparseEdge}
+, e não-simétricos: \emph{DirectedSparseGraph}, \emph{DirectedSparseVertex} e \emph{DirectedSparseEdge} 
+ 
+
+
+Visto um pouco da arquitetura vamos passar a alguns exemplos e aplicações.
+Criar um grafo é um processo bem simples, basta instar a classe referente ao tipo grafo 
+desejado, como no exemplo a seguir:
+\lstset{basicstyle=\small}
+\begin{lstlisting}
+	Graph g = new DirectedSparseGraph();
+\end{lstlisting}
+
+	cria um grafo não-simétrico baseado numa representação na forma de lista de adjacência.
+
+Também é possivel criar um grafo lendo seus dados de um arquivo. Apresentaremos apenas um exemplo usando o 
+padrão Pajek uma vez que o JUNG é capaz de ler e escrever apenas neste formato
+(o formato GraphML é suportado somente no modo leitura).
+O formato Pajek é muito abrangente, permitindo definições bem complexas de grafos contudo, apresentaremos
+apenas dois exemplos que ilustram muito bem a simplicidade deste padrão.
+\begin{description}
+\item[Grafo simétrico sem custos nas arestas]  
+\lstset{basicstyle=\tiny}
+\begin{lstlisting}
+
+/*Cria um grafo simétrico com 14 vértices.*/
+/*Os vértices saõ numerados a partir do 1.*/
+/*Cada vértice pode ter um rótulo que deve vir após seu número. */
+/*No caso o vértice 2 tem o rótulo W2.*/
+/*Para definir as arestas usamos o *Edges.*/
+/*Cada aresta é definida a partir dos vértices que ela interliga*/
+/*O arquivo não pode conter linhas em branco ao final.*/
+*Vertices 14
+1 I1
+2 I3
+3 W1
+4 W2
+5 W3
+6 W4
+7 W5
+8 W6
+9 W7
+10 W8
+11 W9
+12 S1
+13 S2
+14 S4
+*Edges
+1 5
+3 5
+3 6
+5 6
+9 10
+9 11
+10 11
+3 12
+5 12
+6 12
+10 14
+11 14
+9 12
+\end{lstlisting}
+A figura~\ref{fig:grafoSimetricoSemCustos}  mostra o grafo descrito acima.
+\begin{figure}[htp]
+ \begin{center}
+  \includegraphics[scale=0.5]{./figs/grafoSimetricoSemCustos.eps} 
+  \label{fig:grafoSimetricoSemCustos}
+  \caption{Grafo simétrico sem custos nas arestas}
+ \end{center}
+ \end{figure}
+\item[Grafo simétrico com custos nas arestas]  
+\lstset{basicstyle=\tiny}
+\begin{lstlisting}
+
+/*Cria um grafo simétrico com 14 vértices.*/
+/*Os vértices saõ numerados a partir do 1.*/
+/*Cada vértice pode ter um rótulo que deve vir após seu número. */
+/*No caso o vértice 2 tem o rótulo W2.*/
+/*Para definir as arestas usamos o *Edges.*/
+/*Cada aresta é definida a partir dos vértices que ela interliga*/
+/*O custo de cada aresta vem logo após o segundo vértice que o compõe. */
+Por exemplo, a aresta que liga os vértices 3 e 5 tem custo 2.9 */
+/*O arquivo não pode conter linhas em branco ao final.*/
+*Vertices 14
+1 I1
+2 I3
+3 W1
+4 W2
+5 W3
+6 W4
+7 W5
+8 W6
+9 W7
+10 W8
+11 W9
+12 S1
+13 S2
+14 S4
+*Edges
+1 5 1
+3 5 2.9
+3 6 3
+5 6 90
+9 10 1
+9 11 2
+10 11 3
+3 12 66
+5 12 6.7
+6 12 21
+10 14 2
+11 14 33
+9 12 1
+\end{lstlisting}
+A figura~\ref{fig:grafoSimetricoComCustos}  mostra o grafo descrito acima.
+\begin{figure}[htp]
+ \begin{center}
+  \includegraphics[scale=0.5]{./figs/grafoSimetricoComCustos.eps} 
+  \label{fig:grafoSimetricoComCustos}
+  \caption{Grafo simétrico com custos nas arestas}
+ \end{center}
+ \end{figure}
+
+\item[Grafo assimétrico]
+\lstset{basicstyle=\tiny}
+\begin{lstlisting}
+
+/*Cria um grafo assimétrico com 19 vértices.*/
+/*Os vértices saõ numerados a partir do 1.*/
+/*Cada vértice pode ter um rótulo que deve vir após seu número.*/
+/*No caso, optamos por não rotulá-los.*/
+/*Para definir os arcos usamos o *Arcslist.*/
+/*Cada arco é definido a partir do vértice de origem e uma lista de vértices de chegada*/
+Por exemplo, a linha "1 4 6 17 5 13 12 9 8 7" significa que saem arcos com origem no vértice 1 e chegada nos vértices "4 6 17 5 13 12 9 8 7".*/
+/*O arquivo não pode conter linhas em branco ao final.*/
+*Vertices 19
+*Arcslist
+1 4 6 17 5 13 12 9 8 7
+3 13 12 8 7
+4 6 5 9
+2 6 5
+13 16
+12 16
+9 16
+9 19
+8 16 18
+7 16 18
+15 16 19
+14 16 19
+6 18
+5 18
+16 19 18
+11 18
+10 18
+\end{lstlisting}
+\begin{figure}[htp]
+ \begin{center}
+  \includegraphics[scale=0.5]{./figs/grafoAssimetricoSemCustos.eps} 
+  \label{fig:grafoAssimetricoSemCustos}
+  \caption{Grafo assimétrico sem custos nas arestas}
+ \end{center}
+ \end{figure}
+\end{description}
+
+
+Para ler o grafo a partir do arquivo basta criar um leitor PajekNet, 
+instar a classe referente ao tipo de grafo desejado(simétrico ou não-simétrico), definir como os 
+custos são atribuídos e informar ao leitor o arquivo com o grafo.
+\lstset{language=Java,caption=Leitura usando PajNetReader,captionpos=b,basicstyle=\small}
+\begin{lstlisting}
+PajekNetReader pajekNetReader = new PajekNetReader(false);
+UndirectedGraph g = new UndirectedSparseGraph();
+NumberEdgeValue nev = new UserDatumNumberEdgeValue(g);
+Path.setNumberEdgeValue(nev);
+g = (UndirectedGraph) pajekNetReader.load("data/pajNetTest.dat", g, nev); 
+\end{lstlisting}		
+
+
+O JUNG permite flexibilidade na maneira como os custos são atribuidos às arestas.
+Existe uma interface chamada \emph{NumberEdgeValue} que define apenas dois métodos: \emph{getNumber} e \emph{setNumber}.
+A idéia é que o desenvolvedor fique livre para criar qualquer tipo de implementação 
+que defina os custos dos arcos/arestas do seu grafo.
+A  biblioteca JUNG já conta com quatro implementações desta interface: \emph{ConstantDirectionalEdgeValue},
+ \emph{ConstantEdgeValue}, \emph{EdgeWeightLabeller} e \emph{UserDatumNumberEdgeValue}
+Nosso projeto fez uso apenas de duas destas: 
+\begin{description}
+\item[ConstantEdgeValue] define todos os arcos como tendo o mesmo custo.
+\item[UserDatumNumberEdgeValue] obtém os custos dos arcos no repositório de dados do usuário.
+\end{description}
+Caso o grafo tenha sido obtido a partir de um arquivo no formato Pajek contendo custos devemos usar o UserDatumNumberEdgeValue.
+
+Uma vez criado o grafo, podemos adicionar-lhe vértices da seguinte forma:
+\lstset{language=Java,caption=Criação e adição de vértices ao grafo,captionpos=b,basicstyle=\small}
+\begin{lstlisting}
+	Vertex v1 = (Vertex) new DirectedSparseVertex();
+	Vertex v2 = (Vertex) new DirectedSparseVertex();
+	g.addVertex(v1);
+	g.addVertex(v2);
+\end{lstlisting}
+e depois adicionar-lhe os arcos:
+\lstset{language=Java,caption=Criação e adição de arcos ao grafo,captionpos=b,basicstyle=\small}
+\begin{lstlisting}
+    	DirectedEdge e = (DirectedEdge) new DirectedSparseEdge(v1, v2);
+    	g.addEdge(e);
+\end{lstlisting}
+
+Observe nos exemplos acima que tanto arcos quanto vértices são independentes do grafo: 
+primeiramente são criados e só então adicionados a ele.
+Algumas observações importantes:
+\begin{itemize}
+\item Um vértice/arco só pode pertencer a um grafo.
+\item Um vértice/arco só pode ser adicionado uma vez a um grafo.
+\item A direcionalidade de um vértice deve coincidir com a do grafo no qual ele será inserido. 
+Por exemplo, não é possível adicionar um vértice \emph{DirectedSparseVertex} a uma implementação de 
+\emph{UndirectedGraph}.
+\item A direcionalidade de um arco deve coincidir com a dos vértices que este conecta e 
+também com a do grafo.
+\end{itemize}
+
+Citamos anteriormente o repositório de dados do usuário. 
+O JUNG permite que o usuário adicione dados a cada um dos elementos do grafo.
+Para tal, o usuário pode optar por especializar uma classe que implemente a 
+interface \emph{ArchetypeVertex} ou utilizar os métodos de anotação oferecidos. 
+\begin{description}
+\item[Especialização:] Suponha que cada vértice contenha um nome.
+Usando-se especialização de classes, o usuário pode criar a classe \emph{MeuVertice} 
+contendo o atributo nome e métodos que definam e obtenham este dado, 
+como é mostrado no exemplo a seguir:
+\lstset{language=Java,caption=Especialização da classe DirectedSparseVertex,captionpos=b,basicstyle=\small}
+\begin{lstlisting}
+class MeuVertice extends DirectedSparseVertex {
+    private String nome;
+
+    public MeuVertice( String nome ) {
+       this.nome = nome;
+    }
+
+	 public String getNome(){
+	 	 return nome;
+	 }
+	 
+	 public void setNome(String nome){
+	 	 this.nome=nome;
+	 }
+}
+\end{lstlisting}
+\item[Anotações:] Podemos realizar a mesma tarefa utilizando uma solução bem mais flexível: anotações.
+Cada uma das implementações das interfaces \emph{Vertex}, \emph{Edge} e \emph{Graph} implementa também a 
+interface \emph{UserData} a qual define operações 
+que permitem adicionar dados a cada um dos elementos do grafo. 
+São elas:
+\begin{description}
+    \item[addUserDatum(key, datum, copyaction):] Adiciona o objeto datum usando o objeto key como chave além de especificar o copyaction.
+    \item[getUserDatum(key):] Obtém o objeto armanezado com a chave key.
+    \item[removeUserDatum(key):] Remove o objeto armazenado com a chave key.
+    \item[setUserDatum(key, datum, copyaction):] Adiciona ou substitui o objeto cuja chave seja key, além de redefinir o copyaction.
+    \item[importUserData(udc):] Importa os dados do repositório de usuário udc.
+    \item[getUserDatumKeyIterator():] Retorna um objeto de iteração que permite navegadar pelos dados armazenados pelo usuário no seu repositório.
+    \item[getUserDatumCopyAction(key):] retorna o copyaction especificado pelo usuário para o objeto armazenado segundo a chave key. 
+\end{description}
+
+Como adicionar a informação nome a um vértice:
+\lstset{language=Java,caption=Adicionando dados ao repositório do usuário,captionpos=b,basicstyle=\small}
+\begin{lstlisting}
+	Vertex v = (Vertex) g.addVertex(new DirectedSparseVertex());
+	v.addUserdatum("nome","Pisaruk",UserData.SHARED);
+	g.addUserdatum("id","10",UserData.CLONE);
+\end{lstlisting}
+
+
+Quando um grafo ou qualquer de seus elementos constituintes é copiado, o destino dos dados do 
+repositório do usuário de cada um deles é determinado pelo seu copyaction.
+JUNG fornece três diferentes soluções, sendo que o usuário pode criar 
+outras implementando a interface CopyAction: 
+
+\begin{description}
+\item[UserData.CLONE:] retorna uma cópia dos dados armazenados segundo a implementação do método clone(), definido na classe Object do Java.
+\item[UserData.REMOVE:] retorna null, ou seja, o dado não é copiado.
+\item[UserData.SHARED:] retorna uma referência ao objeto armazenado, ou seja, qualquer mudança será refletida nas duas referências.
+\end{description}
+
+\end{description}
+

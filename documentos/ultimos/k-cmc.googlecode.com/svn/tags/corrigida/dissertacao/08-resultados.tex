@@ -1,0 +1,762 @@
+\chapter{Resultados Experimentais}
+\label{cap:experimentos}
+\longpage
+\section{Motivação}
+  Recentemente, há um grande interesse em trabalhos relacionados a
+  análise experimental de algoritmos. 
+  Em particular, no caso do
+  algoritmo \Dijkstra{}, uma subrotina do algoritmo \KIM{}, podemos citar os artigos de B.V.~Cherkassky,
+  A.V.~Goldberg, T.~Radzik e Craig Silverstein 
+  ~\cite{boris:experimental, goldberg:buckets, boris:buckets},
+   e do algoritmo \KIM{}
+  podemos citar o artigo de Eleni Hadjiconstantinou and Nicos Christofides~\cite{eleni:n-34-88}.
+
+  O interesse em experimentação é devido ao reconhecimento de que os
+resultados teóricos, freqüentemente,
+  não trazem informações referentes ao desempenho do algoritmo na
+  prática. Porém, o campo da análise experimental é repleto de
+  armadilhas, como comentado por
+  D.S.~Johnson~\cite{johnson:guide}. Muitas vezes, a implementação do
+  algoritmo é a parte mais simples do experimento. A parte difícil é usar, 
+  com sucesso, a implementação para produzir resultados de pesquisa significativos.
+
+  Segundo D.S.~Johnson~\cite{johnson:guide}, pode-se dizer que existem
+  quatro motivos básicos que levam a realizar
+  um trabalho de implementação de um algoritmo:
+  \begin{enumerate}[(1)]
+  \item Para usar o código em uma aplicação particular, cujo propósito
+  é descrever o impacto do algoritmo em um certo contexto;
+  \item Para proporcionar evidências da superioridade de um algoritmo;
+  \item Para melhor compreensão dos pontos fortes, fracos e do 
+  desempenho das operações algorítmicas na prática; e 
+  \item Para produzir conjecturas sobre o comportamento do algoritmo
+  no caso-médio sob distribuições específicas de instâncias onde a
+  análise probabilística direta é muito difícil.
+  \end{enumerate}
+  Nesta dissertação estamos mais interessados no motivo (3).
+  
+\section{Ambiente experimental}
+Nos experimentos utilizamos duas plataformas:
+\begin{enumerate}
+\item[\iten{1}] Um servidor Linux 32 bits com 4 processadores Intel Pentium 4 Xeon 3,39MHz e 3,5 GB de RAM;
+\item[\iten{2}] Um notebook rodando Linux Ubuntu 8.04, Kernel 2.6.24-23 com dois processadores Intel T7500 de 2.20Ghz e 2GB de RAM.
+\end{enumerate}
+
+Os experimentos das seções~\ref{sec:tempo_x_k}, \ref{sec:tempo_x_densidade}, \ref{sec:tempo_x_n} e \ref{sec:sep_fsp} 
+foram executados na plataforma~\iten{1}, enquanto que os demais na \iten{2}.
+Como o que nos interessa não é especificamente o tempo absoluto de execução, mas a curva do tempo de execução,
+acreditamos que essa mudança de plataforma não chega a alterar nossos resultados.
+
+Para controlar os tempos usamos a classe \lstinline{StopWatch}, implementada por Rod Johnson e Juergen Hoeller:
+\lstset{tabsize=2,caption=,numbers=left, numberstyle=\tiny, stepnumber=1, numbersep=5pt,basicstyle=\footnotesize,showstringspaces=false}
+\begin{lstlisting}[name=Classe usada no controle dos tempos de execução,label=stopwatch]
+public class StopWatch {
+	private final String id;
+	private boolean keepTaskList = true;
+	private final List taskList = new LinkedList();
+	private long startTimeMillis;
+	private boolean running;
+	private String currentTaskName;
+	private TaskInfo lastTaskInfo;
+	private int taskCount;
+	private long totalTimeMillis;
+
+	public StopWatch() {
+		this.id = "";
+	}
+
+	public StopWatch(String id) {
+		this.id = id;
+	}
+
+	public void start(String taskName) throws IllegalStateException {
+		if (this.running) {
+			throw new IllegalStateException(
+					"Can't start StopWatch: it's already running");
+		}
+		this.startTimeMillis = System.currentTimeMillis();
+		this.running = true;
+		this.currentTaskName = taskName;
+	}
+
+	public void stop() throws IllegalStateException {
+		if (!this.running) {
+			throw new IllegalStateException(
+					"Can't stop StopWatch: it's not running");
+		}
+		long lastTime = System.currentTimeMillis() - this.startTimeMillis;
+		this.totalTimeMillis += lastTime;
+		this.lastTaskInfo = new TaskInfo(this.currentTaskName, lastTime);
+		if (this.keepTaskList) {
+			this.taskList.add(lastTaskInfo);
+		}
+		++this.taskCount;
+		this.running = false;
+		this.currentTaskName = null;
+	}
+
+	public long getLastTaskTimeMillis() throws IllegalStateException {
+		if (this.lastTaskInfo == null) {
+			throw new IllegalStateException(
+					"No tests run: can't get last interval");
+		}
+		return this.lastTaskInfo.getTimeMillis();
+	}
+
+	public long getTotalTimeMillis() {
+		return totalTimeMillis;
+	}
+}
+
+\end{lstlisting}
+
+O uso da classe \lstinline{StopWatch} é bem simples. 
+Eis um pequeno exemplo:
+\lstset{caption=,numbers=left, numberstyle=\tiny, stepnumber=1, numbersep=5pt,label=stopwatchsample,nolol=true}
+\begin{lstlisting}
+	StopWatch stopWatch = new StopWatch("KIM");
+	stopWatch.start();
+	/*Aqui vai a chamada à tarefa cuja tempo deseja-se medir*/
+	stopWatch.stop();
+	int time = stopWatch.getLastTaskTimeMillis();
+\end{lstlisting}
+Na linha~1 criamos uma instância da classe.
+Em seguida, na linha 2, inicializamos o cronômetro.
+Na linha 3 fica a chamada à função cujo tempo será medido.
+Paramos o cronômetro na linha 4 e chamamos o método \lstinline{getLastTaskTimeMillis()} para obter o tempo decorrido.
+
+Para calcular o uso de memória utilizamos o seguinte trecho de código:
+\begin{lstlisting}[name=Cálculo do consumo de memória,caption={}]
+	long initMem = Runtime.getRuntime().freeMemory();
+	/* leitura ou geracao do grafo */
+	long graphMemUsage = initMem - Runtime.getRuntime().freeMemory();
+	// execução do algoritmo
+	long kimMemUsage = initMem - graphMemUsage - Runtime.getRuntime().freeMemory();
+\end{lstlisting}
+Na linha 1 a quantidade de memória livre do sistema é armazenada na variável \lstinline{initMem}.
+Na linha 3, após a leitura e armazenamento do grafo em memória, guardamos a memória consumida pelo grafo.
+Executamos, em seguida, o nosso algoritmo e por fim, na linha 5, calculamos a diferença entre a quantidade inicial de memória livre 
+e as quantidades de memória consumidas pelo grafo e pelo algoritmo.
+
+Os testes foram criados levando-se em conta o consumo de tempo assintótico do algoritmo \KIM{}, $\Theta(kT(n,m))$, 
+onde $T(n,m)$ é o consumo de tempo da subrotina que calcula uma árvore de 
+menores caminhos. No caso de grafos sem custos nas arestas, utilizamos uma busca em largura, cuja consumo de tempo
+é $\Theta(n + m)$, caso contrário utilizamos a implementação do Dijkstra feita no JUNG (seção \ref{sec:dijkstraJUNG}), 
+cujo consumo é $\Theta(m \log n)$.
+Nos testes realizados, utilizamos apenas a implementação do Dijkstra feita no JUNG.
+
+\section{Gerador de instâncias}
+Implementamos um pequeno gerador de grafos simétricos aleatórios utilizando a interface \lstinline{GraphGenerator} 
+fornecida pelo JUNG.
+Inicialmente pensamos em utilizar geradores disponíveis na DIMACS, mas estes geravam apenas grafos,
+desta maneira teríamos que convertê-los para grafos simétricos.
+O gerador implementado segue a idéia apresentada no artigo de Eleni Hadjiconstantinou and Nicos Christofides~\cite{eleni:n-34-88}:
+\begin{enumerate}[(1)]
+\item Inicialmente criamos os vértices;
+\item Em seguida, produzimos um ciclo hamiltoniano ligando cada vértice ao seu vizinho, garantindo assim 
+que o grafo gerado seja conexo;
+\item Finalizamos adicionando, aleatoriamente, o restante dos arestas. 
+\end{enumerate}
+
+Na criação dos grafos aleatórios utilizamos os seguintes parâmetros: 
+\begin{itemize}
+\item $n$ número de vértices;
+\item $m$ número de arestas, sendo que $n \leq m \leq n(n-1)/2$, pois se $m < n$ não é possível construir o ciclo hamiltoniano e, 
+se $m > n(n-1)/2$ não é possível criar um grafo sem arestas paralelas.
+%\item \emph{EdgeFactory} fábrica de arestas, caso estejamos usando uma representação específica para os arestas;
+%\item \emph{VertexFactory} fábrica de vértices, caso estejamos usando uma representação específica para os vértices;
+\end{itemize}
+
+Preferimos, ao invés de utilizar valores de $n$ e $m$ independentes, 
+usar o conceito \defi{densidade}\index{densidade} de um grafo, que consiste em 
+dividir o número de arestas pelo número máximos de
+arestas de um grafo simétrico sem circuitos, ou seja, $m/\binom{n}{2}$, 
+o que nos permite fazer comparações mais concisas.
+Assim, nosso gerador aceita receber os parâmetros $n$ e $m$ ou $n$ e densidade, sendo que ao passar a densidade,
+o número de arestas é calculado segundo a definição.
+
+A seguir exibimos o código da classe responsável pela geração de grafos aleatórios:
+
+\lstinputlisting[title=Gerador de grafos simétricos aleatórios,caption={ },firstline=17,firstnumber=1,name={Código do gerador de grafos simétricos aleatórios}]{../implementacoes/KIM/src/edu/uci/ics/jung/algorithms/generators/random/ConnectedUndirectedGraphGenerator.java}
+
+A classe implementa a interface \lstinline{Generator} definindo a função \lstinline{create}, que deve devolver um grafo.
+Para usá-la podemos escolher um dentre os três construtores apresentados nas linhas 34, 38 e 55.
+Por exemplo, para construir um grafo conexo com 100 vértices e densidade 0.1, ou seja, 495 arestas, fazemos:
+\begin{lstlisting}[caption={}]
+	Graph<KIMVertex, KIMEdge> graph  = 
+		new ConnectedUndirectedGraphGenerator<KIMVertex, KIMEdge>(100,0.1);
+\end{lstlisting}
+
+Para cada grafo gerado escolhemos, aleatoriamente, uma origem e um destino, necessariamente diferentes,
+e rodamos o algoritmo \KIM{}. 
+Cada execução nos retorna os seguintes tempos:
+\begin{itemize}
+\item Tempo total na obtenção dos $k$-menores caminhos;
+\item Tempo total gasto nas construções das árvores de menores caminhos: $T_s$ e $T_t$;
+%\item Tempo total gasto nas execuções da rotina \FSP{};
+\item Tempo total gasto nas execuções da rotina \SEP{};
+\item Tempo total gasto na obtenção do $i$-ésimo menor caminho.
+\end{itemize}
+
+O tempo gasto na criação do grafo não será considerado.
+A fim de tentar evitar escolhas ruins das origens e destinos, escolhemos cinco origens e destinos 
+e calculamos a média dos tempos. 
+O mesmo é feito para o cálculo do consumo de memória.
+
+Uma vez que o consumo de tempo assintótico do algoritmo \KIM{} está definido em função
+do número de caminhos $k$ a serem gerados, número $m$ de arestas e número $n$ de vértices,  
+fixaremos nos testes duas destas variáveis, deixando a outra livre, a fim de estudarmos o comportamento do algoritmo.
+Para efeito de análise trabalharemos sempre com a densidade e nunca diretamente com o número de arestas.
+\newpage
+\section{Gráficos e análises}
+\label{sec:graficos}
+
+Começaremos nossa análise exibindo um gráfico com os tempos de execução,
+em função do número $k$ de caminhos gerados, para cada uma das densidades: 0.1, 0.5 e 1.0.
+
+Em seguida, faremos uma análise semelhante, mas trocando a densidade pelo número de caminhos, ou seja,
+a densidade entrará no eixo x e cada uma das curvas corresponderá a uma quantidade de caminhos.
+
+Variaremos então o número de vértices para as densidades: 0.1, 0.5 e 1.0, e geraremos
+curvas para execuções do algoritmo \KIM{} na geração de: $100, 200, \ldots 1000$-menores caminhos.
+
+Passaremos então a avaliar a influência que as principais subrotinas do algoritmo \KIM{} têm 
+no seu tempo de execução. 
+Para isto exibiremos gráficos considerando os tempos de execução das rotinas \SEP{} e das árvores de menores caminhos.
+
+Estamos interessados também em saber o custo de cada caminho. 
+Queremos descobrir a evolução dos custos de obtenção de um novo caminho. 
+Para isto, fixando-se uma densidade e um número de vértices, exibiremos um gráfico com os custos de geração do primeiro, segundo, 
+$\ldots, k$-ésimo caminho e observaremos a curva correspondente à ligação dos pontos calculados.
+
+Finalizaremos com gráficos que nos permitirão analisar como se comporta o consumo de memória,
+primeiramente pela densidade e depois pelo número de caminhos.
+
+Para cada gráfico aproximaremos cada uma das curvas utilizando uma função apropriada, usando o "curve-fitting" do
+GNUPlot 4.2, com o objetivo de verificar a correlação entre as variáveis envolvidas bem como
+as aderências das funções às análises teóricas.
+
+Todos os gráficos foram gerados a partir de execuções do algoritmo \KIM{} em grafos simétricos e 
+com custos maiores que zero nas arestas
+
+Quando não for especificada a quantidade de vértices utilizada, essa será igual a 100.
+
+%Com exceção dos gráficos da seção~\ref{sec:tempo_x_n}, 
+%todos os demais, foram construídos para grafos de 100 vértices.
+\newpage
+\section{Tempo em função de $k$}
+\label{sec:tempo_x_k}
+
+A seguir o gráfico exibindo os tempos de execução do algoritmo \KIM{}, em segundos, em função
+do número de caminhos gerados.
+Cada curva corresponde a uma certa densidade.
+Aproximamos os pontos obtidos para cada valor de $k$ utilizando regressões lineares através de funções da família $tempo(k)=ak$.
+Observe que não utilizamos $tempo(k)=ak+b$, uma vez que quando
+$k$ é zero, o algoritmo não tem trabalho nenhum~\footnote{Obviamente o algoritmo tem algum trabalho, 
+afinal gasta-se algum tempo para descobrir que não é preciso calcular nenhum caminho, mas esse tempo será desconsiderado
+nas nossas análises.}, ou seja, leva tempo desprezível.
+
+Abaixo do gráfico, exibimos os valores absolutos dos resíduos correspondentes à diferença entre o valor de 
+cada ponto obtido a partir da execução do algoritmo \KIM{}
+e o valor calculado pela curva $tempo(k)=ak$ correspondente, 
+com o objetivo de mostrar a aderência da curva aos dados reais.
+
+%\includegraphics[width=160mm]{graficos/allDensities_by_k.ps}
+
+Fica bem clara a dependência linear entre o tempo de execução e a quantidade de caminhos gerados, para todas as densidades escolhidas.
+Isto vem apoiar a análise assintótica: $tempo = \Theta(kT(n,m))$. 
+Observe que fixando-se $n$ e $m$, ou seja, fixando $n$ e a densidade, um aumento linear em $k$ implica num aumento também linear 
+no tempo.
+\newpage
+\includegraphics[scale=0.8]{graficos/tempo_x_k_fit.ps}
+%% 
+%% Utilizando as curvas do gráfico anterior, calculamos curvas da forma $tempo(k)=ak$ para cada um dos valores de $k$,
+%% fazendo uso de regressões lineares. Observe que não utilizamos $tempo(k)=ax+b$, uma vez que quando
+%% $k$ é zero, o algoritmo não tem trabalho nenhum~\footnote{Obviamente o algoritmo tem algum trabalho, 
+%% afinal gasta-se algum tempo para descobrir que não é preciso calcular nenhum caminho, mas esse tempo será desconsiderado
+%% nas nossas análises.}, ou seja, leva tempo desprezível.
+%% 
+%% \includegraphics[width=160mm]{graficos/allDensities_by_k_fit.ps}
+%% 
+%% Utilizando os valores de $a$ retornados pelas regressões lineares obtemos a seguinte tabela:
+%% 
+%%  \begin{tabular}{^^7c c^^7c ^^7c c ^^7c c ^^7c c ^^7c c ^^7c c ^^7c c ^^7c c ^^7c c ^^7c c 
+%% ^^7c c ^^7c c ^^7c c ^^7c} \hline
+%% \multicolumn{2}{^^7cc^^7c}{Relação entre densidade e $a$ correspondente} \\ \hline
+%%   \multicolumn{1}{^^7cc^^7c^^7c}{densidade} 
+%% & \multicolumn{1}{^^7cc^^7c}{tangente ($a$)} 
+%% \\ \hline
+%% 0.1 & 0,00566943       \\ \hline 
+%% 0.2 & 0,0084259        \\ \hline 
+%% 0.3 & 0,0116017        \\ \hline 
+%% 0.4 & 0,0144538        \\ \hline 
+%% 0.5 & 0,0177342        \\ \hline 
+%% 0.6 & 0,0204301        \\ \hline 
+%% 0.7 & 0,0240213        \\ \hline 
+%% 0.8 & 0,0272594        \\ \hline 
+%% 0.9 & 0,0303253        \\ \hline 
+%% 1.0 & 0,0344114        \\ \hline 
+%%  \end{tabular}
+%% 
+%% Para densidade 0.1 temos que a função tempo é: $tempo(k)=0.00566943k$, 
+%% para 0.2 $tempo(k)=0.0084259k$ e assim por diante.
+%% Uma vez que $densidade=d=2m/n(n-1)$, se multiplicarmos a densidade por uma constante
+%% teremos que o valor de $m$ é também será multiplicado por ela.  
+%% Com base nisso, um aumento linear na densidade deveria implicar num aumento linear no tempo de execução do algoritmo.
+%% Podemos exprimir tempo em função da densidade $d$: 
+%% 
+%% $tempo_{experimental}(d,k)=a_dk$
+%% 
+%% Assim, para $n$ constante: 
+%% 
+%% $tempo_{experimental}(d_j,k_j)/tempo(d_i,k_i) = a_{d_j}k_j/a_{d_i}k_i$
+%% 
+%% Da análise assintótica, temos: 
+%% 
+%% $tempo_{teorico}(k,m)=km\log n$.
+%% 
+%% Lembrando que $d=2m/n(n-1)$, ou seja, $m=dn(n-1)/2$, concluímos:
+%% 
+%% $tempo_{teorico}(k,d)=(kdn(n-1)\log n)/2$
+%% 
+%% Fixando-se $n$ podemos fazer:
+%% 
+%% $tempo_{teorico}(k_j,d_j)/tempo_{teorico}(k_i,d_i) = (k_jd_jn(n-1)\log n)/2/(k_id_in(n-1)\log n)/2=k_jd_j/k_id_i$
+%% 
+%% Vamos agora verificar se para cada densidade exibida na tabela anterior a análise experimental
+%% está de acordo com a teórica.
+%% 
+%% Tomando, por exemplo, $j=2,i=1$ temos:
+%% \begin{eqnarray*}
+%% tempo_{teorico}(k_j,d_j)/tempo_{teorico}(k_i,d_i)&=&k_jd_j/k_id_i\\
+%% &=&k_2d_2/k_1d_1\\
+%% &=&0.2k_2/0.1k_1\\
+%% &=&2k_2/k_1\\
+%% tempo_{experimental}(d_j,k_j)/tempo_{experimental}(d_i,k_i)&=&a_{d_j}k_j/a_{d_i}k_i\\
+%% &=&a_{d_2}k_2/a_{d_1}k_1=0.0084259k_2/0.00566943k_1\\
+%% &=&1,486198789k_2/k_1
+%% \end{eqnarray*}
+%% 
+%% Segue uma tabela onde fixamos $i$ e deixamos $j$ variar de 1 a 10, umas vez que construímos o gráfico
+%% utilizando densidades que vão de $d_{1}=0.1$ a $d_{10}=1.0$.
+%% 
+%% \begin{tabular}{^^7c c^^7c ^^7c c ^^7c c ^^7c c ^^7c c ^^7c c ^^7c c ^^7c c ^^7c c ^^7c c 
+%% ^^7c c ^^7c c ^^7c c ^^7c} \hline
+%% \multicolumn{4}{^^7cc^^7c}{Comparação entre análise experimental e teórica} \\ \hline
+%%  \multicolumn{1}{^^7cc^^7c}{i} 
+%% & \multicolumn{1}{^^7cc^^7c}{j} 
+%% & \multicolumn{1}{^^7cc^^7c}{experimental} 
+%% & \multicolumn{1}{^^7cc^^7c}{teórica} 
+%% \\ \hline
+%% 1 & 2 & $1,48k_2/k_1$ & $2k_2/k_1$       	\\ \hline 
+%% 1 & 3 & $2,04k_3/k_1$ & $3k_3/k_1$       	\\ \hline 
+%% 1 & 4 & $2,54k_4/k_1$ & $4k_4/k_1$       	\\ \hline  
+%% 1 & 5 & $3,12k_5/k_1$ & $5k_5/k_1$       	\\ \hline 
+%% 1 & 6 & $3,60k_6/k_1$ & $6k_6/k_1$       	\\ \hline 
+%% 1 & 7 & $4,23k_7/k_1$ & $7k_7/k_1$       	\\ \hline 
+%% 1 & 8 & $4,80k_8/k_1$ & $8k_8/k_1$       	\\ \hline 
+%% 1 & 9 & $5,34k_9/k_1$ & $9k_9/k_1$       	\\ \hline 
+%% 1 & 10 & $6,06k_{10}/k_1$ & $10k_{10}/k_1$ \\ \hline 
+%% \end{tabular}
+
+\section{Tempo em função da densidade}
+\label{sec:tempo_x_densidade}
+
+Agora colocaremos o número de caminhos $k$ no eixo x, exibindo então uma curva para cada $k$ de 100 a 1000 com intervalo de 100.
+
+\includegraphics[scale=0.7]{graficos/tempo_x_densidade_fit.ps}
+
+Nos nossos experimentos, estamos utilizando o algoritmo \Dijkstra{} com min-heap na implementação da rotina que resolve o \PCM{},
+sendo assim, $T(n,m)=\Theta(m \log n)$.
+
+Utilizando-se o conceito de densidade ($d$), podemos escrever o consumo de tempo assintótico do algoritmo \KIM{} como $\Theta(kdn^2 \log n)$.
+Em cada curva o valor de $k$ é fixo e a densidade varia entre os valores 0.1, 0.5 e 1.0.
+Uma vez que o valor de $n$ está fixo no gráfico, podemos aproximar as curvas por funções da família $tempo(d)=ad$.
+Pelo gráfico, observamos a dependência linear entre densidade ($d$) e tempo para cada valor de $k$,  o que vem a comprovar
+a análise assintótica, $\Theta(km \log n)$ ou, usando a definição de densidade, $\Theta(kdn^2 \log n)$.
+
+%\includegraphics[width=160mm]{graficos/allDensities_by_densidade.ps}
+
+%% Observamos a dependência linear entre densidade ($d$) e tempo para cada valor de $k$,  o que vem a comprovar
+%% a análise assintótica, $\Oh(km\log n)$ ou, usando a definição de densidade, $\Oh(kdn^2\log n)$.
+%% 
+%% Utilizando as curvas do gráfico anterior, calculamos curvas da forma $tempo(d)=ad$ para cada um dos valores de $k$, 
+%% fazendo uso de regressões lineares.
+%% 
+%% \includegraphics[width=160mm]{graficos/allDensities_by_densidade_fit.ps}
+%% 
+%% Façamos uma pequena tabela com os valores das inclinações para cada uma das curvas:
+%% 
+%%  \begin{tabular}{^^7c c^^7c ^^7c c ^^7c c ^^7c c ^^7c c ^^7c c ^^7c c ^^7c c ^^7c c ^^7c c 
+%% ^^7c c ^^7c c ^^7c c ^^7c} \hline
+%% \multicolumn{2}{^^7cc^^7c}{Relação entre $k$ e $a$ correspondente} \\ \hline
+%%   \multicolumn{1}{^^7cc^^7c^^7c}{$k$} 
+%% & \multicolumn{1}{^^7cc^^7c}{tangente ($a$)} 
+%% \\ \hline
+%% 100 & 3,27509 \\ \hline 
+%% 200 & 6,55278 \\ \hline 
+%% 300 & 9,99109 \\ \hline 
+%% 400 & 13,2518 \\ \hline 
+%% 500 & 16,8229 \\ \hline 
+%% 600 & 20,6251 \\ \hline 
+%% 700 & 23,7077 \\ \hline 
+%% 800 & 27,4092 \\ \hline 
+%% 900 & 31,5993 \\ \hline 
+%% 1000 & 35,2812 \\ \hline 
+%%  \end{tabular}
+
+\section{Tempo em função de $n$}
+\label{sec:tempo_x_n}
+
+Uma vez que o consumo de tempo do algoritmo \KIM{} usando \Dijkstra{} com min-heap é $\Theta(km \log n)$, 
+decidimos gerar gráficos para execuções variando o número $n$ de vértices.
+
+Nos gráficos a seguir exibimos 10 curvas, uma para cada número $k$ de caminhos a serem gerados,
+em função do número $n$ de vértices do grafo, usando grafos de densidades: 0.1, 0.5 e 1.0.
+Observamos que um aumento linear no número de vértices não resulta num aumento linear no consumo de tempo.
+Lembrando a definição de densidade: $d=\frac{m}{\binom{n}{2}}$ e sabendo que em cada gráfico ela é fixa, temos que
+$m=d\binom{n}{2}=\frac{d(n^2-n)}{2}=\Theta(n^2)$, assim, podemos escrever $\Theta(km \log n)$ como $\Theta(kn^2 \log n)$.
+Por conta disso, um aumento linear em $n$ resulta num aumento não linear no consumo de tempo.
+Decidimos aproximar as curvas de cada gráfico utilizando funções $tempo(n,k)=akn^2 \log n$ através do recurso "curve-fitting" 
+do GNUPlot 4.2.
+Abaixo de cada gráfico, exibimos um gráfico com os valores absolutos dos resíduos, ou seja, as diferenças entre as curvas 
+de aproximação geradas e os valores obtidos, experimentalmente, para cada ponto.
+
+%\includegraphics[scale=0.8]{graficos/tempo_x_n_d_0.1.ps}
+
+\includegraphics[scale=0.8]{graficos/tempo_x_n_d_0.1_fit.ps}
+
+
+%\includegraphics[scale=0.8]{graficos/tempo_x_n_d_0.5.ps}
+
+\includegraphics[scale=0.8]{graficos/tempo_x_n_d_0.5_fit.ps}
+
+
+%\includegraphics[scale=0.8]{graficos/tempo_x_n_d_1.0.ps}
+
+\includegraphics[scale=0.8]{graficos/tempo_x_n_d_1.0_fit.ps}
+
+%%  \begin{tabular}{^^7c c^^7c ^^7c c ^^7c c ^^7c c ^^7c c ^^7c c ^^7c c ^^7c c ^^7c c ^^7c c 
+%% ^^7c c ^^7c c ^^7c c ^^7c} \hline
+%% \multicolumn{2}{^^7cc^^7c}{Relação entre $k$ e $a$ correspondente para densidade 0.1} \\ \hline
+%%   \multicolumn{1}{^^7cc^^7c^^7c}{$k$} 
+%% & \multicolumn{1}{^^7cc^^7c}{$a$} 
+%% \\ \hline
+%% 100            & 1.09072e-07      \\ \hline 
+%% 200            & 1.10221e-07      \\ \hline 
+%% 300            & 1.11487e-07      \\ \hline 
+%% 400            & 1.15306e-07      \\ \hline 
+%% 500            & 1.14925e-07      \\ \hline 
+%% 600            & 1.13767e-07      \\ \hline 
+%% 700            & 1.15165e-07      \\ \hline 
+%% 800            & 1.16335e-07      \\ \hline 
+%% 900            & 1.14398e-07      \\ \hline 
+%% 1000           & 1.16138e-07      \\ \hline 
+%%  \end{tabular}
+%% 
+%% 
+%%  \begin{tabular}{^^7c c^^7c ^^7c c ^^7c c ^^7c c ^^7c c ^^7c c ^^7c c ^^7c c ^^7c c ^^7c c 
+%% ^^7c c ^^7c c ^^7c c ^^7c} \hline
+%% \multicolumn{2}{^^7cc^^7c}{Relação entre $k$ e $a$ correspondente para densidade 0.5} \\ \hline
+%%   \multicolumn{1}{^^7cc^^7c^^7c}{$k$} 
+%% & \multicolumn{1}{^^7cc^^7c}{$a$} 
+%% \\ \hline
+%% 100            & 5.83348e-07    \\ \hline 
+%% 200            & 5.97582e-07    \\ \hline 
+%% 300            & 5.97297e-07    \\ \hline 
+%% 400            & 5.90952e-07    \\ \hline 
+%% 500            & 5.87974e-07    \\ \hline      
+%% 600            & 5.91388e-07    \\ \hline 
+%% 700            & 5.91467e-07    \\ \hline 
+%% 800            & 5.91031e-07    \\ \hline 
+%% 900            & 5.85498e-07    \\ \hline 
+%% 1000           & 5.88293e-07    \\ \hline 
+%%  \end{tabular}
+%% 
+%% 
+%%  \begin{tabular}{^^7c c^^7c ^^7c c ^^7c c ^^7c c ^^7c c ^^7c c ^^7c c ^^7c c ^^7c c ^^7c c 
+%% ^^7c c ^^7c c ^^7c c ^^7c} \hline
+%% \multicolumn{2}{^^7cc^^7c}{Relação entre $k$ e $a$ correspondente para densidade 1.0} \\ \hline
+%%   \multicolumn{1}{^^7cc^^7c^^7c}{$k$} 
+%% & \multicolumn{1}{^^7cc^^7c}{$a$} 
+%% \\ \hline
+%% 100            & 1.18867e-06    \\ \hline 
+%% 200            & 1.19687e-06    \\ \hline 
+%% 300            & 1.21739e-06    \\ \hline 
+%% 400            & 1.22463e-06    \\ \hline 
+%% 500            & 1.21914e-06    \\ \hline 
+%% 600            & 1.23494e-06    \\ \hline 
+%% 700            & 1.21293e-06    \\ \hline 
+%% 800            & 1.23475e-06    \\ \hline 
+%% 900            & 1.246e-06      \\ \hline 
+%% 1000           & 1.22241e-06    \\ \hline 
+%%  \end{tabular}
+%% 
+%% É de se esperar que quanto maiores forem os valores de $k$ e $n$ mais próximos
+%% os valores de $a$ se encontrem da contante utilizada na definição de $\Theta$. 
+ 
+\newpage
+\section{Função \SEP{} e árvores de menores caminhos}
+\label{sec:sep_fsp}
+
+Nas seções anteriores, analisamos o tempo total de execução do algoritmo \KIM{} levando em conta as densidades,
+quantidade de caminhos gerados e número de vértices.
+Agora, nos aprofundaremos um pouco, procurando avaliar o custo de algumas rotinas que compõe o algoritmo.
+
+O algoritmo \KIM{} conta, basicamente, com duas subrotinas principais, as quais são responsáveis pela
+maior parte do seu consumo de tempo, são elas:
+\begin{itemize}
+\item Rotinas de construções de árvores de menores caminhos. 
+Estas rotinas correspondem a duas execuções de um algoritmo que resolva o \PCM{} modificado, cuja implementação
+está apresentada na seção~\ref{sec:implementacao}, uma utilizando $s$ como raiz 
+retornando como resposta a árvore $T_s$ e outra onde a raiz é $t$ retornando a árvore $T_t$.
+\item \SEP{} é a rotina responsável por calcular um desvio mínimo restrito de $s$ a $t$, utilizando para tal,
+as árvores $T_s$ e $T_t$ as quais são rotuladas usando-se $\epsilon$ e $\zeta$, como explicado na seção~\ref{sec:rotulacao}.
+\end{itemize}
+
+A seguir, exibimos gráficos com os tempos de execução da rotina \SEP{}, das construções das árvores e os 
+totais do algoritmo \KIM{}.
+O objetivo é visualizar o quão significativas são estas funções no que diz respeito ao consumo de tempo e, 
+notar que elas realmente são as mais relevantes neste quesito, sendo portanto os primeiros pontos 
+onde quaisquer melhorias deveriam ser pensadas.
+
+\newpage
+
+\includegraphics[scale=0.8]{./graficos/comparacao_arvores_sep_total.gnuplot_0.1.ps}
+
+\includegraphics[scale=0.8]{./graficos/comparacao_arvores_sep_total.gnuplot_0.5.ps}
+
+\includegraphics[scale=0.8]{./graficos/comparacao_arvores_sep_total.gnuplot_1.0.ps}
+
+
+
+
+%\begin{figure}[hbp]
+%\includegraphics[scale=0.5,angle=270]{./graficos/comparacao_arvores_sep_total.gnuplot_0.7.ps}
+%\caption{Comparativo entre as principais subrotinas e o tempo total do KIM. Densidade 0.7}
+%\includegraphics[scale=0.5,angle=270]{./graficos/comparacao_arvores_sep_total.gnuplot_0.8.ps}
+%\caption{Comparativo entre as principais subrotinas e o tempo total do KIM. Densidade 0.8}
+%\end{figure}
+
+
+%\begin{figure}[hbp]
+%\includegraphics[scale=0.5,angle=270]{./graficos/comparacao_arvores_sep_total.gnuplot_0.9.ps}
+%\caption{Comparativo entre as principais subrotinas e o tempo total do KIM. Densidade 0.9}
+%\includegraphics[scale=0.5,angle=270]{./graficos/comparacao_arvores_sep_total.gnuplot_1.0.ps}
+%\caption{Comparativo entre as principais subrotinas e o tempo total do KIM. Densidade 1.0}
+%\end{figure}
+
+A partir dos gráficos é possível perceber que as rotinas citadas realmente correspondem a uma importante fatia
+do tempo total de execução do algoritmo.
+
+Notamos que as construções das árvores de menores caminhos consomem a maior parte do tempo total de execução.
+%É interessante notar que quanto maior o valor de $k$, menor a fatia do tempo total 
+%utilizada por elas, o que nos leva a acreditar que outras rotinas passem a se tornar mais relevantes.
+Exibiremos, a seguir, gráficos com as proporções de tempo utilizadas por cada uma das rotinas anteriormente citadas,
+bem como a proporção total de tempo consumida por ambas juntas.
+
+\includegraphics[scale=0.8]{./graficos/comparacao_arvores_sep_total_percentual.gnuplot_0.1.ps}
+
+\includegraphics[scale=0.8]{./graficos/comparacao_arvores_sep_total_percentual.gnuplot_0.5.ps}
+
+\includegraphics[scale=0.8]{./graficos/comparacao_arvores_sep_total_percentual.gnuplot_1.0.ps}
+
+
+%\begin{figure}[hbp]
+%\includegraphics[scale=0.5,angle=270]{./graficos/comparacao_arvores_sep_total_percentual.gnuplot_0.7.ps}
+%\caption{Comparativo entre a proporção de tempo utilizada pelas duas principais subrotinas do KIM. Densidade 0.7}
+%\includegraphics[scale=0.5,angle=270]{./graficos/comparacao_arvores_sep_total_percentual.gnuplot_0.8.ps}
+%\caption{Comparativo entre a proporção de tempo utilizada pelas duas principais subrotinas do KIM. Densidade 0.8}
+%\end{figure}
+
+
+%\begin{figure}[hbp]
+%\includegraphics[scale=0.5,angle=270]{./graficos/comparacao_arvores_sep_total_percentual.gnuplot_0.9.PS}
+%\caption{Comparativo entre a proporção de tempo utilizada pelas duas principais subrotinas do JIM. Densidade 0.9}
+%\includegraphics[scale=0.5,angel=270]{./gráficos/comparação_arvores_sepo_total_percentual.ênuplo_1.0.PS}
+%\caption{Comparativo entre a proporção de tempo utilizada pelas duas principais subrotinas do JIM. Densidade 1.0}
+%\end{figure}
+
+%Concluímos que a importância da função \SEP{} cresce com a densidade e a da construção das árvores decresce em contrapartida.
+%A explicação se encontra na função \lstinline{get Sons}, apresentada ao final do capítulo~\ref{ACP:ACP:algoritmo-kim}, 
+%a qual se torna mais custosa com o aumento da quantidade de arestas no grafo.
+
+%Percebemos que, independentemente da densidade, quanto maior o valor de $k$ menor é a fatia de tempo
+%utilizada por ambas as funções.
+%Isso mostra que com o aumento de $k$ outras rotinas secundárias começam a aumentar sua importância.
+%Citamos aqui as rotinas que alteram o grafo, excluindo arestas e vértices. Notamos que
+%com o aumento de $k$ é preciso alterar cada vez mais o grafo a fim de evitar a geração de caminhos repetidos.
+Observamos que, para as densidade 0.1 e 0.5, com o aumento de $k$, a proporção de tempo utilizada nas construções das
+árvores de menores caminhos cresce, ao passo que a utilizada pela rotina \SEP{} diminui.
+Para a densidade 1.0, as proporções se mantém estáveis.
+Mais uma vez fica clara a importância que essas rotinas têm no tempo de execução do algoritmo \KIM{}.
+
+\newpage
+
+Vamos sintetizar em um único gráfico a proporção de tempo utilizada pelas duas subrotinas para as densidades 0.1, 0.5 e 1.0.
+
+\includegraphics[scale=0.8]{graficos/comparativo_percentual_sintetizado_by_k.ps}
+
+Façamos o mesmo colocando a densidade no eixo x.
+
+\includegraphics[scale=0.8]{graficos/comparativo_percentual_sintetizado_by_densidade.ps}
+
+Façamos o mesmo colocando o número de vértices no eixo x.
+
+\includegraphics[scale=0.8]{graficos/comparativo_percentual_sintetizado_by_n_0.1.ps}
+
+\includegraphics[scale=0.8]{graficos/comparativo_percentual_sintetizado_by_n_0.5.ps}
+
+\includegraphics[scale=0.8]{graficos/comparativo_percentual_sintetizado_by_n_1.0.ps}
+
+\section{Custo por caminho}
+\label{sec:custoPorCaminho}
+
+Até o momento realizamos análises considerando o tempo de execução do algoritmo para um certo número $k$ de caminhos gerados.
+Queremos agora verificar se o custo de cada caminho é independente dos demais ou se existe alguma relação entre eles.
+Será que os 100 primeiros caminhos consomem mais tempo que os 100 últimos?
+
+O primeiro caminho é mais lento ou mais rápido que os demais?
+
+%Para a geração dos gráficos utilizamos os mesmo grafos usados nas análises anteriores, ou seja, 
+%todos possuem 100 vértices e consideramos densidades que variam entre 0.1 e 1.0.
+
+Vamos, antes de prosseguir, relembrar o funcionamento do algoritmo \KIM{} para encontrar $k$-menores caminhos entre dois 
+vértices $s$ e $t$:
+\begin{enumerate}[(1)]
+\item Primeiramente o menor caminho de $s$ a $t$ é calculado, $P_1$, usando um algoritmo para o \PCM{} modificado;
+\item Em seguida, para o cálculo do segundo menor caminho,$P_2$, chamamos a função \FSP{}, a qual constrói a árvore de menores caminhos com
+raiz em $s$ ($T_s$) e a de menores caminhos com raiz em $t$ ($T_t$), sendo que cada árvore corresponde a uma execução do \PCM{} modificado.
+Em seguida, a rotina \SEP{} é chamada, percorrendo os vértices da árvore $T_s$ e retornando um desvio mínimo de $P_1$.
+\item Sejam $P_1$ e $P_2$, respectivamente, o primeiro e segundo menores caminhos de $s$ a $t$, calculamos os menores caminhos 
+$P_a$, $P_b$ e $P_c$, distintos entre si e diferentes de $P_1$ e $P_2$. 
+Cada um deles é colocado na lista de caminhos candidatos, sendo que o menor deles é retirado.
+\item Cada iteração do algoritmo consistirá então em retirar da lista de candidatos o caminho de menor custo e, a partir dele
+e de seu caminho pai gerar outros três: ($P_a$, $P_b$ e $P_c$).
+\end{enumerate}
+
+Começaremos exibindo os custos de geração de cada $i$-ésimo caminho para densidades entre 0.1 e 1.0 com intervalo de 0.2.
+
+\includegraphics[width=160mm]{graficos/custosPorCaminho.ps}
+
+A partir do gráfico podemos observar que os custos de obtenção de caminhos em grafos mais densos são em geral maiores
+que em grafos esparsos.
+
+Vamos trabalhar agora apenas com as densidades 0.1, 0.5 e 1.0, pois acreditamos que sejam suficientes para a nossa análise.
+
+Gráfico com o custo para o $i$-ésimo caminho em um grafo de densidade 0.1.
+
+\includegraphics[width=160mm]{graficos/custosPorCaminho_d_0.1.ps}
+
+Notamos que os primeiros caminhos têm custos mais elevado que vão decrescendo 
+chegando a estabilizar a partir do 40º caminho, aproximadamente.
+Os quatro primeiros caminhos têm os seguintes custos: 5, 13, 24 e 30ms.
+O primeiro caminho tende a ser o mais rápido, uma vez que apenas uma chamada à função Dijkstra é realizada.
+
+O segundo caminho possui um custo mais elevado, um pouco superior ao dobro do primeiro, uma vez que duas chamadas 
+à função Dijkstra são realizadas, além da execução da rotina \SEP{}, subrotina da \FSP.
+
+O terceiro, em geral, é mais custoso que o segundo, já que podem ser gerados até três caminhos candidatos, um em cada uma das partições: $P_a$, $P_b$, $P_c$, 
+cada qual consumindo aproximadamente o mesmo que o $P_2$.
+
+A partir de um certo $i$, o tempo começa a se estabilizar devido, principalmente, a diminuição do número de arestas e vértices 
+no grafo usado na geração dos caminhos derivados. Lembramos que durante a execução do algoritmo, arestas e vértices são removidos 
+do grafo original e as chamadas à função Dijkstra são executadas neste novo grafo, a fim de evitar a geração de caminhos repetidos.
+Mesmo após a estabilização observamos certos picos, por exemplo para $k$=113 o tempo é 9ms.
+
+Vale recordar que dados dois caminhos: $P_k$ e $P_j$, com $P_k$ derivado de $P_j$, ou seja, $P_j$ é o caminho pai de $P_k$,
+nem sempre é possível gerar os três caminhos derivados: $P_a$, $P_b$, $P_c$, às vezes conseguimos gerar apenas dois, 
+um ou até nenhum caminho derivado. Desta maneira os picos exibidos no gráfico correspondem aos pontos onde um número maior de caminhos
+derivados pôde ser calculado.
+
+Da mesma forma, os vales podem ser explicados por pontos onde um menor número de caminhos candidatos pôde ser gerado.
+Por exemplo, para $i$=429 o tempo de execução foi de 2ms.
+
+Vamos agora estudar o comportamento do algoritmo para densidades maiores: 0.5 e 1.0.
+
+\includegraphics[width=160mm]{graficos/custosPorCaminho_d_1.0.ps}
+
+Os quatro primeiros caminhos consomem tempo: 3,15,40 e 42, respectivamente. 
+O resultado fica dentro do esperado, seguindo a mesma explicação dada para o gráfico de densidade 0.1.
+O que vale notar é o aumento de catorze vezes entre o tempo do primeiro e quarto caminhos calculados.
+
+Primeiramente o baixo custo do primeiro caminho advém justamente da completude do grafo.
+Com densidade 1, todos os vértices estão conectados dois a dois o que torna a rotina Dijkstra extremamente veloz.
+A alta do segundo caminho fica por conta das duas execuções do Dijkstra somadas a da função \SEP{},
+%, a qual, como 
+%foi explicado na seção~\ref{sec:sep_fsp}, 
+a qual aumenta seu consumo em função do número de arestas.
+
+No cálculo dos próximos caminhos podemos ter até 6 chamadas à função Dijkstra e até 3 chamadas à função \SEP{}, 
+o que explica o aumento no consumo de tempo.
+
+A partir de um certo ponto o tempo começa a se estabilizar, pela mesma razão dita anteriormente: exclusão de arestas e vértices
+acabam tornando a execução do algoritmo \Dijkstra{} e da função \SEP{} mais rápidas.
+
+
+\includegraphics[width=160mm]{graficos/custosPorCaminho_d_0.5.ps}
+
+Utilizando a densidade 0.5, intermediária entre 0.1 e 1.0, não há muito o que ser explicado.
+Vemos novamente o aumento do tempo de execução para os quatro primeiros caminhos: 2,7,17 e 16.
+
+Notamos, no entanto, um aumento menor entre os tempos de execução do primeiro e quarto caminhos, oito vezes.
+%Uma vez que o custo da função SEP depende do número de arestas e que um grafo com densidade 0.5 possui menos arestas que um 
+%de densidade 1.0, é de se esperar um menor aumento.
+
+Para permitir uma análise mais compacta, decidimos tirar as médias e desvios padrões de cada um dos conjuntos de dados
+usados nas gerações dos três gráficos anteriores e, com essas informações, construir um único gráfico 
+exibindo três curvas normais.
+
+\includegraphics[width=160mm]{graficos/custosPorCaminhoNormais.ps}
+
+Observando as três curvas da figura anterior, cada qual referente a uma densidade: 0.1, 0.5 e 1.0, 
+notamos que a abertura aumenta com o aumento da densidade, ou seja, o custo de obtenção de cada caminho se torna mais variável.
+Basta observar que para a densidade 0.1 a maior parte dos caminhos é obtida com tempos entre 2.5 e 5, enquanto que para a densidade 1.0
+está entre 25 e 35.
+
+
+\newpage
+\section{Consumo de memória}
+\label{sec:consumo_memoria}
+
+Para calcular o consumo de memória nos deparamos com diversas questões e obstáculos.
+Primeiramente, como nossa implementação está feita em Java teríamos que levar em conta o coletor de lixo, o qual é responsável por
+liberar espaço em memória removendo desta objetos não mais utilizados. Esse trabalho pode atrapalhar as nossas medidas de memória.
+Suponha que tenhamos alocado uma certa quantidade de memória para nossos testes e que antes de iniciar a execução do algoritmo
+tenhamos anotado a quantidade de memória disponível. Se o coletor de lixo for chamado durante a execução do algoritmo, 
+é possível que a quantidade de memória disponível seja maior que a inicial e, por causa disso, se subtraíssemos uma da outra, com
+o intuito de obter a memória utilizada, chegaríamos a conclusão de que o processo gasta quantidade de memória negativa.
+
+Surge então a pergunta: por que não desligar o coletor de lixo?
+De certa forma essa abordagem é justificável, mas não é possível desligá-lo por completo~\footnote{
+Estamos dizendo que não é possível, mas no entanto não temos certeza disso. Tentamos a opção
+-Xnoclassgc do Java a qual não desliga completamente o coletor de lixo. }.
+Além da dificuldade em desligá-lo, não consideramos correto contabilizar como memória gasta pelo algoritmo
+todo e qualquer uso temporário de memória.
+
+A seguir exibimos um gráfico com os consumos de memória de execuções do algoritmo para densidades de 0.1 a 1.0 com intervalo de 0.1.
+
+\includegraphics[width=160mm]{graficos/memoria_by_k.ps}
+
+O gráfico serve bem o propósito de mostrar o quanto o trabalho do coletor de lixo atrapalha na nossa análise de consumo de memória.
+Basta observar como as linhas se cruzam, dificultando no entendimento da relação consumo de memória em função 
+do número de caminhos para cada densidade.
+O consumo de memória oscila muito impedindo-nos de fazer muitas afirmações quanto as relações entre as variáveis apresentadas.
+
+Exibimos o gráfico da figura anterior colocando a densidade no eixo x.
+
+\includegraphics[width=160mm]{graficos/memoria_by_densidade.ps}
+
+Devido a dificuldade em medir o consumo de memória entre o início e fim da execução do algoritmo, 
+optamos por uma outra abordagem: calcular o uso de memória entre o início e fim da obtenção de cada um dos caminhos.
+Desta forma, acreditamos que ao diminuir o intervalo entre as medições sofreremos em menor escala os danos provocados
+pelas execuções do coletor de lixo.
+A seguir exibimos um gráfico com os consumos médios de memória por caminho em função do número de caminhos pedidos.
+
+\includegraphics[width=160mm]{graficos/AvgMem_by_k.ps}
+
+Cada curva representa uma densidade.
+Calculamos a quantidade de memória consumida para a obtenção de cada caminho e ao final dividimos pelo número de caminhos encontrados.
+Infelizmente, como nos casos anteriores, não podemos tirar muitas conclusões a partir deste último gráfico.
+Os pontos com uso negativo de memória se referem as chamadas do coletor de lixo do Java, o qual acaba liberando mais memória 
+que no momento inicial da contagem havia, tornando a diferença entre inicial e final negativa.

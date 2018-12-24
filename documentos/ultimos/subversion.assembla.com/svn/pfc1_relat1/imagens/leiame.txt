@@ -1,0 +1,15 @@
+Instalar o graphviz para utilizar o programa dot. Este cria imagem dos grafos.
+
+compilar arquivos .dot para gerar imagens png:
+
+$ dot arquivo.dot -Tpng -oNomeArq.png
+
+Neste projeto a compilação está sendo feita da seguinte maneira:
+
+$ cd [path_do_projeto]/imagens/source
+$ dot arquivo.dot -Tpng -o ../img/NomeArq.png
+
+
+
+=======================================
+pode-se tambem usar o pacote tikzpicture do LaTeX para fazer os grafos.

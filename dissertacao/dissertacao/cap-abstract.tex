@@ -1,0 +1,67 @@
+% -------------------------------------------------------------------- %
+\chapter*{Abstract}
+
+\begin{center}
+  \Large{Resource constrained shortest path}
+\end{center}
+
+
+
+The problem of choosing a route to a trip, where we want
+minimize the distance of the path is a major problem in
+computing. In this basic form, this is the shortest path problem. But 
+sometimes, besides the length we need to consider more  
+parameters for selecting a good path. A common parameters
+to consider is the consumption of resources in a limited budget. A 
+shortest path with these additional constraints is called resource 
+constrained shortest path - \textsc{RCSP}.
+
+This paper has two main objectives: to present a literature review of 
+the problem \textsc{RCSP}, focusing on exact algorithms for
+the case where we have a single resource, and implement and compare
+some algorithms, observing them in practical situations.
+
+
+
+The Shortest Path (\spp) problem is among the fundamental problems of 
+computer
+science. It's been deeply studied and subject of many publications. Also, many
+efficient solutions (polynomial time algorithms) are known for this
+problem. The
+SP is widely applied in many fields of science, not only computer
+science. These
+situations usually need to transport a load between two or more specific spots
+of a network. This action must be taken optimally regarding to some criterion,
+for instance the least cost, or the least time or maximum reliability.
+
+While new solutions for SP were presented, new demands were issued
+too, with new
+variations for the problem. One of these variations comes from the
+fact that, in
+a real scenario, a combination of many criteria must be optimized, for instance
+a path with least cost and least time. This problem is known as Multiobjective
+Shortest Path. Since it's not possible to optimize all criteria at once, one of
+them is chosen to represent the cost function to be minimized and the others to
+represent resources with defined boundary. This variation, known as Resource
+Constrained Shortest Path (\rcsp), was the object of the present study.
+
+By adding resource constraints, the \spp becomes $\mathcal{NP}$-hard, 
+even in acyclic graphs
+with only one resource constrained and all resource consumption being positive.
+There are reductions from the famous NP-hard problems Knapsack and Partition to
+our problem.
+
+In many fields, are found theoretical and practical problems that may be
+expressed as a Resource Constrained Shortest Path Problem, which
+motivated us to
+study this problem in order to summarize enough information to researchers and
+developers involved with this problem. This paper presents a detailed
+bibliographic revision to \rcsp, focusing on the development of exact 
+algorithms
+for the case when there is only only one resource and on the implementation and
+comparison of the main known algorithms in practical situations.
+
+
+\noindent \textbf{Keywords:} Combinatorial Optimization, shortest path 
+with constraints.
+

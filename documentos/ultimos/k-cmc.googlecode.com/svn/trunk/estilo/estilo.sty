@@ -1,0 +1,195 @@
+%%----------------------------------------------------------------------------
+%% (shigueo)
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\defi}{\textbf}
+\newcommand{\fp}{d{}}
+\newcommand{\pred}{\psi}
+\newcommand{\dheap}{$d$-heap{}}
+\newcommand{\iten}[1]{\textrm{(#1)}}
+\newcommand{\dist}[1]{\mathrm{dist}(#1)}
+\newcommand{\distc}[1]{\mathrm{dist_c(#1)}}
+\newcommand{\SGB}{\textsc{sgb}{}}
+\newcommand{\CWEB}{\textsc{cweb}{}}
+\newcommand{\tipo}[1]{\textbf{#1}} %% tipos
+\newcommand{\var}[1]{\textit{#1}} %% variáveis
+\renewcommand{\L}{Q{}} %lista dos vértices visitados
+
+
+% MATEMATICA
+%%%%%%%%%%%%%
+\newcommand{\floor}[1]{\lfloor #1 \rfloor} % \floor{n/2}
+\newcommand{\ceil}[1]{\lceil #1 \rceil}
+\newcommand{\seq}[1]{\langle #1 \rangle}
+\newcommand{\conjunto}[1]{\{\,#1\,\}}
+\newcommand{\conj}[1]{\{#1\}}
+\newcommand{\twodots}{\,.\,.\,} % in place of \ldots
+\newcommand{\tq}{:} % tal que
+ %\newcommand{\tq}{\ :\ } % tal que
+
+
+
+% MARGINAL NOTES
+%%%%%%%%%%%%%%%%
+\setlength{\marginparsep}{0.5cm} % era 4ex
+\setlength{\marginparwidth}{1.5cm} 
+% para efeito de cálculo de largura de página,
+% pode supor que \marginparwidth vale 1.5cm
+\newcommand{\mar}[1]%
+           {\marginpar[{\footnotesize\raggedleft #1}]%
+                      {{\footnotesize\raggedright #1}}%
+           }
+
+\newcommand{\ExamineArco}{\textsc{Examine-Arco}}
+\newcommand{\nil}{{\scriptstyle\mathrm{\blue NIL}}}
+\newcommand{\tdots}{\,.\,.\,} % in place of \ldots
+\newcommand{\Dijkstra}{\textsc{Dijkstra}}%{\mbox{D{\small IJKSTRA}}}}
+\newcommand{\ExamineVertice}{\textsc{Examine-Vértice}}
+
+\newcommand{\HeapDijkstra}{\textsc{Heap-Dijkstra}}%{\mbox{H{\small EAP-}D{\small IJKSTRA}}}}
+
+\newcommand{\BuildMinHeap}{\textsc{Build-Min-Heap}}%{\mbox{{B{\small UILD-}M{\small IN-}H{\small EAP}}}}}
+\newcommand{\ExtractMin}{\textsc{Extract-Min}}%\mbox{{E{\small XTRACT-}M{\small IN}}}}
+\newcommand{\DecreaseKey}{\textsc{Decrease-Key}}%\mbox{{D{\small ECREASE-}K{\small EY}}}}
+\newcommand{\Insert}{\textsc{Insert}}%\mbox{{I{\small NSERT}}}}
+\newcommand{\Delete}{\textsc{Delete}}%\mbox{{D{\small ELETE}}}}
+\newcommand{\val}{{\mbox{\textup{val}}}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\Generico}{\textsc{Genérico}}
+\newcommand{\YenGenerico}{\textsc{Yen-Genérico}}
+\newcommand{\Yen}{\textsc{Yen}}
+\newcommand{\AtualizeGenerico}{\textsc{Atualize-Genérico}}
+\newcommand{\HMSGenerico}{\textsc{HMS-Genérico}}
+\newcommand{\AtualizeGenericoHMS}{\textsc{Atualize-Genérico-HMS}}
+\newcommand{\AtualizeHMS}{\textsc{Atualize-HMS}}
+\newcommand{\HMS}{\textsc{HMS}}
+\newcommand{\PDMHMS}{\textsc{DM-HMS}}
+
+\newcommand{\ParticaoGenerica}{\textsc{Partição-Genérica}}
+\newcommand{\Atualize}{\textsc{Atualize-Yen}}
+\newcommand{\Pollack}{\textsc{Pollack}}
+\newcommand{\ArvorePrefixos}{\textsc{Árvore-dos-Prefixos}}
+\newcommand{\KIM}{\textsc{KIM}}
+\newcommand{\AtualizeKIM}{\textsc{Atualize-KIM}}
+\newcommand{\Pa}{\textsc{Pa}}
+\newcommand{\Pb}{\textsc{Pb}}
+\newcommand{\Pc}{\textsc{Pc}}
+\newcommand{\FSP}{\textsc{FSP}}
+\newcommand{\SEP}{\textsc{SEP}}
+
+% Definicao de problemas
+%%%%%%%%%%%%%%%%%
+
+\newcommand{\PCM}{\textup{CM}}
+\newcommand{\PSM}{\textup{SCM}}
+\newcommand{\PDM}{\textup{DM}}
+
+\newcommand{\kCM}{$k$-\textup{MC}}
+\newcommand{\kMP}{$k$-\textup{MP}}
+\newcommand{\kMAG}{$k$-\textup{MAG}}
+
+\newcommand{\KCM}{$K$-\textup{MC}}
+\newcommand{\kesimo}{$k$-\textup{\textsc{ésimo}}}
+
+\newcommand{\nao}{\textsc{não}}
+\newcommand{\yes}{\textsc{sim}}
+
+%% alguns simbolos para os tipos de conjuntos.
+\newcommand{\Pcal}{\mathcal{P}}
+\newcommand{\Qcal}{\mathcal{Q}}
+\newcommand{\Rcal}{\mathcal{R}}
+\newcommand{\Scal}{\mathcal{S}}
+\newcommand{\Tcal}{\mathcal{T}}
+\newcommand{\Fcal}{\mathcal{F}}
+\newcommand{\Lcal}{\mathcal{L}}
+\newcommand{\Ucal}{\mathcal{U}}
+
+
+\newcommand{\Int}{\mathbb{Z}}% inteiros
+\newcommand{\NonnegInt}{\Int_{\scriptscriptstyle\,\geq}}% inteiros>=0
+
+
+%% notacao assintotica 
+\newcommand{\Oh}{\textup{O}}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newtheorem{teorema}{Teorema}
+\newtheorem{lema}{Lema}
+\newtheorem{corolario}{Corolário}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%
+%%
+%%      ALGORITMOS
+%%
+%%%%%%%%%%%
+\newenvironment{algoritmo}%
+               {\begin{list}%
+		   {}%
+		   {%
+                     \addtolength{\partopsep}{1ex}% =theorem
+                     \addtolength{\topsep}{0ex}% =theorem
+                     \setlength{\parsep}{1ex}% B
+                     \setlength{\itemsep}{1ex}% A (was 1.5ex)
+                     \setlength{\leftmargin}{\parindent}%
+                   }%
+		   \item \slshape} % experimental
+                {\end{list}}
+
+\newcommand{\balgor}{\begin{algoritmo}}
+\newcommand{\ealgor}{\end{algoritmo}}
+\newcommand{\bsubalgor}{\begin{algoritmo}}
+\newcommand{\esubalgor}{\end{algoritmo}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\x}{\hspace*{4ex}}
+\newcommand{\xx}{\hspace*{8ex}}
+\newcommand{\xxx}{\hspace*{12ex}}
+\newcommand{\xxxx}{\hspace*{16ex}}
+\newcommand{\xxxxx}{\hspace*{20ex}}
+\newcommand{\xxxxxx}{\hspace*{24ex}}
+\newcommand{\xxxxxxx}{\hspace*{28ex}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Pseudocode
+\newcommand{\se}{\textbf{se}} 
+\newcommand{\iif}{\textbf{if}} 
+\newcommand{\entao}{\textbf{então}} 
+\newcommand{\tthen}{\textbf{then}} 
+\newcommand{\senao}{\textbf{senão}} 
+\newcommand{\eelse}{\textbf{else}} 
+\newcommand{\enquanto}{\textbf{enquanto}} 
+\newcommand{\escolha}{\textbf{escolha}} 
+\newcommand{\wwhile}{\textbf{while}} 
+\newcommand{\para}{\textbf{para}}
+\newcommand{\cada}{\textbf{cada}} 
+%\newcommand{\for}{\textbf{for}} 
+\newcommand{\ate}{\textbf{até}}
+\newcommand{\que}{\textbf{que}}
+\newcommand{\tto}{\textbf{to}} 
+\newcommand{\decrescendoate}{\textbf{decrescendo até}} 
+\newcommand{\repita}{\textbf{repita}} 
+\newcommand{\ateque}{\textbf{até que}} 
+\newcommand{\faca}{\textbf{faça}} 
+\newcommand{\leia}{\textbf{leia}} 
+\newcommand{\ddo}{\textbf{do}} 
+\newcommand{\e}{\textbf{e}} 
+\newcommand{\aand}{\textbf{and}} 
+\newcommand{\ou}{\textbf{ou}} 
+\newcommand{\oor}{\textbf{or}} 
+\newcommand{\pare}{\textbf{pare}} 
+\newcommand{\devolva}{\textbf{devolva}} 
+\newcommand{\return}{\textbf{return}} 
+\newcommand{\phentao}{\phantom{então}} 
+\newcommand{\phsenao}{\phantom{senão}}
+
+\newcommand{\larr}{\leftarrow}
+\newcommand{\lrarr}{\leftrightarrow}

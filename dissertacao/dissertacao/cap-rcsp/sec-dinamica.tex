@@ -1,0 +1,581 @@
+\section{Programação dinâmica}
+\label{sec:dp}
+
+Programação dinâmica é uma técnica bastante poderosa para resolver 
+determinados tipos de problemas computacionais. Muitos algoritmos 
+eficientes fazem uso desse método. Basicamente, esta estratégia de 
+projeto de algoritmos, traduz uma recursão para uma forma iterativa que 
+utiliza uma tabela como apoio para as computações.
+
+Da mesma forma que acontece em um algoritmo recursivo, em um algoritmo 
+baseado em programação dinâmica, cada instância do problema é resolvida 
+a partir da solução de subinstâncias. O que distingue a programação 
+dinâmica de uma recursão comum é o uso da tabela que ``memoriza'' as 
+soluções das subinstâncias, evitando assim o recálculo caso esses 
+valores sejam necessários mais de uma vez.
+
+Para que o paradigma da programação dinâmica possa ser aplicado, é 
+preciso que o problema tenha as seguintes características: subestrutura 
+ótima e superposição de subproblemas. Um problema apresenta uma 
+subestrutura ótima quando uma solução ótima para o problema contém (ou 
+pode ser calculada a partir de) soluções ótimas para subproblemas. A 
+superposição de subproblemas acontece quando um algoritmo recursivo 
+recalcula o mesmo subproblema muitas vezes.
+
+Temos alguns algoritmos baseados em programação dinâmica conhecidos para 
+o \rcsp. Todos têm complexidade pseudo-polinomial, ou seja, 
+complexidades de tempo que dependem do tamanho dos custos e consumo de 
+recursos dos arcos.  Nesta seção iremos apresentar três destas soluções.  
+A primeira itera sobre os possíveis valores de consumo, minimizando o 
+custo; e iremos referenciá-la como \defi{programação dinâmica primal}. A 
+segunda, muito similar à primeira, itera sobre os possíveis valores de 
+custo, verificando se o consumo de recursos atende ao limite imposto; e 
+iremos referenciá-la como \defi{programação dinâmica dual}. Por último 
+temos uma modelagem baseada em uma generalização do algoritmo \Dijkstra, 
+geralmente relacionada a soluções do problema de caminho mínimo 
+multi-objetivo, que aqui chamaremos de \defi{programação dinâmica por 
+rótulos} (vale salientar que embora estejamos descrevendo este algoritmo 
+nesta seção, ele não é um algoritmo por programação dinâmica 
+propriamente dito, mas é baseado na programação dinâmica primal). Embora 
+todos os algoritmos possam ser usados na versão do problema com 
+múltiplos recursos, por questão de simplicidade vamos descrevê-los na 
+versão com um único recurso.
+
+\subsection{Programação dinâmica primal}
+
+Um dos primeiros a descrever um algoritmo baseado em programação 
+dinâmica para o \rcsp~foi \citet{joksch:66} (ver também 
+\citet{goldman:65, lawler:76}). Nesta seção iremos descrever esse 
+algoritmo.
+
+Na programação dinâmica primal, iteramos sobre o consumo de recursos, 
+partindo de uma quantidade unitária até o limite imposto, obtendo os 
+caminhos mínimos limitados pelos recursos com custo mínimo partindo de 
+$\scor$. Vamos definir a recorrência sobre a qual o algoritmo é implementado 
+da seguinte forma.  Definimos $f_j(r)$ como sendo o menor custo possível 
+para um caminho de $\scor$ a $j$, que consome no máximo $r$ unidades de 
+recurso, e assim temos:
+\begin{displaymath}
+f_v(r) = \left\{
+\begin{array}{lcl}
+0, & &\text{se } v=\scor  \\ & & \text{ e } r=0,\dots,\lambda\\
+ & & \\
+\infty, & & \text{se } v\neq \scor  \\ & & \text{ e } r=0\\
+ & & \\
+\min\left\{f_v(r-1), \displaystyle\min_{u|r_{uv}\leq 
+r}\{f_u(r-r_{uv})+c_{uv}\}\right\}, & & \text{se } v\neq \scor  \\ & & 
+    \text{ e } r=1,\dots,\lambda\\
+\end{array}
+\right.
+\end{displaymath}
+
+A partir da recorrência podemos extrair de forma direta, uma recursão de 
+complexidade exponencial. Temos como base da recursão $f_\scor(r) = 0$ para 
+$1 \leq r \leq \lambda$ e $f_j(0) = \infty$ para $j \neq \scor$. Abaixo temos o 
+algoritmo recursivo denominado de \RecursaoPrimal \footnote{Para que os 
+  parâmetros no algoritmo não formem uma lista muito extensa, vamos 
+considerar que temos acesso de forma global ao grafo $G = (V, A)$, às 
+funções $c$ e $r$ sobre os arcos, ao vértice de origem $\scor$ e à 
+função predecessor $\pred$.} \footnote{Na descrição do algoritmo 
+  denotaremos por $r$ (sem índice) o consumo máximo de recursos 
+permitido para a chamada corrente. Sempre que $r$ representar a função 
+de consumo sobre os arcos ele estará acompanhado pelo índice que 
+representa o arco, $r_{uv}$ por exemplo.}.
+
+A fim de reconstruirmos os caminhos encontrados vamos manter uma função 
+$\pred$ como apresentado no capítulo anterior. Aqui a função
+$\pred(v,r)$ armazena o predecessor do vértice $v$ no caminho de custo 
+mínimo que consume recurso no máximo $r$.
+
+\begin{algoritmo}
+  \RecursaoPrimal{} $(v, r)$
+
+  \d1\x $\pred(v, r) \larr \nil$
+
+  \d2\x \se{} $v = \scor$ \entao
+
+  \d3\xx    \devolva{} $0$
+
+  \d4\x \se{} $r = 0$ \entao
+
+  \d5\xx    \devolva{} $\infty$
+
+  \d6\x $custo \larr $ \RecursaoPrimal$(v, r - 1)$
+
+  \d7\x $\pred(v, r) \larr \pred(v, r - 1)$
+
+  \d8\x \para{} \cada{} $uv$ em $A$ \faca{}
+
+  \d9\xx    \se{} $r_{uv} \leq r$ \entao{}
+
+  10\xxx        $valor \larr $ \RecursaoPrimal$(u, r - r_{uv}) + c_{uv}$
+
+  11\xxx        \se{} $custo > valor$ \entao{}
+
+  12\xxxx           $\pred(v, r) \larr u$
+
+  13\xxxx           $custo \larr valor$
+
+  14\x \devolva{} $custo$
+\end{algoritmo}
+
+É importante salientar que se no grafo existirem ciclos com consumo nulo 
+de recursos, o algoritmo recursivo não pode ser aplicado diretamente 
+pois entraria em ``loop infinito''. O que garante que o algoritmo 
+termina é o fato de que o parâmetro $r$ sempre diminui nas chamadas 
+recursivas e a base da recursão responde de forma direta aos casos com 
+$r$ nulo. Nestes casos, precisaríamos realizar um preprocessamento no 
+grafo baseado no seguinte fato: Se o arco $uv \in A$ possui $r_{uv} = 
+0$, temos que todo arco $wu \in A$ pode ser ``estendido'' como um arco 
+$wv$ onde $c_{wv} = c_{wu} + c_{uv}$ e $r_{wv} = r_{wv} + 0$. O 
+preprocessamento então substituiria todas os arcos com consumo nulo 
+pelos arcos ``estendidos'' até que não existissem arcos com consumo nulo 
+no grafo.  Podemos adaptar o algoritmo de \citet{floyd:62} para realizar 
+tal processamento em $O(n^3)$.
+
+O valor do caminho ótimo $OPT$ pode ser encontrado pela chamada do 
+algoritmo que corresponde ao valor $f_\tcor(\lambda)$ da recorrência, ou 
+seja, a chamada de $\RecursaoPrimal(\tcor, \lambda)$. O caminho ótimo 
+propriamente dito pode ser construído usando a função predecessor 
+$\pred$ montada no decorrer da recursão.
+
+A partir do algoritmo recursivo, podemos implementar um algoritmo 
+iterativo que computa o valor de um caminho ótimo em tempo $O(m\lambda)$ 
+e consumo de memória $O(n\lambda)$. \citet{joksch:66} apresentou 
+melhorias práticas para este algoritmo, contudo a complexidade de pior 
+caso é não melhor que a obtida com a ideia básica.
+
+\begin{algoritmo}
+  \ProgramacaoDinamicaPrimal{} $(\tcor, \lambda)$
+
+  \d1\x $\pd \larr [~]$ \quad {$\rhd$ tabela de programação dinâmica}
+
+  \d2\x \para{} \cada{} $r$ em $\{0,1,\cdots,\lambda\}$ \faca{}
+
+  \d3\xx $\pred(\scor,r) \larr \nil$
+
+  \d4\xx $\pd[\scor,r] \larr 0$
+
+  \d5\x \para{} \cada{} $v$ em $V \setminus \{\scor\}$ \faca{}
+
+  \d6\xx $\pred(v,0) \larr \nil$
+
+  \d7\xx $\pd[v,0] \larr \infty$
+
+  \d8\x \para{} $r$ de $1$ até $\lambda$ \faca{}
+
+  \d9\xx    \para{} \cada{} $v$ em $V \setminus \{\scor\}$ \faca{}
+
+  10\xxx       $\pred(v,r) \larr \pred(v,r-1)$
+
+  11\xxx       $\pd[v,r] \larr \pd[v,r-1]$
+
+  12\xxx       \para{} \cada{} $uv$ em $A$ \faca{}
+
+  13\xxxx          \se{} $r_{uv} \leq r$ \entao{}
+
+  14\xxxxx              \se{} $\pd[v,r]>\pd[v,r-r_{uv}]+c_{uv}$ \entao{}
+
+  15\xxxxxx                 $\pred(v,r) \larr u$
+
+  16\xxxxxx                 $\pd[v,r] \larr \pd[v,r-r_{uv}]+c_{uv}$
+
+  17\x \devolva{} $\pd[\tcor, \lambda]$
+\end{algoritmo}
+
+A programação dinâmica iterativa é ainda mais sensível a arcos com 
+consumo nulo de recurso que a recursão. Neste caso, um simples arco $uv 
+\in A$ com $r_{uv} = 0$, pode nos fazer acessar uma posição ainda não 
+calculada da tabela e assim computar uma solução incorreta. Desta forma 
+o preprocessamento descrito para remover arcos sem consumo de recursos 
+deve ser executado antes da chamada de \ProgramacaoDinamicaPrimal.
+
+A seguir vamos apresentar um exemplo para o algoritmo. Na 
+figura~\ref{fig:dpprimal} temos representado um grafo, perto dos arcos 
+temos $c / r$ que representam o custo e o consumo de recursos 
+respectivamente. No exemplo tomamos o vértice $\scor = 0$ para ser nossa 
+origem e o vértice $\tcor = 9$ como nosso destino, o nosso limite de 
+recursos é $10$. A solução do exemplo tem custo igual a $14$ que pode 
+ser conferida na tabela~\ref{table:dpprimal}. Esta tabela representa o 
+estado da variável $PD$ ao final da execução.
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[scale=1]{figuras/pdf/pd2.pdf}
+  \caption[Grafo exemplo da programação dinâmica primal]{Nesta figura 
+  temos a representação de um grafo usado para demonstrar a tabela de 
+programação dinâmica primal gerada pelo algoritmo descrito acima.}
+  \label{fig:dpprimal}
+\end{figure}
+
+
+
+\begin{table}[h!]
+  \centering
+  \begin{tabular}{ c | c c c c c c c c c c c }
+    $v \setminus r$ & $ 0$ & $ 1$ & $ 2$ & $ 3$ & $ 4$ & $ 5$ & $ 6$ & $ 
+                 7$ & $ 8$ & $ 9$ & $10$ \\
+    \hline
+    $0$     & $ 0$ & $ 0$ & $ 0$ & $ 0$ & $ 0$ & $ 0$ & $ 0$ & $ 0$ & 
+       $ 0$ & $ 0$ & $ 0$ \\
+    $1$     & $\infty$ & $\infty$ & $\infty$ & $\infty$ & $\infty$ & 
+   $\infty$ & $\infty$ & $ 1$ & $ 1$ & $ 1$ & $ 1$ \\
+    $2$     & $\infty$ & $\infty$ & $ 4$ & $ 4$ & $ 4$ & $ 4$ & $ 4$ & 
+       $ 4$ & $ 4$ & $ 4$ & $ 4$ \\
+    $3$     & $\infty$ & $ 7$ & $ 7$ & $ 7$ & $ 7$ & $ 7$ & $ 7$ & $ 
+         7$ & $ 4$ & $ 4$ & $ 4$ \\
+    $4$     & $\infty$ & $\infty$ & $\infty$ & $\infty$ & $ 7$ & $ 7$ 
+            & $ 7$ & $ 7$ & $ 7$ & $ 7$ & $ 7$ \\
+    $5$     & $\infty$ & $\infty$ & $\infty$ & $\infty$ & $\infty$ & 
+       $11$ & $11$ & $11$ & $11$ & $10$ & $10$ \\
+    $6$     & $\infty$ & $\infty$ & $14$ & $14$ & $14$ & $ 9$ & $ 9$ & 
+       $ 9$ & $ 9$ & $ 9$ & $ 9$ \\
+    $7$     & $\infty$ & $\infty$ & $\infty$ & $\infty$ & $ 9$ & $ 8$ 
+            & $ 8$ & $ 8$ & $ 5$ & $ 5$ & $ 5$ \\
+    $8$     & $\infty$ & $\infty$ & $ 8$ & $ 8$ & $ 8$ & $ 8$ & $ 8$ & 
+       $ 3$ & $ 3$ & $ 3$ & $ 3$ \\
+    $9$     & $\infty$ & $\infty$ & $\infty$ & $20$ & $20$ & $20$ & 
+       $15$ & $15$ & $15$ & $14$ & $14$ \\
+  \end{tabular}
+  \caption[Tabela exemplo da programação dinâmica primal]{Tabela de 
+  programação dinâmica primal gerada para o grafo da 
+Figura~\ref{fig:dpprimal}.}
+  \label{table:dpprimal}
+\end{table}
+
+\subsection{Programação dinâmica dual}
+\label{subsec:dp-dual}
+
+Na seção anterior vimos um procedimento simples baseado em programação 
+dinâmica que objetiva minimizar os custos iterando sobre os recursos.  
+\citet{hassin:92} descreveu uma versão diferente do algoritmo acima mais 
+útil para seu propósito, que era desenvolver um algoritmo de aproximação 
+para o \rcsp, que será discutido mais a frente. Nesta seção 
+descreveremos a versão de Hassin.
+
+Na programação dinâmica dual, iteramos sobre os custos, partindo de uma 
+quantidade unitária até encontrarmos um caminho viável, sempre 
+minimizando o consumo de recursos dos caminhos computados. Digamos que 
+$g_v(c)$ denota o menor consumo de recursos possível para um caminho de 
+$\scor$ a $v$ que custa no máximo $c$. Então a seguinte recorrência pode 
+ser definida.
+\begin{displaymath}
+g_v(c) = \left\{
+\begin{array}{lcl}
+0, & &\text{se } v=\scor \\ & &  \text{ e } c=0,\dots,OPT\\
+ & & \\
+\infty, & & \text{se } v\neq \scor \\ & & \text{ e } c=0\\
+ & & \\
+\min\left\{g_v(c-1), \displaystyle\min_{u|c_{uv}\leq 
+c}\{g_u(c-c_{uv})+r_{uv}\}\right\}, & & \text{se } v\neq \scor \\ & & 
+    \text{ e } c=1,\dots,OPT\\
+\end{array}
+\right.
+\end{displaymath}
+
+Observe que $OPT$ não é um valor conhecido no início da execução, mas 
+ele pode ser expresso como $OPT = \min\{c\ |\ g_\tcor(c) \le \lambda\}$. Devemos 
+computar a função $g$ iterativamente, primeiro para $c=1$ e 
+$v=2,\dots,n$, então para $c=2$ e $v=2,\dots,n$, e assim sucessivamente, 
+até o primeiro valor $c'$ tal que $g_\tcor(c') \le \lambda$. Só então teremos o 
+conhecimento do valor $OPT = c'$. A seguir temos o algoritmo 
+desenvolvido a partir da recorrência apresentada.
+
+\begin{algoritmo}
+  \RecursaoDual{} $(v, c)$
+
+  \d1\x $\pred(v, c) \larr \nil$
+
+  \d2\x \se{} $v = \scor$ \entao
+
+  \d3\xx    \devolva{} $0$
+
+  \d4\x \se{} $c = 0$ \entao
+
+  \d5\xx    \devolva{} $\infty$
+
+  \d6\x $recurso \larr $ \RecursaoDual$(v, c - 1)$
+
+  \d7\x $\pred(v, c) \larr \pred(v, c - 1)$
+
+  \d8\x \para{} \cada{} $uv$ em $A$ \faca{}
+
+  \d9\xx    \se{} $c_{uv} \leq c$ \entao{}
+
+  10\xxx        $valor \larr $ \RecursaoDual$(u, c - c_{uv}) + r_{uv}$
+
+  11\xxx        \se{} $recurso > valor$ \entao{}
+
+  12\xxxx           $\pred(v, c) \larr u$
+
+  13\xxxx           $recurso \larr valor$
+
+  14\x \devolva{} $recurso$
+\end{algoritmo}
+
+A partir da recursão acima podemos implementar o seguinte algoritmo 
+iterativo:
+
+\begin{algoritmo}
+  \ProgramacaoDinamicaDual{} $(\tcor, \lambda)$
+
+  \d1\x $\pd \larr [~]$ \quad {$\rhd$ tabela de programação dinâmica}
+
+  \d2\x $\pred(\scor,0) \larr \nil$
+
+  \d3\x $\pd[\scor,0] \larr 0$
+
+  \d4\x \para{} \cada{} $v$ em $V \setminus \{\scor\}$ \faca{}
+
+  \d5\xx    $\pred(v,0) \larr \nil$
+
+  \d6\xx    $\pd[v,0] \larr \infty$
+
+  \d7\x $c \larr 0$
+
+  \d8\x \enquanto{} $\pd[\tcor, c] > \lambda$ \faca
+
+  \d9\xx    $c \larr c + 1$
+
+  10\xx     $\pred(\scor,c) \larr \nil$
+
+  11\xx     $\pd[\scor,c] \larr 0$
+
+  12\xx     \para{} \cada{} $v$ em $V \setminus \{\scor\}$ \faca{}
+
+  13\xxx       $\pred(v,c) \larr \pred(v,c-1)$
+
+  14\xxx       $\pd[v,c] \larr \pd[v,c-1]$
+
+  15\xxx       \para{} \cada{} $uv$ em $A$ \faca{}
+
+  16\xxxx          \se{} $c_{uv} \leq c$ \entao{}
+
+  17\xxxxx              \se{} $\pd[v,c]>\pd[v,c-c_{uv}]+r_{uv}$ \entao{}
+
+  18\xxxxxx                 $\pred(v,c) \larr u$
+
+  19\xxxxxx                 $\pd[v,c] \larr \pd[v,c-c_{uv}]+r_{uv}$
+
+  20\x $OPT \larr c$
+
+  21\x \devolva{} $OPT$, $\pd[\tcor, OPT]$
+\end{algoritmo}
+
+Um cuidado a se tomar com o algoritmo iterativo que acabamos de 
+apresentar é que ele pressupõe que a instância é viável, ou seja, que 
+possui solução. O ``enquanto'' da linha número oito só é interrompido 
+quando encontramos uma solução ótima. Para se verificar a viabilidade da 
+instância, pode-se executar o algoritmo de \Dijkstra, usando a função de 
+consumo de recurso como função custo, se o caminho encontrado possui 
+consumo menor que o nosso limite, este caminho já é uma candidata a 
+solução ótima.
+
+Todas as recomendações e observações feitas a 
+\ProgramacaoDinamicaPrimal~ são aplicáveis à 
+\ProgramacaoDinamicaDual~trocando-se os papéis entre custo e consumo de 
+recursos. A complexidade de tempo do algoritmo sugerido acima é 
+$O(mOPT)$ e a complexidade de espaço é $O(nOPT)$.  Observe ainda que na 
+\ProgramacaoDinamicaDual, devolvemos além do custo ótimo o valor mínimo 
+de consumo de recurso encontrado, isso é necessário para construir o 
+caminho associado ao custo ótimo.
+
+Da mesma forma que acontece com o problema \textsc{Mochila}, o algoritmo 
+de tempo pseudo-polinomial baseado em programação dinâmica pode ser 
+adaptado para fornecer um algoritmo de aproximação para o \rcsp, com o 
+uso da técnica de escalar e arredondar. Discutiremos isso com mais 
+detalhes seção \ref{sec:aproximacao}.
+
+A seguir, temos a tabela gerada com nossa programação dinâmica dual para 
+o exemplo exibido para o algoritmo de programação dinâmica primal 
+(figura~\ref{fig:dpprimal}). Como era de se esperar, obtivemos a mesma 
+resposta, o caminho com menor custo até o vértice $9$ que consome no 
+máximo $10$ unidades de recursos tem custo $14$.
+
+\begin{table}[h!]
+  \centering
+  \begin{tabular}{ c | c c c c c c c c c c c c c c c}
+    $v \setminus c$ & $ 0$ & $ 1$ & $ 2$ & $ 3$ & $ 4$ & $ 5$ & $ 6$ & $ 
+                 7$ & $ 8$ & $ 9$ & $10$ & $11$ & $12$ & $13$ & $14$ \\
+    \hline
+    $0$     & $ 0$ & $ 0$ & $ 0$ & $ 0$ & $ 0$ & $ 0$ & $ 0$ & $ 0$ & $ 0$ & $ 0$ & $ 0$ & $ 0$ & $ 0$ & $ 0$ & $ 0$ \\
+    $1$     & $\infty$ & $ 7$ & $ 7$ & $ 7$ & $ 7$ & $ 7$ & $ 7$ & $ 7$ & $ 7$ & $ 7$ & $ 7$ & $ 7$ & $ 7$ & $ 7$ & $ 7$ \\
+    $2$     & $\infty$ & $\infty$ & $\infty$ & $\infty$ & $ 2$ & $ 2$ & $ 2$ & $ 2$ & $ 2$ & $ 2$ & $ 2$ & $ 2$ & $ 2$ & $ 2$ & $ 2$ \\
+    $3$     & $\infty$ & $\infty$ & $\infty$ & $\infty$ & $ 8$ & $ 8$ & $ 8$ & $ 1$ & $ 1$ & $ 1$ & $ 1$ & $ 1$ & $ 1$ & $ 1$ & $ 1$ \\
+    $4$     & $\infty$ & $\infty$ & $\infty$ & $12$ & $12$ & $12$ & $12$ & $ 4$ & $ 4$ & $ 4$ & $ 4$ & $ 4$ & $ 4$ & $ 4$ & $ 4$ \\
+    $5$     & $\infty$ & $\infty$ & $\infty$ & $12$ & $12$ & $12$ & $12$ & $12$ & $12$ & $11$ & $ 9$ & $ 5$ & $ 5$ & $ 5$ & $ 5$ \\
+    $6$     & $\infty$ & $\infty$ & $\infty$ & $\infty$ & $\infty$ & $14$ & $14$ & $14$ & $14$ & $ 5$ & $ 5$ & $ 5$ & $ 5$ & $ 5$ & $ 2$ \\
+    $7$     & $\infty$ & $\infty$ & $\infty$ & $\infty$ & $13$ & $ 8$ & $ 8$ & $ 8$ & $ 5$ & $ 4$ & $ 4$ & $ 4$ & $ 4$ & $ 4$ & $ 4$ \\
+    $8$     & $\infty$ & $\infty$ & $\infty$ & $ 7$ & $ 7$ & $ 7$ & $ 7$ & $ 7$ & $ 2$ & $ 2$ & $ 2$ & $ 2$ & $ 2$ & $ 2$ & $ 2$ \\
+    $9$     & $\infty$ & $\infty$ & $\infty$ & $\infty$ & $\infty$ & $20$ & $16$ & $16$ & $16$ & $12$ & $12$ & $12$ & $12$ & $12$ & $ 9$ \\
+  \end{tabular}
+  \caption[Tabela exemplo da programação dinâmica dual]{Tabela de 
+  programação dinâmica dual gerada para o grafo da 
+Figura~\ref{fig:dpprimal}.}
+  \label{table:dpdual}
+\end{table}
+
+
+
+\subsection{Programação dinâmica por rótulos}
+
+A abordagem de programação dinâmica por rótulos (\emph{labeling}) pode 
+ser vista como uma extensão dos métodos por programação dinâmica 
+clássicos. Por causa deste motivo, mesmo esta abordagem não sendo 
+exatamente uma abordagem por programação dinâmica, a mantivemos nesta 
+seção.
+
+\subsubsection*{Motivação}
+
+Para entender a motivação por trás desta ideia vamos observar a 
+estrutura da tabela de programação dinâmica construída pelo algoritmo 
+\ProgramacaoDinamicaPrimal. Como na tabela~\ref{table:dpprimal} que foi 
+dada como exemplo, é comum termos várias células consecutivas em uma 
+linha com um mesmo caminho associado. Ou seja, para um vértice $v$, 
+temos um caminho de $\scor$ até $v$ associado a um intervalo de consumo 
+de recursos na tabela. Isso ocorre porque quando não seguimos um caminho 
+melhor terminando no vértice $v$ que consume $r$ unidades de recursos, 
+associamos esta célula ao caminho que termina em $v$ que consome no 
+máximo $r - 1$ unidades de recursos. Isso acaba gerando uma tabela com 
+muita redundância. Compactar essa tabela de forma a evitar essa 
+redundância é uma motivação da abordagem por rótulos.
+
+Podemos representar a tabela~\ref{table:dpprimal} compactamente da 
+seguinte forma, onde as células vazias estão associadas a última célula 
+não vazia na linha.
+
+\begin{table}[h!]
+  \centering
+  \begin{tabular}{ c | c c c c c c c c c c c }
+    $v \setminus r$ & $ 0$ & $ 1$ & $ 2$ & $ 3$ & $ 4$ & $ 5$ & $ 6$ & $ 
+                 7$ & $ 8$ & $ 9$ & $10$ \\
+    \hline
+    $0$     & $ 0$ & & & & & & & & & & \\
+    $1$     & $\infty$ & & & & & & & $ 1$ & & & \\
+    $2$     & $\infty$ & & $ 4$ & & & & & & & & \\
+    $3$     & $\infty$ & $ 7$ & & & & & & & $ 4$ & & \\
+    $4$     & $\infty$ & & & & $ 7$ & & & & & & \\
+    $5$     & $\infty$ & & & & & $11$ & & & & $10$ & \\
+    $6$     & $\infty$ & & $14$ & & & $ 9$ & & & & & \\
+    $7$     & $\infty$ & & & & $ 9$ & $ 8$ & & & $ 5$ & & \\
+    $8$     & $\infty$ & & $ 8$ & & & & & $ 3$ & & & \\
+    $9$     & $\infty$ & & & $20$ & & & $15$ & & & $14$ & \\
+  \end{tabular}
+  \caption[Tabela exemplo de compactação da tabela por programação 
+  dinâmica primal]{Tabela compacta de programação dinâmica primal gerada 
+  para o grafo da Figura~\ref{fig:dpprimal}.}
+  \label{table:dppcompacta1}
+\end{table}
+
+Podemos compactar ainda mais nossa estrutura se descartamos os caminhos 
+inválidos (associados aos valores infinitos na tabela) e ao invés de 
+usarmos uma matriz, usarmos um vetor indexado pelos vértices contendo 
+listas de pares (ou rótulos) $(c, r)$ para representar as células 
+relevantes (as não vazias), onde $c$ representa o custo e $r$ o consumo 
+de recursos. A tabela~\ref{table:dppcompacta2} representa tal 
+compactação da tabela~\ref{table:dppcompacta1}.
+
+\begin{table}[h!]
+  \centering
+  \begin{tabular}{ c | l }
+    $v$ & \\
+    \hline
+    $0$     & $ (0, 0)$ \\
+    $1$     & $ (1, 7)$ \\
+    $2$     & $ (4, 2)$ \\
+    $3$     & $ (7, 1)$, $ (4, 8)$ \\
+    $4$     & $ (7, 4)$ \\
+    $5$     & $(11, 5)$, $(10, 9)$ \\
+    $6$     & $(14, 2)$, $ (9, 5)$ \\
+    $7$     & $ (9, 4)$, $ (8, 5)$, $ (5, 8)$ \\
+    $8$     & $ (8, 2)$, $ (3, 7)$ \\
+    $9$     & $(20, 3)$, $(15, 6)$, $(14, 9)$ \\
+  \end{tabular}
+  \caption[Tabela exemplo de compactação da tabela por programação 
+  dinâmica primal]{Tabela compacta de programação dinâmica primal gerada 
+  para o grafo da Figura~\ref{fig:dpprimal}.}
+  \label{table:dppcompacta2}
+\end{table}
+
+\subsubsection*{Definição}
+
+Temos várias versões de programação dinâmica por rótulos conhecidas, 
+entre elas estão as descritas por \citet{aneja:83, desrochers:88, 
+desrosiers:95, stroetmann:97}. Elas usam um conjunto de rótulos para 
+cada vértice. Cada rótulo representa um caminho $q$ partindo de $\scor$ 
+até o vértice que tal rótulo está associado, e é representado pelo par 
+$(c_q, r_q)$, o custo e consumo de recursos do caminho.
+
+Um $vw$-caminho $p$ é \defi{dominado} por um $vw$-caminho $q$ se $c_p 
+\geq c_q$ e $r_p \geq r_q$, ou seja, $q$ é mais eficiente que $p$ tanto 
+a respeito de custo quanto ao consumo de recursos \footnote{Embora 
+  tenhamos descrito para o caso com um único recurso, a definição pode 
+ser estendida para o caso com múltiplos recursos.}.
+Somente caminhos não dominados podem ter seus correspondentes rótulos 
+armazenados na lista de cada vértice em ordem crescente de custo, o que 
+implica que estão em ordem decrescente de consumo de recursos (no caso 
+com um único recurso). Na figura \ref{fig:step-function} podemos ver 
+esta ordem exemplificada. \citet{joksch:66} observou que a lista de 
+rótulo não dominados são vértices de uma função escada 
+(\emph{step-function}) e apenas esses devem ser considerados para 
+procurar uma solução ótima.
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[scale=1]{figuras/plot/step-function.pdf}
+  %\input{figuras/plot/step-function.tex}
+  \caption[Exemplo de rótulos formando uma função escada.]{Nesta figura 
+    temos o exemplo de uma lista de rótulos, exibidos em um plano para 
+    exemplificar a função escada. A área em cinza representa a área que é 
+  dominada pelos rótulos da lista.}
+  \label{fig:step-function}
+\end{figure}
+
+Pode-se dizer que um algoritmo baseado em programação dinâmica por 
+rótulos, procura todos os caminhos não dominados, para cada vértice.  
+Começando com o rótulo $(0, 0)$ na lista de rótulos do vértice $\scor$ e 
+as listas dos demais vértices vazias. O algoritmo estende a lista de 
+rótulos conhecidos adicionando um arco ao final do caminho associado a 
+cada rótulo, esses novos rótulos são armazenados caso não sejam 
+dominados e sejam soluções viáveis. 
+
+\begin{algoritmo}
+  \PDPorRotulosGenerico{} $(\tcor, \lambda)$
+
+  \d1\x $\pd \larr [~]$ \quad {$\rhd$ tabela de programação dinâmica}
+
+  \d2\x $\pred(\scor,(0,0)) \larr \nil$
+
+  \d3\x $\pd(\scor) \larr \pd(\scor) \cup \{(0,0)\}$
+
+  \d4\x \enquanto{} existem novos rótulos não ``expandidos'' \faca{}
+
+  \d5\xx \para{} \cada{} $u$ em $V$ \faca{}
+
+  \d6\xxx    \para{} \cada{} rótulo $(c, r)$ em $\pd[u]$ \faca{}
+
+  \d7\xxxx       \para{} \cada{} $uv$ em $A$ \faca{}
+
+  \d8\xxxxx          $(c', r') \larr (c + c_{uv}, r + r_{uv})$
+
+  \d9\xxxxx          \se{} $(c', r')$ não é dominado por nenhum rótulo em $\pd[v]$ \entao{}
+
+  10\xxxxxx             {\bf remova} os rótulos em $\pd[v]$ que são dominados por $(c', r')$
+
+  11\xxxxxx             $\pd[v] \larr \pd[v] \cup \{(c', r')\}$
+
+  12\xxxxxx             $\pred(v, (c', r')) \larr u$
+
+  13\x \devolva{} o rótulo de menor custo em $\pd[\tcor]$ que consome não mais que $\lambda$ recursos
+\end{algoritmo}
+
+
+O algoritmo acima descreve o núcleo da abordagem de forma genérica.  
+Temos ainda as variantes de rótulo permanente (\emph{labeling setting}) 
+e rótulo corretivo (\emph{labeling correcting}) do algoritmo, que 
+basicamente fazem a expansão dos rótulos em uma ordem específica.  
+Independente da estratégia usada, a complexidade de pior caso permanece 
+o mesmo, temos uma complexidade de tempo de $O(m\lambda \lg{\lambda})$.  
+A tabela~\ref{table:dppcompacta2} representa o estado da variável $PD$ 
+após a execução do algoritmo para o exemplo da 
+figura~\ref{fig:dpprimal}.

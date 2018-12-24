@@ -1,0 +1,43 @@
+\select@language {brazil}
+\contentsline {section}{Resumo}{i}
+\contentsline {chapter}{Lista de Figuras}{vii}
+\contentsline {chapter}{Lista de c\'odigos}{x}
+\contentsline {chapter}{Introdu\c c\~ao}{1}
+\contentsline {chapter}{\numberline {1}Preliminares}{5}
+\contentsline {section}{\numberline {1.1}Nota\c c\~ao b\'asica}{5}
+\contentsline {section}{\numberline {1.2}Grafos, passeios e caminhos}{5}
+\contentsline {section}{\numberline {1.3}Grafos no computador}{7}
+\contentsline {section}{\numberline {1.4}Filas de prioridade}{8}
+\contentsline {section}{\numberline {1.5}Java Universal Network/Graph Framework}{10}
+\contentsline {chapter}{\numberline {2}Caminhos m\IeC {\'\i }nimos e Dijkstra}{19}
+\contentsline {section}{\numberline {2.1}Descri\c c\~ao}{19}
+\contentsline {section}{\numberline {2.2}Fun\c c\~oes potenciais e crit\'erio de otimalidade}{20}
+\contentsline {section}{\numberline {2.3}Representa\c c\~ao de caminhos}{23}
+\contentsline {section}{\numberline {2.4}Examinando arcos e v\'ertices}{24}
+\contentsline {section}{\numberline {2.5}Algoritmo de Dijsktra}{25}
+\contentsline {section}{\numberline {2.6}Dijkstra e filas de prioridades}{33}
+\contentsline {section}{\numberline {2.7}Dijkstra e ordena\c c\~ao}{35}
+\contentsline {section}{\numberline {2.8}Implementa\c c\~ao de Dijkstra no JUNG}{35}
+\contentsline {chapter}{\numberline {3}Problema dos $k$-menores caminhos}{41}
+\contentsline {section}{\numberline {3.1}Caminho m\IeC {\'\i }nimo}{41}
+\contentsline {section}{\numberline {3.2}$k$-menores caminhos}{42}
+\contentsline {section}{\numberline {3.3}\'Arvores dos prefixos}{44}
+\contentsline {section}{\numberline {3.4}M\'etodo gen\'erico}{46}
+\contentsline {section}{\numberline {3.5}M\'etodo de Yen}{48}
+\contentsline {chapter}{\numberline {4}Algoritmo de Katoh, Ibaraki e Mine}{51}
+\contentsline {section}{\numberline {4.1}Caminhos derivados}{52}
+\contentsline {section}{\numberline {4.2}\'Arvores $Ts$ e $Tt$}{53}
+\contentsline {section}{\numberline {4.3}Arestas com custo zero}{56}
+\contentsline {section}{\numberline {4.4}Simula\c c\~ao}{57}
+\contentsline {section}{\numberline {4.5}Implementa\c c\~ao}{61}
+\contentsline {chapter}{\numberline {5}Resultados Experimentais}{67}
+\contentsline {section}{\numberline {5.1}Motiva\c c\~ao}{67}
+\contentsline {section}{\numberline {5.2}Ambiente experimental}{68}
+\contentsline {section}{\numberline {5.3}Gerador de inst\^ancias}{69}
+\contentsline {section}{\numberline {5.4}Gr\'aficos e an\'alises}{72}
+\contentsline {chapter}{\numberline {6}Considera\c c\~oes finais}{89}
+\contentsline {section}{\numberline {6.1}Hist\'orico}{89}
+\contentsline {section}{\numberline {6.2}Trabalhos futuros}{90}
+\contentsline {section}{\numberline {6.3}Experi\^encia}{91}
+\contentsline {chapter}{Refer\^{e}ncias Bibliogr\'aficas}{93}
+\contentsline {chapter}{\'Indice Remissivo}{97}

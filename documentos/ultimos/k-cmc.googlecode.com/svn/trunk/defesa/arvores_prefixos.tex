@@ -1,0 +1,432 @@
+\section*{Árvore dos prefixos}
+
+\begin{frame}{Exemplo de construção}
+  \begin{columns}  
+    \column{.4\textwidth}
+   \begin{tikzpicture}[auto,thick,sloped,node distance=10mm,scale=0.7]
+    \tikzstyle{node}=%
+    [%
+      minimum size=8pt,%
+      inner sep=0pt,%
+      outer sep=0pt,%
+      ball color=example text.fg,%
+      circle%
+    ]
+        \node[label distance=1mm,node,ball color=red,label=left:{s}]  (S)  {};
+        \node[node] (B) [right of=S,label=below:{b}] {};
+        \node[node] (G) [right of=B,label=45:{g}] {};
+        \node[node,right of=G] (L) [label distance=5mm,label=45:{l}] {};
+        \node[node,ball color=red,label=above:{t}] (T) [right of=L,label=above:{t}] {};
+        \node[node] (F) [above of=G,label=45:{f}] {};
+        \node[node] (E) [above of=F,label=above:{e}] {};
+        \node[node] (H) [below of=G,label=right:{h}] {};
+        \node[node] (I) [below of=H,label=right:{i}] {};
+        \node[node] (C) [above of=S,label=above:{c}] {};
+        \node[node] (A) [below of=S,label=left:{a}] {};
+        \node[node] (J) [right of=E,label=above:{j}] {};
+        \node[node] (D) [left of=E,label=above:{d}] {};
+
+          
+          \path [-,thick,black] (S) edge (A)
+                                    edge (B)
+                                    edge (C)
+                                (B) edge (C)
+                                    edge (D)
+                                    edge (F)
+                                    edge (G)
+                                    edge (H)
+                                (D) edge (E)   
+                                (A) edge (I)
+                                (I) edge (H)
+                                    edge (T)
+                                (E) edge (F)
+                                    edge (J)
+                                (F) edge (G)
+                                (F) edge (L)
+                                (G) edge (H)
+                                    edge (L)  
+                                (J) edge (L)
+                                (L) edge (T)
+                                (H) edge (L)
+                                (C) edge (D);
+
+          \uncover<2-3>{
+          \path[-,thick,red,line width=1mm] (S) edge (A)
+                            (A) edge (I)
+                            (I) edge (T);
+          }
+          \uncover<4-5>{
+          \path[-,thick,red,line width=1mm] (S) edge (B)
+                            (B) edge (F)
+                            (F) edge (L)
+                            (L) edge (T) ;
+          }
+          \uncover<6-7>{
+          \path[-,thick,red,line width=1mm] (S) edge (B)
+                            (B) edge (G)
+                            (G) edge (L)
+                            (L) edge (T) ;
+          }
+          \uncover<8-9>{
+          \path[-,thick,red,line width=1mm] (S) edge (B)
+                            (B) edge (H)
+                            (H) edge (L)
+                            (L) edge (T) ;
+          }
+          \uncover<10-11>{
+          \path[-,thick,red,line width=1mm] (S) edge (B)
+                            (B) edge (H)
+                            (H) edge (I)
+                            (I) edge (T) ;
+          }
+          \uncover<12-13>{
+          \path[-,thick,red,line width=1mm] (S) edge (A)
+                            (A) edge (I)
+                            (I) edge (H)
+                            (H) edge (L)
+                            (L) edge (T);
+          }
+  \end{tikzpicture}
+
+    \column{.6\textwidth}
+\begin{tikzpicture}[auto,thick,sloped,scale=0.7]
+  \tikzstyle{node}=%
+  [%
+    minimum size=8pt,%
+    inner sep=0pt,%
+    outer sep=0pt,%
+    ball color=example text.fg,%
+    circle%
+  ]
+  \tikzstyle{leaf}=%
+  [%
+    minimum size=10pt,%
+    inner sep=0pt,%
+    outer sep=0pt,%
+    ball color=red,%
+    circle%
+  ]
+
+% Set the overall layout of the tree
+\tikzstyle{level 1}=[level distance=1cm, sibling distance=5cm]
+\tikzstyle{level 2}=[level distance=1cm, sibling distance=2cm]
+
+% Define styles for bags and leafs
+\tikzstyle{bag} = [text width=4em, text centered]
+\tikzstyle{end} = [circle, minimum width=3pt,fill, inner sep=0pt]
+\uncover<3-4>{
+  \node [leaf,label=above:{s}] (raiz){} [] 
+    child {
+	node [node,label=right:{a}] (sa) {} 
+  	child {
+		node [node,label=right:{i}] (sai) {} 
+		child 	{
+				node [leaf,label=below:{t1}] (sait){} 	
+				edge from parent 
+			}
+		edge from parent 
+	}
+	edge from parent
+   };
+	\path[opacity=1,color=red,->] [-latex]
+	(raiz) edge (sa)
+	(sa) edge (sai)
+	(sai) edge (sait);
+}
+\uncover<5-6>{
+  \node [leaf,label=above:{s}] (raiz) {} [] 
+    	child {
+		node [node,label=above:{a}] {} [->]
+		child {
+			node [node,label=right:{i}] {} [->]
+			child 	{
+					node [leaf,label=below:{t1}] {} [->]	
+					edge from parent 
+				}
+			edge from parent 
+			}
+		edge from parent 
+        }	
+	child {
+		node [node,label=above:{b}] (sb){} 	
+   		child {
+			node [node,label=left:{f}] (sbf) {} 	
+   			child {
+				node [node,label=left:{l}] (sbfl) {} 
+				child{
+					node [leaf,label=below:{t2}] (sbflt) {} 
+					edge from parent 
+				}
+				edge from parent 
+			}
+			edge from parent 
+		}	
+		edge from parent 
+	};
+	\path[opacity=1,color=red,->] [-latex]
+	(raiz) edge (sb)
+	(sb) edge (sbf)
+	(sbf) edge (sbfl)
+	(sbfl) edge (sbflt);
+}
+\uncover<7-8>{
+  \node [leaf,label=above:{s}] (raiz) {} [] 
+    child {
+	node [node,label=above:{a}] {} [->]
+	child {
+		node [node,label=right:{i}] {} [->]
+		child 	{
+				node [leaf,label=below:{t1}] {} [->]	
+				edge from parent 
+			}
+		edge from parent 
+		}
+	edge from parent 
+        }	
+	child {
+		node [node,label=above:{b}] (sb) {} []	
+   		child {
+			node [node,label=above:{f}]  {} [->] 	
+   			child {
+				node [node,label=left:{l}] {} [->]
+				child{
+					node [leaf,label=below:{t2}] {} [->]
+					edge from parent 
+				}
+				edge from parent 
+			}
+			edge from parent 
+		}	
+	  	child {
+			node [node,label=left:{g}] (sbg){} 	
+   			child {
+				node [node,label=left:{l}] (sbgl) {} 
+				child{
+					node [leaf,label=below:{t3}] (sbglt) {} 
+					edge from parent
+				}
+				edge from parent 
+			}
+			edge from parent 
+		}		
+		edge from parent 
+	};
+	\path[opacity=1,color=red,->] [-latex]
+	(raiz) edge (sb)
+	(sb) edge (sbg)
+	(sbg) edge (sbgl)
+	(sbgl) edge (sbglt);
+}
+\uncover<9-10>{
+  \node [leaf,label=above:{s}] (raiz) {} [] 
+    child {
+	node [node,label=above:{a}] {} [->]
+	child {
+		node [node,label=right:{i}] {}  
+		child 	{
+				node [leaf,label=below:{t1}] {} 	
+				edge from parent 
+			}
+		edge from parent 
+		}
+	edge from parent 
+        }	
+	child {
+		node [node,label=above:{b}] (sb) {} 	
+   		child {
+			node [node,label=above:{f}] {} 	[->]
+   			child {
+				node [node,label=left:{l}] {} 
+				child{
+					node [leaf,label=below:{t2}] {} 
+					edge from parent 
+				}
+				edge from parent 
+			}
+			edge from parent 
+		}	
+	  	child {
+			node [node,label=left:{g}] {} [->]	
+   			child {
+				node [node,label=left:{l}] {} 
+				child{
+					node [leaf,label=below:{t3}] {} 
+					edge from parent
+				}
+				edge from parent 
+			}
+			edge from parent 
+		}		
+	  	child {
+			node [node,label=right:{h}] (sbh) {} 	
+   			child {
+				node [node,label=right:{l}] (sbhl) {} 
+				child{
+					node [leaf,label=below:{t4}] (sbhlt) {} 
+					edge from parent
+				}
+				edge from parent 
+			}
+			edge from parent 
+		}	
+		edge from parent 
+	};
+	\path[opacity=1,color=red,->] [-latex]
+	(raiz) edge (sb)
+	(sb) edge (sbh)
+	(sbh) edge (sbhl)
+	(sbhl) edge (sbhlt);
+
+}
+\uncover<11-12>{
+  \node [leaf,label=above:{s}] (raiz) {} [] 
+    child {
+	node [node,label=above:{a}] {} [->]
+	child {
+		node [node,label=right:{i}] {} 
+		child 	{
+				node [leaf,label=below:{t1}] {} 	
+				edge from parent 
+			}
+		edge from parent 
+		}
+	edge from parent 
+        }	
+	child {
+		node [node,label=above:{b}] (sb){} 	
+   		child {
+			node [node,label=above:{f}] {} 	[->]
+   			child {
+				node [node,label=left:{l}] {} 
+				child{
+					node [leaf,label=below:{t2}] {} 
+					edge from parent 
+				}
+				edge from parent 
+			}
+			edge from parent 
+		}	
+	  	child {
+			node [node,label=left:{g}] {} 	[->]
+   			child {
+				node [node,label=left:{l}] {} 
+				child{
+					node [leaf,label=below:{t3}] {} 
+					edge from parent
+				}
+				edge from parent 
+			}
+			edge from parent 
+		}		
+	  	child {
+			node [node,label=above:{h}] (sbh){} 	
+   			child {
+				node [node,label=above:{l}] {} [->]
+				child{
+					node [leaf,label=below:{t4}] {} 
+					edge from parent
+				}
+				edge from parent 
+			}
+   			child {
+				node [node,label=above:{i}] (sbhi){} 
+				child{
+					node [leaf,label=below:{t5}] (sbhit) {} 
+					edge from parent 
+				}
+				edge from parent 
+			}
+			edge from parent 
+		}	
+		edge from parent 
+	};
+	\path[opacity=1,color=red,->] [-latex]
+	(raiz) edge (sb)
+	(sb) edge (sbh)
+	(sbh) edge (sbhi)
+	(sbhi) edge (sbhit);
+}
+\uncover<13-14>{
+  \node [leaf,label=above:{s}] (raiz) {} [] 
+    child {
+	node [node,label=above:{a}] (sa) {} 
+	child {
+		node [node,label=right:{i}] (sai){} 
+		child[grow=down] 	{
+				node [leaf,label=below:{t1}] {} [->]	
+				edge from parent 
+			}
+		child 	{
+				node [node,label=right:{h}] (saih){} 
+				child {
+					node [node,label=right:{l}](saihl) {} 
+					child{
+						node [leaf,label=below:{t6}] (saihlt) {} 
+						edge from parent 
+					}
+					edge from parent 
+				}
+				edge from parent 
+			}
+		edge from parent 
+		}
+	edge from parent 
+        }	
+	child {
+		node [node,label=above:{b}] {} [->]	
+   		child {
+			node [node,label=above:{f}] {} 	
+   			child {
+				node [node,label=left:{l}] {} 
+				child{
+					node [leaf,label=below:{t2}] {} 
+					edge from parent 
+				}
+				edge from parent 
+			}
+			edge from parent 
+		}	
+	  	child {
+			node [node,label=left:{g}] {} [->]	
+   			child {
+				node [node,label=left:{l}] {} 
+				child{
+					node [leaf,label=below:{t3}] {} 
+					edge from parent
+				}
+				edge from parent 
+			}
+			edge from parent 
+		}		
+	  	child {
+			node [node,label=above:{h}] {} [->]
+   			child {
+				node [node,label=above:{l}] {} 
+				child{
+					node [leaf,label=below:{t4}] {} 
+					edge from parent
+				}
+				edge from parent 
+			}
+   			child {
+				node [node,label=above:{i}] {} 
+				child{
+					node [leaf,label=below:{t5}] {} 
+					edge from parent 
+				}
+				edge from parent 
+			}
+			edge from parent 
+		}	
+		edge from parent 
+	};
+	\path[opacity=1,color=red,->] [-latex]
+	(raiz) edge (sa)
+	(sa) edge (sai)
+	(sai) edge (saih)
+	(saih) edge (saihl)	
+	(saihl) edge (saihlt);
+}
+\end{tikzpicture}
+\end{columns}
+\end{frame}

@@ -1,0 +1,56 @@
+This is makeindex, version 2.15 [TeX Live 2009] (kpathsea + Thai support).
+Scanning input file mestrado.idx....
+!! Input index error (file = mestrado.idx, line = 34):
+   -- Extra `@' at position 8 of first argument.
+
+!! Input index error (file = mestrado.idx, line = 36):
+   -- Extra `@' at position 11 of first argument.
+
+!! Input index error (file = mestrado.idx, line = 42):
+   -- Extra `@' at position 8 of first argument.
+!! Input index error (file = mestrado.idx, line = 43):
+   -- Extra `@' at position 18 of first argument.
+
+!! Input index error (file = mestrado.idx, line = 47):
+   -- Extra `@' at position 13 of first argument.
+
+!! Input index error (file = mestrado.idx, line = 49):
+   -- Extra `@' at position 13 of first argument.
+
+!! Input index error (file = mestrado.idx, line = 51):
+   -- Extra `@' at position 8 of first argument.
+!! Input index error (file = mestrado.idx, line = 52):
+   -- Extra `@' at position 20 of first argument.
+
+!! Input index error (file = mestrado.idx, line = 55):
+   -- Extra `@' at position 11 of first argument.
+
+!! Input index error (file = mestrado.idx, line = 57):
+   -- Extra `@' at position 25 of first argument.
+
+!! Input index error (file = mestrado.idx, line = 66):
+   -- Extra `@' at position 8 of first argument.
+!! Input index error (file = mestrado.idx, line = 67):
+   -- Extra `@' at position 20 of first argument.
+!! Input index error (file = mestrado.idx, line = 68):
+   -- Extra `@' at position 8 of first argument.
+
+!! Input index error (file = mestrado.idx, line = 71):
+   -- Extra `@' at position 11 of first argument.
+
+!! Input index error (file = mestrado.idx, line = 78):
+   -- Extra `@' at position 28 of first argument.
+
+!! Input index error (file = mestrado.idx, line = 80):
+   -- Extra `@' at position 15 of first argument.
+!! Input index error (file = mestrado.idx, line = 81):
+   -- Extra `@' at position 15 of first argument.
+!! Input index error (file = mestrado.idx, line = 82):
+   -- Extra `@' at position 25 of first argument.
+!! Input index error (file = mestrado.idx, line = 83):
+   -- Extra `@' at position 30 of first argument.
+done (67 entries accepted, 19 rejected).
+Sorting entries....done (433 comparisons).
+Generating output file mestrado.ind....done (122 lines written, 0 warnings).
+Output written in mestrado.ind.
+Transcript written in mestrado.ilg.

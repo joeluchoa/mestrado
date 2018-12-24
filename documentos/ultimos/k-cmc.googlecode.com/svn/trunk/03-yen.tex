@@ -1,0 +1,320 @@
+\newpage
+\chapter{Método de Yen}
+Neste capítulo será descrito o celebrado algoritmo de
+Dijkstra~\cite{dijkstra59:note} que resolve o problema do caminho mínimo,
+apresentado na seção~\ref{descricao-problema}, ou seja:
+\begin{quote}
+\textbf{Problema} PCM$(V,A,c,s)$:%
+\index{PCM}\mar{PCM}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Dado um grafo $(V,A)$, uma função
+comprimento $c$ e um vértice $s$, encontrar um caminho de 
+comprimento mínimo de $s$ até $t$, para cada vértice $t$.
+\end{quote}
+
+
+%Um caminho $P$ tem \defi{comprimento mínimo} se $c(P) \leq c(P')$ para todo
+%caminho $P'$ que tenha a mesma origem e término que $P$.
+
+A idéia geral do método de Yeng  para resolver o problem é a seguinte.
+O algoritmo é iterativo.  No início de cada iteração tem-se dois conjuntos
+disjuntos de vertices $S$ e $\L$. O algoritmo conhece caminhos de $s$ a cada
+vértice em $S \cup \L$ e para os vértice em $S$ o algoritmo sabe que o caminho
+conhecido tem comprimento mínimo. Cada iteração consiste em remover um vértice
+apropriado de $\L$, incluí-lo $S$ e examiná-lo, acrescentado, eventualmente,
+novos vértices a $\L$.
+
+A descrição abaixo segue de perto a feita por Feofiloff~\cite{pf:aula}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%  SEÇÃO:  DESCRIÇÃO
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\section{Descrição}
+\label{sec:dijkstra_desc}
+
+%O algoritmo de Dijkstra~\cite{dijkstra59:note} encontra caminhos de
+%comprimento 
+%mínimo de um vértice inicial $s$ a todos os demais, em grafos com comprimentos 
+%não-negativos nos arcos. 
+
+Durante a execução do algoritmo, os vértices podem ser classificados de 3 maneiras:
+\begin{itemize}
+\item \textit{examinados:} vértices que pertencem a um caminho mínimo com início
+em $s$;
+\item \textit{visitados:} vértices que pertencem a um caminho 
+(não necessariamente o mínimo) com início em $s$; e
+\item \textit{adormecidos:} vértices que ainda não fazem parte de nenhum caminho 
+com início em $s$.  
+\end{itemize}
+
+ Os vértices serão agrupados em três conjuntos diferentes: em $S$ ficarão os 
+vértices examinados, em $\L$ os visitados e em $V - S \cup \L$ os adormecidos.
+
+\begin{quote} 
+\textbf{Algoritmo de Dijkstra.}\index{Dijkstra}\index{algoritmo!de Dijkstra}
+Recebe um grafo $(V,A)$, um vértice $s$ em $V$ e uma função comprimento $c$ 
+de $A$ em $\NonnegInt$ e devolve 
+\begin{enumerate}
+\item[\iten{1}] uma função potencial viável $\fp{}$ e
+\item[\iten{2}] uma função predecessor $\pred$ 
+\end{enumerate}
+
+\textbf{satisfazendo:}
+
+ se $\fp(u) - \fp(s) < nC$
+
+ \x então $c(P) = \fp(u) - \fp(s)$,
+
+ onde $P$ é um caminho de $s$ a $u$ determinado por $\pred$.
+
+\end{quote}
+
+Cada iteração começa com 
+uma função potencial $\fp{}$, 
+uma função predecessor $\pred$,
+uma parte $\L$ de $V$ e
+uma parte $S$ de $V$.
+
+No início da primeira iteração temos que 
+$\fp(s) = 0$ e $\fp(v) = nC + 1$ para cada vértice $v$ distinto de $s$, 
+$\pred(v) = v$ para cada vértice $v$,
+$\L = \{s\}$ e
+$S = \emptyset$.
+
+Cada iteração consiste em:
+\balgor
+\item \textbf{Caso 1:} \ $\L = \emptyset$.
+
+ Devolva $\fp{}$ e $\pred$ e pare.
+
+\item \textbf{Caso 2:} \ {$\L \neq \emptyset$.}
+
+  Escolha $u$ em $\L$ tal que $\fp(u)$ seja mínimo.
+
+  $\L' := \L - \{u\}$.
+
+  Para cada $v$ em $V$ faça $\fp'(v) := \fp(v)$ e $\pred'(v) := \pred(v)$.
+
+  Para cada arco $uv$ faça 
+
+ \x se\ $\fp'(v) > \fp(u) + c_{uv}$ 
+
+ \xx então\ $\fp'(v) := \fp(u) + c_{uv}$ , $\pred'(v) := u$ e acrescente $v$ a $\L'$.
+
+  $S' := S \cup \{u\}$.
+
+ Comece nova iteração com $\fp'$, $\pred'$, $\L'$ e $S'$ 
+nos papéis de $\fp{}$, $\pred$, $\L$ e $S$.
+
+\ealgor
+
+\qed
+
+A figura ~\ref{fig:sim_djk} ilustra os passos do algoritmo de Dijkstra.
+
+\begin{figure}[htbp]
+ \begin{center}
+    \psfrag{(a)}{$\iten{a}$}
+    \psfrag{(b)}{$\iten{b}$}
+    \psfrag{(c)}{$\iten{c}$}
+    \psfrag{(d)}{$\iten{d}$}
+    \psfrag{(e)}{$\iten{e}$}
+    \psfrag{s}{{$s$}}
+    \psfrag{a}{{$a$}}
+    \psfrag{b}{{$b$}}
+    \psfrag{t}{{$u$}}
+    \psfrag{0}{{$0$}}
+    \psfrag{17}{{$17$}} 
+    \psfrag{1}{{$1$}}
+    \psfrag{2}{{$2$}}
+    \psfrag{3}{{$3$}}
+    \psfrag{4}{{$4$}}
+    \psfrag{5}{{$5$}}
+  \includegraphics{fig/simulacao_djk.eps}
+  \caption{\label{fig:sim_djk} Execução do algoritmo de Dijkstra. O vértice inicial é $s$.
+        Os comprimentos dos caminhos mínimos são mostrados pelos potenciais,
+        que são os números associados a cada vértices. Se um arco $(u,v)$ 
+        está sombreado, então $\pred(v) = u$. Os vértices pretos são os examinados, 
+        os cinzas são os visitados, e os brancos são
+        os adormecidos. $\iten{a}$ A situação no início da
+        primeira iteração. $\iten{b}-\iten{e}$ A situação depois de cada iteração do
+        \textbf{Caso 2}. Os valores finais da função potencial $\fp$, 
+        e da função predecessor $\pred$, são mostrados na parte $(e)$.}
+ \end{center}
+ \end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%  SEÇÃO:  CORREÇÃO
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\section{Correção}
+\label{sec:dijk_corretude}
+A correção do algoritmo de Dijkstra baseia-se nas demosntrações da validade
+dos invariantes enunciados a seguir. Estes invariantes são afirmações
+envolvendo $\fp, \pred, S$ e $\L$ que são válidas no início de cada iteração do
+algoritmo. Abaixo dotaremos por $U$ a parte $V\setminus(S\cup Q)$.
+\index{invariante!de Dijkstra}
+\begin{quote} 
+\textbf{Invariantes} No início de cada iteração do algoritmo,
+\begin{enumerate}
+%%% Estrutura do grafo em relação à partição
+\item[$\iten{i0}$] ($A(S,\L) = \emptyset$) não existe arco $uv$ com $u$
+em $S$ e $v$ em $V$.
+%%% Estrutura relaciona da d com (S,Q,U)
+\item[$\iten{i1}$] (monotonicidade) para cada $u$ em $S$, $v$ em $\L$ e
+ $w$ em $U$ vale que
+\[
+d(u) \leq d(v) < d(w) = nC + 1.
+\]
+%%% Estrutura de \pred com (S,Q,U)
+\item[$\iten{i2}$] ($\pred(\L) \subseteq S$) Para cada $u$ em $\L$ vale que 
+$\pred(u)$ está em $S$.
+
+\item[$\iten{i3}$] (estrutura arborea de $\pred$) A função $\pred$
+restrita aos vértices em $S\cup \L$ determina uma arborescência com raiz $s$.
+
+%%%% Estrutura dos arcos onde $d$ respeita $c$.
+\item[$\iten{i4}$] ($d$ respeita $c$ em $A[S]$)
+ para cada arco $uv$ com $u$ e $v$ em $S$ vale que 
+\[
+d(v) - d(u) \leq c(u,v).
+\]
+
+\item[$\iten{i5}$] ($d$ respeita $c$ em $A[V]$) 
+para cada arco $uv$ com $u$ e $v$ em $V$ vale que 
+\[
+d(v) - d(u) = 0 \leq c(u,v).
+\]
+
+\item[$\iten{i6}$] ($d$ respeita $c$ em $A(S,\L)$ e $A(\L,S)$) 
+     para cada arco $uv$ com $u$ em $S$ e $v$ em $\L$ ou 
+                             $u$ em $\L$ e $v$ em $S$ vale que 
+\[
+d(v) - d(u) \leq c(u,v).
+\]
+
+\item[$\iten{i7}$] ($d$ respeita $c$ em $A(V,\L)$)
+para cada arco $uv$ com $u$ em $N$ e $v$ em $\L$ vale que 
+\[
+d(v) - d(u) = d(v) - (nC + 1) < c(u,v).
+\]
+
+\item[$\iten{i8}$] ($d$ desrespeita $c$ em $A(\L,V)$)
+para cada arco $uv$ com $u$ em $\L$ e $v$ em $V$ vale que 
+\[
+d(v) - d(u) = (nC + 1) - d(u) > c(u,v).
+\]
+
+%%%% Liga $\pred$ com $\fp$
+\item[$\iten{i9}$] (folgas complementares) 
+para cada arco $uv$ tal que $\psi(v) = u$ vale que 
+\[
+d(v) - d(u) =  c(u,v).
+\]
+%\item[\iten{i0}] para cada $u$ em $S$, $\fp(u) - \fp(s) = c(P)$, onde
+% $P$ é o caminho de comprimento mínimo de $s$ a $u$ determinado por $\pred$.
+%\item[\iten{i1}] para cada $u$ em $S$ e $v$ em $V \backslash S$,
+%$\fp(u) \leq \fp(v)$ 
+\end{enumerate}
+\end{quote}
+
+A figura~\ref{fig:invariante} ilustra os invariantes.
+
+\begin{figure}[htbp]
+ \begin{center}
+    \psfrag{S}{{$S$}}
+    \psfrag{Q}{{$\L$}}
+    \psfrag{U}{{$U$}}
+  \includegraphics{fig/invariante.eps}
+  \caption{\label{fig:invariante}Ilustração dos invariantes. }
+ \end{center}
+ \end{figure}
+
+%É evidente que os invariantes valem no início da primeira iteração.
+%Suponha agora que os invariantes valem no início de uma iteração em que ocorre o
+%caso 2.
+
+%DEMONSTRAÇÃO DE \iten{i0}: No início dessa iteração, sabemos que para cada $w$ em $S$ vale que  
+%$\fp(w) - \fp(s) = c(P')$, onde $P'$ é o caminho de $s$ a $w$. 
+%Seja $u$ o vértice com menor potencial escolhido durante
+%a execução do caso 2. Em particular, para algum $w$ em $S$, $wu$ é um
+%arco em $A$, pois $u$ está em $\L$.
+%Logo, existe um caminho $P$ de $s$ a $u$, e pelo Lema~\ref{lema:dualidade}
+%vale que $\fp(u) - \fp(s) \leq c(P)$. Suponha que existe $u'$ em $V
+%\backslash S$
+%tal que $\fp(u') - \fp(s) < c(P)$. 
+%Então, $\fp(u') \leq \fp(u)$ contrariando a hipótese de que $\fp(u)$ é mínimo.
+%Portanto, $\fp(u) - \fp(s) = c(P)$. E pelo
+%Corolário~\ref{corolario:otimalidade},
+%$P$ é um caminho de comprimento mínimo de $s$ a $u$.
+
+%No final da iteração, vamos ter $u$ pertencente a $S'$. Assim que, $S'$ passar a
+%valer $S$, o resultado segue. \fimprova
+
+%DEMONSTRAÇÃO DE \iten{i1}: No final dessa iteração vamos ter $u$ pertencente a $S'$,
+%e $\fp(u) \leq \fp'(v)$ para cada $v$ em $V \backslash S'$, pois $\fp(u)$ é
+%mínimo. Então, $\fp'$ e $S'$ passam a valer $\fp$ e $S$. Como
+%desejado. \fimprova
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%  SEÇÃO:  EFICIÊNCIA
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\section{Eficiência}
+\textbf{Número de iterações.}  O número de ocorrências do caso 2 é
+$\leq n$, pois
+$S$ aumenta a cada ocorrência. Portanto, o número de iterações é $\leq n + 1$.
+
+\textbf{Eficiência no pior caso.} 
+  As duas operações seguintes são as principais responsáveis pela
+  complexidade do algoritmo:
+  \begin{itemize}
+  \item \textit{Escolha do vértice com potencial mínimo.}  Cada
+  ocorrência dessa operação
+   gasta tempo $O(n)$.  Como o número de ocorrências do caso 2 é
+  $O(n)$, o tempo gasto 
+   pelo algoritmo para realizar essa operação é $O(n^{2})$ .
+  \item \textit{Atualização do potencial.} O algoritmo realiza essa
+  operação $|A(u)|$%
+
+%\footnote{conjunto do arcos com ponta inicial em $u$} vezes para  cada
+%  vértice $u$ em $V$. 
+Então, ao todo, o algoritmo realiza essa operação $\sum_{u \in V} |A(u)| = m$ 
+vezes. Desde que cada atualização seja da ordem de $O(1)$, o algoritmo
+requer um total de 
+$O(m)$  para atualizar os potenciais.
+\end{itemize}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%  SEÇÃO:  Versão CWEB
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\section{Versão em \CWEB}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%  SEÇÃO:  COMPLEXIDADE DO ALGORITMO
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\section{Complexidade do algoritmo}
+ A complexidade do algoritmo de Dijsktra é $O(n^{2} + m) = O(n^{2})$.
+ 
+ Para grafos densos(isto é, $m = \Omega(n^{2})$) , a complexidade $O(n^{2})$ 
+para o algoritmo de Dijkstra é a melhor possível, pois, é necessário examinar todos os arcos. 
+Mas, se $m$ é assintóticamente menor que $n^{2}$, 
+existem métodos sofisticados que permitem diminuir o tempo gasto
+para encontrar o vértice com o menor potencial, proporcionando melhores complexidades.
+A maneira mais utizada para se fazer isso, é a utilização de uma 
+fila de prioridades, que será objeto de estudos do próximo capítulo.
+
+
+

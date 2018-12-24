@@ -1,0 +1,8 @@
+digraph G {
+	rankdir = LR
+	1 -> 2 [label="(M-v1,w1)"];
+	1 -> 2 [label="(M,0)"];
+	2 -> n [label="..."];
+	n -> "n+1" [label="(M-vn,wn)"];
+	n -> "n+1" [label="(M,0)"];
+}

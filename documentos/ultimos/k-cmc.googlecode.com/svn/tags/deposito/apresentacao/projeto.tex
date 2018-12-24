@@ -1,0 +1,2489 @@
+% Copyright 2007 by Till Tantau
+%
+% This file may be distributed and/or modified
+%
+% 1. under the LaTeX Project Public License and/or
+% 2. under the GNU Public License.
+%
+% See the file doc/licenses/LICENSE for more details.
+
+
+
+\documentclass{beamer}
+
+%
+% DO NOT USE THIS FILE AS A TEMPLATE FOR YOUR OWN TALKS¡!!
+%
+% Use a file in the directory solutions instead.
+% They are much better suited.
+%
+
+
+% Setup appearance:
+
+\usetheme{Darmstadt}
+\usefonttheme[onlylarge]{structurebold}
+\setbeamerfont*{frametitle}{size=\normalsize,series=\bfseries}
+\setbeamertemplate{navigation symbols}{}
+
+
+% Standard packages
+
+\usepackage[portuguese]{babel}
+\usepackage[latin1]{inputenc}
+\usepackage{times}
+\usepackage[T1]{fontenc}
+
+%% definicao personalizada
+\usepackage{../estilo/estilo}
+%\usepackage{../estilo/tkz-graph}
+%\usepackage{../estilo/tkz-berge}
+
+
+% Setup TikZ
+
+\usepackage{tikz}
+\usetikzlibrary{arrows,petri,trees}
+\tikzstyle{block}=[dra opacity=0.7,line width=1.4cm]
+
+
+% Author, Title, etc.
+
+\title[$k$-caminhos mínimos] 
+{%
+  Exame de Qualificação \\
+  $k$-caminhos mínimos%
+}
+\author{Fábio Pisaruk}
+\institute[IME/USP]
+{%
+Instituto de Matemática e Estatística \\
+Universidade de São Paulo%
+}
+\date{\today}
+
+\pgfdeclareimage[height=0.5cm]{ime-logo}{../figs/ime-arquimedes}
+\pgfdeclareimage[height=4cm]{interligacao}{../figs/interligacao}
+\pgfdeclareimage[height=3cm]{aprovisionamento}{../figs/aprovisionamento}
+\pgfdeclareimage[height=3cm]{aprovisionamento2}{../figs/aprovisionamento2}
+\pgfdeclareimage[height=3cm]{algoritmoAntigo}{../figs/algoritmoAntigo}
+\pgfdeclareimage[height=5cm]{prefixo}{../figs/prefixo}
+
+\logo{\pgfuseimage{ime-logo}}
+
+% The main document
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\begin{frame}{Sumário}
+   Este trabalho trata de algoritmos para geração de $k$-caminhos mínimos sem circuitos em grafos não-dirigidos.
+  \tableofcontents
+\end{frame}
+
+
+\section{Introdução}
+
+\subsection{Problema}
+
+\begin{frame}{Aprovisionamento de sinais}
+	\begin{itemize}
+		\item Serviço de interligação de sinais.
+		\item Permite que sinais do ponto $a$ sejam enviados ao ponto $b$.
+	\end{itemize}
+	\begin{figure}
+	\pgfuseimage{interligacao}
+   	\caption{Destacamos um possível caminho interligando $a$ e $b$.}
+	\end{figure}
+\end{frame}
+
+\begin{frame}{Processo de aprovisionamento}
+ \begin{block}{Requisitos do cliente}
+	\begin{itemize}
+		\item Quantidade de sinais a serem interligados.
+		\item Tipos de sinais.
+		\item Origem e destino.
+		\item Qualidade de serviço.
+	\end{itemize}
+ \end{block}
+\begin{figure}
+	\pgfuseimage{aprovisionamento}
+   	%\caption{Caminho entre $a$ e $b$ com cada elemento exibindo as quantidades usada e a máxima de transmissão.}
+	\end{figure}
+\end{frame}
+
+\begin{frame}{Processo de aprovisionamento}
+\begin{block}{Considerações}
+	\begin{itemize}
+		\item Custo é função do número de equipamentos usados.
+		\item $k$ depende da quantidade de sinais.
+		\item Critério de desempate é a distância total.
+	\end{itemize}
+\end{block}
+\begin{figure}
+\pgfuseimage{aprovisionamento2}
+%\caption{Caminho entre $a$ e $b$ com cada elemento exibindo as quantidades usada e a máxima de transmissão.}
+\end{figure}
+\end{frame}
+
+
+\subsection{Soluções}
+
+\begin{frame}{Algoritmo existente na empresa}
+\framesubtitle{Busca exaustiva}
+	\begin{figure}
+	\pgfuseimage{algoritmoAntigo}
+	\end{figure}
+	\begin{columns}[t]
+	  \begin{column}{2cm}
+	    \onslide<1->
+		{%
+		\small{$\seq{a,b}$\\$\seq{a,c}$\\$\seq{a,d}$}
+		}
+	  \end{column}
+	  \begin{column}{2cm}
+	    \onslide<2->
+	    {%
+	    \small{$\seq{a,b,c}$\\\textcolor{red}{$\seq{a,b,e}$}\\$\seq{a,c,b}$\\\textcolor{red}{$\seq{a,c,e}$}\\$\seq{a,c,d}$\\$\seq{a,d,c}$\\\textcolor{red}{$\seq{a,d,e}$}}
+	    }
+	  \end{column}
+          \begin{column}{2cm}
+	    \onslide<3->
+	    {%
+	    \small{\textcolor{red}{$\seq{a,b,c,e}$}\\$\seq{a,b,c,d}$\\\textcolor{red}{$\seq{a,c,b,e}$}\\\textcolor{red}{$\seq{a,c,d,e}$}\\\textcolor{red}{$\seq{a,d,c,e}$}\\$\seq{a,d,c,b}$}
+            }
+	  \end{column}
+          \begin{column}{2cm}
+	 \onslide<4->
+	    {%
+	    \small{\textcolor{red}{$\seq{a,b,c,d,e}$}\\\textcolor{red}{$\seq{a,d,c,b,e}$}}
+	    }
+	  \end{column}
+	\end{columns}
+	\onslide<5->
+	{%	
+	\alert{Consumo elevado de memória}.
+	}
+\end{frame}
+
+\begin{frame}{Primeiro algoritmo implementado}
+\framesubtitle{Busca em profundidade iterativa}
+	\begin{figure}
+	\pgfuseimage{algoritmoAntigo}
+	\end{figure}
+	\begin{columns}[t]
+	  \begin{column}{2cm}
+		\onslide<1->
+		{%
+		\begin{block}{nível 1}
+		\end{block}
+		}
+	  \end{column}
+	  \begin{column}{2cm}
+		\onslide<2->
+		{%
+   	    \begin{block}{nível 2}
+		 \textcolor{red}{$\seq{a,b,e}$}\\\textcolor{red}{$\seq{a,c,e}$}\\\textcolor{red}{$\seq{a,d,e}$}
+	    \end{block}
+		}
+	  \end{column}
+          \begin{column}{2cm}
+	\onslide<3->
+		{%
+		\begin{block}{nível 3}
+    	\textcolor{red}{$\seq{a,b,c,e}$}\\\textcolor{red}{$\seq{a,c,b,e}$}\\\textcolor{red}{$\seq{a,c,d,e}$}\\\textcolor{red}{$\seq{a,d,c,e}$}
+	        \end{block}
+		}
+	  \end{column}
+     \begin{column}{2cm}
+	\onslide<4->
+		{%
+           \begin{block}{nível 4}
+           \textcolor{red}{$\seq{a,b,c,d,e}$}\\\textcolor{red}{$\seq{a,d,c,b,e}$}
+           \end{block}
+		}
+          \end{column}
+      	\end{columns}
+	\onslide<5->
+	{%		
+	\alert{Menor consumo de memória e maior consumo de processador}.
+	}
+\end{frame}
+
+\begin{frame}{Algoritmo final entregue}
+\framesubtitle{Algoritmo de Katoh, Ibaraki e Mine(KIM)}
+  \begin{tikzpicture}[scale=0.85]
+    \tikzstyle{node}=%
+    [%
+      inner sep=0pt,%
+      outer sep=0pt,%
+      ball color=example text.fg,%
+      circle%
+    ]
+        \node[node,minimum size=8pt,label=left:{s}] at (0,3) (S)  {};
+        \node[node] at (1,3) (A)  {};
+        \node[node] at (2,3) (B)  {};
+        \node[node] at (3,3) (C)  {};
+        \node[node] at (4,1) (D)  {};
+        \node[node,minimum size=8pt,label=right:{t}] at (11,3) (T) {};
+       
+        \node[color=red] at (6,3.2) (P1) {P1};
+
+        \path [-,thick,red]  
+                  (S) edge[] (T)
+                  (S) edge (A)
+                  (A) edge (B)
+                  (B) edge (C);
+       \onslide<2->{
+        \path [-,thick,blue]  
+                  (B) edge[bend right] (D)
+                  (D) edge[bend right] (T);
+         \node[color=blue] at (6,1) (P2) {P2};
+
+        }
+        \onslide<5->{
+        \path [-,thick,black,dashed]  
+                  (A.north) edge[in=90] (T.north);
+                 \node[color=black] at (6,5.8) (Pc) {Pc};
+}
+        \onslide<3->{
+        \path [-,thick,black,dashed]  
+                  (C.north) edge[bend left] (T.north);
+                 \node[color=black] at (6,4.5) (Pa) {Pa};
+}
+       \onslide<4->{
+        \path [-,thick,black,dashed]  
+                  (D) edge[in=-90,out=-90] (T);
+                 \node[color=black] at (6,0) (Pb) {Pb};
+}
+        \end{tikzpicture}
+        
+        
+        %\begin{figure}
+	%\pgfuseimage{kimCaminhos}
+	%\caption{\\
+	%	$P1$ : caminho mínimo entre $s$ e $t$. \\
+%		$P2$ : caminho mínimo diferente de $P1$. \\ 
+%		$Pa$,$Pb$,$Pc$: caminhos candidatos.}	
+%	\end{figure}
+\end{frame}
+
+\section{k-caminhos mínimos}
+\subsection{Definição}
+\begin{frame}{Problema $k$-caminhos mínimos}
+ \begin{quote}
+   \textbf{Problema} \kCM$(V,A,c,s,t,k)$:
+	\begin{itemize}   
+	\item Grafo: $(V,A)$
+	\item Função custo: $c$
+	\item Vértices: $s$ e $t$ 
+	\item Inteiro positivo: $k$ 
+	\end{itemize}	
+	
+	
+	Encontrar $k$-caminhos de custos mínimos 
+	de $s$ a $t$.
+ \end{quote}
+\end{frame}
+
+\begin{frame}{Método genérico}
+\begin{algoritmo}
+
+\textbf{Método} \Generico{} $(V,A,c,s,t,k)$ %\\[2mm]
+   
+0\x $\Pcal \larr \mbox{conjunto dos caminhos de $s$ a~$t$}$ 
+
+1\x \para{} $i=1,\ldots,k$ \faca %\\[1mm]
+
+2\xx  $P_i \larr \mbox{caminho de custo mínimo em $\Pcal$}$ %\\[1mm]
+
+3\xx  $\Pcal \larr \Pcal - P_i$
+
+4\x \devolva{} $\seq{P_1,\ldots,P_k}$
+
+\end{algoritmo}
+
+\end{frame}
+
+\begin{frame}{Exemplo}
+  \begin{columns}
+    \column{.7\textwidth}
+  \begin{tikzpicture}[auto,thick,sloped,node distance=18mm]
+    \tikzstyle{every node}=%
+    [%
+      minimum size=12pt,%
+      inner sep=0pt,%
+      outer sep=0pt,%
+      ball color=example text.fg,%
+      circle%
+    ]
+        \node[ball color=red] (S) {s};
+        \node (B) [right of=S] {b};
+        \node (G) [right of=B] {g};
+        \node (L) [right of=G] {l};
+        \node[ball color=red] (T) [right of=L] {t};
+        \node (F) [above of=G] {f};
+        \node (E) [above of=F] {e};
+        \node (H) [below of=G] {h};
+        \node (I) [below of=H] {i};
+        \node (C) [above of=S] {c};
+        \node (A) [below of=S] {a};
+        \node (J) [above of=L] {j};
+        \node (D) [left of=E] {d};
+
+          
+          \path [-,thick,black] (S) edge (A)
+                                    edge (B)
+                                    edge (C)
+                                (B) edge (C)
+                                    edge (D)
+                                    edge (F)
+                                    edge (G)
+                                    edge (H)
+                                (D) edge (E)   
+                                (A) edge (I)
+                                (I) edge (H)
+                                    edge (T)
+                                (E) edge (F)
+                                    edge (J)
+                                (F) edge (G)
+                                (F) edge (L)
+                                (G) edge (H)
+                                    edge (L)  
+                                (J) edge (L)
+                                (L) edge (T)
+                                (H) edge (L)
+                                (C) edge (D);
+
+          \uncover<2>{
+          \path[-,thick,red,line width=1mm] (S) edge (A)
+                            (A) edge (I)
+                            (I) edge (T);
+          }
+          \uncover<3>{
+          \path[-,thick,red,line width=1mm] (S) edge (B)
+                            (B) edge (F)
+                            (F) edge (L)
+                            (L) edge (T) ;
+          }
+          \uncover<4>{
+          \path[-,thick,red,line width=1mm] (S) edge (B)
+                            (B) edge (G)
+                            (G) edge (L)
+                            (L) edge (T) ;
+          }
+          \uncover<5>{
+          \path[-,thick,red,line width=1mm] (S) edge (B)
+                            (B) edge (H)
+                            (H) edge (L)
+                            (L) edge (T) ;
+          }
+          \uncover<6>{
+          \path[-,thick,red,line width=1mm] (S) edge (B)
+                            (B) edge (H)
+                            (H) edge (I)
+                            (I) edge (T) ;
+          }
+          \uncover<7>{
+          \path[-,thick,red,line width=1mm] (S) edge (A)
+                            (A) edge (I)
+                            (I) edge (H)
+                            (H) edge (L)
+                            (L) edge (T);
+          }
+  \end{tikzpicture}
+
+    \column{.3\textwidth}
+   \begin{block}{Caminhos}
+      \onslide<2->{$\seq{s,a,i,t}$} \\
+      \onslide<3->{$\seq{s,b,f,l,t}$} \\
+      \onslide<4->{$\seq{s,b,g,l,t}$} \\
+      \onslide<5->{$\seq{s,b,h,l,t}$} \\
+      \onslide<6->{$\seq{s,b,h,i,t}$} \\
+      \onslide<7->{$\seq{s,a,i,h,l,t}$}
+ \end{block}
+
+  \end{columns}  
+
+\end{frame}
+
+%\begin{frame}{Exemplo}
+%	\only<1>
+%	{%
+%	\begin{figure}
+%	\pgfuseimage{grafoExemplo1}
+%	\caption{6-caminhos mínimos}
+%	\end{figure}
+%	}
+%	\only<2>
+%	{%
+%	\begin{figure}
+%	\pgfuseimage{grafoExemplo2}
+%	\caption{	$\seq{s,a,i,t}$
+%		}
+%	\end{figure}
+%	}
+%	\only<3>
+%	{%
+%	\begin{figure}
+%	\pgfuseimage{grafoExemplo3}
+%	\caption{	$\seq{s,a,i,t}$,
+%			$\seq{s,b,f,l,t}$
+%		}
+%	\end{figure}
+%	}
+%	\only<4>
+%	{%
+%	\begin{figure}
+%	\pgfuseimage{grafoExemplo4}
+%	\caption{	$\seq{s,a,i,t}$,
+%			$\seq{s,b,f,l,t}$,
+%			$\seq{s,b,g,l,t}$
+%		}
+%	\end{figure}
+%	}
+%	\only<5>
+%	{%
+%	\begin{figure}
+%	\pgfuseimage{grafoExemplo5}
+%	\caption{	$\seq{s,a,i,t}$,
+%			$\seq{s,b,f,l,t}$,
+%			$\seq{s,b,g,l,t}$,
+%			$\seq{s,b,h,l,t}$
+%	}
+%	\end{figure}
+%	}
+%	\only<6>
+%	{%
+%	\begin{figure}
+%	\pgfuseimage{grafoExemplo6}
+%	\caption{	$\seq{s,a,i,t}$,
+%			$\seq{s,b,f,l,t}$,
+%			$\seq{s,b,g,l,t}$,
+%			$\seq{s,b,h,l,t}$,
+%			$\seq{s,b,h,i,t}$
+%	}
+%	\end{figure}
+%	}
+%	\only<7>
+%	{%
+%	\begin{figure}
+%	\pgfuseimage{grafoExemplo7}
+%	\caption{	$\seq{s,a,i,t}$,
+%			$\seq{s,b,f,l,t}$,
+%			$\seq{s,b,g,l,t}$,
+%			$\seq{s,b,h,l,t}$,
+%			$\seq{s,b,h,i,t}$,
+%			$\seq{s,a,i,h,l,t}$
+%	}
+%	\end{figure}
+%	}
+%
+%\end{frame}
+
+\begin{frame}{Exemplo: Árvore de caminhos}
+	$\seq{s,a,i,t}$,
+	$\seq{s,b,f,l,t}$,
+	$\seq{s,b,g,l,t}$,
+	$\seq{s,b,h,l,t}$,
+	$\seq{s,b,h,i,t}$,
+	$\seq{s,a,i,h,l,t}$
+\begin{center}
+\begin{tikzpicture}[auto,thick,sloped]
+  \tikzstyle{node}=%
+  [%
+    minimum size=8pt,%
+    inner sep=0pt,%
+    outer sep=0pt,%
+    ball color=example text.fg,%
+    circle%
+  ]
+  \tikzstyle{leaf}=%
+  [%
+    minimum size=10pt,%
+    inner sep=0pt,%
+    outer sep=0pt,%
+    ball color=red,%
+    circle%
+  ]
+
+% Set the overall layout of the tree
+\tikzstyle{level 1}=[level distance=1cm, sibling distance=5cm]
+\tikzstyle{level 2}=[level distance=1cm, sibling distance=2cm]
+
+% Define styles for bags and leafs
+\tikzstyle{bag} = [text width=4em, text centered]
+\tikzstyle{end} = [circle, minimum width=3pt,fill, inner sep=0pt]
+  \node [leaf,label=above:{s}] {} [->] 
+    child {
+	node [node,label=above:{a}] {} 
+	child {
+		node [node,label=right:{i}] {} 
+		child 	{
+				node [leaf,label=below:{t1}] {} 	
+				edge from parent 
+			}
+		child 	{
+				node [node,label=right:{h}] {} 
+				child {
+					node [node,label=right:{l}] {} 
+					child{
+						node [leaf,label=below:{t6}] {} 
+						edge from parent 
+					}
+					edge from parent 
+				}
+				edge from parent 
+			}
+		edge from parent 
+		}
+	edge from parent 
+        }	
+	child {
+		node [node,label=above:{b}] {} 	
+   		child {
+			node [node,label=above:{f}] {} 	
+   			child {
+				node [node,label=left:{l}] {} 
+				child{
+					node [leaf,label=below:{t2}] {} 
+					edge from parent 
+				}
+				edge from parent 
+			}
+			edge from parent 
+		}	
+	  	child {
+			node [node,label=left:{g}] {} 	
+   			child {
+				node [node,label=left:{l}] {} 
+				child{
+					node [leaf,label=below:{t3}] {} 
+					edge from parent
+				}
+				edge from parent 
+			}
+			edge from parent 
+		}		
+	  	child {
+			node [node,label=above:{h}] {} 	
+   			child {
+				node [node,label=above:{l}] {} 
+				child{
+					node [leaf,label=below:{t4}] {} 
+					edge from parent
+				}
+				edge from parent 
+			}
+   			child {
+				node [node,label=above:{i}] {} 
+				child{
+					node [leaf,label=below:{t5}] {} 
+					edge from parent 
+				}
+				edge from parent 
+			}
+			edge from parent 
+		}	
+		edge from parent 
+	};
+\end{tikzpicture}
+\end{center}
+\end{frame}
+
+
+\subsection{Árvore dos prefixos}
+\begin{frame}{Definição}
+\framesubtitle{\textbf{$\Qcal,(N,E),f,V(\Qcal),A(\Qcal)$}}
+\begin{itemize}
+	\only<1>{
+        \item $\Qcal$: uma coleção de caminhos
+        \begin{columns}
+          \column{.3\textwidth}
+        \begin{block}{Caminhos}
+            {$\seq{s,a,i,t}$} \\
+            {$\seq{s,b,f,l,t}$} \\
+            {$\seq{s,b,g,l,t}$} \\
+            {$\seq{s,b,h,l,t}$} \\
+            {$\seq{s,b,h,i,t}$} \\
+            {$\seq{s,a,i,h,l,t}$}
+        \end{block}
+        \end{columns}
+        \mbox{} \\
+        \mbox{} \\
+        \mbox{} \\
+     }
+	\only<2>{
+        \item $(N,E)$: uma arborescência
+        \begin{center}
+        \begin{tikzpicture}[auto,thick]
+          \tikzstyle{node}=%
+          [%
+            minimum size=10pt,%
+            inner sep=0pt,%
+            outer sep=0pt,%
+            ball color=example text.fg,%
+            circle%
+          ]
+
+          \node [node] {A} [->]
+            child {node [node] {B} edge from parent node[swap]{a}}
+            child {node [node] {E} edge from parent node{e}}
+            child {node [node] {C} 
+                child {node [node] {D} edge from parent node{c}}
+                edge from parent node{b}
+            };
+        \end{tikzpicture}
+        \end{center}
+        \begin{itemize}
+        \item Grafo acíclico $(N,E)$ 
+        \item $|N| = |E| + 1$ 
+        \item \defi{raiz}
+        \end{itemize}
+        Todo vértice, exceto a \defi{raiz}, é ponta final de exatamente um arco.
+        }
+	\only<3>{
+        \item $f$: uma \defi{função rótulo} 
+  \begin{block}{}
+	\textbf{Associa nós e arestas do grafo aos nós e arestas da árvore de prefixos.}
+  \end{block}
+  Se \begin{eqnarray*}
+  R=\seq{u_{0}, e_{1}, u_{1}, \ldots, e_{t}, u_{t}}
+  \end{eqnarray*}
+  for um caminho em  $(N,E)$, então
+  \begin{eqnarray*}
+  f(R):=\seq{f(u_{0}), f(e_{1}), f(u_{1}), \ldots, f(e_{t}), f(u_{t})}
+  \end{eqnarray*}
+  será uma seqüência de vértices e arcos dos caminhos em $\Qcal$.
+        \mbox{} \\
+        \mbox{} \\
+        \mbox{} \\
+        \mbox{} \\
+        \mbox{} \\
+        }
+        \only<1>{
+	\item $V(\Qcal)$: conjunto de vértices
+	\item $A(\Qcal)$: conjunto de arcos
+        }
+\end{itemize}
+\end{frame}
+
+%Seja $(N,E)$ uma arborescência e  
+%$f$ uma \defi{função rótulo} que associa a cada nó em 
+%$N$ um vértice em $V(\Qcal)$ e a
+%cada arco em $E$ um arco em $A(\Qcal)$. 
+
+%\begin{frame}{Definição}
+%$(N,E,f)$ é \defi{árvore dos prefixos} de $\Qcal$ se 
+%\begin{itemize}
+%\item para cada caminho $R$ em $(N,E)$ com início na
+%      raiz, $f(R)$ for prefixo de algum caminho em $\Qcal$; e
+%\item para cada prefixo $Q$ de algum caminho em $\Qcal$
+%      existir um caminho $R$ em $(N,E)$ com início na
+%      raiz tal que $f(R)=Q$; e
+%\item o caminho $R$ do item anterior for único. 
+%\end{itemize}
+%\end{frame}
+
+\begin{frame}{Exemplo}
+  \begin{columns}  
+    \column{.4\textwidth}
+  \begin{tikzpicture}[auto,thick,sloped,node distance=9mm,scale=0.7]
+    \tikzstyle{every node}=%
+    [%
+      inner sep=0pt,%
+      outer sep=0pt,%
+      ball color=example text.fg,%
+      circle%
+    ]
+        \node[ball color=red] (S) {s};
+        \node (B) [right of=S] {b};
+        \node (G) [right of=B] {g};
+        \node (L) [right of=G] {l};
+        \node[ball color=red] (T) [right of=L] {t};
+        \node (F) [above of=G] {f};
+        \node (E) [above of=F] {e};
+        \node (H) [below of=G] {h};
+        \node (I) [below of=H] {i};
+        \node (C) [above of=S] {c};
+        \node (A) [below of=S] {a};
+        \node (J) [above of=L] {j};
+        \node (D) [left of=E] {d};
+
+          
+          \path [-,thick,black] (S) edge (A)
+                                    edge (B)
+                                    edge (C)
+                                (B) edge (C)
+                                    edge (D)
+                                    edge (F)
+                                    edge (G)
+                                    edge (H)
+                                (D) edge (E)   
+                                (A) edge (I)
+                                (I) edge (H)
+                                    edge (T)
+                                (E) edge (F)
+                                    edge (J)
+                                (F) edge (G)
+                                (F) edge (L)
+                                (G) edge (H)
+                                    edge (L)  
+                                (J) edge (L)
+                                (L) edge (T)
+                                (H) edge (L)
+                                (C) edge (D);
+
+          \uncover<2>{
+          \path[-,thick,red,line width=1mm] (S) edge (A)
+                            (A) edge (I)
+                            (I) edge (T);
+          }
+          \uncover<3>{
+          \path[-,thick,red,line width=1mm] (S) edge (B)
+                            (B) edge (F)
+                            (F) edge (L)
+                            (L) edge (T) ;
+          }
+          \uncover<4>{
+          \path[-,thick,red,line width=1mm] (S) edge (B)
+                            (B) edge (G)
+                            (G) edge (L)
+                            (L) edge (T) ;
+          }
+          \uncover<5>{
+          \path[-,thick,red,line width=1mm] (S) edge (B)
+                            (B) edge (H)
+                            (H) edge (L)
+                            (L) edge (T) ;
+          }
+          \uncover<6>{
+          \path[-,thick,red,line width=1mm] (S) edge (B)
+                            (B) edge (H)
+                            (H) edge (I)
+                            (I) edge (T) ;
+          }
+          \uncover<7>{
+          \path[-,thick,red,line width=1mm] (S) edge (A)
+                            (A) edge (I)
+                            (I) edge (H)
+                            (H) edge (L)
+                            (L) edge (T);
+          }
+  \end{tikzpicture}
+
+    \column{.6\textwidth}
+\begin{tikzpicture}[auto,thick,sloped,scale=0.7]
+  \tikzstyle{node}=%
+  [%
+    minimum size=8pt,%
+    inner sep=0pt,%
+    outer sep=0pt,%
+    ball color=example text.fg,%
+    circle%
+  ]
+  \tikzstyle{leaf}=%
+  [%
+    minimum size=10pt,%
+    inner sep=0pt,%
+    outer sep=0pt,%
+    ball color=red,%
+    circle%
+  ]
+
+% Set the overall layout of the tree
+\tikzstyle{level 1}=[level distance=1cm, sibling distance=5cm]
+\tikzstyle{level 2}=[level distance=1cm, sibling distance=2cm]
+
+% Define styles for bags and leafs
+\tikzstyle{bag} = [text width=4em, text centered]
+\tikzstyle{end} = [circle, minimum width=3pt,fill, inner sep=0pt]
+\uncover<2>{
+  \node [leaf,label=above:{s}] (raiz){} [] 
+    child {
+	node [node,label=right:{a}] (sa) {} 
+  	child {
+		node [node,label=right:{i}] (sai) {} 
+		child 	{
+				node [leaf,label=below:{t1}] (sait){} 	
+				edge from parent 
+			}
+		edge from parent 
+	}
+	edge from parent
+   };
+	\path[opacity=1,color=red,->] [-latex]
+	(raiz) edge (sa)
+	(sa) edge (sai)
+	(sai) edge (sait);
+}
+\uncover<3>{
+  \node [leaf,label=above:{s}] (raiz) {} [] 
+    	child {
+		node [node,label=above:{a}] {} [->]
+		child {
+			node [node,label=right:{i}] {} [->]
+			child 	{
+					node [leaf,label=below:{t1}] {} [->]	
+					edge from parent 
+				}
+			edge from parent 
+			}
+		edge from parent 
+        }	
+	child {
+		node [node,label=above:{b}] (sb){} 	
+   		child {
+			node [node,label=left:{f}] (sbf) {} 	
+   			child {
+				node [node,label=left:{l}] (sbfl) {} 
+				child{
+					node [leaf,label=below:{t2}] (sbflt) {} 
+					edge from parent 
+				}
+				edge from parent 
+			}
+			edge from parent 
+		}	
+		edge from parent 
+	};
+	\path[opacity=1,color=red,->] [-latex]
+	(raiz) edge (sb)
+	(sb) edge (sbf)
+	(sbf) edge (sbfl)
+	(sbfl) edge (sbflt);
+}
+\uncover<4>{
+  \node [leaf,label=above:{s}] (raiz) {} [] 
+    child {
+	node [node,label=above:{a}] {} [->]
+	child {
+		node [node,label=right:{i}] {} [->]
+		child 	{
+				node [leaf,label=below:{t1}] {} [->]	
+				edge from parent 
+			}
+		edge from parent 
+		}
+	edge from parent 
+        }	
+	child {
+		node [node,label=above:{b}] (sb) {} []	
+   		child {
+			node [node,label=above:{f}]  {} [->] 	
+   			child {
+				node [node,label=left:{l}] {} [->]
+				child{
+					node [leaf,label=below:{t2}] {} [->]
+					edge from parent 
+				}
+				edge from parent 
+			}
+			edge from parent 
+		}	
+	  	child {
+			node [node,label=left:{g}] (sbg){} 	
+   			child {
+				node [node,label=left:{l}] (sbgl) {} 
+				child{
+					node [leaf,label=below:{t3}] (sbglt) {} 
+					edge from parent
+				}
+				edge from parent 
+			}
+			edge from parent 
+		}		
+		edge from parent 
+	};
+	\path[opacity=1,color=red,->] [-latex]
+	(raiz) edge (sb)
+	(sb) edge (sbg)
+	(sbg) edge (sbgl)
+	(sbgl) edge (sbglt);
+}
+\uncover<5>{
+  \node [leaf,label=above:{s}] (raiz) {} [] 
+    child {
+	node [node,label=above:{a}] {} [->]
+	child {
+		node [node,label=right:{i}] {}  
+		child 	{
+				node [leaf,label=below:{t1}] {} 	
+				edge from parent 
+			}
+		edge from parent 
+		}
+	edge from parent 
+        }	
+	child {
+		node [node,label=above:{b}] (sb) {} 	
+   		child {
+			node [node,label=above:{f}] {} 	[->]
+   			child {
+				node [node,label=left:{l}] {} 
+				child{
+					node [leaf,label=below:{t2}] {} 
+					edge from parent 
+				}
+				edge from parent 
+			}
+			edge from parent 
+		}	
+	  	child {
+			node [node,label=left:{g}] {} [->]	
+   			child {
+				node [node,label=left:{l}] {} 
+				child{
+					node [leaf,label=below:{t3}] {} 
+					edge from parent
+				}
+				edge from parent 
+			}
+			edge from parent 
+		}		
+	  	child {
+			node [node,label=right:{h}] (sbh) {} 	
+   			child {
+				node [node,label=right:{l}] (sbhl) {} 
+				child{
+					node [leaf,label=below:{t4}] (sbhlt) {} 
+					edge from parent
+				}
+				edge from parent 
+			}
+			edge from parent 
+		}	
+		edge from parent 
+	};
+	\path[opacity=1,color=red,->] [-latex]
+	(raiz) edge (sb)
+	(sb) edge (sbh)
+	(sbh) edge (sbhl)
+	(sbhl) edge (sbhlt);
+
+}
+\uncover<6>{
+  \node [leaf,label=above:{s}] (raiz) {} [] 
+    child {
+	node [node,label=above:{a}] {} [->]
+	child {
+		node [node,label=right:{i}] {} 
+		child 	{
+				node [leaf,label=below:{t1}] {} 	
+				edge from parent 
+			}
+		edge from parent 
+		}
+	edge from parent 
+        }	
+	child {
+		node [node,label=above:{b}] (sb){} 	
+   		child {
+			node [node,label=above:{f}] {} 	[->]
+   			child {
+				node [node,label=left:{l}] {} 
+				child{
+					node [leaf,label=below:{t2}] {} 
+					edge from parent 
+				}
+				edge from parent 
+			}
+			edge from parent 
+		}	
+	  	child {
+			node [node,label=left:{g}] {} 	[->]
+   			child {
+				node [node,label=left:{l}] {} 
+				child{
+					node [leaf,label=below:{t3}] {} 
+					edge from parent
+				}
+				edge from parent 
+			}
+			edge from parent 
+		}		
+	  	child {
+			node [node,label=above:{h}] (sbh){} 	
+   			child {
+				node [node,label=above:{l}] {} [->]
+				child{
+					node [leaf,label=below:{t4}] {} 
+					edge from parent
+				}
+				edge from parent 
+			}
+   			child {
+				node [node,label=above:{i}] (sbhi){} 
+				child{
+					node [leaf,label=below:{t5}] (sbhit) {} 
+					edge from parent 
+				}
+				edge from parent 
+			}
+			edge from parent 
+		}	
+		edge from parent 
+	};
+	\path[opacity=1,color=red,->] [-latex]
+	(raiz) edge (sb)
+	(sb) edge (sbh)
+	(sbh) edge (sbhi)
+	(sbhi) edge (sbhit);
+}
+\uncover<7>{
+  \node [leaf,label=above:{s}] (raiz) {} [] 
+    child {
+	node [node,label=above:{a}] (sa) {} 
+	child {
+		node [node,label=right:{i}] (sai){} 
+		child 	{
+				node [leaf,label=below:{t1}] {} [->]	
+				edge from parent 
+			}
+		child 	{
+				node [node,label=right:{h}] (saih){} 
+				child {
+					node [node,label=right:{l}](saihl) {} 
+					child{
+						node [leaf,label=below:{t6}] (saihlt) {} 
+						edge from parent 
+					}
+					edge from parent 
+				}
+				edge from parent 
+			}
+		edge from parent 
+		}
+	edge from parent 
+        }	
+	child {
+		node [node,label=above:{b}] {} [->]	
+   		child {
+			node [node,label=above:{f}] {} 	
+   			child {
+				node [node,label=left:{l}] {} 
+				child{
+					node [leaf,label=below:{t2}] {} 
+					edge from parent 
+				}
+				edge from parent 
+			}
+			edge from parent 
+		}	
+	  	child {
+			node [node,label=left:{g}] {} [->]	
+   			child {
+				node [node,label=left:{l}] {} 
+				child{
+					node [leaf,label=below:{t3}] {} 
+					edge from parent
+				}
+				edge from parent 
+			}
+			edge from parent 
+		}		
+	  	child {
+			node [node,label=above:{h}] {} [->]
+   			child {
+				node [node,label=above:{l}] {} 
+				child{
+					node [leaf,label=below:{t4}] {} 
+					edge from parent
+				}
+				edge from parent 
+			}
+   			child {
+				node [node,label=above:{i}] {} 
+				child{
+					node [leaf,label=below:{t5}] {} 
+					edge from parent 
+				}
+				edge from parent 
+			}
+			edge from parent 
+		}	
+		edge from parent 
+	};
+	\path[opacity=1,color=red,->] [-latex]
+	(raiz) edge (sa)
+	(sa) edge (sai)
+	(sai) edge (saih)
+	(saih) edge (saihl)	
+	(saihl) edge (saihlt);
+}
+\end{tikzpicture}
+
+  \end{columns}
+\end{frame}
+
+\subsection{Métodos}
+\begin{frame}{Método \YenGenerico}
+\begin{algoritmo}
+
+\textbf{Método} \YenGenerico{} $(V,A,c,s,t,k)$ %\\[2mm]
+   
+0\x $\Pi \larr \{\{\mbox{conjunto dos caminhos de $s$ a~$t$}\}\}$
+
+1\x $\Qcal \larr \emptyset $
+
+2\x \para{} $i=1,\ldots,k$ \faca %\\[1mm]
+
+3\xx  $\Lcal  \larr \seq{P_{\pi} : P_{\pi} \ \mbox{é caminho mínimo da parte $\pi$
+de~$\Pi$}}$
+
+4\xx  $P_i \larr \mbox{caminho de custo mínimo em $\Lcal$}$ %\\[1mm]
+
+5\xx  $\Qcal \larr \Qcal \cup \{P_i\}$
+
+6\xx  $\Pi \larr \AtualizeGenerico~(V,A,\Qcal)$
+
+7\x \devolva{} $\seq{P_1,\ldots,P_k}$
+
+\end{algoritmo}
+
+\end{frame}
+
+\begin{frame}{\AtualizeGenerico}
+
+\begin{algoritmo}
+
+\textbf{Algoritmo} \AtualizeGenerico{} $(V,A,\Qcal)$ %\\[2mm]
+   
+0\x $\Pi \larr \emptyset \quad \quad \Pcal \larr \Pcal_{st} \setminus \Qcal$
+
+1\x $(N,E,f) \larr$ árvore dos prefixos de $\Qcal$
+
+2\x \para{} \cada{} $u \in N$ \faca %\\[1mm]
+
+3\xx  $\pi_u \larr \{\mbox{caminhos em $\Pcal$ com prefixo $f(R_u)$}$
+
+\xxxxx \quad e que não possuem arcos em $A_u \}$
+
+4\xx  $\Pi \larr  \Pi \cup \{\pi_u\}$ %\\[1mm]
+
+5\x \devolva{} $\Pi$
+
+\end{algoritmo}
+\end{frame}
+
+\begin{frame}{Exemplo}
+  \begin{columns}  
+    \column{.4\textwidth}
+  \begin{tikzpicture}[auto,thick,sloped,node distance=9mm,scale=0.7]
+    \tikzstyle{every node}=%
+    [%
+      inner sep=0pt,%
+      outer sep=0pt,%
+      ball color=example text.fg,%
+      circle%
+    ]
+        \node[ball color=red] (S) {s};
+        \node (B) [right of=S] {b};
+        \node (G) [right of=B] {g};
+        \node (L) [right of=G] {l};
+        \node[ball color=red] (T) [right of=L] {t};
+        \node (F) [above of=G] {f};
+        \node (E) [above of=F] {e};
+        \node (H) [below of=G] {h};
+        \node (I) [below of=H] {i};
+        \node (C) [above of=S] {c};
+        \node (A) [below of=S] {a};
+        \node (J) [above of=L] {j};
+        \node (D) [left of=E] {d};
+          
+         \path [-,thick,black] (S) edge (A)
+                                    edge (B)
+                                    edge (C)
+                                (B) edge (C)
+                                    edge (D)
+                                    edge (F)
+                                    edge (G)
+                                    edge (H)
+                                (D) edge (E)   
+                                (A) edge (I)
+                                (I) edge (H)
+                                    edge (T)
+                                (E) edge (F)
+                                    edge (J)
+                                (F) edge (G)
+                                (F) edge (L)
+                                (G) edge (H)
+                                    edge (L)  
+                                (J) edge (L)
+                                (L) edge (T)
+                                (H) edge (L)
+                                (C) edge (D);
+        \uncover<3>{  
+	\path[-,thick,red,line width=1mm] (S) edge (B)
+                            (B) edge (H)
+                            (H) edge (L)
+                            (L) edge (T) ;
+	}
+           \end{tikzpicture}
+
+    \column{.6\textwidth}
+\begin{tikzpicture}[auto,thick,sloped,scale=0.7]
+  \tikzstyle{node}=%
+  [%
+    minimum size=8pt,%
+    inner sep=0pt,%
+    outer sep=0pt,%
+    ball color=example text.fg,%
+    circle%
+  ]
+  \tikzstyle{leaf}=%
+  [%
+    minimum size=10pt,%
+    inner sep=0pt,%
+    outer sep=0pt,%
+    ball color=red,%
+    circle%
+  ]
+
+% Set the overall layout of the tree
+\tikzstyle{level 1}=[level distance=1.5cm, sibling distance=6cm]
+\tikzstyle{level 2}=[level distance=2cm, sibling distance=2cm]
+
+% Define styles for bags and leafs
+\tikzstyle{bag} = [text width=4em, text centered]
+\tikzstyle{end} = [circle, minimum width=3pt,fill, inner sep=0pt]
+\only<1>{
+ \node[draw,color=red] at (3.5,0) {$f(R_u) = \seq{s,b}$};
+ \node[color=blue,rectangle,draw,dashed,opacity=.5,minimum width=10pt] at (2.5,-2.6)  (Au) 
+          {$A_u$ \mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }};
+  \node [leaf,label=above:{s}] (raiz) {} [] 
+    child {
+	node [node,label=above:{a}] {} [->]
+	child {
+		node [node,label=right:{i}] {} 
+		child 	{
+				node [leaf,label=below:{t1}] {} 	
+				edge from parent 
+			}
+		edge from parent 
+		}
+	edge from parent 
+        }	
+	child {
+		node [node,label=right:{$u$=b}] (sb) {} 	
+   		child {
+			node [node,label=left:{f},ball color=blue](sbf) {} 	
+   			child {
+				node [node,label=left:{l}] {} [->]
+				child{
+					node [leaf,label=below:{t2}] {} 
+					edge from parent 
+				}
+				edge from parent 
+			}
+			edge from parent 	
+	        }	
+	  	child {
+			node [node,label=right:{g},ball color=blue] (sbg) {} 	
+   			child {
+				node [node,label=left:{l}] {} [->]
+				child{
+					node [leaf,label=below:{t3}] {} 
+					edge from parent
+				}
+				edge from parent 
+			}
+			edge from parent 
+		}		
+		edge from parent
+ 	};
+	\path[opacity=1,color=red,->] [-latex]
+	(raiz) edge (sb);
+	\path[opacity=1,color=blue,->] [-latex]
+	(sb) edge (sbf);
+	\path[opacity=1,color=blue,->] [-latex]
+	(sb) edge (sbg);
+}
+
+\only<2>{
+ \node[draw,color=red] at (3.5,0) {$f(R_u) = \seq{s,b}$};
+% \node[color=blue,rectangle,draw,dashed,opacity=.5,minimum width=10pt] at (2.5,-2.2)  (Au) 
+%          {$A_u$ \mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }};
+  \node [leaf,label=above:{s}] (raiz) {} [] 
+    child {
+	node [node,label=above:{a}] {} [->]
+	child {
+		node [node,label=right:{i}] {} 
+		child 	{
+				node [leaf,label=below:{t1}] {} 	
+				edge from parent 
+			}
+		edge from parent 
+		}
+	edge from parent 
+        }	
+	child {
+		node [node,label=right:{$u$=b}] (sb) {} 	
+   		child  [sibling distance=1.5cm]{
+			node [node,label=left:{f},ball color=blue](sbf) {} 	
+   			child {
+				node [node,label=left:{l}] {} [->]
+				child{
+					node [leaf,label=below:{t2}] {} 
+					edge from parent 
+				}
+				edge from parent 
+			}
+			edge from parent 	
+	        }	
+	  	child  [sibling distance=1.5cm]{
+			node [node,label=right:{g},ball color=blue] (sbg) {} 	
+   			child {
+				node [node,label=left:{l}] {} [->]
+				child{
+					node [leaf,label=below:{t3}] {} 
+					edge from parent
+				}
+				edge from parent 
+			}
+			edge from parent 
+		}		
+		child [sibling distance=1.5cm]{
+			node [node,label=right:{c},ball color=gray] (sbc) {} [] 
+			child{
+				node [node,ball color=gray] {\ldots} [->]	
+				child{
+					node [node,label=below:{t},ball color=red] {} []	
+		  			edge from parent 
+				}
+   				edge from parent 
+			}
+   			edge from parent 
+		}	
+		child [sibling distance=1.5cm]{
+			node [node,label=right:{d},ball color=gray] (sbd) {} []
+			child{
+				node [node,ball color=gray] {\ldots} [->]	
+				child{
+					node [node,label=below:{t},ball color=red] {} []	
+		  			edge from parent 
+				}
+   				edge from parent 
+			}
+   			edge from parent 
+		}	
+		child [sibling distance=1.5cm]{
+			node [node,label=right:{h},ball color=gray] (sbh) {} []
+			child{
+				node [node,ball color=gray] {\ldots} [->]	
+				child{
+					node [node,label=below:{t},ball color=red] {} []	
+		  			edge from parent 
+				}
+   				edge from parent 
+			}
+   			edge from parent 
+		}	
+	edge from parent
+ 	};
+	\path[opacity=1,color=red,->] [-latex]
+	(raiz) edge (sb);
+	\path[opacity=1,color=blue,->] [-latex]
+	(sb) edge (sbf);
+	\path[opacity=1,color=blue,->] [-latex]
+	(sb) edge (sbg);
+	\path[dashed,opacity=1,color=gray,->] [-latex]
+	(sb) edge (sbc);
+	\path[dashed,opacity=1,color=gray,->] [-latex]
+	(sb) edge (sbd);
+	\path[dashed,opacity=1,color=gray,->] [-latex]
+	(sb) edge (sbh);
+	\draw[opacity=0.2,dashed,color=gray,fill] (2.5,-8.5) rectangle (6.8,-2.3);	
+	\node at (6.5,-2.5) {$\pi_u$};
+}
+\only<3>{
+ \node[draw,color=red] at (3.5,0) {$f(R_u) = \seq{s,b}$};
+% \node[color=blue,rectangle,draw,dashed,opacity=.5,minimum width=10pt] at (2.5,-2.2)  (Au) 
+%          {$A_u$ \mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }};
+  \node [leaf,label=above:{s}] (raiz) {} [] 
+    child {
+	node [node,label=above:{a}] {} [->]
+	child {
+		node [node,label=right:{i}] {} 
+		child 	{
+				node [leaf,label=below:{t1}] {} 	
+				edge from parent 
+			}
+		edge from parent 
+		}
+	edge from parent 
+        }	
+	child {
+		node [node,label=right:{$u$=b}] (sb) {} 	
+   		child  [sibling distance=1.5cm]{
+			node [node,label=left:{f},ball color=blue](sbf) {} 	
+   			child {
+				node [node,label=left:{l}] {} [->]
+				child{
+					node [leaf,label=below:{t2}] {} 
+					edge from parent 
+				}
+				edge from parent 
+			}
+			edge from parent 	
+	        }	
+	  	child  [sibling distance=1.5cm]{
+			node [node,label=right:{g},ball color=blue] (sbg) {} 	
+   			child {
+				node [node,label=left:{l}] {} [->]
+				child{
+					node [leaf,label=below:{t3}] {} 
+					edge from parent
+				}
+				edge from parent 
+			}
+			edge from parent 
+		}		
+		child [sibling distance=1.5cm]{
+			node [node,label=right:{c},ball color=gray] (sbc) {} []
+			child{
+				node [node,ball color=gray] {\ldots} [->]	
+				child{
+					node [node,label=below:{t},ball color=red] {} []	
+		  			edge from parent 
+				}
+   				edge from parent 
+			}
+   			edge from parent 
+		}	
+		child [sibling distance=1.5cm]{
+			node [node,label=right:{d},ball color=gray] (sbd) {} []
+			child{
+				node [node,ball color=gray] {\ldots} [->]	
+				child{
+					node [node,label=below:{t},ball color=red] {} []	
+		  			edge from parent 
+				}
+   				edge from parent 
+			}
+   			edge from parent 
+		}	
+		child [sibling distance=1.5cm]{
+			node [node,label=right:{h},ball color=gray] (sbh) {} []
+			child{
+				node [node,label=right:{l},ball color=gray] (sbhl) {} []	
+				child{
+					node [node,label=below:{t},ball color=red] (sbhlt) {} []	
+		  			edge from parent 
+				}
+   				edge from parent 
+			}
+   			edge from parent 
+		}	
+	edge from parent
+ 	};
+	\path[opacity=1,color=red,->] [-latex]
+	(raiz) edge (sb);
+	\path[opacity=1,color=blue,->] [-latex]
+	(sb) edge (sbf);
+	\path[opacity=1,color=blue,->] [-latex]
+	(sb) edge (sbg);
+	\path[dashed,opacity=1,color=gray,->] [-latex]
+	(sb) edge (sbc);
+	\path[dashed,opacity=1,color=gray,->] [-latex]
+	(sb) edge (sbd);
+	\path[dashed,opacity=1,color=gray,->] [-latex]
+	(sb) edge (sbh);
+	\draw[opacity=0.2,dashed,color=gray,fill] (2.5,-8.5) rectangle (6.8,-2.3);	
+	\node at (6.5,-2.5) {$\pi_u$};
+	\path[opacity=1,color=red,->] [-latex]
+	(raiz) edge (sb)
+	(sb) edge (sbh)
+	(sbh) edge (sbhl)
+	(sbhl) edge (sbhlt);
+
+}
+\end{tikzpicture}
+\end{columns}
+\end{frame}
+
+
+\begin{frame}{Método de \Yen}
+\begin{algoritmo}
+
+\textbf{Método} \Yen{} $(V,A,c,s,t,k)$ %\\[2mm]
+
+1\x $\Lcal \larr \{ \mbox{um caminho de custo mínimo de $s$ a $t$} \}$
+
+2\x $\Qcal \larr \emptyset$
+
+3\x \para{} $i=1,\ldots,k$ \faca %\\[1mm]
+
+4\xx  $P_i \larr \mbox{caminho de custo mínimo em $\Lcal$}$
+%\\[1mm]
+
+%4\xx  $\Lcal \larr \Lcal \setminus \{P_i\}$
+
+5\xx  $\Qcal \larr \Qcal \cup \{P_i\}$
+
+6\xx  $\Lcal \larr \Atualize~(V,A,c,\Qcal)$
+
+7\x \devolva{} $\seq{P_1,\ldots,P_k}$
+
+\end{algoritmo}
+\end{frame}
+
+\begin{frame}{\Atualize{}}
+\begin{algoritmo}
+
+\textbf{Algoritmo} \Atualize{} $(V,A,c,\Qcal)$ %\\[2mm]
+   
+0\x $\Lcal \larr \emptyset$
+
+1\x $(N,E,f) \larr$ árvore dos prefixos de $\Qcal$
+
+2\x \para{} \cada{} $u \in N$ \faca %\\[1mm]
+
+3\xx  $P_u \larr \mbox{st-caminho mínimo com prefixo $f(R_u)$}$
+
+\xxxxx e que não possui arcos em $A_u$
+
+4\xx  $\Lcal \larr  \Lcal \cup \{P_u\}$ %\\[1mm]
+
+5\x \devolva{} $\Lcal$
+
+\end{algoritmo}
+\end{frame}
+
+
+
+\begin{frame}{Exemplo}
+  \begin{columns}  
+    \column{.4\textwidth}
+  \begin{tikzpicture}[auto,thick,sloped,node distance=9mm,scale=0.7]
+    \tikzstyle{every node}=%
+    [%
+      inner sep=0pt,%
+      outer sep=0pt,%
+      ball color=example text.fg,%
+      circle%
+    ]
+        \node[ball color=red] (S) {s};
+        \node (B) [right of=S] {b};
+        \node (G) [right of=B] {g};
+        \node (L) [right of=G] {l};
+        \node[ball color=red] (T) [right of=L] {t};
+        \node (F) [above of=G] {f};
+        \node (E) [above of=F] {e};
+        \node (H) [below of=G] {h};
+        \node (I) [below of=H] {i};
+        \node (C) [above of=S] {c};
+        \node (A) [below of=S] {a};
+        \node (J) [above of=L] {j};
+        \node (D) [left of=E] {d};
+          
+         \path [-,thick,black] (S) edge (A)
+                                    edge (B)
+                                    edge (C)
+                                (B) edge (C)
+                                    edge (D)
+                                    edge (F)
+                                    edge (G)
+                                    edge (H)
+                                (D) edge (E)   
+                                (A) edge (I)
+                                (I) edge (H)
+                                    edge (T)
+                                (E) edge (F)
+                                    edge (J)
+                                (F) edge (G)
+                                (F) edge (L)
+                                (G) edge (H)
+                                    edge (L)  
+                                (J) edge (L)
+                                (L) edge (T)
+                                (H) edge (L)
+                                (C) edge (D);
+        \only<2>{  
+	\path[-,thick,red,line width=1mm] (S) edge (B)
+                            (B) edge (H)
+                            (H) edge (L)
+                            (L) edge (T) ;
+	}
+        \end{tikzpicture}
+    \column{.6\textwidth}
+\begin{tikzpicture}[auto,thick,sloped,scale=0.7]
+  \tikzstyle{node}=%
+  [%
+    minimum size=8pt,%
+    inner sep=0pt,%
+    outer sep=0pt,%
+    ball color=example text.fg,%
+    circle%
+  ]
+  \tikzstyle{leaf}=%
+  [%
+    minimum size=10pt,%
+    inner sep=0pt,%
+    outer sep=0pt,%
+    ball color=red,%
+    circle%
+  ]
+
+% Set the overall layout of the tree
+\tikzstyle{level 1}=[level distance=1.5cm, sibling distance=5cm]
+\tikzstyle{level 2}=[level distance=1.5cm, sibling distance=2cm]
+
+% Define styles for bags and leafs
+\tikzstyle{bag} = [text width=4em, text centered]
+\tikzstyle{end} = [circle, minimum width=3pt,fill, inner sep=0pt]
+\only<1>{
+ \node[draw,color=red] at (3.5,0) {$f(R_u) = \seq{s,b}$};
+ \node[color=blue,rectangle,draw,dashed,opacity=.5,minimum width=10pt] at (2.5,-2.2)  (Au) 
+          {$A_u$ \mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }\mbox{ }};
+  \node [leaf,label=above:{s}] (raiz) {} [] 
+    child {
+	node [node,label=above:{a}] {} [->]
+	child {
+		node [node,label=right:{i}] {} 
+		child 	{
+				node [leaf,label=below:{t1}] {} 	
+				edge from parent 
+			}
+		edge from parent 
+		}
+	edge from parent 
+        }	
+	child {
+		node [node,label=right:{$u$=b}] (sb) {} 	
+   		child {
+			node [node,label=left:{f},ball color=blue](sbf) {} 	
+   			child {
+				node [node,label=left:{l}] {} [->]
+				child{
+					node [leaf,label=below:{t2}] {} 
+					edge from parent 
+				}
+				edge from parent 
+			}
+			edge from parent 	
+	        }	
+	  	child {
+			node [node,label=right:{g},ball color=blue] (sbg) {} 	
+   			child {
+				node [node,label=left:{l}] {} [->]
+				child{
+					node [leaf,label=below:{t3}] {} 
+					edge from parent
+				}
+				edge from parent 
+			}
+			edge from parent 
+		}		
+		edge from parent
+ 	};
+	\path[opacity=1,color=red,->] [-latex]
+	(raiz) edge (sb);
+	\path[opacity=1,color=blue,->] [-latex]
+	(sb) edge (sbf);
+	\path[opacity=1,color=blue,->] [-latex]
+	(sb) edge (sbg);
+}
+\only<2>{
+  \node [leaf,label=above:{s}] (raiz) {} [] 
+    child {
+	node [node,label=above:{a}] {} [->] 
+	child {
+		node [node,label=right:{i}] {} 
+		child 	{
+				node [leaf,label=below:{t1}] {} 	
+				edge from parent 
+			}
+		edge from parent 
+		}
+	edge from parent 
+        }	
+	child {
+		node [node,label=above:{b}] (sb) {} 	
+   		child {
+			node [node,label=above:{f}] {} 	[->]
+   			child {
+				node [node,label=left:{l}] {} 
+				child{
+					node [leaf,label=below:{t2}] {} 
+					edge from parent 
+				}
+				edge from parent 
+			}
+			edge from parent 
+		}	
+	  	child {
+			node [node,label=left:{g}] {} [->]	
+   			child {
+				node [node,label=left:{l}] {} 
+				child{
+					node [leaf,label=below:{t3}] {} 
+					edge from parent
+				}
+				edge from parent 
+			}
+			edge from parent 
+		}		
+	  	child {
+			node [node,label=above:{h}] (sbh)  {} 	[]
+   			child {
+				node [node,label=right:{l}] (sbhl) {} 
+				child{
+					node [leaf,label=below:{t4}] (sbhlt) {} 
+					edge from parent
+				}
+				edge from parent 
+			}
+			edge from parent 
+		}	
+		edge from parent 
+	};
+	\path[opacity=1,color=red,->] [-latex]
+	(raiz) edge (sb)
+	(sb) edge (sbh)
+	(sbh) edge (sbhl)
+	(sbhl) edge (sbhlt);
+}
+
+\end{tikzpicture}
+
+  \end{columns}
+\end{frame}
+
+
+\begin{frame}{Algoritmo de Katoh, Ibaraki e Mine(KIM)}
+	\begin{itemize}
+		\item Específico para grafos simétricos.
+		\item Diminuição do número de caminhos candidatos gerados a cada iteração.
+		\item Baseado no método de Yen.
+	\end{itemize}
+	  \begin{tikzpicture}[scale=0.70]
+    \tikzstyle{node}=%
+    [%
+      inner sep=0pt,%
+      outer sep=0pt,%
+      ball color=example text.fg,%
+      circle%
+    ]
+        \node[node,minimum size=8pt,label=left:{s}] at (0,3) (S)  {};
+        \node[node] at (1,3) (A)  {};
+        \node[node] at (2,3) (B)  {};
+        \node[node] at (3,3) (C)  {};
+        \node[node] at (4,1) (D)  {};
+        \node[node,minimum size=8pt,label=right:{t}] at (11,3) (T) {};
+       
+        \node[color=red] at (6,3.2) (P1) {P1};
+
+        \path [-,thick,red]  
+                  (S) edge[] (T)
+                  (S) edge (A)
+                  (A) edge (B)
+                  (B) edge (C);
+       \onslide<1->{
+        \path [-,thick,blue]  
+                  (B) edge[bend right] (D)
+                  (D) edge[bend right] (T);
+         \node[color=blue] at (6,1) (P2) {P2};
+
+        }
+        \onslide<1->{
+        \path [-,thick,black,dashed]  
+                  (A.north) edge[in=90] (T.north);
+                 \node[color=black] at (6,5.8) (Pc) {Pc};
+}
+        \onslide<1->{
+        \path [-,thick,black,dashed]  
+                  (C.north) edge[bend left] (T.north);
+                 \node[color=black] at (6,4.5) (Pa) {Pa};
+}
+       \onslide<1->{
+        \path [-,thick,black,dashed]  
+                  (D) edge[in=-90,out=-90] (T);
+                 \node[color=black] at (6,0) (Pb) {Pb};
+}
+        \end{tikzpicture}
+
+        %\begin{figure}
+	%\pgfuseimage{kimCaminhos}
+	%\end{figure}
+\end{frame}
+
+\section{Proposta}
+\begin{frame}{Melhoria do desempenho do KIM}
+\onslide<1->
+{%
+\begin{block}{Considerações sobre o Algorimo KIM}
+	\begin{itemize}
+		\item Principal subrotina: árvores de caminhos mínimos.
+		\item Grafos intermediários semelhantes.	
+		\item Custos discretos
+	\end{itemize}
+\end{block}
+}
+\onslide<2->
+{%
+\begin{block}{Idéias}
+	\begin{itemize}
+		\item Reconstrução de árvores de caminhos mínimos
+		\item Mais caminhos candidatos por iteração
+	\end{itemize}
+\end{block}
+}
+\end{frame}
+
+\begin{frame}{Plano}
+\begin{enumerate}
+\item Estudo de YEN
+\item Estudo de KIM
+\item Estudo de Reconstrução de árvores
+\item Geração de mais caminhos candidatos
+\item Comparar implementações: 
+	\begin{itemize}
+		\item YEN
+		\item KIM
+		\item KIM com reconstrução
+		\item KIM com mais caminhos candidatos
+	\end{itemize}
+\end{enumerate}
+\end{frame}
+
+\end{document}
+
+\begin{frame}[t]{General formalization of haplotyping.}
+  \begin{block}{Inputs}
+    \begin{itemize}
+    \item A \alert{genotype matrix} $G$.
+    \item The \alert{rows} of the matrix are \alert{taxa / individuals}.
+    \item The \alert{columns} of the matrix are \alert{SNP sites /
+        characters}. 
+    \end{itemize}
+  \end{block}
+  \begin{block}{Outputs}
+    \begin{itemize}
+    \item A \alert{haplotype matrix} $H$.
+    \item Pairs of rows in $H$ \alert{explain} the rows of $G$.
+    \item The haplotypes in $H$ are \alert{biologically plausible}. 
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+
+\begin{frame}[t]{Our formalization of haplotyping.}
+  \begin{block}{Inputs}
+    \begin{itemize}
+    \item A genotype matrix $G$.
+    \item The rows of the matrix are individuals / taxa.
+    \item The columns of the matrix are SNP sites / characters.
+    \item<alert@1->
+      The problem is directed: one haplotype is known.
+    \item<alert@1->
+      The input is biallelic: there are only two homozygous
+      states (0 and 1) and one heterozygous state (2).
+    \end{itemize}
+  \end{block}
+  \begin{block}{Outputs}
+    \begin{itemize}
+    \item A haplotype matrix $H$.
+    \item Pairs of rows in $H$ explain the rows of $G$.
+    \item<alert@1> The haplotypes in $H$ form a perfect phylogeny.
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+
+\begin{frame}{We can do perfect phylogeny haplotyping efficiently, but
+    \dots}
+  \begin{enumerate}
+  \item \alert{Data may be missing.}
+    \begin{itemize}
+    \item This makes the problem NP-complete \dots
+    \item \dots even for very restricted cases.
+    \end{itemize}
+    \textcolor{green!50!black}{Solutions:}
+    \begin{itemize}
+    \item Additional assumption like the rich data hypothesis. 
+    \end{itemize}
+  \item \alert{No perfect phylogeny is possible.}
+    \begin{itemize}
+    \item This can be caused by chromosomal crossing-over effects.
+    \item This can be caused by incorrect data.
+    \item This can be caused by multiple mutations at the same sites.
+    \end{itemize}
+    \textcolor{green!50!black}{Solutions:}
+    \begin{itemize}
+    \item Look for phylogenetic networks.
+    \item Correct data.
+    \item<alert@1->
+       Find blocks where a perfect phylogeny is possible.
+    \end{itemize}
+  \end{enumerate}
+\end{frame}
+
+
+\subsection{The Integrated Approach}
+
+\begin{frame}{How blocks help in perfect phylogeny haplotyping.}
+  \begin{enumerate}
+  \item Partition the site set into overlapping contiguous blocks.
+  \item Compute a perfect phylogeny for each block and combine them.
+  \item Use dynamic programming for finding the partition.
+  \end{enumerate}
+
+  \begin{tikzpicture}
+    \useasboundingbox (0,-1) rectangle (10,2);
+    
+    \draw[line width=2mm,dash pattern=on 1mm off 1mm]
+      (0,1) -- (9.99,1) node[midway,above] {Genotype matrix}
+      (0,0.6666) -- (9.99,0.6666)
+      (0,0.3333) -- (9.99,0.3333)
+      (0,0) -- (9.99,0) node[midway,below] {\only<1>{no perfect phylogeny}};
+
+    \begin{scope}[xshift=-.5mm]
+      \only<2->
+      {
+        \draw[red,block]            (0,.5)   -- (3,.5)
+          node[midway,below] {perfect phylogeny};
+      }
+        
+      \only<3->
+      {
+        \draw[green!50!black,block] (2.5,.5)   -- (7,.5)
+          node[pos=0.6,below] {perfect phylogeny};
+      }
+
+      \only<4->
+      {
+        \draw[blue,block]           (6.5,.5) -- (10,.5)
+          node[pos=0.6,below] {perfect phylogeny};
+      }
+    \end{scope}
+  \end{tikzpicture}
+\end{frame}
+
+\begin{frame}{Objective of the integrated approach.}
+  \begin{enumerate}
+  \item Partition the site set into \alert{noncontiguous} blocks. 
+  \item Compute a perfect phylogeny for each block and combine them. 
+  \item<alert@1-> Compute partition while computing perfect
+    phylogenies. 
+  \end{enumerate}
+
+  \begin{tikzpicture}
+    \useasboundingbox (0,-1) rectangle (10,2);
+
+    \draw[line width=2mm,dash pattern=on 1mm off 1mm]
+      (0,1) -- (9.99,1) node[midway,above] {Genotype matrix}
+      (0,0.6666) -- (9.99,0.6666)
+      (0,0.3333) -- (9.99,0.3333)
+      (0,0) -- (9.99,0) node[midway,below] {\only<1>{no perfect phylogeny}};
+
+    \only<2->
+    {
+      \begin{scope}[xshift=-0.5mm]
+        \draw[red,block] (0,.5)   -- (3,.5) 
+          node[midway,below] {perfect phylogeny}
+                         (8,.5) -- (9,.5);
+
+        \draw[green!50!black,block]
+          (3,.5)   -- (6,.5)
+            node[pos=0.6,below] {perfect phylogeny}
+          (6.4,.5)   -- (8,.5)
+          (9,.5) -- (10,.5);
+
+        \draw[blue,block] (6,.5) -- (6.4,.5)
+          node[midway,below=5mm] {perfect phylogeny};
+      \end{scope}
+    }
+  \end{tikzpicture}
+\end{frame}
+
+
+\begin{frame}{The formal computational problem.}
+  We are interested in the computational complexity of \\
+  \alert{the function \alert{$\chi_{\operatorname{PP}}$}}:
+  \begin{itemize}
+  \item It gets genotype matrices as input.
+  \item It maps them to a number $k$.
+  \item This number is minimal such that the sites can be
+    covered by $k$ sets, each admitting a perfect phylogeny.
+    \\
+    (We call this a \alert{pp-partition}.)
+  \end{itemize}
+\end{frame}
+
+
+\section{Bad News: Hardness Results}
+
+\subsection{Hardness of PP-Partitioning of Haplotype Matrices}
+
+\begin{frame}{Finding pp-partitions of haplotype matrices.}
+  We start with a special case:
+  \begin{itemize}
+  \item The inputs $M$ are \alert{already haplotype matrices}.
+  \item The inputs $M$ \alert{do not allow a perfect phylogeny}.
+  \item What is $\chi_{\operatorname{PP}}(M)$?
+  \end{itemize}
+  \begin{example}
+    \begin{columns}
+      \column{.3\textwidth}
+      $M\colon$
+      \footnotesize
+      \begin{tabular}{cccc}
+        0 & 0 & 0 & 1 \\
+        0 & 1 & 0 & 0 \\
+        1 & 0 & 0 & 0 \\
+        0 & 1 & 0 & 0 \\
+        1 & 0 & 0 & 0 \\
+        0 & 1 & 0 & 1 \\
+        1 & 1 & 0 & 0 \\
+        0 & 0 & 1 & 0 \\
+        1 & 0 & 1 & 0
+      \end{tabular}%
+      \only<2>
+      {%
+        \begin{tikzpicture}
+          \useasboundingbox (2.9,0);
+
+          \draw [red, opacity=0.7,line width=1cm] (1.7 ,1.9) -- (1.7 ,-1.7);
+          \draw [blue,opacity=0.7,line width=5mm] (0.85,1.9) -- (0.85,-1.7)
+                                                  (2.55,1.9) -- (2.55,-1.7);
+        \end{tikzpicture}
+      }
+      \column{.6\textwidth}
+      \begin{overprint}
+        \onslide<1>
+        No perfect phylogeny is possible.
+        
+        \onslide<2>
+        \textcolor{blue!70!bg}{Perfect phylogeny}
+        
+        \textcolor{red!70!bg}{Perfect phylogeny}
+        
+        $\chi_{\operatorname{PP}}(M) = 2$.
+        
+      \end{overprint}
+    \end{columns}
+  \end{example}
+\end{frame}
+
+\begin{frame}{Bad news about pp-partitions of haplotype matrices.}
+  \begin{theorem}
+    Finding \alert{optimal pp-partition of haplotype matrices}\\
+    is equivalent to finding \alert{optimal graph colorings}.
+  \end{theorem}
+
+  \begin{proof}[Proof sketch for first direction]
+    \begin{enumerate}
+    \item Let $G$ be a graph.
+    \item Build a matrix with a column for each vertex of $G$.
+    \item For each edge of $G$ add four rows inducing\\the
+      submatrix $\left(
+        \begin{smallmatrix}
+          0 & 0 \\
+          0 & 1 \\
+          1 & 0 \\
+          1 & 1
+        \end{smallmatrix}\right)$.
+    \item The submatrix enforces that the columns lie in different
+      perfect phylogenies. \qedhere  
+    \end{enumerate}
+  \end{proof}
+\end{frame}
+
+\begin{frame}{Implications for pp-partitions of haplotype matrices.}
+  \begin{corollary}
+    If $\chi_{\operatorname{PP}}(M) = 2$ for a haplotype matrix $M$,
+    we can find an optimal pp-partition in polynomial time. 
+  \end{corollary}
+
+  \begin{corollary}
+    Computing $\chi_{\operatorname{PP}}$ for haplotype matrices is
+    \begin{itemize}
+    \item $\operatorname{NP}$-hard,
+    \item not fixed-parameter tractable, unless
+      $\operatorname{P}=\operatorname{NP}$, 
+    \item very hard to approximate.
+    \end{itemize}
+  \end{corollary}
+\end{frame}
+
+
+\subsection{Hardness of PP-Partitioning of Genotype Matrices}
+
+
+\begin{frame}{Finding pp-partitions of genotype matrices.}
+  Now comes the general case:
+  \begin{itemize}
+  \item The inputs $M$ are \alert{genotype matrices}.
+  \item The inputs $M$ \alert{do not allow a perfect phylogeny}.
+  \item What is $\chi_{\operatorname{PP}}(M)$?
+  \end{itemize}
+  \begin{example}
+    \begin{columns}
+      \column{.3\textwidth}
+      $M\colon$
+      \footnotesize
+      \begin{tabular}{cccc}
+        2 & 2 & 2 & 2 \\
+        1 & 0 & 0 & 0 \\
+        0 & 0 & 0 & 1 \\
+        0 & 0 & 1 & 0 \\
+        0 & 2 & 2 & 0 \\
+        1 & 1 & 0 & 0 
+      \end{tabular}%
+      \only<2>
+      {%
+        \begin{tikzpicture}
+          \useasboundingbox (2.9,0);
+          
+          \draw [red, opacity=0.7,line width=1cm] (1.7 ,1.3) -- (1.7 ,-1.1);
+          \draw [blue,opacity=0.7,line width=5mm] (0.85,1.3) -- (0.85,-1.1)
+                                                  (2.55,1.3) -- (2.55,-1.1);
+        \end{tikzpicture}
+      }
+      \column{.6\textwidth}
+      \begin{overprint}
+        \onslide<1>
+        No perfect phylogeny is possible.
+        
+        \onslide<2>
+        \textcolor{blue!70!bg}{Perfect phylogeny}
+        
+        \textcolor{red!70!bg}{Perfect phylogeny}
+        
+        $\chi_{\operatorname{PP}}(M) = 2$.
+        
+      \end{overprint}
+    \end{columns}
+  \end{example}
+\end{frame}
+
+
+\begin{frame}{Bad news about pp-partitions of haplotype matrices.}
+  \begin{theorem}
+    Finding \alert{optimal pp-partition of genotype matrices}
+    is at least as hard as finding \alert{optimal colorings of
+      3-uniform hypergraphs}. 
+  \end{theorem}
+
+  \begin{proof}[Proof sketch]
+    \begin{enumerate}
+    \item Let $G$ be a 3-uniform hypergraph.
+    \item Build a matrix with a column for each vertex of $G$.
+    \item For each hyperedge of $G$ add four rows inducing\\ the submatrix
+      $\left(
+        \begin{smallmatrix}
+          2 & 2 & 2 \\
+          1 & 0 & 0 \\
+          0 & 1 & 0 \\
+          0 & 0 & 1
+        \end{smallmatrix}\right)
+      $.
+    \item The submatrix enforces that the three columns do not all lie
+      in the same perfect phylogeny. \qedhere
+    \end{enumerate}
+  \end{proof}
+\end{frame}
+
+\begin{frame}{Implications for pp-partitions of genotype matrices.}
+  \begin{corollary}
+    Even if we know $\chi_{\operatorname{PP}}(M) = 2$ for a genotype matrix $M$,\\
+    finding a pp-partition of any fixed size is still
+    \begin{itemize}
+    \item $\operatorname{NP}$-hard,
+    \item not fixed-parameter tractable, unless
+      $\operatorname{P}=\operatorname{NP}$, 
+    \item very hard to approximate.
+    \end{itemize}
+  \end{corollary}
+\end{frame}
+
+
+\section{Good News: Tractability Results}
+
+\subsection{Perfect Path Phylogenies}
+
+\begin{frame}{Automatic optimal pp-partitioning is hopeless, but\dots}
+  \begin{itemize}
+  \item The hardness results are \alert{worst-case} results for\\
+    \alert{highly artificial inputs}.
+  \item \alert{Real biological data} might have special properties
+    that make the problem \alert{tractable}.
+  \item One such property is that perfect phylogenies are often
+    perfect \alert{path} phylogenies:
+
+    In HapMap data, in 70\% of the blocks where a perfect phylogeny
+    is possible a perfect path phylogeny is also possible.
+  \end{itemize}  
+\end{frame}
+
+
+\begin{frame}{Example of a perfect path phylogeny.}
+  \begin{columns}[t]
+    \column{.3\textwidth}
+    \begin{exampleblock}{Genotype matrix}
+      $G\colon$
+      \begin{tabular}{ccc}
+        A & B & C \\\hline
+        2 & 2 & 2 \\
+        0 & 2 & 0 \\
+        2 & 0 & 0 \\
+        0 & 2 & 2 
+      \end{tabular}
+    \end{exampleblock}
+
+    \column{.3\textwidth}
+    \begin{exampleblock}{Haplotype matrix}
+      $H\colon$
+      \begin{tabular}{ccc}
+        A & B & C \\\hline
+        1 & 0 & 0 \\
+        0 & 1 & 1 \\
+        0 & 0 & 0 \\
+        0 & 1 & 0 \\
+        0 & 0 & 0 \\
+        1 & 0 & 0 \\
+        0 & 0 & 0 \\
+        0 & 1 & 1 
+      \end{tabular}
+    \end{exampleblock}
+
+    \column{.4\textwidth}
+    \begin{exampleblock}{Perfect path phylogeny}
+      \begin{center}
+        \begin{tikzpicture}[auto,thick]
+          \tikzstyle{node}=%
+          [%
+            minimum size=10pt,%
+            inner sep=0pt,%
+            outer sep=0pt,%
+            ball color=example text.fg,%
+            circle%
+          ]
+        
+          \node [node] {} [->]
+            child {node [node] {} edge from parent node[swap]{A}}
+            child {node [node] {}
+              child {node [node] {} edge from parent node{C}}
+              edge from parent node{B}
+            };
+        \end{tikzpicture}
+      \end{center}
+    \end{exampleblock}
+  \end{columns}
+\end{frame}
+
+
+\begin{frame}{The modified formal computational problem.}
+  We are interested in the computational complexity of \\
+  the function $\chi_{\alert{\operatorname{PPP}}}$:
+  \begin{itemize}
+  \item It gets genotype matrices as input.
+  \item It maps them to a number $k$.
+  \item This number is minimal such that the sites can be
+    covered by $k$ sets, each admitting a perfect \alert{path} phylogeny.
+    \\
+    (We call this a ppp-partition.)
+  \end{itemize}
+\end{frame}
+
+
+
+\subsection{Tractability of PPP-Partitioning of Genotype Matrices}
+
+\begin{frame}{Good news about ppp-partitions of genotype matrices.}
+  \begin{theorem}
+    \alert{Optimal ppp-partitions of genotype matrices} can be
+    computed in \alert{polynomial time}. 
+  \end{theorem}
+  \begin{block}{Algorithm}
+    \begin{enumerate}
+    \item Build the following partial order:
+      \begin{itemize}
+      \item Can one column be above the other in a phylogeny?
+      \item Can the columns be the two children of the root of a
+        perfect path phylogeny?
+      \end{itemize}
+    \item Cover the partial order with as few compatible chain pairs 
+      as possible. 
+
+      For this, a maximal matching in a special graph needs to be
+      computed.
+    \end{enumerate}
+  \end{block}
+  \hyperlink{algorithm<1>}{\beamergotobutton{The algorithm in action}}
+  \hypertarget{return}{}
+\end{frame}
+
+\section*{Summary}
+
+\begin{frame}
+  \frametitle<presentation>{Summary}
+
+  \begin{itemize}
+  \item
+    Finding optimal pp-partitions is \alert{intractable}. 
+  \item
+    It is even intractable to find a pp-partition when \alert{just two 
+      noncontiguous  blocks are known to suffice}.
+  \item
+    For perfect \alert{path} phylogenies, optimal partitions can be
+    computed \alert{in polynomial time}.
+  \end{itemize}
+\end{frame}
+
+
+\appendix
+
+\section*{Appendix}
+
+\begin{frame}[label=algorithm]{The algorithm in action.}{Computation of
+    the partial order.}
+  \begin{columns}[t]
+    \column{.4\textwidth}
+    \begin{exampleblock}{Genotype matrix}
+      $G\colon$
+      \begin{tabular}{ccccc}
+        A & B & C & D & E \\\hline
+        2 & 2 & 2 & 2 & 2 \\
+        0 & 1 & 2 & 1 & 0 \\
+        1 & 0 & 0 & 1 & 2 \\
+        0 & 2 & 2 & 0 & 0
+      \end{tabular}
+    \end{exampleblock}
+    \column{.6\textwidth}
+    \begin{exampleblock}{Partial order}
+      \begin{tikzpicture}[node distance=15mm]
+        \tikzstyle{every node}=
+        [%
+          fill=green!50!black!20,%
+          draw=green!50!black,%
+          minimum size=7mm,%
+          circle,%
+          thick%
+        ]
+
+        \node (A) {A};
+        \node (B) [right of=A] {B};
+        \node (C) [below of=B] {C};
+        \node (D) [above of=A] {D};
+        \node (E) [below of=A] {E};
+
+        \path [thick,shorten >=1pt,-stealth'] (A) edge (E)
+                         (B) edge (C)
+                         (D) edge (A)
+                             edge[bend right] (E);
+
+        \uncover<2>{
+        \path [-,blue,thick](A) edge (B)
+                                edge (C)  
+                            (B) edge (E)
+                            (C) edge (E);}
+      \end{tikzpicture}
+
+      Partial order: \tikz[baseline] \draw[thick,-stealth'] (0pt,.5ex)
+      -- (5mm,.5ex); 
+
+      \uncover<2>{\textcolor{blue}{Compatible as children of root:
+          \tikz[baseline] \draw[thick] (0pt,.5ex) -- (5mm,.5ex);}} 
+    \end{exampleblock}
+  \end{columns}  
+\end{frame}
+
+\begin{frame}{The algorithm in action.}{The matching in the special graph.}
+  \begin{columns}[t]
+    \column{.3\textwidth}
+    \begin{exampleblock}{Partial order}
+      \begin{tikzpicture}[node distance=15mm]
+        \tikzstyle{every node}=%
+        [%
+          fill=green!50!black!20,%
+          draw=green!50!black,%
+          minimum size=8mm,%
+          circle,%
+          thick%
+        ]
+
+        \node (A)              {$A$};
+        \node (B) [right of=A] {$B$};
+        \node (C) [below of=B] {$C$};
+        \node (D) [above of=A] {$D$};
+        \node (E) [below of=A] {$E$};
+
+        \path [thick,shorten >=1pt,-stealth'] (A) edge (E)
+                         (B) edge (C)
+                         (D) edge (A)
+                             edge[bend right] (E);
+
+        \path [-,blue,thick](A) edge (B)
+                                edge (C)  
+                            (B) edge (E)
+                            (C) edge (E);
+
+        \only<3->
+        {
+          \path[very thick,shorten >=1pt,-stealth',red] (D) edge (A) (B) edge (C);
+          \path [-,red,very thick](E) edge (B);
+        }
+      \end{tikzpicture}
+    \end{exampleblock}
+    \column{.7\textwidth}
+    \begin{exampleblock}{Matching graph}
+      \begin{tikzpicture}[node distance=15mm]
+        \tikzstyle{every node}=%
+        [%
+          fill=green!50!black!20,%
+          draw=green!50!black,%
+          minimum size=8mm,%
+          circle,%
+          thick,%
+          inner sep=0pt%
+        ]
+
+        \node (A)              {$A$};
+        \node (B) [right of=A] {$B$};
+        \node (C) [below of=B] {$C$};
+        \node (D) [above of=A] {$D$};
+        \node (E) [below of=A] {$E$};
+
+        \begin{scope}[xshift=4.75cm]
+          \node (A')               {$A'$};
+          \node (B') [right of=A'] {$B'$};
+          \node (C') [below of=B'] {$C'$};
+          \node (D') [above of=A'] {$D'$};
+          \node (E') [below of=A'] {$E'$};
+        \end{scope}
+        
+        \path [thick]    (A) edge (E')
+                         (B) edge (C')
+                         (D) edge (A')
+                             edge (E');
+
+        \path [blue,thick](A') edge (B')
+                               edge (C')  
+                          (B') edge (E')
+                          (C') edge (E');
+
+        \only<2->
+        {
+          \path[very thick,red] (D) edge (A')
+                           (B) edge (C')
+                           (B') edge (E');
+        }
+      \end{tikzpicture}
+    \end{exampleblock}
+  \end{columns}
+
+  \medskip
+  \uncover<2->{A \alert{maximal matching} in the matching graph
+    \uncover<3>{induces\\ \alert{perfect path phylogenies}.}}
+
+  \hfill\hyperlink{return}{\beamerreturnbutton{Return}}
+\end{frame}
+
+\end{document}
+
+

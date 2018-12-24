@@ -1,0 +1,35 @@
+digraph G {
+	rankdir = LR
+	subgraph cluster1{
+		<s,s,u>;
+		<s,s,v>;
+		label = "S";
+	}
+	subgraph cluster2{
+		<u,s,u> -> <u,u,w>;
+		label = U;
+	}
+	subgraph cluster3{
+		<w,u,w> -> <w,w,z>;
+		<w,v,w> -> <w,w,z>;
+		label = W;
+	}
+	subgraph cluster4{
+		<z,w,z> -> <z,z,t>;
+		label = Z;
+	}
+	subgraph cluster5{
+		<v,s,v> -> <v,v,w>;
+		label = V;
+	}
+	subgraph cluster6{
+		<t,z,t>;
+		label = T;
+	}
+	<s,s,u> -> <u,s,u> [label=2];
+	<u,u,w> -> <w,u,w> [label=2];
+	<w,w,z> -> <z,w,z> [label=1];
+	<z,z,t> -> <t,z,t> [label=1];
+	<s,s,v> -> <v,s,v> [label=1];
+	<v,v,w> -> <w,v,w> [label=1];
+}

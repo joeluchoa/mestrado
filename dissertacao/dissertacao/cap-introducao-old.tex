@@ -1,0 +1,127 @@
+%% ------------------------------------------------------------------ %%
+\chapter{Introdução}
+\label{cap:_introducao}
+
+Como dito anteriormente, o \rcsp~é uma variação do problema de caminho 
+mínimo clássico (\emph{single-source, single-sink shortest-path problem} 
+- \spp) \citep{zhu:05}. Considere um grafo direcionado (dígrafo), em 
+que, associado aos arcos temos um custo e um vetor de recursos 
+requeridos para atravessá-lo. O \rcsp~consiste em encontrar o menor 
+caminho (caminho com menor custo total dos arcos) de uma origem até um 
+destino com um consumo total de recursos não maior que um dado limite.  
+Vamos denotar o \rcsp~com um único recurso como \srcsp~(\emph{single 
+\rcsp}).
+
+No presente capítulo, discorremos sobre o problema, dando uma visão 
+geral do mesmo e algumas comuns generalizações do problema de caminhos 
+mínimos, através da adição de diversos tipos de restrições.  Também 
+expomos e comentamos algumas aplicações para o problema.  Em seguida 
+falamos um pouco dos motivos que nos levaram a escolhe-lo para estudo, e 
+por fim, descrevemos a estrutura e organização geral do trabalho.
+
+
+%% ------------------------------------------------------------------ %%
+\section{Visão geral}
+\label{sec:variacoes}
+
+O \spp~clássico objetiva encontrar um caminho de custo mínimo a partir 
+de um vértice de origem até um vértice de destino em um dígrafo. Um 
+\spp~sujeito a diferentes tipos de restrições resulta em tipos distintos 
+de \csp s (\emph{constrained shortest path problem}).
+
+\csp~é importante porque, pela incorporação de diferentes restrições 
+pode ser usado para resolver uma grande variedade de problemas práticos.  
+O problema é muito conhecido e estudado na literatura.  Observando as 
+publicações que abordam o tema, baseados em \citet{beasley:89}, podemos 
+identificar três tipos de variações mais comuns:
+
+\begin{enumerate}
+  \item o problema de caminho mínimo com recursos limitados (\rcsp),
+  definido anteriormente e que é o foco desde trabalho;
+  \item o problema de caminho mínimo com restrições sobre os vértices 
+  (\vcsp), que pode ser definido como o problema de encontrar um caminho 
+  de custo mínimo que passa por um conjunto específico de vértices ou 
+  por um número de vértices escolhidos a partir de um subconjunto 
+  específico;
+  \item o problema de caminho mínimo com restrições de tempo (\tcsp), 
+  que pode ser definido como o problema de encontrar um caminho de custo 
+  mínimo onde o custo de arcos ou vértices são dependentes do tempo ou  
+  janelas de tempo.
+\end{enumerate}
+
+A partir de uma seleção feita por \citet{zhu:05}, podemos citar algumas 
+publicações que abordam variações interessantes do problema. Com 
+restrições que envolvem tempo ou janelas de tempo sobre os vértices ou 
+arcos temos \citet{desaulniers:97, desrochers:92, jaumard:98, chen:00, 
+chen:03}; restrições que limitam o número máximo de arcos em um caminho 
+viável temos \citet{dahl:04};
+restrições por linguagens formais (\emph{label constraints}) 
+\citep{barrett:00};
+restrições que proíbem um conjunto de caminhos a fazer parte de uma 
+solução viável (\emph{forbidden paths constraints}) 
+\citep{villeneuve:05};
+restrições que exigem que um conjunto de vértices faça parte do caminho 
+solução (\emph{required arcs constraints}) \citet{chen:94}; entre outras 
+\citep{elimam:97, gopalan:90, berman:90};
+
+%% ------------------------------------------------------------------ %%
+\section{Aplicações e Motivação}
+\label{sec:aplicacoes_motivacao}
+
+\rcsp~pode ser aplicado em muitas áreas, incluindo 
+transporte e comunicação \citep{holmberg:03}, 
+controle de frota de veículos em rodovias \citep{avella:04}, 
+roteamento em redes \citep{desrochers:92}, 
+tratamento de redes de esgoto \citep{elimam:97}, 
+modelagem de cadeias de abastecimento \citep{wilhelm:05b}, 
+planejamento de investimentos e avaliação de projetos \citep{bard:89}, 
+balanceamento de linhas de transferência (generalização do 
+problema de balanceamento de linhas de montagem) \citep{dolgui:06}, 
+programação (\emph{scheduling}) e planejamento \citep{avella:04, 
+mingozzi:99}; qualidade de serviço em redes de comunicação (\emph{QoS}) 
+\citep{orda:99};
+além de alguns problemas clássicos, como \emph{matching} e variações do 
+problema do caixeiro viajante \citep{houck:78}.
+
+O \rcsp~aparece como subproblema em métodos de geração de colunas 
+(\emph{column generation} - \cg).  Esses métodos tem sido aplicados com 
+bastante sucesso na resolução de diversos problemas famosos. Como 
+exemplos temos roteamento de veículos \citep{desrochers:92, 
+desrosiers:88, desrosiers:84} e escalação de tripulação 
+\citep{mingozzi:99, desrochers:89, lavoie:88}, dentre outros.  A 
+primeira publicação a usar \cg~foi \citet{ford:58} para um problema 
+envolvendo fluxo máximo em uma rede com multi-produtos 
+(\emph{multicommodity network}).  Logo após, \citet{dantzig:60} utilizou 
+o método para resolver programas lineares com estrutura decomponível e 
+\citet{} para o problema de corte de estoque.
+Podemos citar \citet{wilhelm:2001} como uma boa revisão bibliográfica 
+para o método.
+
+Em particular, o \rcsp~pode ser aplicado em muitos problemas modelados 
+como grafos acíclicos. Aplicações na área de \emph{scheduling} 
+tipicamente são modeladas desta forma \citep{akker:98}.
+
+Por essas variadas formas de aplicação do \rcsp~podemos ver a 
+importância dele para uma grande quantidade de problemas relevantes, 
+tanto teóricos como práticos. O que nos motivou a estudá-lo a fim de 
+desenvolver um trabalho que resumisse informações suficientes para 
+auxiliar pesquisadores ou desenvolvedores que tenham interesse no 
+problema.
+
+\section{Objetivo}
+
+Os objetivos desta dissertação são
+\begin{enumerate}
+  \item fazer um levantamento de publicações que falam de aplicações e 
+    algoritmos para o \rcsp,
+  \item detalhar algumas das principais abordagens e soluções para 
+    problema e
+  \item implementar um subconjuntos destes principais algoritmos para 
+    analisá-los e compará-los na prática.
+\end{enumerate}
+
+
+%% ------------------------------------------------------------------ %%
+\section{Organização do Trabalho}
+\label{sec:organizacao}
+

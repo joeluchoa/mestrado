@@ -1,0 +1,546 @@
+\subsection{Algoritmos Exatos}
+
+
+\begin{frame}
+    \frametitle{Algoritmos Exatos}
+    
+    Por praticidade, para os algoritmos a seguir, 
+    \begin{itemize}
+        \item vamos assumir que $s = 1$ e $t = n$;
+        \item vamos descrever para a versão com um único recurso.
+    \end{itemize}
+    Mas os algoritmos podem ser facilmente generalizados.  
+
+\end{frame}
+
+
+\subsubsection{Programação Dinâmica}
+
+\begin{frame}
+
+\frametitle{Algoritmo A} 
+
+    {\small
+    Definimos $f_j(r)$ como sendo o custo de um caminho de $1$ a $j$ com menor 
+    custo, que consome no máximo $r$ unidades de recurso, 
+    e assim temos a recorrência:
+    \begin{displaymath}
+        f_j(r) = \left\{
+        \begin{array}{lcl}
+            0, & &\text{se } j=1  \\ & & \text{ e } r=0,\dots,l\\
+             & & \\
+            \infty, & & \text{se } j=2,\dots,n  \\ & & \text{ e } r=0\\
+             & & \\
+            \min\left\{f_j(r-1), \displaystyle\min_{k|r_{kj}\leq r}\{f_k(r-r_{kj})+c_{kj}\}\right\}, & & \text{se } j=2,\dots,n  \\ & & \text{ e } r=1,\dots,l\\
+        \end{array}
+        \right.
+    \end{displaymath}
+
+    Podemos implementar um algoritmo que computa o valor de um caminho ótimo 
+    $OPT = f_n(l)$ em tempo $O(nml)$. 
+    }
+
+\end{frame}
+
+\begin{frame}
+
+\frametitle{Algoritmo B} 
+
+    Definimos $g_j(c)$ como sendo o custo do caminho que consome
+    menos recurso de $1$ a $j$, e tem custo máximo $c$. Assim, temos a recorrência:
+    {\scriptsize
+    \begin{displaymath}
+        g_j(c) = \left\{
+        \begin{array}{lcl}
+            0, & &\text{se } j=1 \\ & &  \text{ e } c=0,\dots,OPT\\
+             & & \\
+            \infty, & & \text{se } j=2,\dots,n \\ & & \text{ e } c=0\\
+             & & \\
+            \min\left\{g_j(c-1), \displaystyle\min_{k|c_{kj}\leq c}\{f_k(c-c_{kj})+r_{kj}\}\right\}, & & \text{se } j=2,\dots,n \\ & & \text{ e } c=1,\dots,OPT\\
+        \end{array}
+        \right.
+    \end{displaymath}
+    }
+
+    {\small
+    $OPT$ pode ser expresso como $\min\{c\ |\ g_n(c) \le l\}$. 
+    Devemos computar $g$ iterativamente, até o primeiro valor $c'$ tal que $g_n(c') \le l$. 
+    Só então teremos o conhecimento do valor $OPT = c'$. 
+    A complexidade do algoritmo sugerido acima é $O(nmOPT)$.
+    }
+
+\end{frame}
+
+
+
+\subsubsection{Relaxação Lagrangeana}
+
+\begin{frame}
+    \frametitle{Relaxação Lagrangeana - Primal}
+
+
+    \begin{itemize}
+        \item Algoritmo proposto por Handler e Zang \cite{HZ80}.
+    \end{itemize}
+
+    {\small
+    Inicialmente, vamos apresentar uma formulação para o problema \rcsp\ usando programação linear. 
+    Nela teremos uma variável $x_{ij}$ para cada $(i,j)\in A$, $x_{ij} = 1$ significa
+    dizer que o arco $(i,j)$ está na solução e $x_{ij} = 0$
+    o contrário.
+    }
+    {\scriptsize
+    \begin{linearprogramwlabel}{(P)}
+        \mbox{minimize}
+            & c(x) & = & \displaystyle\sum_{(i,j) \in A} c_{ij}x_{ij} \\
+        \mbox{sujeito a}
+            &\displaystyle\sum_{j}{x_{ij}} - \displaystyle\sum_{k}{x_{ki}} &=& \left\{ 
+                \begin{array}{rl}
+	             1, & \text{se } i = 1\\
+                     0, & \text{se } i = 2,\dots,n-1\\
+                    -1, & \text{se } i = n\\
+       		\end{array} 
+        	\right. & (1)\\
+    	&\displaystyle\sum_{(i,j) \in A} r_{ij}x_{ij} &\le& l & (2)\\
+    	& x_{ij} & \in & \{0,1\},\ (i,j) \in A & (3)
+
+    \end{linearprogramwlabel}
+    }
+
+\end{frame}
+
+\begin{frame}
+    \frametitle{Relaxação Lagrangeana - Primal}
+
+    \begin{itemize}
+
+        \item A restrição $(3)$ é responsável por delimitar os
+                possíveis valores que um componente do vetor $x$ pode assumir.
+        \item A restrição $(1)$, por sua vez, é responsável por garantir que
+                para um vetor $x$ ser solução viável do problema, ele deve ``conter'' um caminho
+                do vértice $1$ ao vértice $n$. 
+        \item A restrição $(2)$ nos garante
+                que o conjunto de arcos induzido por um vetor $x$ viável, não excede os
+                recursos disponíveis.
+    \end{itemize}
+
+\end{frame}
+
+\begin{frame}
+    \frametitle{Relaxação Lagrangeana - Primal}
+
+    Vamos definir $\cal{X}$ denotando o conjunto de vetores $x$ que satisfazem as 
+    equações (1) e (3), ou seja, vetores $x$ que contêm um caminho de $1$ a $n$. 
+    Vamos definir também a seguinte função.
+    $$g(x) = \displaystyle\sum_{(i,j) \in A}{r_{ij} x_{ij}} - l$$
+
+    Com as definições acima, resolver $(P)$ é equivalente a resolver o
+    seguinte.
+
+    $$c^* = c(x^*) = 
+    min \left\{\ c(x) \mid x \in {\cal{X}} \mbox{ e } g(x) \leq 0\ \right\} $$
+
+\end{frame}
+
+\begin{frame}
+    \frametitle{Relaxação Lagrangeana - Dual}
+
+O problema é simples de resolver
+quando a restrição $g(x) \leq 0$ é relaxada {\footnotesize(sem essa restrição, o
+problema se reduz a caminho mínimo simples)}, nossa estratégia
+será usar-lá como penalidade na função objetivo {\footnotesize(técnica essa
+que é a essência da relaxação lagrangeana)}.
+
+Para qualquer $u \in \mathbb{R}$, definimos a função
+lagrangeana.
+$$L(u) = \displaystyle\min_{x \in \cal{X}}{L(u,x)} \text{, onde }
+L(u,x) = c(x) + u g(x)$$
+
+Perceba que encontrar a solução de $L(u)$ é o problema de caminho mínimo 
+no grafo original, porém
+com os custos dos arcos alterados para $c_{ij} + u r_{ij}$, $(i,j) \in A$.
+
+\end{frame}
+
+\begin{frame}
+    \frametitle{Relaxação Lagrangeana - Dual}
+
+    Temos que $L(u) \leq c^*$ para qualquer 
+    $u \geq 0$ (teorema fraco da dualidade), pois
+    $$ g(x^*) \leq 0 \Rightarrow L(u) \leq c(x^*) + u g(x^*) \leq c(x^*) = c^* \text{,}$$
+    o que nos permite usar $L(u)$ como um limite inferior para
+    o problema original. Para encontrarmos o limite inferior mais justo
+    possível, resolvemos o problema dual a seguir.
+
+    \begin{linearprogramwlabel}{(D)}
+    	& L^* = L(u^*) = \displaystyle\max_{u \geq 0}{L(u)} \hfill &&&
+    \end{linearprogramwlabel}
+
+
+
+Pode ser que exista uma folga na
+dualidade ({\it duality gap}), ou seja, pode ser que $L^*$ seja 
+estritamente menor 
+que $c^*$. Nos casos que existir essa folga, teremos que trabalhar um 
+pouco mais para eliminá-la. 
+
+\end{frame}
+
+
+\begin{frame}
+    \frametitle{Relaxação Lagrangeana - Algoritmo}
+
+Vamos, agora, descrever um método para
+resolver o programa $(P)$, que usa como passo, resolver o
+problema $(D)$. Por praticidade vamos denotar $x(u)$ como um caminho
+que possui valor ótimo associado à função $L(u)$.
+
+\end{frame}
+
+
+\begin{frame}
+    \frametitle{Relaxação Lagrangeana - Algoritmo (Inicialização)}
+
+O mais natural é que, como primeiro passo, verifiquemos se o menor caminho
+(não limitado, $\displaystyle\min_{x \in \cal{X}}{c(x)}$) respeita nossas restrições. Vamos chamar esse caminho de $x(0)$, pois 
+$L(0) = c^* $. 
+\begin{itemize}
+\item Se $g(x(0)) \leq 0$, então $x(0)$ é claramente uma solução ótima de $(P)$.
+\item Senão, $x(0)$ nos serve, pelo menos, como limite inferior para a solução.
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}
+    \frametitle{Relaxação Lagrangeana - Algoritmo (Inicialização)}
+
+Como segundo passo, devemos verificar se o caminho que consome menor quantidade de 
+recursos ($\displaystyle\min_{x \in \cal{X}}{g(x)}$) respeita nossas restrições.
+Vamos chamar esse caminho de $x(\infty)$, pois para valores muito grandes de $u$, o parâmetro
+$c(x)$ na função $L(u)$ é ``dominado'' por $ug(x)$.
+\begin{itemize}
+\item Se $g(x(\infty)) > 0$, o problema não tem solução, pois o caminho que 
+consume a menor quantidade de recursos consome uma quantidade maior do que 
+o limite.
+\item Senão, $x(\infty)$ é uma solução viável para a instância e nos serve de
+limite superior para problema.
+\end{itemize}
+
+\end{frame}
+
+
+
+\begin{frame}
+    \frametitle{Relaxação Lagrangeana - Algoritmo}
+
+Com os resultados dos passos anteriores, 
+\begin{itemize}
+    \item temos a solução ou a prova de que a instância é inviável, 
+    \item ou temos dois caminhos; $x(0)$, que {\bf não é solução} e é um {\bf limite inferior} e $x(\infty)$,
+que {\bf é solução viável} e é um {\bf limite superior}, $g(x(0)) > 0$ e $g(x(\infty)) \leq 0$.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+    \frametitle{Relaxação Lagrangeana - Algoritmo}
+
+\begin{itemize}
+    \item Podemos interpretar cada caminho no grafo como
+            uma reta no espaço $(u,L)$ da forma  $L = c(x) + u g(x)$.
+    \item Isso nos permite
+            dar uma interpretação geométrica para a função $L(u)$, que será um conjunto de segmentos de retas,
+            tal que cada ponto $(u,L)$ nesses segmentos está abaixo ou na mesma altura de qualquer 
+            ponto $(u,L')$ pertencente as retas associadas aos caminhos.
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}
+    \frametitle{Relaxação Lagrangeana - Algoritmo}
+
+{\small
+
+Como estamos procurando o valor
+de $L^*$ vamos analisar o ponto $(u',L')$ que é a intercessão
+das retas associadas a $x(0)$ e $x(\infty)$. 
+$$u' = (c(x(\infty)) - c(x(0))) / (g(x(0)) - g(x(\infty)))$$ 
+$$L' = c(x(0)) + u' \cdot g(x(0))$$
+
+É fato que $u' \geq 0$, pois $c(x(0))$ é mínimo, $g(x(\infty)) \leq 0$ 
+e $g(x(0)) > 0$. 
+
+\begin{itemize}
+    \item Se existem apenas dois caminhos o ponto $(u', L')$ é o que maximiliza $L(u)$. 
+    \item O mesmo acontece quando existem vários caminhos e $L(u') = L'$.
+    \item Um último caso ``especial'' é quando existe um caminho $x_h \in \cal{X}$
+tal que $g(x_h) = 0$ e $L(u') = L(u', x_h) < L'$. Como a reta associada a $x_h$ é horizontal,
+ela limita superiomente $L(u)$, e como temos o ponto $(u',L(u'))$
+sobre ela, $c^* = c(x_h) = L^* = L(u')$ (neste caso não existe folga na dualidade).
+\end{itemize}
+
+}
+
+\end{frame}
+
+
+\begin{frame}
+    \frametitle{Relaxação Lagrangeana - Algoritmo (Resolvendo o Dual)}
+
+{\small
+
+Falamos, especificamente, sobre os caminhos $x(0)$ e $x(\infty)$ no parágrafo anterior,
+mas o que foi dito vale no caso geral: 
+
+\begin{itemize}
+    \item Onde temos dois caminhos disponíveis $x^+,x^- \in \cal{X}$, tal que 
+        \begin{itemize}
+            \item $g^+ \equiv g(x^+) > 0$, 
+            \item $g^- \equiv g(x^-) \leq 0$ e 
+            \item $c^- \equiv c(x^-) \geq c^+ \equiv c(x^+)$.
+        \end{itemize}
+    \item Então, temos que $u' = (c^- - c^+) / (g^+ - g^-)$ e $L' = c^+ + u'g^+$ definem o ponto
+            de intercessão, das retas associadas a $x^+$ e $x^-$.
+    \item Se $L(u') = L'$ ou se $g(x(u')) = 0$, então $L(u^*) = L(u')$ é a solução do nosso
+            problema dual $(D)$. 
+    \item Caso contrário,  
+        \begin{itemize}
+            \item se $g(x(u')) < 0$, então $x(u')$ é o nosso novo caminho $x^-$, 
+            \item e se $g(x(u')) > 0$, então $x(u')$ é o nosso novo caminho $x^+$.
+        \end{itemize}
+\end{itemize}
+}
+
+\end{frame}
+
+
+\begin{frame}
+    \frametitle{Relaxação Lagrangeana - Algoritmo (Resolvendo o Dual)}
+
+    \begin{itemize}
+        \item O procedimento se repete até determinarmos a solução do problema $(D)$.
+        \item Ao final temos disponíveis um limite inferior $LB$ ({\it lower bound})
+                e um limite superior $UB$ ({\it upper bound}) para o valor de $c^*$. 
+            \begin{itemize}
+                \item Nós temos que $LB = L(u^*) \leq c(x^*)$ (pelo teorema fraco da dualidade); 
+                \item e $UB$ é o valor do último $c^-$.
+            \end{itemize}
+    \end{itemize}
+
+\end{frame}
+
+
+\begin{frame}
+    \frametitle{Relaxação Lagrangeana - Algoritmo (Eliminando a Folga)}
+
+    \begin{itemize}
+        \item Tendo resolvido o problema $(D)$, temos limites $LB \leq c^* \leq UB$ e uma solução
+                viável associada a $UB$ para o \rcsp. 
+
+        \item Quando $LB = UB$, esta solução é ótima.  Porém, quando $LB < UB$ temos um folga na dualidade. 
+
+        \item Para eliminarmos essa folga vamos usar um algoritmo de $k$-ésimo menor caminho ({\it k-shortest path}) 
+                em relacão a função lagrangeana $L(u^*,x)$ (o que é equivalente a  
+                usar a função $c'$ como custo, $c'_{ij} = c_{ij} + u^* \cdot r_{ij}$, $(i,j) \in A$). 
+    
+    \end{itemize}
+
+\end{frame}
+
+
+\begin{frame}
+    \frametitle{Relaxação Lagrangeana - Algoritmo (Eliminando a Folga)}
+
+\begin{itemize}
+\item {\footnotesize Vamos denotar $L_k(u^*)$, para $k = 1, 2, \dots$, como sendo o valor do $k$-ésimo menor
+caminho $x_k \in \cal{X}$ em relação a função de custo $L(u^*,x)$.}
+
+\item {\footnotesize Os caminhos $x_1$ e $x_2$ já são conhecidos, eles são $x^+$ e $x^-$ respectivamente, pois
+se interceptam no ponto $(u^*,L(u^*))$, o que significa que possuem valor mínimo em relação
+a função $L(u^*,x)$.}
+
+\item Iterando sobre o $k$-ésimo caminho, $k \geq 3$, nós 
+    \begin{itemize}
+        \item atualizamos $UB = c(x_k)$ quando $g(x_k) \leq 0$ e $c(x_k) < UB$;
+        \item e atualizamos $LB = L_k(u^*)$, pois essa é uma sequência não decrescente ($L_{k-1}(u^*) \leq L_k(u^*)$).
+    \end{itemize}
+
+\item O procedimento continua até que $LB \geq UB$, e então temos a solução
+do problema $(P)$, associada a $UB = c^*$, solução do \rcsp.
+\end{itemize}
+
+\end{frame}
+
+{\scriptsize
+\begin{frame}
+    \frametitle{Relaxação Lagrangeana - Pseudocódigo}
+
+\begin{pseudocode}
+\rcsp-LANGRANGIANA($G$, $s=1$, $t=n$, $k=1$, $r$, $l$, $c$)
+    
+    \hspace{0.0cm}\quad $\rhd$ Inicialização\\
+\RM{01} \x $x_0,c_0,g_0 \leftarrow L(0)$\\
+\RM{02} \x se $g_0 \leq 0$\\
+\RM{03} \xx então $x^*, c^* \leftarrow x_0, c_0$\\
+\RM{04} \xx senão $x^+, c^+, g^+ \leftarrow x_0, c_0, g_0$\\
+\RM{05} \x $x_{\infty},c_{\infty},g_{\infty} \leftarrow L(\infty)$\\
+\RM{06} \x se $g_{\infty} > 0$\\
+\RM{07} \xx então $x^*, c^* \leftarrow NULL, NULL$ \quad $\rhd$ Não tem solução!\\
+\RM{08} \xx senão $x^-, c^-, g^- \leftarrow x_{\infty}, c_{\infty}, g_{\infty}$\\
+
+\end{pseudocode}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Relaxação Lagrangeana - Pseudocódigo}
+
+\begin{pseudocode}
+\rcsp-LANGRANGIANA($G$, $s=1$, $t=n$, $k=1$, $r$, $l$, $c$)
+
+    \quad $\rhd$ Resolvendo o Dual\\
+\RM{09} \x se $x^+ \neq NIL$ e $x^- \neq NIL$ \quad$\rhd$ Se setou os valores realativos a $x^+$ e $x^-$ acima\\
+\RM{10} \xx $LB \leftarrow 0$; $UB \leftarrow c^-$\\
+\RM{11} \xx enquanto $LB < UB$ faça\\
+\RM{12} \xxx $u' \leftarrow (c^- - c^+) / (g^+ - g^-)$; $L' \leftarrow c^+ + u'g^+$; $x', c', g' \leftarrow L(u')$\\
+\RM{13} \xxx se $g' = 0$\\
+\RM{14} \xxxx então $x^*, c^* \leftarrow x', c'$; $LB \leftarrow UB \leftarrow c'$ \\
+\RM{15} \xxxxxx PÁRA o enquanto \\
+\RM{16} \xxx se $L(u') = L'$ e $g' < 0$ \\
+\RM{17} \xxxx então $LB \leftarrow L'$; $ UB \leftarrow \min\{UB,c'\}$; $x^- \leftarrow x'$; $u^* \leftarrow u'$ \\
+\RM{18} \xxxxxx PÁRA o enquanto \\
+\RM{19} \xxx se $L(u') = L'$ e $g' > 0$ \\
+\RM{20} \xxxx então $LB \leftarrow L'$; $u^* \leftarrow u'$ \\
+\RM{21} \xxxxxx PÁRA o enquanto \\
+\RM{22} \xxx se $L(u') < L'$ e $g' > 0$ \\
+\RM{23} \xxxx então $x^+, c^+, g^+ \leftarrow x', c', g'$ \\
+\RM{24} \xxx se $L(u') < L'$ e $g' < 0$ \\
+\RM{25} \xxxx então $x^-, c^-, g^- \leftarrow x', c', g'$; $ UB \leftarrow \min\{UB,c'\}$ \\
+
+\end{pseudocode}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Relaxação Lagrangeana - Pseudocódigo}
+
+\begin{pseudocode}
+\rcsp-LANGRANGIANA($G$, $s=1$, $t=n$, $k=1$, $r$, $l$, $c$)
+
+    \quad $\rhd$ Eliminando a folga da dualidade\\
+\RM{26} \xx $x_1, x_2 \leftarrow x^+, x^-$; $k \leftarrow 2$\\
+\RM{27} \xx enquanto $LB < UB$ faça\\
+\RM{28} \xxx $k \leftarrow k + 1$; $x_k, c_k, g_k \leftarrow L_k(u^*)$; $LB \leftarrow L_k(u^*)$\\
+\RM{29} \xxx se $g_k \leq 0$ e $c_k < UB$\\
+\RM{30} \xxxx então $x^-, UB \leftarrow x_k, c_k$ \\
+\RM{31} \xxx se $LB \geq UB$ \\
+\RM{32} \xxxx então $x^*, c^* \leftarrow x^-, UB$ \\
+
+\RM{33} \x devolva $x^*, c^*$
+
+\end{pseudocode}
+
+\end{frame}
+}
+
+%\begin{frame}
+%    \frametitle{Relaxação Lagrangeana}
+
+%\begin{figure}[h!]
+%    \centering
+%        \includegraphics[scale=0.40]{figuras/exemplo_grafo.png}
+%    \caption{\it Grafo exemplo; os rótulos dos arcos representam $(c_{ij}, r_{ij})$. }
+%    \label{fig:exemplo_grafo}
+%\end{figure}
+
+%\begin{figure}[h!]
+%    \centering
+%        \includegraphics[scale=0.58]{figuras/exemplo_funcao_L.png}
+%    \caption{\it Representação geométrica do grafo da Figura \ref{fig:exemplo_grafo}.
+%        As retas pretas represetam os caminhos que são relevantes ao algoritmo. A ``curva'' de segmentos
+%    mais espessos representa o função $L(u)$. }
+%    \label{fig:exemplo_funcao_L}
+%\end{figure}
+
+%\end{frame}
+
+\begin{frame}
+    \frametitle{Relaxação Lagrangeana - Exemplo}
+    \begin{figure}[h!]
+        \centering
+            \includegraphics[scale=0.31]{figuras/graph.pdf}
+            \includegraphics[scale=0.31]{figuras/lines.pdf}
+    \end{figure}
+\end{frame}
+\begin{frame}
+    \frametitle{Relaxação Lagrangeana - Exemplo}
+    \begin{figure}[h!]
+        \centering
+            \includegraphics[scale=0.31]{figuras/graph1.pdf}
+            \includegraphics[scale=0.31]{figuras/lines1.pdf}
+    \end{figure}
+\end{frame}
+\begin{frame}
+    \frametitle{Relaxação Lagrangeana - Exemplo}
+    \begin{figure}[h!]
+        \centering
+            \includegraphics[scale=0.31]{figuras/graph2.pdf}
+            \includegraphics[scale=0.31]{figuras/lines2.pdf}
+    \end{figure}
+\end{frame}
+\begin{frame}
+    \frametitle{Relaxação Lagrangeana - Exemplo}
+    \begin{figure}[h!]
+        \centering
+            \includegraphics[scale=0.31]{figuras/graph4.pdf}
+            \includegraphics[scale=0.31]{figuras/lines4.pdf}
+    \end{figure}
+\end{frame}
+\begin{frame}
+    \frametitle{Relaxação Lagrangeana - Exemplo}
+    \begin{figure}[h!]
+        \centering
+            \includegraphics[scale=0.31]{figuras/graph5.pdf}
+            \includegraphics[scale=0.31]{figuras/lines5.pdf}
+    \end{figure}
+\end{frame}
+\begin{frame}
+    \frametitle{Relaxação Lagrangeana - Exemplo}
+    \begin{figure}[h!]
+        \centering
+            \includegraphics[scale=0.31]{figuras/graph7.pdf}
+            \includegraphics[scale=0.31]{figuras/lines7.pdf}
+    \end{figure}
+\end{frame}
+\begin{frame}
+    \frametitle{Relaxação Lagrangeana - Exemplo}
+    \begin{figure}[h!]
+        \centering
+            \includegraphics[scale=0.31]{figuras/graph8.pdf}
+            \includegraphics[scale=0.31]{figuras/lines8.pdf}
+    \end{figure}
+\end{frame}
+\begin{frame}
+    \frametitle{Relaxação Lagrangeana - Exemplo}
+    \begin{figure}[h!]
+        \centering
+            \includegraphics[scale=0.31]{figuras/graph9.pdf}
+            \includegraphics[scale=0.31]{figuras/lines9.pdf}
+    \end{figure}
+\end{frame}
+\begin{frame}
+    \frametitle{Relaxação Lagrangeana - Exemplo}
+    \begin{figure}[h!]
+        \centering
+            \includegraphics[scale=0.31]{figuras/graph10.pdf}
+            \includegraphics[scale=0.31]{figuras/lines10.pdf}
+    \end{figure}
+\end{frame}
+\begin{frame}
+    \frametitle{Relaxação Lagrangeana - Exemplo}
+    \begin{figure}[h!]
+        \centering
+            \includegraphics[scale=0.31]{figuras/graph11.pdf}
+            \includegraphics[scale=0.31]{figuras/lines11.pdf}
+    \end{figure}
+\end{frame}

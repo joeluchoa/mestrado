@@ -1,0 +1,381 @@
+\chapter*{Introdução}
+\markboth{Introdução}{Introdução}
+\addcontentsline{toc}{chapter}{Introdução}
+\small
+\begin{quote}
+"Highways, telephone lines, electric power systems, computer chips,
+water delivery systems, and rail lines: these physical networks, and 
+many others, are familiar to all of us. In each of these problem settings, 
+we often wish to send some good(s) (vehicles, messages, electricity, or 
+water) from one point to another, typically as efficiently as possible --- 
+that is, along a shortest route or via some minimum cost flow pattern." 
+
+\hfill{Ahuja, Magnati, Orlin, and Reddy~\cite{ahuja:applications}}
+\end{quote}
+\normalsize
+
+ O \textit{problema do caminho mínimo} (PCM) consiste em: \textit{dados} um
+grafo $(V,A)$, uma função comprimento $c$ de $A$ em $\NonnegInt$ e um vértice
+$s$ \textit{encontrar} um caminho de comprimento mínimo de $s$ até $t$, para
+cada vértice $t$ em $V$. Este problema é um dos mais comumente encontrados no estudo de
+problemas de redes de transporte e comunicação. Um rápido passar de olhos pelo
+artigo ``Applications of Network Optimization'' de Ahuja, Magnati, Orlin e
+Reddy~\cite{ahuja:applications} é suficiente para convencer alguém sobre o
+enorme espectro de aplicações de métodos para o problema. 
+Por exemplo, esses métodos podem ser usados para reduzir tempo de vôo,
+baixar custos de serviços de transporte, diminuir o consumo de energia e 
+ainda, podem ser utilizados para acelerar a distribuição de
+informações (pacotes) através da rede mundial, a
+Internet~\cite{cisco:ospf, thorup:ospf}.
+O PCM é também um dos problemas mais elementares e possivelmente um
+dos mais fundamentais em otimização de redes. Muitos problemas em otimização
+combinatória e fluxos em redes usam, como subrotina,
+algoritmos para encontrar caminhos mínimos~\cite{ahuja:netflows}.
+
+%O problema do caminho mínimo pertence a um dos problemas mais elementares em
+%otimização combinatória. Se comparado a outros problemas dessa área, como 
+%o da árvore geradora mínima, de transporte, a pesquisa no problema do caminho
+%mínimo começou relativamente tarde.
+
+O problema do caminho mínimo têm sido amplamente estudado por um número vasto de 
+pesquisadores. Estudos teóricos a respeito, podem ser encontrados em vários
+trabalhos
+~\cite{dijkstra59:note, thorup:sssp-1999, FredTarjan:Fibonacci, ahuja:radixheap,
+boris:buckets, fredman:mst, sch:comb}, bem como estudos experimentais
+~\cite{boris:experimental, pettie:experimental,
+goldberg:buckets}.
+
+%Existem algumas variações do problema do caminho mínimo. Nesta dissertação 
+%estamos interessados na seguinte: dado um grafo orientado com arcos de
+%comprimentos não-negativos e um vértice inicial $s$,
+%encontrar os caminhos de comprimento mínimo de $s$ a todos os demais 
+%vértices do grafo.
+
+ Desde 1959, quase todos os desenvolvimentos teóricos para esse
+problema têm se baseado no algoritmo de Dijkstra~\cite{dijkstra59:note}. Foram
+aplicadas várias estruturas de dados, como heap~\cite{clrs:introalg-2001} e fibonacci
+heap~\cite{FredTarjan:Fibonacci}, para aumentar a eficiência desse
+algoritmo. Porém, qualquer implementação do mesmo examina
+ os vértices em ordem crescente de distância a partir do vértice inicial $s$,  
+ ocorrendo assim, uma ordenação implícita dos vértices de acordo com
+essas distâncias. Desta forma, no modelo de comparação-adição, qualquer
+ implementação do algoritmo de Dijkstra consome tempo $\Omega(m + n \log n)$, onde $n$
+ é o número de vértices e $m$ é o número de arcos do grafo dado. Fredman e
+ Tarjan, utilizando fibonacci heaps, obtiveram uma implementação do algoritmo
+ de Dijkstra que consome tempo $O(m + n \log n)$.
+
+% Desde 1959, quase todos os desenvolvimentos teóricos para este problema  
+%têm sido baseado no algoritmo de Dijkstra~\cite{dijkstra59:note}, ou mais
+%precisamente, os avanços se concentram em estruturas de dados
+%utilizadas para implementar esse algoritmo. Foram desenvolvidas
+%importantes estruturas, como heap~\cite{clrs:introalg-2001}, fibonacci
+%heap~\cite{FredTarjan:Fibonacci}, entre outras. A idéia do algoritmo de
+%Dijkstra é examinar os vértices em ordem crescente de distância a
+%partir de um vértice inicial. 
+%A estrutura de dados têm suporte para as seguintes operações em uma 
+%(inicialmente vazia) coleção de vértices, cada qual é associado com um valor:
+%\begin{itemize}
+%\item \textsf{insert$(v, x)$}: Adiciona o vértice $v$ com valor $x$ para a coleção.
+%\item \textsf{delete$(v, x)$}: Remove o vértice $v$ da coleção.
+%\item \textsf{delete-min$()$}: Retorna o vértice com o menor valor 
+%e o remove da coleção.
+%\item \textsf{decrease-key$(v, x)$}: Muda para $x$ o valor associado ao vértices $v$;
+%supõe-se que $x$ não é maior que o valor corrente associado a $v$. Note que
+%\textsf{decrease-key} sempre pode ser implementado como um \textsf{delete}
+%seguido por um \textsf{insert}.
+%\end{itemize}
+%
+% O algoritmo de Dijkstra, quando executado em um grafo com $n$ vértices e 
+%$m$ arcos, realiza uma seqüência de $n$ \textsf{insert}, $n$ \textsf{delete-min}
+%e no máximo $m$ \textsf{decrease-key} operações.
+%
+% A implementação mais simples do algoritmo de Dijkstra, que utiliza uma estrutura
+%de dados do tipo \textit{lista ligada}  
+%tem complexidade de tempo $O(n^{2} + m)$, onde $n$ é o número
+%de vértices e $m$ é o número de arcos. Utilizando um \textit{heap} obtemos $O(m \log n)$.
+%Com o \textit{Fibonacci heap} desenvolvido por Fredman e 
+%Tarjan~\cite{FredTarjan:Fibonacci},
+% conseguimos reduzir a complexidade para $O(m + n \log n)$, que  
+%é ótima, no modelo de comparação-adição-subtração, ou seja, 
+%baseado nas operações de \textit{comparação}, \textit{adição} e \textit{subtração}. 
+%
+% Qualquer implementação do algoritmo de Dijkstra examina os
+%vértices em ordem crescente de comprimento a partir de $s$, ou seja, 
+%implicitamente ordena os vértices de acordo com sua distância a $s$. 
+%E como observado em ~\cite{FredTarjan:Fibonacci}, implementar esse 
+%algoritmo em tempo linear requer ordenar em tempo linear, que, dependendo
+%do modelo de computação, é impossível.
+
+% Atualmente os Algoritmos recentes têm combinado elementos clássicos de estruturas de dados
+%a ``bit-level parallelism'' e estruturas de dados de ``bucketing'', projetados
+%especialmente para este problema.
+ O avanço tecnológico dos computadores tornou viável desenvolver
+ algoritmos que utilizam operações ``mais complexas'', como endereçamento
+ de memória, shifts, comparações lógicas, sem com isto, prejudicar o
+ consumo de tempo do algoritmo, pois estas agora passam a ser consideradas
+ elementares, e são realizadas em 
+ tempo constante. Tais operações fazem parte do chamado modelo RAM. 
+ Curiosamente, as comparações lógicas, shifts, que parecem não estar
+ relacionadas com o problema de encontrar caminhos mínimos, 
+proporcionam melhorias assintóticas significativas, como observado por
+ Zwick~\cite{zwick:survey}. 
+
+% existem
+% algumas estruturas de dados bem conhecidas como radix
+%heap~\cite{ahuja:radixheap} e buckets~\cite{boris:buckets}.
+
+ Recentemente, um grande número de algoritmos para problemas
+fundamentais como ordenação, filas de prioridade e caminhos mínimos 
+têm sido desenvolvidos adotando o modelo RAM~\cite{andersson:sorting,
+thorup:ram-2000, fredman:fusiontrees, andersson:ac0fusiontrees,
+thorup:sssp-1999, petti:computing}. Estes algoritmos
+exibem uma melhor eficiência teórica, em relação
+aos algoritmos já conhecidos para esses problemas. 
+
+ Apesar de todo o esforço, problemas básicos relacionados ao PCM ainda aguardam
+ por uma resposta definitiva, por exemplo, a existência ou não de um algoritmo linear para
+ o PCM no modelo RAM continua um problema desafiador.
+ Entretanto, um passo importante foi dado no sentido de resolver esta
+ questão. Para grafos simétricos e comprimentos em $\PosInt$,
+ Thorup~\cite{thorup:sssp-1999} projetou um algoritmo que
+ consome tempo e espaço $O(m + n)$. O algoritmo utiliza uma decomposição
+ hierárquica do grafo e ``bucketing'' para identificar eficientemente conjuntos de vértices
+ que podem ser examinados em qualquer ordem, evitando assim, o ``gargalo'' da
+ ordenação.
+ 
+ Nesta dissertação são descritos e implementados vários algoritmos para o
+ problema do caminho mínimo, inclusive os mencionados acima. Também é
+ apresentada uma análise experimental das implementações. 
+%Em 1999, Mikkel Thorup publicou um artigo com a descrição de um 
+%algoritmo
+%que utiliza uma idéia diferente daquela utilizada no algoritmo de Dijkstra,
+%e resolve o problema deterministicamente em $O(m)$ tempo e espaço. Porém, o 
+%modelo não é mais o mesmo. O algoritmo requer o uso de operações como 
+%\textit{multiplicação} e \textit{divisão}.
+%Ele é baseado em uma estrutura hierárquica de
+%``bucketing'', que identifica conjuntos de vértices que podem ser visitados em 
+%qualquer ordem. A utilização dessa estrutura para resolver o problema do 
+%caminho mínimo não é novidade. Ela foi desenvolvida por Dinitz em 1978.
+%O que faz o algoritmo de Thorup é aplicar de alguma maneira a idéia de 
+%Dinitz recursivamente.
+\section*{{\large Organização da dissertação}}
+
+O primeiro capítulo contém a maior parte das notações, conceitos e definições
+que são usados ao longo desta dissertação. 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Em seguida, no capítulo~2, é apresentado
+o problema do caminho mínimo junto com os ingredientes básicos que o envolvem,
+como, por exemplo, o certificado de otimalidade.  
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+No capítulo~3 é descrito o
+celebrado algoritmo de Dijkstra e seus invariantes. A sua eficiência é 
+analisada e uma possível implementação é apresentada. 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+O capítulo~4 mostra implementações das estruturas de dados \textit{heap,
+  \dheap}, \textit{fibonacci heap}, \textit{bucket heap} e \textit{radix
+  heap}. Cada uma destas estruturas dá origem a uma implementação diferente do
+algoritmo de Dijkstra.  
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+No capítulo~5 é descrito o algoritmo de Dinitz-Thorup, bem como seus
+invariantes e uma possível implementação.
+%que é um passo
+%intermediário entre o algoritmo de Dijkstra e o ,
+%os invariantes que garantem a sua funcionalidade, e apresentada uma possível
+%implementação do algoritmo.  
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ O algoritmo de Dinitz-Thorup é um passo intermediário entre o algoritmo de
+Dijkstra e o algoritmo de Thorup, que é mostrado no capítulo~6, 
+junto com seus invariantes, sua análise de eficiência e uma possível
+implementação.
+%\ do algoritmo também é apresentada.  
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Uma análise experimental das implementações é feita no capítulo~7. 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ Finalmente, no capítulo~8,
+relatamos as nossas conclusões, frustrações e possíveis trabalhos futuros.
+
+
+\section*{Breve cronologia}
+ 
+ A figura~\ref{tab:historico} traz um pouco do panorama histórico sobre os
+ algoritmos que foram desenvolvidos para o problema do caminho
+ mínimo. Algums deles dependem do maior comprimento de um arco, que é 
+ representado por $C$, alguns resolvem versões mais restritas do problema e
+ outros menos.
+ Na tabela, $n$ é o número de vértices e $m$ é o número
+ de arcos do grafo dado e $r$ é a razão entre o maior e o menor (não-nulo)
+ comprimento de arcos.
+ \begin{figure}[htbp]
+ \centering
+ \begin{tabular}{^^7cc^^7cl^^7cl^^7c}\hline
+ {\bf Ano} & \multicolumn{1}{^^7cc^^7c}{\bf Algoritmo} & 
+ \multicolumn{1}{^^7cc^^7c}{\bf Consumo de tempo}\\\hline\hline
+ 1959 & Dijkstra~\cite{dijkstra59:note} & $O(m + n^2)$\\ \hline
+ 1969 & Dijkstra/Dial~\cite{dial:buckets} (buckets) & $O(m + nC)$\\ \hline
+ 1976 & Dijkstra/Wagner~\cite{wagner:buckets} & $O(m + nC)$\\ \hline
+ 1977 & Dijkstra/Johnson~\cite{johnson:heap} (heap) & $O(m \log n)$\\ \hline
+ 1977 & Van Emde Boas~\cite{van:1977} & $O(m\log \log C)$\\ \hline
+ 1987 & Dijkstra/Fredman e Tarjan~\cite{FredTarjan:Fibonacci} (fibonacci heap)& $O(m + n \log n)$\\ \hline
+ 1990 & Dijkstra/Ahuja {\it et al.}~\cite{ahuja:radixheap} (radix heap) & $O(m + n \log (nC))$\\ \hline
+ 1993 & Dijkstra/Fredman e Willard~\cite{fredman:fusiontrees} (fusion trees) & $O(m \sqrt{\log n})$ \\ \hline
+ 1994 & Dijkstra/Fredman e Willard~\cite{fredman:mst} (atomic heap) & $O(m + n \log n/\log \log n)$\\ \hline
+ 1996 & Dijkstra/Thorup~\cite{thorup:ram-2000} (RAM priority queue) & $O(m \log \log n)$\\ \hline
+ 1997 & Raman~\cite{raman:1997} & $O(m + n(\log C)^{1/4 +\varepsilon})$ \\ \hline
+ 1999 & Thorup~\cite{thorup:sssp-1999} (bucketing hierárquico) & $O(m + n)$ \\
+ \hline
+ 2000 & Hagerup~\cite{hagerup:sssp} & $O(n + m \log \word)$ \\ \hline
+ 2002 & Pettie e Ramachandran~\cite{petti:computing} & $O(m \alpha(m,n) + n
+ \log \log r)$ \\ \hline 
+ \end{tabular}
+ \caption[{\sf Histórico envolvendo o problema do caminho mínimo}]
+ {Histórico envolvendo o problema do caminho mínimo.}
+ \label{tab:historico}
+ \end{figure}
+
+\section*{Como executar esta dissertação}
+
+ Esta dissertação é um documento \CWEB{}. Os arquivos que compõe essa
+ dissertação podem ser obtidos no endereço 
+  {\tt http://www.ime.usp.br/dcc/posgrad/teses/shigueo/}
+ %{\tt http://www.ime.usp.br/\~\null shigueo/dissertacao/}
+ na forma compactada, com o nome $\mbox{dissertacao\_cweb.tgz}$ . Para
+ descompactar, utilize o comando 
+ \begin{quote}
+ \begin{verbatim}
+ meu_prompt> tar -xzvf dissertacao_cweb.tgz
+ \end{verbatim}
+ \end{quote}
+ O comando irá produzir os arquivos:
+ \begin{enumerate}[1)]
+ \item Capítulos: 01-conceitos.w, 02-problema.w,  03-dijkstra.w,
+  04-heap.w, 05-dinitz.w, 06-thorup.w,  07-resultados.w,
+ 08-conclusoes.w e ap-implementacoes.w.
+ \item Complementos: Makefile, capa.tex, agradecimentos.tex,
+ resumo.tex, e introd.tex.
+ \item Figuras e tabelas: nos diretórios fig/ e graph/.
+ \item Filtro e geradores (DIMACS): nos diretórios dimacs/ e geradores/
+ \item Estilos: sty/backref.sty e sty/mythesis.sty.
+ \item Referências: bib/joseplain.bst e bib/refs.bib.
+ \end{enumerate}
+
+ A dissertação também está disponível em formato postscript, no arquivo ``mestrado.ps''.
+
+ O pacote \CWEB{} consiste, basicamente, de dois programas {\it cweave} e {\it ctangle}. 
+ O download pode ser feito de {\tt http://www-cs-staff.Stanford.EDU/\~\null knuth/cweb.html}.
+
+
+\paragraph{Como criar um arquivo postscript da dissertação.}
+
+ Existem duas maneiras de se criar o arquivo: usando o Makefile ou 
+ manualmente.
+  
+ Escolhendo usar o Makefile, apenas digite na linha de comando
+ \begin{quote}
+  \begin{verbatim}
+ meu_prompt> make
+ \end{verbatim}
+ \end{quote}
+ O arquivo postscript criado é ``mestrado.ps''.
+
+ Caso queira proceder manualmente, siga os seguintes passos:
+ \begin{quote}
+  \begin{verbatim}
+ meu_prompt> cweave mestrado.w  (gera o arquivo mestrado.tex)
+ meu_prompt> latex mestrado.tex (gera o arquivo mestrado.dvi)
+ meu_prompt> dvips mestrado.dvi -o
+ \end{verbatim}
+ \end{quote}
+ 
+\paragraph{Como criar o executável das implementações.}
+
+ Supõe-se que o sistema operacional é do tipo UNIX-like. Os
+ testes foram feitos em um Linux RedHat~7.1 e nas estações
+ Unix/Solaris do IME/USP.
+
+ Como as implementações utilizam a plataforma \SGB{}, é necessário
+ a inclusão da {\it library} libgb.a. Essa  {\it library} pode ser
+ obtida, já pré-compilada, no mesmo endereço do arquivo da
+ dissertação, de duas formas: para Linux ($\mbox{sgb\_linux.tgz}$) e para Unix
+ ($\mbox{sgb\_unix.tgz}$). Descompacte 
+ o arquivo escolhido, no mesmo diretório dos arquivos da dissertação. Caso esteja
+ utilizando um Unix, será necessário modificar, no arquivo 
+ ap-implementacoes.w, a opção LINUX, em {\it enum}, para $\mbox{LINUX} = 0$. 
+  
+ O executável pode ser criado de duas maneiras: usando o Makefile ou
+ manualmente.
+
+ Escolhendo usar o Makefile, apenas digite na linha de comando
+ \begin{quote}
+  \begin{verbatim}
+ meu_prompt> make programa
+ \end{verbatim}
+\end{quote}
+ O executável criado será ``programa''.
+
+ Caso queira proceder manualmente, siga os seguintes passos:
+ \begin{quote}
+  \begin{verbatim}
+ meu_prompt> ctangle mestrado.w  (gera o arquivo mestrado.c)
+ meu_prompt> gcc -I./sgb/include -I./dimacs -L./sgb/lib 
+             -o programa mestrado.c -lgb -lm
+ \end{verbatim}
+\end{quote}
+ 
+\paragraph{Como executar o programa.}
+
+Digitando na linha de comando:
+ \begin{quote}
+\begin{verbatim} 
+ meu_prompt> programa
+ \end{verbatim}
+\end{quote}
+É gerado um grafo aleatório com $1000$ vértices e $100000$ arcos. Os   
+comprimentos padrão dos arcos são números inteiros em $[1..1000]$. É
+possível alterar esses valores passando parâmetros na linha de 
+comando, por exemplo:
+\begin{quote}
+\begin{verbatim}
+ meu_prompt> programa -n512 -m4096 -cmin5 -cmax100
+\end{verbatim}
+\end{quote}
+Esse comando gera um grafo aleatório com $512$ vértices, $8192$ arcos 
+ (ou seja, $4096$ arestas) 
+e com os comprimentos em $[5..100]$. Para obter informações sobre os
+parâmetros da linha de comando, pode-se utilizar:
+\begin{quote}
+\begin{verbatim}
+ meu_prompt> programa -h  
+\end{verbatim}
+\end{quote}
+ ou
+\begin{quote}
+\begin{verbatim}
+ meu_prompt> programa --hh
+\end{verbatim}
+\end{quote}
+Este último fornece informações mais detalhadas.
+
+Caso deseje utilizar os geradores do DIMACS, será preciso compilá-los.
+Para isso digite na linha de comando: 
+\begin{quote}
+\begin{verbatim}
+meu_prompt> cd geradores
+meu_prompt> make
+\end{verbatim}
+\end{quote}
+Agora será necessário modificar, no arquivo 
+ ap-implementacoes.w, a opção DIMACS, em {\it enum}, para $\mbox{DIMACS} = 1$ e
+ compilar novamente a dissertação.
+
+ \begin{quote}
+   Exemplos de uso:
+  \begin{verbatim}
+  meu_prompt> ./geradores/bin/sprand 8192 16384 561 | programa
+  meu_prompt> ./geradores/bin/spgrid 16 512 281 |  programa
+  \end{verbatim}
+ \end{quote}
+
+
+
+
+

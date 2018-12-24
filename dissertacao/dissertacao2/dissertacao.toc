@@ -1,0 +1,42 @@
+\select@language {brazil}
+\contentsline {chapter}{Lista de Abreviaturas}{vii}{chapter*.4}
+\contentsline {chapter}{Lista de Figuras}{ix}{section*.6}
+\contentsline {chapter}{Lista de Tabelas}{xi}{section*.8}
+\contentsline {chapter}{\numberline {1}Introdu\~A\IeC {\S }\~A\IeC {\pounds }o}{1}{chapter.1}
+\contentsline {section}{\numberline {1.1}Aplica\~A\IeC {\S }\~A\mu es}{1}{section.1.1}
+\contentsline {subsection}{\numberline {1.1.1}Qualidade de servi\~A\IeC {\S }o em redes de computadores}{2}{subsection.1.1.1}
+\contentsline {subsection}{\numberline {1.1.2}Roteamento de tr\~A\IeC {\textexclamdown }fego de ve\~A\discretionary {-}{}{}culos}{3}{subsection.1.1.2}
+\contentsline {subsection}{\numberline {1.1.3}Compress\~A\IeC {\pounds }o de imagens (aproxima\~A\IeC {\S }\~A\IeC {\pounds }o de curvas)}{5}{subsection.1.1.3}
+\contentsline {section}{\numberline {1.2}Objetivos}{5}{section.1.2}
+\contentsline {section}{\numberline {1.3}Preliminares}{6}{section.1.3}
+\contentsline {section}{\numberline {1.4}Organiza\~A\IeC {\S }\~A\IeC {\pounds }o}{7}{section.1.4}
+\contentsline {chapter}{\numberline {2}Caminhos m\IeC {\'\i }nimos (sem restri\c c\~oes)}{9}{chapter.2}
+\contentsline {section}{\numberline {2.1}Defini\c c\~oes b\'asicas}{9}{section.2.1}
+\contentsline {section}{\numberline {2.2}Defini\c c\~ao formal do problema}{10}{section.2.2}
+\contentsline {section}{\numberline {2.3}Fun\c c\~oes potenciais}{10}{section.2.3}
+\contentsline {section}{\numberline {2.4}Representa\c c\~ao de caminhos}{12}{section.2.4}
+\contentsline {section}{\numberline {2.5}Examinando arcos e v\'ertices}{13}{section.2.5}
+\contentsline {section}{\numberline {2.6}Algoritmos}{14}{section.2.6}
+\contentsline {subsection}{\numberline {2.6.1}Algoritmo de Dijsktra}{15}{subsection.2.6.1}
+\contentsline {subsubsection}{Descri\c c\~ao}{15}{section*.17}
+\contentsline {subsubsection}{Dijkstra e filas de prioridades}{20}{section*.21}
+\contentsline {subsection}{\numberline {2.6.2}Algoritmo de Ford}{21}{subsection.2.6.2}
+\contentsline {chapter}{\numberline {3}Caminhos m\IeC {\'\i }nimos com recursos limitados}{25}{chapter.3}
+\contentsline {section}{\numberline {3.1}Defini\c c\~ao do problema}{25}{section.3.1}
+\contentsline {section}{\numberline {3.2}Revis\~ao bibliogr\'afica}{25}{section.3.2}
+\contentsline {section}{\numberline {3.3}Complexidade}{27}{section.3.3}
+\contentsline {section}{\numberline {3.4}Preprocessamento}{29}{section.3.4}
+\contentsline {subsection}{\numberline {3.4.1}Redu\c c\~ao baseada nos recursos}{29}{subsection.3.4.1}
+\contentsline {subsection}{\numberline {3.4.2}Redu\c c\~ao baseada nos custos}{29}{subsection.3.4.2}
+\contentsline {section}{\numberline {3.5}Programa\c c\~ao din\^amica}{30}{section.3.5}
+\contentsline {subsection}{\numberline {3.5.1}Programa\c c\~ao din\^amica primal}{30}{subsection.3.5.1}
+\contentsline {subsection}{\numberline {3.5.2}Programa\c c\~ao din\^amica dual}{33}{subsection.3.5.2}
+\contentsline {subsection}{\numberline {3.5.3}Programa\c c\~ao din\^amica por r\'otulos}{36}{subsection.3.5.3}
+\contentsline {section}{\numberline {3.6}$\epsilon $-Aproxima\c c\~ao}{38}{section.3.6}
+\contentsline {section}{\numberline {3.7}Ranqueamento de caminhos}{39}{section.3.7}
+\contentsline {section}{\numberline {3.8}Relaxa\c c\~ao Lagrangiana}{40}{section.3.8}
+\contentsline {chapter}{\numberline {4}Experimentos}{47}{chapter.4}
+\contentsline {section}{\numberline {4.1}Ambiente computacional}{47}{section.4.1}
+\contentsline {section}{\numberline {4.2}Dados de Teste}{47}{section.4.2}
+\contentsline {section}{\numberline {4.3}Resultados}{49}{section.4.3}
+\contentsfinish 

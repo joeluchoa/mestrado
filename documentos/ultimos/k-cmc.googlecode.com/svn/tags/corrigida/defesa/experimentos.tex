@@ -1,0 +1,131 @@
+\section{Implementação}
+\subsection*{Implementação}
+
+\begin{frame}{Implementação}
+\begin{itemize}
+\item<1-> Codificação em Java
+\item<2-> Biblioteca open source JUNG: 1.7 e 2.0
+\item<3-> Diversos algoritmos já implementados, incluindo o \textcolor{red}{Dijkstra} 
+\item<4-> Visualização de grafos
+\end{itemize}
+\end{frame}
+
+\subsection*{Experimentos}
+
+\begin{frame}
+\onslide<1->{
+\begin{block}{Variáveis}
+\begin{itemize}
+\item $n$: número de vértices
+\item $m$: número de arestas
+\item $d$: densidade=$m/\binom{n}{2}$
+\item $k$: quantidade de menores caminhos
+\end{itemize}
+\end{block}
+}
+\onslide<2->{
+\begin{block}{Metodologia}
+\begin{itemize}
+\item Grafos simétricos conexos com custos positivos 
+\item 5 pontas iniciais e finais
+\item Um grafo por densidade
+\end{itemize}
+\end{block}
+}
+\onslide<3->{
+\begin{block}{Consumo de tempo}
+\begin{itemize}
+\item \KIM: $\Theta(kT(n,m))=\Theta(km\log n)$ usando-se \Dijkstra
+\item \KIM: $\Theta(km\log n)=\Theta(kdn^2\log n)$
+\end{itemize}
+\end{block}
+}
+\end{frame}
+
+\begin{frame}{Tempo em função do número de caminhos}
+\only<1>{\alert{Consumo de tempo \KIM{}: $\Theta(kT(n,m))$}}
+\only<2>{
+\begin{figure}
+\includegraphics[scale=0.8]{graficos_pdf/tempo_x_k_fit_no_residuals.pdf}
+\end{figure}
+}
+\end{frame}
+
+
+\begin{frame}{Tempo em função do número de vértices}
+\only<1>{\alert{Consumo de tempo \KIM{} usando \Dijkstra{} "min-heap": $\Theta(kdn^2\log n)$}}
+\only<2>{
+\begin{figure}
+\includegraphics[scale=0.8]{graficos_pdf/tempo_x_n_d_01_fit_no_residuals.pdf}
+\end{figure}
+}
+\only<3>{
+\begin{figure}
+\includegraphics[scale=0.8]{graficos_pdf/tempo_x_n_d_05_fit_no_residuals.pdf}
+\end{figure}
+}
+\only<4>{
+\begin{figure}
+\includegraphics[scale=0.8]{graficos_pdf/tempo_x_n_d_10_fit_no_residuals.pdf}
+\end{figure}
+}
+\end{frame}
+
+\begin{frame}{Principais rotinas}
+\begin{block}{Rotinas}
+\begin{itemize}
+\item Problema do desvio mínimo, rotina \SEP 
+\item Problema \PCM, algoritmo Dijkstra
+\end{itemize}
+\end{block}
+
+\begin{block}{Consumo de tempo}
+\begin{itemize}
+\item \SEP : $\Theta(m+n)$ 
+\item \Dijkstra{} com "min-heap": $\Theta(m\log n)$
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}{Fatia de tempo utilizada pelas principais rotinas.}
+\begin{figure}
+\centering
+\includegraphics[scale=0.5]{graficos_pdf/comparativo_percentual_sintetizado_by_densidade.pdf}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Fatia de tempo utilizada pelas execuções do Dijkstra.}
+\only<1>{
+\begin{figure}
+\includegraphics[scale=0.5]{graficos_pdf/proporcao_cm_sintetizado_by_n_d_01.pdf}
+\end{figure}
+}
+\only<2>{
+\begin{figure}
+\includegraphics[scale=0.5]{graficos_pdf/proporcao_cm_sintetizado_by_n_d_05.pdf}
+\end{figure}
+}
+\only<3>{
+\begin{figure}
+\includegraphics[scale=0.5]{graficos_pdf/proporcao_cm_sintetizado_by_n_d_10.pdf}
+\end{figure}
+}
+\end{frame}
+
+\begin{frame}{Fatia de tempo utilizada pelas execuções do algoritmo de desvio mínimo.}
+\only<1>{
+\begin{figure}
+\includegraphics[scale=0.5]{graficos_pdf/proporcao_sep_sintetizado_by_n_d_01.pdf}
+\end{figure}
+}
+\only<2>{
+\begin{figure}
+\includegraphics[scale=0.5]{graficos_pdf/proporcao_sep_sintetizado_by_n_d_05.pdf}
+\end{figure}
+}
+\only<3>{
+\begin{figure}
+\includegraphics[scale=0.5]{graficos_pdf/proporcao_sep_sintetizado_by_n_d_10.pdf}
+\end{figure}
+}
+\end{frame}

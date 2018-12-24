@@ -1,0 +1,570 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%  CAPÍTULO. MÉTODO DE YEN
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\chapter{Algoritmo de Katoh, Ibaraki e Mine}
+\label{cap:algoritmo-kim}
+
+Neste capítulo trataremos, propriamente dito, do algoritmo de KIM.
+Para entendê-lo fizemos usos de vários artigos diferentes. 
+Começamos pelo artigo original de Naoki Katoh,
+Toshihide Ibaraki e H. Mine~\cite{katoh:n-12-411} (KIM), sob o qual a implementação foi feita.
+O artigo é bem preciso do ponto de vista da implementação, trabalhando com índices e citando até estruturas 
+para implementação. Do ponto de vista do entedimento do algoritmo em termos gerais não refrescou muito.
+
+Uma vez que o artigo de Jin Y. Yen~\cite{yen:ms-17-712} fora citado pelo do KIM, achamos que seria de grande utilidade 
+lê-lo, além do mais, sabemos que o algoritmo de KIM é uma melhoria do de Yen, sendo específico para grafos simétricos.
+Com a leitura do algoritmo de YEN, e sua simplicidade, começamos a vislumbrar melhor o de KIM e a entendê-lo com mais propriedade.
+
+En seguida encontramos o artigo de John Hershberger, Matthew Maxel e Subhash Suri~\cite{hershberger:acmta-3-??}, 
+o qual foi muito elucidativo. Este trata de uma extensão da idéia central do algoritmo de KIM 
+para grafos não-simétricos. O que mais nos chamou a atenção foi a maneira como o algoritmo foi descrito:
+os autores procuraram trabalhar mais com idéias gerais e lidar com estruturas mais sofisticadas deixando de lado
+a quantidade exorbitante de índices e descrições de baixo nível apresentadas no artigo original de KIM.
+
+Nosso plano é apresentar o algoritmo de KIM, bem como suas subrotinas e principais idéias, 
+em seguida passaremos a demonstração de correção seguindo então para a análise de desempenho assintótico e, por fim,
+de modo a ajudar no entendimento, faremos uma simulação mostrando também o código implementado utilizando-se o pacote JUNG.
+
+\section{Caminhos derivados}
+\label{sec:caminhosDerivados}
+O algoritmo de KIM funciona, basicamente, gerando caminhos candidatos em cada iteração.
+Inicialmente calcula-se o caminho $P1$, menor caminho entre $s$ e $t$, para tanto utiliza-se o próprio algoritmo de Dijkstra.
+Em seguida, utilizando-se a rotina~\ref{FSP}, obtemos o caminho $P2$ que é o menor caminho dentre todos os que desviam de $P1$ em algum vértice.
+A partir dos caminhos $P1$ e $P2$ são gerados três novos caminhos os quais serão candidatos para 
+$P3$, são eles:
+\begin{description}
+\item[$Pa$]: \mar{$Pa$}menor caminho que se desvia de $P2$ em algum momento depois que $P2$ se desviou de $P1$.
+\item[$Pb$]: \mar{$Pb$}menor caminho que se desvia de $P1$ depois do vértice comum a $P1$ e $P2$.
+\item[$Pc$]: \mar{$Pc$}menor caminho que se desvia de P1 antes do vértice comum a $P1$ e $P2$.
+\end{description}
+A figura~\ref{fig:caminhosDerivados} mostra como são esses caminhos.
+É possível observar que só existem estas três possibilidades para o caminho $P3$, graficamente isto se torna até mais intuitivo.
+Os caminhos candidatos $Pa$, $Pb$ e $Pc$ são então colocados na lista de caminhos candidatos e, no início da próxima iteração,
+o caminho de menor custo é retirado da lista e, tornando-se o $P3$.
+A partir então dos caminhos $P3$ e seu caminho gerador, o qual chamaremos de caminho pai, faremos o mesmo processo, ou seja,
+geraremos três caminhos candidatos $Pa$, $Pb$, $Pc$.
+Os pais de cada caminho candidato são definidos da seguinte maneira:
+\begin{itemize}
+\item O caminho pai de $Pa$ é o $P2$, uma vez que é aquele com o qual 
+compartilha o maior número de vértices consecutivos partindo de $s$.
+\item O caminho pai de $Pb$ é o $P1$, uma vez que é aquele com o qual 
+compartilha o maior número de vértices consecutivos partindo de $s$.
+\item O caminho pai de $Pc$ é o $P1$, uma vez que é aquele com o qual 
+compartilha o maior número de vértices consecutivos partindo de $s$.
+\end{itemize}
+Durante a execução do algoritmo fica mais fácil identificar os pais de cada caminho, bastando observar qual o último caminho
+do qual este desvia.
+\begin{figure}[hbp]
+\begin{center}
+    \psfrag{P1}{{$P1$}}
+    \psfrag{P2}{{$P2$}}
+    \psfrag{Pa}{{$Pa$}}
+    \psfrag{Pb}{{$Pb$}}
+    \psfrag{Pc}{{$Pc$}}
+\includegraphics[scale=0.3]{./figs/kimCaminhos.eps}
+\caption{A partir do menor caminho, $P1$, calculamos o segundo menor caminho, $P2$. 
+$P1$ e $P2$ formam a base para a obtenção do próximo caminho, $P3$.
+O caminho $Pa$ corresponde ao menor caminho que se desvia do caminho $P2$ em algum momento depois que o caminho $P2$ se desviou do $P1$.
+O caminho $Pb$ corresponde ao menor caminho que se desvia do caminho $P1$ depois do vértice comum a $P1$ e $P2$.
+O caminho $Pc$ corresponde ao menor caminho que se desvia de P1 antes do vértice comum a $P1$ e $P2$.
+Tomando-se estes três caminhos candidatos para $P3$, basta analisar o de menor custo o qual será o $P3$.
+}
+\label{fig:caminhosDerivados}
+\end{center}
+\end{figure}
+
+\section{Árvores $Ts$ e $Tt$}
+\label{sec:arvores}
+O algoritmo de KIM está baseado fortemente na geração de duas árvores de menores caminhos, as quais são
+geradas utilizando-se uma versão um pouco modificada do algortimo de Dijkstra. 
+São duas as mudanças requeridas:
+\begin{itemize}
+\item Rotulação utilizando-se índices $\epsilon$ na árvore $Ts$ e $\zeta$ na árvore $Tt$.
+\item Garantia de que um certo caminho base faça parte de ambas as árvores.
+\end{itemize}
+
+A árvore $Ts$ corresponde a árvore de menores caminhos cuja raiz é $s$. \mar{$Ts$} 
+
+
+A árvore $Tt$ corresponde a árvore de menores caminhos cuja raiz é $t$. \mar{$Tt$} 
+
+A rotulação das árvores funciona da seguinte maneira:
+
+Seja $G = (V,A)$ um \defi{grafo} simétrico e $P = \seq{u_{1}, u_{2}, \ldots , u_{n}}$ um caminho em $G$.
+Definimos a rotulação $\epsilon$ dos vértices da árvore $Ts$ da seguinte forma: \mar{rotulação $\epsilon$}
+\begin{itemize}
+\item Se o vértice $x$ pertencer ao caminho $P$, então $\epsilon(x)$ 
+corresponde a sua posição no caminho, começando a contagem no 1. 
+No exemplo acima, $\epsilon(u_{1})=1$, $\epsilon(u_{2})=2$ e $\epsilon(u_{n})=n$
+\item Caso contrário, o valor de $\epsilon(x)$ corresponde ao $\epsilon(y)$, onde $y$ representa
+o vértice pertencente à árvore $Ts$ tal que o arco $(x,y)$ também pertence à árvore $Ts$.
+\end{itemize}
+Graficamente, podemos observar que a rotulação $\epsilon$ nada mais é que atribuir a cada vértice não pertencente
+ao caminho base $P$ o valor de $\epsilon$ do seu último vértice comum ao caminho base $P$.
+Na figura~\ref{fig:rotulacao}(b), temos o caminho base $P = \seq{a, d, e}$ cuja rotulação corresponde a sua posição 
+no caminho, ou seja, $\epsilon(a)=1$, $\epsilon(d)=2$ e $\epsilon(e)=3$.
+
+$\epsilon(b)=1$, uma vez que o $\epsilon$ do último vértice pertencente ao caminho $P$ comum aos
+caminhos $P$ e $\seq{a,b}$, na árvore $Ts$, é 1.
+O mesmo vale para o vértice $c$.
+
+Antes de definir a rotulação $\zeta$, vamos definir $P_{r}$ como o reverso de $P$, ou seja,
+$P_{r} = \seq{u_{n}, u_{n-1}, \ldots , u_{1}}$
+
+Definimos a rotulação $\zeta$ dos vértices da árvore $Tt$ da seguinte forma: \mar{rotulação $\zeta$}
+\begin{itemize}
+\item Se o vértice $x$ pertencer ao caminho $P_{r}$, então $\zeta(x)$ = $\epsilon(x)$.
+No exemplo acima, $\zeta(u_{1})=1$, $\zeta(u_{n-1})=n-1$ e $\zeta(u_{n})=n$.
+\item Caso contrário, o valor de $\zeta(x)$ corresponde ao $\zeta(y)$, onde $y$ representa
+o vértice pertencente à árvore $Tt$ tal que o arco $(x,y)$ também pertence à árvore $Tt$.
+\end{itemize}
+Graficamente, podemos observar que a rotulação $\zeta$ nada mais é que atribuir a cada vértice não pertencente
+ao caminho base $P_{r}$ o valor de $\zeta$ do seu último vértice comum ao caminho base $P_{r}$.
+Na figura~\ref{fig:rotulacao}(c), temos o caminho base $P_{r} = \seq{e, d, a}$ cuja rotulação é a mesma de $\epsilon$, ou seja,
+$\zeta(e)=3$, $\zeta(d)=2$ e $\zeta(a)=1$.
+
+$\zeta(b)=3$, uma vez que o $\zeta$ do último vértice pertencente ao caminho $P_{r}$ comum aos
+caminhos $P_{r}$ e $\seq{e,b}$, na árvore $Tt$, é 3.
+
+$\zeta(c)=3$, uma vez que o $\zeta$ do último vértice pertencente ao caminho $P_{r}$ comum aos
+caminhos $P_{r}$ e $\seq{e,b,c}$, na árvore $Tt$, é 3.
+
+Sendo os custos das aresta do grafo $G = (V,A)$ todos maiores que zero, temos que:
+$\forall x \in V,  \epsilon(x) \leq \zeta(x)$. 
+
+\begin{figure}[hbp]
+\begin{center}
+    \psfrag{a}{{$a$}}
+    \psfrag{b}{{$b$}}
+    \psfrag{c}{{$c$}}
+    \psfrag{d}{{$d$}}
+    \psfrag{e}{{$e$}}
+\subfigure[Grafo]{\includegraphics[scale=0.6]{./figs/grafoExemploTsETt.eps}}
+\subfigure[Árvore Ts]{\includegraphics[scale=0.5]{./figs/exemploTs.eps}}
+\subfigure[Árvore Tt]{\includegraphics[scale=0.5]{./figs/exemploTt.eps}}
+\caption{
+Em (a) temos o grafo de exemplo a partir do qual geraremos árvores com raiz em $s$=$a$ e $t$=$e$.
+Em vermelho está marcado o menor caminho de $a$ a $e$.
+Em (b) temos a árvore de menores caminhos com raiz em $a$.
+Em (c) temos a árvore de menores caminhos com raiz em $e$. 
+Em ambas as árvores a linha vermelha corresponde ao menos caminho de $a$ a $e$ e este é o mesmo que o 
+assinalado no grafo~\ref{fig:rotulacao}(a).}
+\end{center}
+\label{fig:rotulacao}
+\end{figure}
+
+\subsection*{Tipos de caminhos}
+Dadas duas árvores, $Ts$ e $Tt$ e um $\alpha$ o algoritmo de KIM pode gerar caminhos de dois tipos distintos: 
+\begin{description}
+\item[tipo I]: $s \longrightarrow u \longrightarrow t$ e  $\epsilon(u) < \alpha$. \mar{tipo I}
+O caminho de $s$ a $u$ está em $Ts$ enquanto o caminho de $u$ a $t$ está em $Tt$.
+\item[tipo II]: $s \longrightarrow u \rightarrow v \longrightarrow t$ e  $\epsilon(u) < \alpha$. \mar{tipo II}
+O caminho de $s$ a $u$ está em $Ts$ enquanto o caminho de $v$ a $t$ está em $Tt$.
+O arco $(u,v) \in G=(V,A)$ não pertence à árvore $Ts$ e nem a árvore $Tt$.
+\end{description}
+
+Utilizando a figura~\ref{fig:rotulacao} e $\alpha=2$ teríamos, por exemplo, o seguinte caminho to tipo I: $\seq{a,b,e}$.
+Neste exemplo, usamos $s=a,t=e,u=b,\epsilon(b)=1<\alpha$ e obtemos então o caminho de $s$ a $b$ em $Ts$ e o concatenamentos
+ao caminho de $b$ a $t$ em $Tt$, ou seja, concatenamentos os caminhos $\seq{a,b}$ e $\seq{b,e}$.
+
+Utilizando a mesma figura, o mesmo $\alpha$ e $s=a,t=e,u=c,\epsilon(c)<\alpha$ obtemos o caminho do tipo II: $\seq{a,c,d,e}$.
+Neste caso, estamos concatenando o caminho $\seq{a,c} \in Ts$ ao arco $(c,d) \notin Ts \cup Tt$ e ao 
+caminho $\seq{d,e} \in Tt$. 
+
+\newpage
+\section{Arestas com custo zero}
+
+Apresentaremos, sucintamente, o problema que pode haver na execução do algoritmo caso exista alguma aresta 
+com custo zero.
+O funcionamento do algoritmo está baseado na rotulação dos $\epsilon$ e $\zeta$ respeitar a relação 
+$\epsilon(v) \leq \zeta(v)$ citada na seção~\ref{sec:arvores}.
+Quando existem custos zerados nas arestas, é possível que esta relação não seja respeitada.
+Na figura~\ref{fig:grafoComZero} exibimos um grafo com custo zero em uma de suas arestas e na 
+figura~\label{fig:arvoresComZero} as correspondentes árvores $Ts$ e $Tt$ onde $\epsilon(c) > \zeta(c)$, violando
+assim a relação básica do algoritmo mencionada na seção~\ref{sec:arvores}.
+
+\begin{figure}[hbp]
+\begin{center}
+    \psfrag{a}{{$a$}}
+    \psfrag{b}{{$b$}}
+    \psfrag{c}{{$c$}}
+    \psfrag{d}{{$d$}}
+    \psfrag{e}{{$e$}}
+\subfigure[Grafo]{\includegraphics[scale=0.4]{./figs/grafoComZero.eps}}
+\subfigure[Árvore Ts]{\includegraphics[scale=0.5]{./figs/arvoresTsComZero.eps}}
+\subfigure[Árvore Tt]{\includegraphics[scale=0.5]{./figs/arvoresTtComZero.eps}}
+\caption{
+Em (a) temos o grafo de exemplo a partir do qual geraremos árvores com raiz em $s$=$a$ e $t$=$e$.
+Em vermelho está marcado o menor caminho de $a$ a $e$.
+Em (b) temos a árvore de menores caminhos com raiz em $a$.
+Em (c) temos a árvore de menores caminhos com raiz em $e$. 
+Em ambas as árvores a linha vermelha corresponde ao menor caminho de $a$ a $e$ e este é o mesmo que o 
+assinalado no grafo~\ref{fig:grafoComZero}(a). Observe que na árvore $Ts$ $\epsilon(c)=3$ e na 
+árvore $Tt$ $\zeta(c)=2$, ou seja, $\epsilon(c) > \zeta(c)$, 
+o que viola a regra básica do algoritmo. }
+ \label{fig:grafoComZero}
+\end{center}
+\end{figure}
+
+\newpage
+\section{Simulação}
+
+Iremos simular a execução do algoritmo de KIM num grafo simples, exibindo passo a passo
+de modo a transmitir as operações básicas de seu funcionamento.
+No grafo da figura~\ref{fig:simulacao1}(a) geraremos os três menores caminho com origem em $a$ e destino $d$.
+Inicialmente o algoritmo de KIM gera o caminho $P1 = \seq{a, b, g, d}$ utilizando o 
+algortimo Dijkstra no grafo da figura~\ref{fig:simulacao1}.
+Em seguida, para gerar o caminho $P2$, realiza uma chamada à rotina FSP~\ref{FSP}.
+A rotina FSP calcula as árvores $Ts$ e $Tt$, apresentadas na figura~\ref{fig:simulacao1}(b) e (c). 
+
+\begin{figure}[hbp]
+\begin{center}
+    \psfrag{a}{{$a$}}
+    \psfrag{b}{{$b$}}
+    \psfrag{c}{{$c$}}
+    \psfrag{d}{{$d$}}
+    \psfrag{e}{{$e$}}
+    \psfrag{e}{{$f$}}
+    \psfrag{e}{{$g$}}
+\subfigure[Grafo]{\includegraphics[scale=0.6]{./figs/simulacaoGrafo1.eps}}
+\subfigure[Árvore Ts]{\includegraphics[scale=0.5]{./figs/simulacaoArvoreTs1.eps}}
+\subfigure[Árvore Tt]{\includegraphics[scale=0.5]{./figs/simulacaoArvoreTt1.eps}}
+\caption{ Em (a) temos o grafo base usado na simulação. Em vermelho temos o caminho $P1$ gerado a partir de uma chamada
+ao algoritmo Dijkstra com origem $a$ e destino $d$.
+Em (b) temos a árvore de menores caminhos com raiz em $a$.
+Em (c) temos a árvore de menores caminhos com raiz em $e$. 
+Em ambas as árvores a linha vermelha corresponde ao menor caminho de $a$ a $e$ e este é o mesmo que o 
+assinalado no grafo em (a).}
+ \label{fig:simulacao1}
+\end{center}
+\end{figure}
+
+A partir das árvores $Ts$ e $Tt$ apresentadas na figura~\ref{fig:simulacao1}(b) e (c), chamamos a rotina SEP~\ref{SEP} 
+a qual, utilizando as rotulações $\epsilon$ e $\zeta$, testa todos os caminhos dos tipos I e II, retornando o menor dentre eles.
+Este caminho será o retornado pela função FSP, no caso, o caminho $P2=\seq{a, f, g, d}$.
+
+Em seguida, usando como base os caminhos $P1$ e $P2$ geraremos os caminhos candidatos: $Pa$, $Pb$, $Pc$.
+Na figura~\ref{fig:simulacao2} temos as árvores que darão origem ao caminho $Pa$, o qual de desvia do caminho $P2$.
+Utilizando-as, a rotina~SEP[\ref{SEP}] acaba por retornar o caminho~$Pa = \seq{a, f, g, c, d}$.
+\begin{figure}[hbp]
+\begin{center}
+    \psfrag{a}{{$a$}}
+    \psfrag{b}{{$b$}}
+    \psfrag{c}{{$c$}}
+    \psfrag{d}{{$d$}}
+    \psfrag{e}{{$e$}}
+    \psfrag{e}{{$f$}}
+    \psfrag{e}{{$g$}}
+\subfigure[Grafo]{\includegraphics[scale=0.6]{./figs/simulacaoGrafo2.eps}}
+\subfigure[Árvore Ts]{\includegraphics[scale=0.5]{./figs/simulacaoArvoreTs2.eps}}
+\subfigure[Árvore Tt]{\includegraphics[scale=0.5]{./figs/simulacaoArvoreTt2.eps}}
+\caption[Esquema de geração do caminho $Pa$ derivado do caminho $P2=\seq{a, f, g, d}$]{ Esquema de geração do caminho $Pa$ derivado do caminho $P2=\seq{a, f, g, d}$
+Em (a) temos o grafo da figura~\ref{fig:simulacao1}(a) com o vértice $a$ removido, bem como suas arestas.
+Em (b) temos a árvore de menores caminhos com raiz em $f$.
+Em (c) temos a árvore de menores caminhos com raiz em $d$. 
+Em ambas as árvores a linha vermelha corresponde ao menor caminho de $f$ a $d$ e este é o mesmo que o 
+assinalado no grafo em (a).}
+ \label{fig:simulacao2}
+\end{center}
+\end{figure}
+
+Para a geração do caminho $Pb$ podemos observar a figura~\ref{fig:simulacao3}.
+Nela, o arco $(a,f)$ foi removido, por fazer parte do prefixo comum aos caminho $P1$ e $P2$.
+A rotina SEP retornou o caminho $Pb = \seq{a, b, e, d}$, como sendo o menor 
+dentre todos os caminhos dos tipos I e II gerados a partir das árvores $Ts$ e $Tt$ da figura~\ref{fig:simulacao3}(b) e (c), 
+respectivamente.
+\begin{figure}[hbp]
+\begin{center}
+    \psfrag{a}{{$a$}}
+    \psfrag{b}{{$b$}}
+    \psfrag{c}{{$c$}}
+    \psfrag{d}{{$d$}}
+    \psfrag{e}{{$e$}}
+    \psfrag{e}{{$f$}}
+    \psfrag{e}{{$g$}}
+\subfigure[Grafo]{\includegraphics[scale=0.6]{./figs/simulacaoGrafo3.eps}}
+\subfigure[Árvore Ts]{\includegraphics[scale=0.5]{./figs/simulacaoArvoreTs3.eps}}
+\subfigure[Árvore Tt]{\includegraphics[scale=0.5]{./figs/simulacaoArvoreTt3.eps}}
+\caption[Esquema de geração do caminho $Pb$ derivado do caminho $P1 = \seq{a, b, g, d}$]{ Esquema de geração do caminho $Pb$ derivado do caminho $P1 = \seq{a, b, g, d}$.
+Em (a) temos o grafo da figura~\ref{fig:simulacao1}(a) com o arco $(a,f)$ removido.
+Em (b) temos a árvore de menores caminhos com raiz em $a$.
+Em (c) temos a árvore de menores caminhos com raiz em $d$. 
+Em ambas as árvores a linha vermelha corresponde ao menor caminho de $a$ a $d$ e este é o mesmo que o 
+assinalado no grafo em (a).}
+ \label{fig:simulacao3}
+\end{center}
+\end{figure}
+
+Uma vez que não existe caminho que se desvie antes do último vértice comum aos caminho $P1$ e $P2$, não é possível gerar
+um caminho $Pc$ na primeira iteração do algoritmo.
+Neste ponto, retiramos da lista de caminhos candidatos o de menor custo entre o caminhos $Pa$ e $Pb$,
+previamente calculados, ou seja, retiramos o caminho $Pb$.
+
+\newpage
+\section{Implementação}
+
+\subsection*{KIM}
+A implementação foi feita em JAVA utilizando-se a biblioteca JUNG, mencionada anteriormente.
+Nossa principal missão foi aproveitar ao máximo o código já existente no JUNG.
+
+\lstset{basicstyle=\tiny}
+\begin{lstlisting}[label=getPaths, caption={Rotina getPaths responsável por calcular e retornar os $k$-menores caminhos}]
+	public Path<KIMVertex, KIMEdge>[] getPaths(KIMVertex source,
+			KIMVertex target, int nOfPaths) {
+		int k = 0, gama, delta;
+		TreeSet<Integer>[] W = new TreeSet[nOfPaths];
+		DeviationArcsMap<KIMEdge>[] B = new DeviationArcsMap[nOfPaths];
+		SortedSet<Path<KIMVertex, KIMEdge>> P = new TreeSet<Path<KIMVertex, KIMEdge>>();
+		Path<KIMVertex, KIMEdge>[] bestPaths = new Path[nOfPaths];
+		DijkstraShortestPath<KIMVertex, KIMEdge> dsp = new DijkstraShortestPath<KIMVertex, KIMEdge>(
+				graph, nev);
+		Path<KIMVertex, KIMEdge> p1 = new Path<KIMVertex, KIMEdge>(dsp.getPath(
+				source, target), source);
+		bestPaths[k] = p1;
+		if (p1 == null) return bestPaths;
+		p1.setParent(null);
+		p1.setOrdem(0);
+		W[0] = new TreeSet<Integer>();
+		W[0].add(0);
+		W[0].add(p1.getVertices().size() - 1);
+		if (nOfPaths == 1) return bestPaths;
+		insertPath(p1, 0);
+		Path<KIMVertex, KIMEdge> p2 = FSP(source, target, p1, p1.getVertices().size());
+		removePath(p1, 0);
+		if (p2 == null) return bestPaths;
+		p2.setParent(p1);
+		P.add(p2);
+		B[0] = new DeviationArcsMap<KIMEdge>(p1.getVertices().size());
+		while (!P.isEmpty()) {
+			k++;
+			Path<KIMVertex, KIMEdge> pk = P.first();
+			pk.setOrdem(k);
+			bestPaths[k] = pk;
+			if (k == nOfPaths - 1) {
+				break;
+			}
+			P.remove(pk);
+			Path<KIMVertex, KIMEdge> pj = pk.getParent();
+			W[k] = new TreeSet<Integer>();
+			W[k].add(pk.getDevNodeIndex() + 1);
+			W[k].add(pk.getVertices().size() - 1);
+			B[k] = new DeviationArcsMap<KIMEdge>(pk.getVertices().size());
+			B[pj.getOrdem()].put(pk.getDevNodeIndex(), pk.getEdge(pk
+					.getDevNodeIndex()));
+			if (pk.getDevNodeIndex() + 1 != pk.getVertices().size() - 1) {
+				Path<KIMVertex, KIMEdge> pa = getPa(source, target, pk);
+				if (pa != null) {
+					pa.setParent(pk);
+					pa.setOrigem("A");
+					P.add(pa);
+				}
+			}
+			gama = getGama(W[pj.getOrdem()], pk.getDevNodeIndex(), pj
+					.getVertices().size() - 1);
+			Path<KIMVertex, KIMEdge> pb = null;
+			if (gama >= 0)
+				pb = getPb(B[pj.getOrdem()], source, target, pk, pj, gama);
+			if (pb != null) {
+				pb.setParent(pk.getParent());
+				pb.setOrigem("B");
+				logger.debug("Pb=" + pb);
+				P.add(pb);
+			}
+			if (!W[pj.getOrdem()].contains(pk.getDevNodeIndex())) {
+				W[pj.getOrdem()].add(pk.getDevNodeIndex());
+				delta = getDelta(W[pj.getOrdem()], pj.getDevNodeIndex(), pk
+						.getDevNodeIndex());
+				Path<KIMVertex, KIMEdge> pc = null;
+				if (delta >= 0)
+					pc = getPc(B[pj.getOrdem()], source, target, pk, pj, delta);
+				if (pc != null) {
+					pc.setParent(pk.getParent());
+					pc.setOrigem("C");
+					P.add(pc);
+				}
+			}
+		}
+		return bestPaths;
+	}
+\end{lstlisting}
+
+\newpage
+
+\subsection*{FSP}
+
+\lstset{basicstyle=\tiny}
+\begin{lstlisting}[label=FSP,caption={Rotina FSP, dado um caminho base retorna o menor caminho diferente deste.}]
+	protected Path<KIMVertex, KIMEdge> FSP(KIMVertex s, KIMVertex t,
+			Path<KIMVertex, KIMEdge> parent) {
+		ShortestPathKIM<KIMVertex, KIMEdge> Ts = getShortestPathAlgorithm(TreeType.TS);
+		ShortestPathKIM<KIMVertex, KIMEdge> Tt = getShortestPathAlgorithm(TreeType.TT);
+		stopWatchTrees.start("Trees");
+		Ts.getIncomingEdgeMap(s);
+		Tt.getIncomingEdgeMap(t);
+		alfa = parent.getVertices().size();
+		Pair resp = SEP(Ts, Tt, s, t, alfa);
+		if (resp == null)
+			return null;
+		if (resp.getSecond().equals(resp.getFirst()))
+			logger.debug("Caminho Tipo I");
+		else
+			logger.debug("Caminho Tipo II");
+		Path<KIMVertex, KIMEdge> path = new Path<KIMVertex, KIMEdge>(Ts, Tt,
+				resp, s, t);
+		return path;
+	}
+\end{lstlisting}
+
+\newpage
+
+\subsection*{SEP}
+\lstset{basicstyle=\tiny}
+\begin{lstlisting}[label=SEP, caption={Considerando os rótulos $\epsilon$ e $\zeta$, testa caminhos do tipo I e II, retornando o menor dentre eles.}]
+	protected Pair SEP(ShortestPathKIM<KIMVertex, KIMEdge> Ts,
+			ShortestPathKIM<KIMVertex, KIMEdge> Tt, KIMVertex s, KIMVertex t,
+			int alfa) {
+		Stack<KIMVertex> stack = new Stack<KIMVertex>();
+		double distance = new Double(Double.MAX_VALUE);
+		Pair resp = null;
+		stack.push(s);
+		while (!stack.isEmpty()) {
+			KIMVertex u = stack.pop();
+			Set<KIMVertex> sons = getSons(Ts, u, s);
+			if (u.getEpsilon().equals(u.getZeta())) {
+				Iterator<KIMEdge> i = graph.getOutEdges(u).iterator();
+				while (i.hasNext()) {
+					KIMEdge atual = i.next();
+					KIMVertex v = graph.getOpposite(u, atual);
+					if (!sons.contains(v)) {
+						if (u.getEpsilon() < v.getZeta()) {
+							double newDistance = Ts.getDistance(s, u)
+									.doubleValue()
+									+ nev.transform(atual).doubleValue()
+									+ Tt.getDistance(t, v).doubleValue();
+							if (newDistance < distance) {
+								distance = newDistance;
+								resp = new Pair(u, atual);
+							}
+						}
+					}
+				}
+			} else {
+				int newDistance = Ts.getDistance(s, u).intValue()
+						+ Tt.getDistance(t, u).intValue();
+				if (newDistance < distance) {
+					distance = newDistance;
+					resp = new Pair(u, u);
+				}
+			}
+			Iterator<KIMVertex> j = sons.iterator();
+			while (j.hasNext()) {
+				KIMVertex son = j.next();
+				if (son.getEpsilon() < alfa) {
+					stack.push(son);
+				}
+			}
+		}
+		return resp;
+	}
+\end{lstlisting}
+
+\lstset{basicstyle=\tiny}
+\begin{lstlisting}[label=getSons, caption={Retorna todos os vértices filhos do vértice $u$ na árvore $T$ enraizada pelo vértice $s$}]
+
+public Set<KIMVertex> getSons(ShortestPathKIM<KIMVertex, KIMEdge> T,
+			KIMVertex u, KIMVertex s) {
+		Iterator<KIMEdge> i = graph.getOutEdges(u).iterator();
+		Set<KIMVertex> sons = new HashSet<KIMVertex>();
+		while (i.hasNext()) {
+			KIMEdge atual = i.next();
+			KIMVertex o = graph.getOpposite(u, atual);
+			KIMEdge incident = T.getIncomingEdge(s, o);
+			if (incident != null && graph.getOpposite(o, incident).equals(u))
+				sons.add(o);
+		}
+		return sons;
+	}
+\end{lstlisting}
+
+\newpage
+
+\subsection*{getPa}
+\lstset{basicstyle=\tiny}
+\begin{lstlisting}[label=getPa,caption={Calcula o menor caminho $Pa$, vide figura~\ref{fig:caminhosDerivados}.}]
+	protected Path<KIMVertex, KIMEdge> getPa(KIMVertex source,
+			KIMVertex target, Path<KIMVertex, KIMEdge> pk) {
+		KIMVertex start = pk.getVertices().get(pk.getDevNodeIndex() + 1);
+		Path<KIMVertex, KIMEdge> p = pk.getSubPath(start);
+		LinkedHashMap<KIMEdge, Pair<KIMVertex>> verticesToRestore = removeVertices(pk
+				.getVertices().subList(0, pk.getDevNodeIndex() + 1));
+		insertPath(pk, pk.getDevNodeIndex() + 1);
+		Path<KIMVertex, KIMEdge> pa = FSP(start, target, p, pk.getVertices()
+				.size() - 1);
+		removePath(pk, pk.getDevNodeIndex() + 1);
+		Path<KIMVertex, KIMEdge> resp = null;
+		restoreVertices(pk.getVertices().subList(0, pk.getDevNodeIndex() + 1),
+				verticesToRestore);
+		if (pa != null)
+			resp = new Path<KIMVertex, KIMEdge>(pk.getPrefix(start), pa);
+		return resp;
+	}
+\end{lstlisting}
+
+\subsection*{getPb}
+\lstset{basicstyle=\tiny}
+\begin{lstlisting}[label=getPb,caption={Calcula o menor caminho $Pb$, vide figura~\ref{fig:caminhosDerivados}.}]
+	private Path<KIMVertex, KIMEdge> getPb(
+			DeviationArcsMap<KIMEdge> devArcsMap, KIMVertex source,
+			KIMVertex target, Path<KIMVertex, KIMEdge> pk,
+			Path<KIMVertex, KIMEdge> pj, int gama) {
+		Path<KIMVertex, KIMEdge> R = pj.getSubPath(pk.getDevNode(), pk
+				.getDevNodeIndex(), gama);
+		LinkedHashMap<KIMEdge, Pair<KIMVertex>> arcsToRestore = removeEdges(devArcsMap
+				.get(pk.getDevNodeIndex()));
+		LinkedHashMap<KIMEdge, Pair<KIMVertex>> verticesToRestore = removeVertices(pj
+				.getVertices().subList(0, pk.getDevNodeIndex()));
+		insertPath(pj, pk.getDevNodeIndex());
+		Path<KIMVertex, KIMEdge> pb = FSP(pk.getVertex(pk.getDevNodeIndex()),
+				target, R, pj.getVertices().size() - 1);
+		removePath(pj, pk.getDevNodeIndex());
+		Path<KIMVertex, KIMEdge> resp = null;
+		restoreVertices(pj.getVertices().subList(0, pk.getDevNodeIndex()),
+				verticesToRestore);
+		restoreEdges(arcsToRestore);
+		if (pb != null)
+			resp = new Path<KIMVertex, KIMEdge>(pj.getSubPath(pj.getStart(), 0,
+					pk.getDevNodeIndex()), pb);
+		return resp;
+	}
+\end{lstlisting}
+
+\newpage
+
+\subsection*{getPc}
+\lstset{basicstyle=\tiny}
+\begin{lstlisting}[label=getPc,caption={Calcula o menor caminho $Pc$, vide figura~\ref{fig:caminhosDerivados}.}]
+	private Path<KIMVertex, KIMEdge> getPc(
+			DeviationArcsMap<KIMEdge> devArcsMap, KIMVertex source,
+			KIMVertex target, Path<KIMVertex, KIMEdge> pk,
+			Path<KIMVertex, KIMEdge> pj, int delta) {
+		Path<KIMVertex, KIMEdge> R = pj.getSubPath(pj.getVertex(delta), delta,
+				pk.getDevNodeIndex());
+		LinkedHashMap<KIMEdge, Pair<KIMVertex>> arcsToRestore = removeEdges(devArcsMap
+				.get(delta));
+		LinkedHashMap<KIMEdge, Pair<KIMVertex>> verticesToRestore = removeVertices(pj
+				.getVertices().subList(0, delta));
+		insertPath(pj, delta);
+		Path<KIMVertex, KIMEdge> pc = FSP(pj.getVertex(delta), target, R, pj
+				.getVertices().size() - 1);
+		removePath(pj, delta);
+		Path<KIMVertex, KIMEdge> resp = null;
+		restoreVertices(pj.getVertices().subList(0, delta), verticesToRestore);
+		restoreEdges(arcsToRestore);
+		if (pc != null)
+			resp = new Path<KIMVertex, KIMEdge>(pj.getSubPath(pj.getStart(), 0,
+					delta), pc);
+		return resp;
+	}
+\end{lstlisting}

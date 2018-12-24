@@ -1,0 +1,48 @@
+\documentclass{article}
+\usepackage[x11names, rgb]{xcolor}
+\usepackage[utf8]{inputenc}
+\usepackage{tikz}
+\usetikzlibrary{snakes,arrows,shapes}
+\usepackage{amsmath}
+%
+%
+
+\usepackage[active,tightpage]{preview}
+\PreviewEnvironment{tikzpicture}
+\setlength\PreviewBorder{0pt}%
+
+%
+
+\begin{document}
+\pagestyle{empty}
+%
+%
+%
+
+\enlargethispage{100cm}
+% Start of code
+\begin{tikzpicture}[>=latex',line join=bevel,]
+%%
+\node (1) at (114.4bp,30.001bp) [draw,circle] {$1$};
+  \node (0) at (28bp,30.001bp) [draw,circle] {$0$};
+  \node (2) at (200.8bp,30.001bp) [draw,circle] {$2$};
+  \node (i) at (287.2bp,30.001bp) [draw,draw=none] {$\cdots$};
+  \node (n) at (373.6bp,30.001bp) [draw,circle] {$n$};
+  \draw [->] (2) to[bend left] node[auto] {$M-v_3$ / $w_3$} (i);
+  \draw [->,dashed] (2) to[bend right] node[auto] {$M$ / $0$} (i);
+  \draw [->] (0) to[bend left] node[auto] {$M-v_1$ / $w_1$} (1);
+  \draw [->,dashed] (0) to[bend right] node[auto] {$M$ / $0$} (1);
+  \draw [->] (1) to[bend left] node[auto] {$M-v_2$ / $w_2$} (2);
+  \draw [->,dashed] (1) to[bend right] node[auto] {$M$ / $0$} (2);
+  \draw [->] (i) to[bend left] node[auto] {$M-v_n$ / $w_n$} (n);
+  \draw [->,dashed] (i) to[bend right] node[auto] {$M$ / $0$} (n);
+%
+\end{tikzpicture}
+% End of code
+
+%
+\end{document}
+%
+
+
+

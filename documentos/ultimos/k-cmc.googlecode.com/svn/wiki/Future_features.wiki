@@ -1,0 +1,21 @@
+#Mudancas a serem feitas no codigo
+
+= Introduction =
+
+Melhorias a serem realizadas na implementacao.
+
+1 - retirar codigo de depuracao usando imagens
+2 - definir corretamente o uso do log4j
+3 - retirar campos de depuracao das classes
+4 - extinguir KImVertex e KIMEdge trocando por dois hash de epsilone zeta
+5 - criar testes de caminhos usando ideia de grafo completo e um outro exemplo simples qualquer
+6 - taratr arestas com custos zerados usando aquela ideia simples de somar um valor pequeno as arestas
+
+
+Melhorias:
+1- uso de tries
+2- alteracoes no grafo sequencias comecndo pelo Pc depois Pb e Pa
+3  -Comecar paralelizando em threads as duas execucoes do CM naobtencao das arvores Ts e Tt
+4 - Paralelizar Pa Pb e Pc lembrando do lance da ordem das alteracoes do grafo, 
+comecar fazendo tres copias do grafo, uma para cada um dos tipos Pa Pb e Pc.
+5- implementacoes especificas do CM para custos inteiros e double.

@@ -1,0 +1,3876 @@
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.6.20)  10 NOV 2012 02:34
+entering extended mode
+ %&-line parsing enabled.
+**dissertacao.tex
+(./dissertacao.tex
+LaTeX2e <2009/09/24>
+Babel <v3.8l> and hyphenation patterns for english, usenglishmax, dumylang, noh
+yphenation, farsi, arabic, croatian, bulgarian, ukrainian, russian, czech, slov
+ak, danish, dutch, finnish, french, basque, ngerman, german, german-x-2009-06-1
+9, ngerman-x-2009-06-19, ibycus, monogreek, greek, ancientgreek, hungarian, san
+skrit, italian, latin, latvian, lithuanian, mongolian2a, mongolian, bokmal, nyn
+orsk, romanian, irish, coptic, serbian, turkish, welsh, esperanto, uppersorbian
+, estonian, indonesian, interlingua, icelandic, kurmanji, slovenian, polish, po
+rtuguese, spanish, galician, catalan, swedish, ukenglish, pinyin, loaded.
+(/usr/share/texmf-texlive/tex/latex/base/book.cls
+Document Class: book 2007/10/19 v1.4h Standard LaTeX document class
+(/usr/share/texmf-texlive/tex/latex/base/bk12.clo
+File: bk12.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
+)
+\c@part=\count79
+\c@chapter=\count80
+\c@section=\count81
+\c@subsection=\count82
+\c@subsubsection=\count83
+\c@paragraph=\count84
+\c@subparagraph=\count85
+\c@figure=\count86
+\c@table=\count87
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+)
+(/usr/share/texmf-texlive/tex/latex/base/fontenc.sty
+Package: fontenc 2005/09/27 v1.99g Standard LaTeX package
+
+(/usr/share/texmf-texlive/tex/latex/base/t1enc.def
+File: t1enc.def 2005/09/27 v1.99g Standard LaTeX file
+LaTeX Font Info:    Redeclaring font encoding T1 on input line 43.
+))
+(/var/lib/texmf/tex/generic/babel/babel.sty
+Package: babel 2008/07/06 v3.8l The Babel package
+
+(/usr/share/texmf-texlive/tex/generic/babel/portuges.ldf
+Language: portuges 2008/03/18 v1.2q Portuguese support from the babel system
+
+(/usr/share/texmf-texlive/tex/generic/babel/babel.def
+File: babel.def 2008/07/06 v3.8l Babel common definitions
+\babel@savecnt=\count88
+\U@D=\dimen103
+)
+\l@brazil = a dialect from \language\l@portuges 
+Package babel Info: Making " an active character on input line 145.
+))
+(/usr/share/texmf-texlive/tex/latex/base/inputenc.sty
+Package: inputenc 2008/03/30 v1.1d Input encoding file
+\inpenc@prehook=\toks14
+\inpenc@posthook=\toks15
+
+(/usr/share/texmf-texlive/tex/latex/base/latin1.def
+File: latin1.def 2008/03/30 v1.1d Input encoding file
+))
+(/usr/share/texmf-texlive/tex/latex/graphics/graphicx.sty
+Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
+
+(/usr/share/texmf-texlive/tex/latex/graphics/keyval.sty
+Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
+\KV@toks@=\toks16
+)
+(/usr/share/texmf-texlive/tex/latex/graphics/graphics.sty
+Package: graphics 2009/02/05 v1.0o Standard LaTeX Graphics (DPC,SPQR)
+
+(/usr/share/texmf-texlive/tex/latex/graphics/trig.sty
+Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
+)
+(/etc/texmf/tex/latex/config/graphics.cfg
+File: graphics.cfg 2009/08/28 v1.8 graphics configuration of TeX Live
+)
+Package graphics Info: Driver file: pdftex.def on input line 91.
+
+(/usr/share/texmf-texlive/tex/latex/pdftex-def/pdftex.def
+File: pdftex.def 2010/03/12 v0.04p Graphics/color for pdfTeX
+\Gread@gobject=\count89
+))
+\Gin@req@height=\dimen104
+\Gin@req@width=\dimen105
+)
+(/usr/share/texmf-texlive/tex/latex/setspace/setspace.sty
+Package: setspace 2000/12/01 6.7 Contributed and Supported LaTeX2e package
+
+Package: `setspace' 6.7 <2000/12/01>
+) (/usr/share/texmf-texlive/tex/latex/tools/indentfirst.sty
+Package: indentfirst 1995/11/23 v1.03 Indent first paragraph (DPC)
+)
+(/usr/share/texmf-texlive/tex/latex/base/makeidx.sty
+Package: makeidx 2000/03/29 v1.0m Standard LaTeX package
+)
+(/usr/share/texmf-texlive/tex/latex/tocbibind/tocbibind.sty
+Package: tocbibind 2009/09/04 v1.5i extra ToC listings
+
+
+Package tocbibind Note: The document has chapter divisions.
+
+
+Package tocbibind Note: Using chapter style headings, unless overridden.
+
+) (/usr/share/texmf-texlive/tex/latex/psnfss/courier.sty
+Package: courier 2005/04/12 PSNFSS-v9.2a (WaS) 
+)
+(/usr/share/texmf-texlive/tex/latex/type1cm/type1cm.sty
+Package: type1cm 2002/09/05 v0.04 BlueSky/Y&Y Type1 CM font definitions (DPC, p
+atched RF)
+)
+(/usr/share/texmf-texlive/tex/latex/listings/listings.sty
+\lst@mode=\count90
+\lst@gtempboxa=\box26
+\lst@token=\toks17
+\lst@length=\count91
+\lst@currlwidth=\dimen106
+\lst@column=\count92
+\lst@pos=\count93
+\lst@lostspace=\dimen107
+\lst@width=\dimen108
+\lst@newlines=\count94
+\lst@lineno=\count95
+\lst@maxwidth=\dimen109
+
+(/usr/share/texmf-texlive/tex/latex/listings/lstmisc.sty
+File: lstmisc.sty 2007/02/22 1.4 (Carsten Heinz)
+\c@lstnumber=\count96
+\lst@skipnumbers=\count97
+\lst@framebox=\box27
+)
+(/usr/share/texmf-texlive/tex/latex/listings/listings.cfg
+File: listings.cfg 2007/02/22 1.4 listings configuration
+))
+Package: listings 2007/02/22 1.4 (Carsten Heinz)
+
+(/usr/share/texmf-texlive/tex/latex/titlesec/titletoc.sty
+Package: titletoc 2007/08/12 v1.6 TOC entries
+\ttl@leftsep=\dimen110
+)
+(/usr/share/texmf-texlive/tex/latex/babelbib/babelbib.sty
+Package: babelbib 2009/10/10 v1.29 babelbib: multilingual bibliographies (HH)
+)
+(/usr/share/texmf-texlive/tex/latex/caption/caption.sty
+Package: caption 2009/10/09 v3.1k Customizing captions (AR)
+
+(/usr/share/texmf-texlive/tex/latex/caption/caption3.sty
+Package: caption3 2009/10/09 v3.1k caption3 kernel (AR)
+\captionmargin=\dimen111
+\captionmargin@=\dimen112
+\captionwidth=\dimen113
+\caption@indent=\dimen114
+\caption@parindent=\dimen115
+\caption@hangindent=\dimen116
+)
+\c@ContinuedFloat=\count98
+Package caption Info: listings package is loaded.
+)
+(/usr/share/texmf/tex/latex/xcolor/xcolor.sty
+Package: xcolor 2007/01/21 v2.11 LaTeX color extensions (UK)
+
+(/etc/texmf/tex/latex/config/color.cfg
+File: color.cfg 2007/01/18 v1.5 color configuration of teTeX/TeXLive
+)
+Package xcolor Info: Package option `usenames' ignored on input line 216.
+Package xcolor Info: Driver file: pdftex.def on input line 225.
+Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1337.
+Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1341.
+Package xcolor Info: Model `RGB' extended on input line 1353.
+Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1355.
+Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1356.
+Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1357.
+Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1358.
+Package xcolor Info: Model `Gray' substituted by `gray' on input line 1359.
+Package xcolor Info: Model `wave' substituted by `hsb' on input line 1360.
+
+(/usr/share/texmf-texlive/tex/latex/graphics/dvipsnam.def
+File: dvipsnam.def 1999/02/16 v3.0i Driver-dependant file (DPC,SPQR)
+)
+(/usr/share/texmf/tex/latex/xcolor/svgnam.def
+File: svgnam.def 2007/01/21 v2.11 Predefined colors according to SVG 1.1 (UK)
+))
+(/usr/share/texmf-texlive/tex/latex/geometry/geometry.sty
+Package: geometry 2008/12/21 v4.2 Page Geometry
+
+(/usr/share/texmf-texlive/tex/generic/oberdiek/ifpdf.sty
+Package: ifpdf 2009/04/10 v2.0 Provides the ifpdf switch (HO)
+Package ifpdf Info: pdfTeX in pdf mode detected.
+)
+(/usr/share/texmf-texlive/tex/generic/oberdiek/ifvtex.sty
+Package: ifvtex 2008/11/04 v1.4 Switches for detecting VTeX and its modes (HO)
+Package ifvtex Info: VTeX not detected.
+)
+\Gm@cnth=\count99
+\Gm@cntv=\count100
+\c@Gm@tempcnt=\count101
+\Gm@bindingoffset=\dimen117
+\Gm@wd@mp=\dimen118
+\Gm@odd@mp=\dimen119
+\Gm@even@mp=\dimen120
+\Gm@dimlist=\toks18
+
+(/usr/share/texmf-texlive/tex/xelatex/xetexconfig/geometry.cfg))
+(/usr/share/texmf-texlive/tex/latex/hyperref/hyperref.sty
+Package: hyperref 2009/10/09 v6.79a Hypertext links for LaTeX
+
+(/usr/share/texmf-texlive/tex/generic/ifxetex/ifxetex.sty
+Package: ifxetex 2009/01/23 v0.5 Provides ifxetex conditional
+)
+(/usr/share/texmf-texlive/tex/latex/oberdiek/hycolor.sty
+Package: hycolor 2009/10/02 v1.5 Code for color options of hyperref/bookmark (H
+O)
+
+(/usr/share/texmf-texlive/tex/latex/oberdiek/xcolor-patch.sty
+Package: xcolor-patch 2009/10/02 xcolor patch
+))
+\@linkdim=\dimen121
+\Hy@linkcounter=\count102
+\Hy@pagecounter=\count103
+
+(/usr/share/texmf-texlive/tex/latex/hyperref/pd1enc.def
+File: pd1enc.def 2009/10/09 v6.79a Hyperref: PDFDocEncoding definition (HO)
+)
+(/usr/share/texmf-texlive/tex/generic/oberdiek/etexcmds.sty
+Package: etexcmds 2007/12/12 v1.2 Prefix for e-TeX command names (HO)
+
+(/usr/share/texmf-texlive/tex/generic/oberdiek/infwarerr.sty
+Package: infwarerr 2007/09/09 v1.2 Providing info/warning/message (HO)
+)
+Package etexcmds Info: Could not find \expanded.
+(etexcmds)             That can mean that you are not using pdfTeX 1.50 or
+(etexcmds)             that some package has redefined \expanded.
+(etexcmds)             In the latter case, load this package earlier.
+)
+(/usr/share/texmf-texlive/tex/latex/latexconfig/hyperref.cfg
+File: hyperref.cfg 2002/06/06 v1.2 hyperref configuration of TeXLive
+)
+(/usr/share/texmf-texlive/tex/latex/oberdiek/kvoptions.sty
+Package: kvoptions 2009/08/13 v3.4 Keyval support for LaTeX options (HO)
+
+(/usr/share/texmf-texlive/tex/generic/oberdiek/kvsetkeys.sty
+Package: kvsetkeys 2009/07/30 v1.5 Key value parser with default handler suppor
+t (HO)
+))
+Package hyperref Info: Option `plainpages' set `false' on input line 2864.
+Package hyperref Info: Option `pdfpagelabels' set `true' on input line 2864.
+Package hyperref Info: Option `colorlinks' set `true' on input line 2864.
+Package hyperref Info: Option `bookmarksopen' set `true' on input line 2864.
+Package hyperref Info: Hyper figures OFF on input line 2975.
+Package hyperref Info: Link nesting OFF on input line 2980.
+Package hyperref Info: Hyper index ON on input line 2983.
+Package hyperref Info: Plain pages OFF on input line 2990.
+Package hyperref Info: Backreferencing ON on input line 2993.
+
+Implicit mode ON; LaTeX internals redefined
+Package hyperref Info: Bookmarks ON on input line 3191.
+(/usr/share/texmf-texlive/tex/latex/hyperref/backref.sty
+Package: backref 2006/09/05 v1.28 Bibliographical back referencing
+)
+(/usr/share/texmf-texlive/tex/latex/ltxmisc/url.sty
+\Urlmuskip=\muskip10
+Package: url 2006/04/12  ver 3.3  Verb mode for urls, etc.
+)
+LaTeX Info: Redefining \url on input line 3428.
+
+(/usr/share/texmf-texlive/tex/generic/oberdiek/bitset.sty
+Package: bitset 2007/09/28 v1.0 Data type bit set (HO)
+
+(/usr/share/texmf-texlive/tex/generic/oberdiek/intcalc.sty
+Package: intcalc 2007/09/27 v1.1 Expandable integer calculations (HO)
+)
+(/usr/share/texmf-texlive/tex/generic/oberdiek/bigintcalc.sty
+Package: bigintcalc 2007/11/11 v1.1 Expandable big integer calculations (HO)
+
+(/usr/share/texmf-texlive/tex/generic/oberdiek/pdftexcmds.sty
+Package: pdftexcmds 2009/09/23 v0.6 LuaTeX support for pdfTeX utility functions
+ (HO)
+
+(/usr/share/texmf-texlive/tex/generic/oberdiek/ifluatex.sty
+Package: ifluatex 2009/04/17 v1.2 Provides the ifluatex switch (HO)
+Package ifluatex Info: LuaTeX not detected.
+)
+(/usr/share/texmf-texlive/tex/generic/oberdiek/ltxcmds.sty
+Package: ltxcmds 2009/08/05 v1.0 Some LaTeX kernel commands for general use (HO
+)
+)
+Package pdftexcmds Info: LuaTeX not detected.
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+)))
+\Fld@menulength=\count104
+\Field@Width=\dimen122
+\Fld@charsize=\dimen123
+\Field@toks=\toks19
+Package hyperref Info: Hyper figures OFF on input line 4377.
+Package hyperref Info: Link nesting OFF on input line 4382.
+Package hyperref Info: Hyper index ON on input line 4385.
+Package hyperref Info: backreferencing ON on input line 4390.
+Package hyperref Info: Link coloring ON on input line 4395.
+Package hyperref Info: Link coloring with OCG OFF on input line 4402.
+Package hyperref Info: PDF/A mode OFF on input line 4407.
+
+(/usr/share/texmf-texlive/tex/generic/oberdiek/atbegshi.sty
+Package: atbegshi 2008/07/31 v1.9 At begin shipout hook (HO)
+)
+\Hy@abspage=\count105
+\c@Item=\count106
+\c@Hfootnote=\count107
+)
+*hyperref using driver hpdftex*
+(/usr/share/texmf-texlive/tex/latex/hyperref/hpdftex.def
+File: hpdftex.def 2009/10/09 v6.79a Hyperref driver for pdfTeX
+\Fld@listcount=\count108
+)
+(/usr/share/texmf-texlive/tex/latex/oberdiek/hypcap.sty
+Package: hypcap 2008/09/08 v1.10 Adjusting anchors of captions (HO)
+) (./natbib.sty
+Package: natbib 2007/02/05 8.0 (PWD)
+\bibhang=\skip43
+\bibsep=\skip44
+LaTeX Info: Redefining \cite on input line 602.
+\c@NAT@ctr=\count109
+)
+(/usr/share/texmf-texlive/tex/latex/amsfonts/amsfonts.sty
+Package: amsfonts 2009/06/22 v3.00 Basic AMSFonts support
+\@emptytoks=\toks20
+\symAMSa=\mathgroup4
+\symAMSb=\mathgroup5
+LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 96.
+)
+(/usr/share/texmf-texlive/tex/latex/base/latexsym.sty
+Package: latexsym 1998/08/17 v2.2e Standard LaTeX package (lasy symbols)
+\symlasy=\mathgroup6
+LaTeX Font Info:    Overwriting symbol font `lasy' in version `bold'
+(Font)                  U/lasy/m/n --> U/lasy/b/n on input line 47.
+)
+(/usr/share/texmf-texlive/tex/latex/base/ifthen.sty
+Package: ifthen 2001/05/26 v1.1c Standard LaTeX ifthen package (DPC)
+)
+(/usr/share/texmf-texlive/tex/latex/amsmath/amsmath.sty
+Package: amsmath 2000/07/18 v2.13 AMS math features
+\@mathmargin=\skip45
+
+For additional information on amsmath, use the `?' option.
+(/usr/share/texmf-texlive/tex/latex/amsmath/amstext.sty
+Package: amstext 2000/06/29 v2.01
+
+(/usr/share/texmf-texlive/tex/latex/amsmath/amsgen.sty
+File: amsgen.sty 1999/11/30 v2.0
+\@emptytoks=\toks21
+\ex@=\dimen124
+))
+(/usr/share/texmf-texlive/tex/latex/amsmath/amsbsy.sty
+Package: amsbsy 1999/11/29 v1.2d
+\pmbraise@=\dimen125
+)
+(/usr/share/texmf-texlive/tex/latex/amsmath/amsopn.sty
+Package: amsopn 1999/12/14 v2.01 operator names
+)
+\inf@bad=\count110
+LaTeX Info: Redefining \frac on input line 211.
+\uproot@=\count111
+\leftroot@=\count112
+LaTeX Info: Redefining \overline on input line 307.
+\classnum@=\count113
+\DOTSCASE@=\count114
+LaTeX Info: Redefining \ldots on input line 379.
+LaTeX Info: Redefining \dots on input line 382.
+LaTeX Info: Redefining \cdots on input line 467.
+\Mathstrutbox@=\box28
+\strutbox@=\box29
+\big@size=\dimen126
+LaTeX Font Info:    Redeclaring font encoding OML on input line 567.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 568.
+\macc@depth=\count115
+\c@MaxMatrixCols=\count116
+\dotsspace@=\muskip11
+\c@parentequation=\count117
+\dspbrk@lvl=\count118
+\tag@help=\toks22
+\row@=\count119
+\column@=\count120
+\maxfields@=\count121
+\andhelp@=\toks23
+\eqnshift@=\dimen127
+\alignsep@=\dimen128
+\tagshift@=\dimen129
+\tagwidth@=\dimen130
+\totwidth@=\dimen131
+\lineht@=\dimen132
+\@envbody=\toks24
+\multlinegap=\skip46
+\multlinetaggap=\skip47
+\mathdisplay@stack=\toks25
+LaTeX Info: Redefining \[ on input line 2666.
+LaTeX Info: Redefining \] on input line 2667.
+)
+(/usr/share/texmf-texlive/tex/latex/amsfonts/euscript.sty
+Package: euscript 2009/06/22 v3.00 Euler Script fonts
+LaTeX Font Info:    Overwriting math alphabet `\EuScript' in version `bold'
+(Font)                  U/eus/m/n --> U/eus/b/n on input line 33.
+)
+(/usr/share/texmf-texlive/tex/generic/epsf/epsf.sty
+This is `epsf.tex' v2.7.3 <23 July 2005>
+\epsffilein=\read1
+\epsfframemargin=\dimen133
+\epsfframethickness=\dimen134
+\epsfrsize=\dimen135
+\epsftmp=\dimen136
+\epsftsize=\dimen137
+\epsfxsize=\dimen138
+\epsfysize=\dimen139
+\pspoints=\dimen140
+) (/usr/share/texmf-texlive/tex/latex/graphics/epsfig.sty
+Package: epsfig 1999/02/16 v1.7a (e)psfig emulation (SPQR)
+\epsfxsize=\dimen141
+\epsfysize=\dimen142
+)
+(/usr/share/texmf-texlive/tex/latex/psfrag/psfrag.sty
+Package: psfrag 1998/04/11 v3.04 PSfrag (MCG)
+\pfg@pcount=\count122
+\pfg@scount=\count123
+\pfg@temp=\write3
+)
+(/usr/share/texmf-texlive/tex/latex/fancyhdr/fancyhdr.sty
+\fancy@headwidth=\skip48
+\f@ncyO@elh=\skip49
+\f@ncyO@erh=\skip50
+\f@ncyO@olh=\skip51
+\f@ncyO@orh=\skip52
+\f@ncyO@elf=\skip53
+\f@ncyO@erf=\skip54
+\f@ncyO@olf=\skip55
+\f@ncyO@orf=\skip56
+)
+\@indexfile=\write4
+\openout4 = `dissertacao.idx'.
+
+
+Writing index file dissertacao.idx
+(/usr/share/texmf-texlive/tex/latex/listings/lstlang1.sty
+File: lstlang1.sty 2004/09/05 1.3 listings language file
+) (./joel.sty
+\c@theoremnumber=\count124
+)
+(./dissertacao.aux
+
+LaTeX Warning: Label `fig:gps' multiply defined.
+
+
+LaTeX Warning: Label `fig:gps' multiply defined.
+
+
+LaTeX Warning: Label `subsec:dijkstra' multiply defined.
+
+
+LaTeX Warning: Label `sec:definicao' multiply defined.
+
+
+LaTeX Warning: Label `fig:rscp_mochila' multiply defined.
+
+
+LaTeX Warning: Label `fig:gps' multiply defined.
+
+(./ape-conjuntos.aux))
+\openout1 = `dissertacao.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 162.
+LaTeX Font Info:    ... okay on input line 162.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 162.
+LaTeX Font Info:    ... okay on input line 162.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 162.
+LaTeX Font Info:    ... okay on input line 162.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 162.
+LaTeX Font Info:    ... okay on input line 162.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 162.
+LaTeX Font Info:    ... okay on input line 162.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 162.
+LaTeX Font Info:    ... okay on input line 162.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 162.
+LaTeX Font Info:    ... okay on input line 162.
+ (/usr/share/texmf-texlive/tex/context/base/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count125
+\scratchdimen=\dimen143
+\scratchbox=\box30
+\nofMPsegments=\count126
+\nofMParguments=\count127
+\everyMPshowfont=\toks26
+\MPscratchCnt=\count128
+\MPscratchDim=\dimen144
+\MPnumerator=\count129
+\everyMPtoPDFconversion=\toks27
+)
+\c@lstlisting=\count130
+
+babelbib: Set bibliography fall-back language to brazil
+(/usr/share/texmf-texlive/tex/latex/babelbib/portuguese.bdf
+File: portuguese.bdf 2009/10/10 v1.29 babelbib: multilingual bibliographies (HH
+)
+
+babelbib extension \btxifchangecaseoff added to \extrasbrazil
+)
+babelbib: Load BibTeX extensions \bibsbrazil for brazil
+babelbib: Set language for keywords in the bibliography fixed to brazil
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: hyperref package is loaded.
+Package caption Info: hypcap package is loaded.
+Package caption Info: End \AtBeginDocument code.
+*geometry auto-detecting driver*
+*geometry detected driver: pdftex*
+-------------------- Geometry parameters
+paper: a4paper
+landscape: --
+twocolumn: --
+twoside: true
+asymmetric: --
+h-parts: 56.9055pt, 468.33257pt, 72.2698pt
+v-parts: 72.2698pt, 715.87154pt, 56.9055pt
+hmarginratio: --
+vmarginratio: --
+lines: --
+heightrounded: --
+bindingoffset: 0.0pt
+truedimen: --
+includehead: --
+includefoot: --
+includemp: --
+driver: pdftex
+-------------------- Page layout dimensions and switches
+\paperwidth  597.50787pt
+\paperheight 845.04684pt
+\textwidth  468.33257pt
+\textheight 715.87154pt
+\oddsidemargin  -15.36449pt
+\evensidemargin -0.00018pt
+\topmargin  -31.87398pt
+\headheight 12.0pt
+\headsep    19.8738pt
+\footskip   30.0pt
+\marginparwidth 88.0pt
+\marginparsep   7.0pt
+\columnsep  10.0pt
+\skip\footins  10.8pt plus 4.0pt minus 2.0pt
+\hoffset 0.0pt
+\voffset 0.0pt
+\mag 1000
+\@twosidetrue \@mparswitchtrue 
+(1in=72.27pt, 1cm=28.45pt)
+-----------------------
+Package hyperref Info: Link coloring ON on input line 162.
+(/usr/share/texmf-texlive/tex/latex/hyperref/nameref.sty
+Package: nameref 2007/05/29 v2.31 Cross-referencing by name of section
+
+(/usr/share/texmf-texlive/tex/latex/oberdiek/refcount.sty
+Package: refcount 2008/08/11 v3.1 Data extraction from references (HO)
+)
+\c@section@level=\count131
+)
+LaTeX Info: Redefining \ref on input line 162.
+LaTeX Info: Redefining \pageref on input line 162.
+ (./dissertacao.out) (./dissertacao.out)
+\@outlinefile=\write5
+\openout5 = `dissertacao.out'.
+
+Package backref Info: ** backref set up for natbib ** on input line 162.
+\AtBeginShipoutBox=\box31
+ [1
+Non-PDF special ignored!
+
+
+
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 246.
+
+[2] (./cap-agradecimentos.tex) (./cap-resumo.tex) (./cap-abstract.texpdfTeX war
+ning (ext4): destination with the same identifier (name{page.i}) has been alrea
+dy used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.2 \chapter
+            *{Abstract} [1
+
+]pdfTeX warning (ext4): destination with the same identifier (name{page.ii}) ha
+s been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.2 \chapter
+            *{Abstract} [2
+
+]) [3] [4
+
+] (./dissertacao.toc
+! Missing $ inserted.
+<inserted text> 
+                $
+l.6 ...lica\~A\IeC {\S }\~A\mu es}{1}{section.1.1}
+                                                  
+? q
+OK, entering \batchmode...
+! Extra }, or forgotten $.
+<argument> ...e {1.1}Aplica\~A\IeC {\S }\~A\mu es}
+                                                  \hyper@linkend 
+l.6 ...lica\~A\IeC {\S }\~A\mu es}{1}{section.1.1}
+                                                  
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.6 ...lica\~A\IeC {\S }\~A\mu es}{1}{section.1.1}
+                                                  
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+! Missing } inserted.
+<inserted text> 
+                }
+l.6 ...lica\~A\IeC {\S }\~A\mu es}{1}{section.1.1}
+                                                  
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+ [5])
+\tf@toc=\write6
+\openout6 = `dissertacao.toc'.
+
+ (./cap-abreviaturas.tex
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 12.1638pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+ [6]) (./cap-simbolos.tex) [7
+
+] [8
+
+] (./dissertacao.lof)
+\tf@lof=\write7
+\openout7 = `dissertacao.lof'.
+
+ [9] [10
+
+] (./dissertacao.lot
+
+Package natbib Warning: Citation `beasley:89' on page xi undefined on input lin
+e 12.
+
+)
+\tf@lot=\write8
+\openout8 = `dissertacao.lot'.
+
+ [11] [12
+
+] (./cap-introducao.tex
+Cap\'{\i }tulo 1.
+! Missing $ inserted.
+<inserted text> 
+                $
+l.7 ... e h√° uma grande quantidade de publica√ß√µ
+                                                  es a respeito do
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 8.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 8.
+
+
+LaTeX Warning: Command \textexclamdown invalid in math mode on input line 8.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 8.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 8.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 9.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 10.
+
+
+LaTeX Warning: Command \textexclamdown invalid in math mode on input line 10.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 10.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 10.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 10.
+
+
+LaTeX Warning: Command \textexclamdown invalid in math mode on input line 10.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 10.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 11.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 11.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 11.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 11.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 13.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 13.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 13.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 13.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 14.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 14.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 14.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 14.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 15.
+
+
+LaTeX Warning: Command \textexclamdown invalid in math mode on input line 15.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 15.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.16 
+     
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no Ω in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no Ω in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no Ω in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no Ω in font cmr12!
+Missing character: There is no √ in font cmr12!
+
+Overfull \hbox (1526.39331pt too wide) in paragraph at lines 5--16
+\T1/cmr/m/n/12 quan-ti-dade de publica√ü√$\OML/cmm/m/it/12 ^^Vesarespeitodomesm
+o:Inclusive; s\OT1/cmr/m/it/12 $\OML/cmm/m/it/12 oconhecidosvriassolu\OMS/cmsy/
+m/n/12 x\OML/cmm/m/it/12 ^^Veseficientes\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 algor
+itmosdetempopolinomial\OT1/cmr/m/n/12 )\OML/cmm/m/it/12 paraoproblema:O[] []fre
+quentementecolocadoemprticaemumagrandevariedadedeaplica\OMS/cmsy/m/n/12 x\OML/c
+mm/m/it/12 ^^Vesemdiversasreas; n\OT1/cmr/m/it/12 $\OML/cmm/m/it/12 osomenteemc
+omputa\OMS/cmsy/m/n/12 x\OT1/cmr/m/it/12 $\OML/cmm/m/it/12 o:Nessasaplica\OMS/c
+msy/m/n/12 x\OML/cmm/m/it/12 ^^Vesgeralmentesedesejarealizaralgumtipodedeslocam
+entooutransporteentredoisoumaispontosespec\T1/cmr/m/n/12 -
+ []
+
+
+Overfull \hbox (136.926pt too wide) in paragraph at lines 5--16
+\OML/cmm/m/it/12 ficosemumarede:Tala\OMS/cmsy/m/n/12 x\OT1/cmr/m/it/12 $\OML/cm
+m/m/it/12 odeveserexecutadadeforma[]timaemrela\OMS/cmsy/m/n/12 x\OT1/cmr/m/it/1
+2 $\OML/cmm/m/it/12 oaalgumcrit[]rio; porexemploomenorcustoposs\T1/cmr/m/n/12 -
+
+ []
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.17 Conforme essas solu√ß√µ
+                            es para o \spp~foram sendo apresentadas, novas
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 18.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 18.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 19.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 20.
+
+
+LaTeX Warning: Command \textexclamdown invalid in math mode on input line 20.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 20.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 21.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 21.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 21.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 22.
+
+
+LaTeX Warning: Command \textexclamdown invalid in math mode on input line 22.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 22.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 23.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 23.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 23.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 23.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 24.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 24.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 24.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 25.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 25.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 25.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 25.
+
+
+LaTeX Warning: Command \textexclamdown invalid in math mode on input line 25.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 26.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 27.
+
+
+LaTeX Warning: Command \textexclamdown invalid in math mode on input line 27.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.30 ...apsack constraints} \citep{bordorfer:09}.}
+                                                  .  Esta
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 30.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 30.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 30.
+
+
+! LaTeX Error: Command \bfseries invalid in math mode.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.30 ...apsack constraints} \citep{bordorfer:09}.}
+                                                  .  Esta
+Please use the math alphabet \mathbf instead of the \bfseries command. 
+
+
+Package natbib Warning: Citation `bordorfer:09' on page 1 undefined on input li
+ne 30.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.30 ...apsack constraints} \citep{bordorfer:09}.}
+                                                  .  Esta
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+Missing character: There is no √ in font cmr10!
+Missing character: There is no √ in font cmr10!
+Missing character: There is no √ in font cmr10!
+
+Underfull \hbox (badness 10000) in paragraph at lines 30--30
+[][][]\T1/cmr/m/n/10 Restri√ü√$\OML/cmm/m/it/10 ^^Vesdestetipo; ondetemosoconsu
+moderecursosemumor\OMS/cmsy/m/n/10 x\OML/cmm/m/it/10 amentoquelimitaaquantidade
+dispon\T1/cmr/m/n/10 -
+ []
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 31.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 31.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 31.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 31.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 31.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 31.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 32.
+
+
+Package natbib Warning: Citation `beasley:89' on page 1 undefined on input line
+ 39.
+
+
+Package natbib Warning: Citation `dumitrescu:03' on page 1 undefined on input l
+ine 39.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 39.
+
+
+LaTeX Warning: Command \textexclamdown invalid in math mode on input line 39.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.41 
+     
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no Ω in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no Ω in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no Ω in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no Ω in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no Ω in font cmr12!
+
+Overfull \hbox (1815.70958pt too wide) in paragraph at lines 17--41
+[]\T1/cmr/m/n/12 Conforme es-sas solu√ü√$\OML/cmm/m/it/12 ^^Vesparao[] foramsen
+doapresentadas; novasnecessidadesforamlevantadasesurgiramvaria\OMS/cmsy/m/n/12 
+x\OML/cmm/m/it/12 ^^Vesdoproblemaparamodelartaisnecessidades:Umadessasvariantes
+; adv[]mdofatodeque; naprtica; muitasvezesn\OT1/cmr/m/it/12 $\OML/cmm/m/it/12 o
+desejamosapenasomenorcustoouomenortempo; masdesejamosotimizarumacombina\OMS/cms
+y/m/n/12 x\OT1/cmr/m/it/12 $\OML/cmm/m/it/12 odediferentescrit[]rios; porexempl
+o; umcaminhoquesejarpidoebarato:Este[]conhecidocomooproblemadecaminhosm\T1/cmr/
+m/n/12 -
+ []
+
+
+Overfull \hbox (1396.2446pt too wide) in paragraph at lines 17--41
+\OML/cmm/m/it/12 nimosmulti \OMS/cmsy/m/n/12 ^^@ \OML/cmm/m/it/12 objetivo:Como
+n\OT1/cmr/m/it/12 $\OML/cmm/m/it/12 o[]poss\T1/cmr/m/n/12 -\OML/cmm/m/it/12 vel
+otimizarsobretodososcrit[]riosdeumas[]vez; n[]sescolhemosumdoscrit[]riospararep
+resentarafun\OMS/cmsy/m/n/12 x\OT1/cmr/m/it/12 $\OML/cmm/m/it/12 ocusto; queser
+minimizada; eparaosdemaiscrit[]riosrepresentamoscomorecursosedefinimososlimites
+quejulgamosaceitveisparaoconsumodecadaumdessesrecursos[][][][][]:Estavaria\OMS/
+cmsy/m/n/12 x\OT1/cmr/m/it/12 $\OML/cmm/m/it/12 o[]chamadadeproblemadecaminhosm
+\T1/cmr/m/n/12 -
+ []
+
+
+Overfull \hbox (196.1299pt too wide) in paragraph at lines 17--41
+\OML/cmm/m/it/12 nimoscomrestri\OMS/cmsy/m/n/12 x\OML/cmm/m/it/12 ^^Vesporrecur
+sos; oucomopreferimoschamar; []\OT1/cmr/m/n/12 ([]  \OMS/cmsy/m/n/12 ^^@
+ []
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.42 A adi√ß√£o de restri√ß√µ
+                             es por recursos no \spp, infelizmente torna o
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+
+! LaTeX Error: \mathcal allowed only in math mode.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.43 problema $\mathcal
+                       {NP}$-dif√≠cil, mesmo em grafos ac√≠clicos, com
+You're in trouble here.  Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 43.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 43.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 44.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 44.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 44.
+
+
+LaTeX Warning: Command \textordmasculine invalid in math mode on input line 44.
+
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 45.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 45.
+
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+
+! LaTeX Error: \mathcal allowed only in math mode.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.45 ...redu√ß√µes dos famosos problemas $\mathcal
+                                                  {NP}$-dif√≠ceis
+You're in trouble here.  Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 45.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.47 
+     
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+Missing character: There is no √ in font cmr12!
+
+Overfull \hbox (343.9624pt too wide) in paragraph at lines 42--47
+\OML/cmm/m/it/12 cil; mesmoemgrafosac\T1/cmr/m/n/12 -\OML/cmm/m/it/12 clicos; c
+omrestri\OMS/cmsy/m/n/12 x\OML/cmm/m/it/12 ^^Vessobreum[]nicorecurso; ecomtodos
+osconsumosderecursospositivos:Temosredu\OMS/cmsy/m/n/12 x\OML/cmm/m/it/12 ^^Ves
+dosfamososproblemas$\T1/cmr/m/n/12 NP$\OMS/cmsy/m/n/12 ^^@\OML/cmm/m/it/12 dif\
+T1/cmr/m/n/12 -
+ []
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.48 ...s s√£o encontrados problemas de cunho te√≥
+                                                  rico e
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+! Extra }, or forgotten $.
+\maththreesuperior ->{^3}
+                         
+l.48 ...s s√£o encontrados problemas de cunho te√≥
+                                                  rico e
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 49.
+
+
+LaTeX Warning: Command \textexclamdown invalid in math mode on input line 49.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 49.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 50.
+
+
+LaTeX Warning: Command \textexclamdown invalid in math mode on input line 50.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 51.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 51.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 53.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 53.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 53.
+
+
+LaTeX Warning: Command \textexclamdown invalid in math mode on input line 53.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 55.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 55.
+
+
+LaTeX Warning: Command \textordmasculine invalid in math mode on input line 55.
+
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 55.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 55.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 55.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 55.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 56.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 56.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 56.
+
+
+LaTeX Warning: Command \textexclamdown invalid in math mode on input line 56.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.57 
+     
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+Missing character: There is no √ in font cmr12!
+Missing character: There is no Ω in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no Ω in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no Ω in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no Ω in font cmr12!
+
+Overfull \hbox (225.58972pt too wide) in paragraph at lines 48--57
+[]\T1/cmr/m/n/12 Em con-tex-tos di-ver-sos s√øo en-con-tra-dos pro-ble-mas de c
+u-nho te√$[]\OML/cmm/m/it/12 ricoeprticoquepodemserformuladoscomoproblemasdecam
+inhosm\T1/cmr/m/n/12 -
+ []
+
+
+Overfull \hbox (1325.47183pt too wide) in paragraph at lines 48--57
+\OML/cmm/m/it/12 nimoscomrecursoslimitados; oquenosmotivouaestud \OMS/cmsy/m/n/
+12 ^^@ \OML/cmm/m/it/12 loafimdedesenvolverumtrabalhoqueresumisseinforma\OMS/cm
+sy/m/n/12 x\OML/cmm/m/it/12 ^^Vessuficientesparaauxiliarpesquisadoresoudesenvol
+vedoresquetenhaminteressenoproblema:N[]sapresentamosaqui; umadetalhadarevis\OT1
+/cmr/m/it/12 $\OML/cmm/m/it/12 obibliogrficado[]; tendocomofocoodesenvolvimento
+dealgoritmosexatosparaocasoondepossu\T1/cmr/m/n/12 -
+ []
+
+
+Overfull \hbox (57.36075pt too wide) in paragraph at lines 48--57
+\OML/cmm/m/it/12 mosum[]nicorecursoeaimplementa\OMS/cmsy/m/n/12 x\OT1/cmr/m/it/
+12 $\OML/cmm/m/it/12 oecompara\OMS/cmsy/m/n/12 x\OT1/cmr/m/it/12 $\OML/cmm/m/it
+/12 odosprincipaisalgoritmosconhecidos; observando \OMS/cmsy/m/n/12 ^^@
+ []
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.58 \section{Aplica√ß√µes}
+                           
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.58 \section{Aplica√ß√µes}
+                           
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `\mu' on input line 58.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.62 algumas destas aplica√ß√µ
+                              es.
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.63 
+     
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.83 desempenho de determinadas aplica√ß√µ
+                                          es fim-a-fim, como v√≠deo e √°udio
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 83.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 83.
+
+
+LaTeX Warning: Command \textexclamdown invalid in math mode on input line 83.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 84.
+
+
+LaTeX Warning: Command \textordfeminine invalid in math mode on input line 84.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 84.
+
+
+LaTeX Warning: Command \textordfeminine invalid in math mode on input line 84.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.85 
+     
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no Ω in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+
+Overfull \hbox (124.1164pt too wide) in paragraph at lines 80--85
+\T1/cmr/m/n/12 para o de-sem-pe-nho de de-ter-mi-na-das aplica√ü√$\OML/cmm/m/it
+/12 ^^Vesfim \OMS/cmsy/m/n/12 ^^@ \OML/cmm/m/it/12 a \OMS/cmsy/m/n/12 ^^@ \OML/
+cmm/m/it/12 fim; comov\T1/cmr/m/n/12 -\OML/cmm/m/it/12 deoeudioconfer[]nciaetra
+nsfer[]nciadedados:$ 
+ []
+
+ [1
+
+]
+! Missing $ inserted.
+<inserted text> 
+                $
+l.87 \textsc{QoS} para diversas aplica√ß√µ
+                                          es. Estas aplica√ß√µes possuem div...
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 87.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 87.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 89.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 90.
+
+
+LaTeX Warning: Command \textexclamdown invalid in math mode on input line 90.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 90.
+
+
+LaTeX Warning: Command \textexclamdown invalid in math mode on input line 90.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 91.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 91.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 93.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 94.
+
+
+! LaTeX Error: Command \bfseries invalid in math mode.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.95 \citep{aurrecoechea:98}
+                            .
+Please use the math alphabet \mathbf instead of the \bfseries command. 
+
+
+Package natbib Warning: Citation `aurrecoechea:98' on page 2 undefined on input
+ line 95.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.96 
+     
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no Ω in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no Ω in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+
+Overfull \hbox (379.74344pt too wide) in paragraph at lines 86--96
+\T1/cmr/m/n/12 aplica√ü√$\OML/cmm/m/it/12 ^^Ves:Estasaplica\OMS/cmsy/m/n/12 x\O
+ML/cmm/m/it/12 ^^Vespossuemdiversosrequisitosqueprecisamseratendidosparaoseubom
+funcionamento:Comoexemploderequisitospodemoscitarlarguram\T1/cmr/m/n/12 -
+ []
+
+
+Overfull \hbox (1277.26343pt too wide) in paragraph at lines 86--96
+\OML/cmm/m/it/12 nimadebanda; tempomximodeatrasoequantidademximadeperdadepacote
+s:Oproblemaemqueestamosinteressados; ouseja; servi\OMS/cmsy/m/n/12 x\OML/cmm/m/
+it/12 osbaseadosemQoS; []determinarumarotaqueusaosrecursosdarededeformaeficient
+eesatisfaz; aomesmotempo; requisitoscomoqualidadedeconex\OT1/cmr/m/it/12 $\OML/
+cmm/m/it/12 o:Esteproblema[]conhecidocomoroteamentobaseadoemQoS\OT1/cmr/m/n/12 
+([])\OML/cmm/m/it/12 :$ 
+ []
+
+
+
+pdfTeX warning: pdflatex (file ./figuras/pdf/qos.pdf): PDF inclusion: found PDF
+ version <1.5>, but at most version <1.4> allowed
+ <figuras/pdf/qos.pdf, id=337, 441.65pt x 427.1292pt>
+File: figuras/pdf/qos.pdf Graphic file (type pdf)
+ <use figuras/pdf/qos.pdf>
+! Missing $ inserted.
+<inserted text> 
+                $
+l.107 para o uso.}
+                  
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 107.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 107.
+
+Missing character: There is no √ in font cmr10!
+Missing character: There is no √ in font cmr10!
+
+LaTeX Warning: Command \~ invalid in math mode on input line 107.
+
+
+LaTeX Warning: Command \textexclamdown invalid in math mode on input line 107.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.107 para o uso.}
+                  
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+Missing character: There is no √ in font cmr10!
+Missing character: There is no Ω in font cmr10!
+! Missing $ inserted.
+<inserted text> 
+                $
+l.107 para o uso.}
+                  
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 107.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 107.
+
+Missing character: There is no √ in font cmr10!
+Missing character: There is no √ in font cmr10!
+
+LaTeX Warning: Command \~ invalid in math mode on input line 107.
+
+
+LaTeX Warning: Command \textexclamdown invalid in math mode on input line 107.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.107 para o uso.}
+                  
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+Missing character: There is no √ in font cmr10!
+Missing character: There is no Ω in font cmr10!
+
+Underfull \hbox (badness 10000) in paragraph at lines 107--107
+[]\T1/cmr/bx/n/10.95 Figura 1.1: |\T1/cmr/m/it/10.95 Re-pre-sen-ta√ü√øo de uma 
+rede de com-pu-ta-do-res. Os se-gui-men-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 107--107
+\T1/cmr/m/it/10.95 tos pre-tos e cont√-nuos comp√$\OML/cmm/m/it/10.95 ^^Vemumar
+otaentreoscomputadores$\T1/cmr/m/it/10.95 s$\OML/cmm/m/it/10.95 e$\T1/cmr/m/it/
+10.95 t$\OML/cmm/m/it/10.95 :Substituindo \OMS/cmsy/m/n/10.95 ^^@
+ []
+
+
+Overfull \hbox (665.18523pt too wide) in paragraph at lines 107--107
+\OML/cmm/m/it/10.95 seotrechoentreosroteadores$\T1/cmr/m/it/10.95 a$\OML/cmm/m/
+it/10.95 e$\T1/cmr/m/it/10.95 b$\OML/cmm/m/it/10.95 pelotrechopontilhado; temos
+umaoutrarotaquepodeserusadaparaacomunica\OMS/cmsy/m/n/10.95 x\OT1/cmr/m/it/10.9
+5 $\OML/cmm/m/it/10.95 oentre$\T1/cmr/m/it/10.95 s$\OML/cmm/m/it/10.95 e$\T1/cm
+r/m/it/10.95 t$\OML/cmm/m/it/10.95 :Dependendodaspropriedadesdestasrotasedasnec
+essidadesdosusurios; umaououtrapodesermaisapropriadaparaouso:$ 
+ []
+
+
+! Package inputenc Error: Keyboard character used is undefined
+(inputenc)                in inputencoding `latin1'.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.131 recursos limitados. √â
+                             comum, neste tipo de aplica√ß√£o, querermos uma...
+
+You need to provide a definition with \DeclareInputText 
+or \DeclareInputMath before using this key.
+
+
+! Package inputenc Error: Keyboard character used is undefined
+(inputenc)                in inputencoding `latin1'.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.133 ...i valor unit√°rio para todos os arcos. √â
+                                                   comum tamb√©m
+You need to provide a definition with \DeclareInputText 
+or \DeclareInputMath before using this key.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.134 existirem restri√ß√µ
+                          es que n√£o s√£o aditivas pelo caminho, mesmo com ...
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 134.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 134.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 135.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 135.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 135.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 135.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 136.
+
+
+LaTeX Warning: Command \textexclamdown invalid in math mode on input line 136.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 137.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 137.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.138 
+      
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no Ω in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+
+Overfull \hbox (564.1339pt too wide) in paragraph at lines 130--138
+\T1/cmr/m/n/12 unit√Ωrio para to-dos os ar-cos. √ co-mum tamb√[]m exis-ti-rem r
+estri√ü√$\OML/cmm/m/it/12 ^^Vesquen\OT1/cmr/m/it/12 $\OML/cmm/m/it/12 os\OT1/cm
+r/m/it/12 $\OML/cmm/m/it/12 oaditivaspelocaminho; mesmocomestetipoderestri\OMS/
+cmsy/m/n/12 x\OT1/cmr/m/it/12 $\OML/cmm/m/it/12 oassolu\OMS/cmsy/m/n/12 x\OML/c
+mm/m/it/12 ^^Vesparao[] podemseraplicadas; podemoscontorn \OMS/cmsy/m/n/12 ^^@
+ []
+
+
+Package Fancyhdr Warning: \headheight is too small (12.1638pt): 
+ Make it at least 14.49998pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+ [2 <./figuras/pdf/qos.pdf>]
+! Missing $ inserted.
+<inserted text> 
+                $
+l.145 restri√ß√µ
+                es, como consumo de combust√≠vel, gastos com ped√°gio e dist...
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 145.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 145.
+
+
+LaTeX Warning: Command \textexclamdown invalid in math mode on input line 145.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 145.
+
+
+LaTeX Warning: Command \textcent invalid in math mode on input line 145.
+
+
+! LaTeX Error: Command \textcent unavailable in encoding T1.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.145 ...ombust√≠vel, gastos com ped√°gio e dist√¢
+                                                  ncia
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 146.
+
+
+LaTeX Warning: Command \textexclamdown invalid in math mode on input line 146.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 146.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 146.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 146.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 147.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 147.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 148.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 148.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.149 
+      
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no Ω in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no Ω in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+
+Overfull \hbox (597.59787pt too wide) in paragraph at lines 141--149
+\T1/cmr/m/n/12 ter-mi-na-das restri√ü√$\OML/cmm/m/it/12 ^^Ves; comoconsumodecom
+bust\T1/cmr/m/n/12 -\OML/cmm/m/it/12 vel; gastoscompedgioedistnciamximapercorri
+da:Outrasrestri\OMS/cmsy/m/n/12 x\OML/cmm/m/it/12 ^^Vesrelevantes; s\OT1/cmr/m/
+it/12 $\OML/cmm/m/it/12 oporexemplo; seguran\OMS/cmsy/m/n/12 x\OML/cmm/m/it/12 
+aepossibilidadedecongestionamentos\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 essascaract
+er\T1/cmr/m/n/12 -
+ []
+
+
+Package natbib Warning: Citation `jahn:05' on page 3 undefined on input line 15
+0.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.150 ...ro deste contexto, \citet{jahn:05} prop√µ
+                                                  e uma aplica√ß√£o interess...
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 150.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 150.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 151.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 151.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 151.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 152.
+
+
+LaTeX Warning: Command \textexclamdown invalid in math mode on input line 152.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 153.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 154.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 154.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 154.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 154.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 155.
+
+
+LaTeX Warning: Command \textordfeminine invalid in math mode on input line 155.
+
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 155.
+
+
+LaTeX Warning: Command \textexclamdown invalid in math mode on input line 155.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 156.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 157.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 157.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 157.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 158.
+
+
+LaTeX Warning: Command \textexclamdown invalid in math mode on input line 158.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 158.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 158.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 158.
+
+
+! LaTeX Error: Command \bfseries invalid in math mode.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.159 \citet{jahn:05}
+                      aplica uma restri√ß√£o para que o caminho de cada usu√...
+
+Please use the math alphabet \mathbf instead of the \bfseries command. 
+
+
+Package natbib Warning: Citation `jahn:05' on page 3 undefined on input line 15
+9.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 159.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 159.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 159.
+
+
+LaTeX Warning: Command \textexclamdown invalid in math mode on input line 159.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 160.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 160.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 161.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 161.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 161.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 161.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 161.
+
+
+LaTeX Warning: Command \textexclamdown invalid in math mode on input line 161.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 161.
+
+
+LaTeX Warning: Command \textexclamdown invalid in math mode on input line 161.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 162.
+
+
+LaTeX Warning: Command \textordfeminine invalid in math mode on input line 162.
+
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.166 chamadas de \emph{system optimal}.}
+                                         .
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 166.
+
+
+LaTeX Warning: Command \textexclamdown invalid in math mode on input line 166.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 166.
+
+
+LaTeX Warning: Command \textexclamdown invalid in math mode on input line 166.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 166.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 166.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 166.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 166.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 166.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 166.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 166.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 166.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.166 chamadas de \emph{system optimal}.}
+                                         .
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+Missing character: There is no √ in font cmr10!
+Missing character: There is no Ω in font cmr10!
+Missing character: There is no √ in font cmr10!
+Missing character: There is no Ω in font cmr10!
+Missing character: There is no √ in font cmr10!
+Missing character: There is no √ in font cmr10!
+Missing character: There is no √ in font cmr10!
+Missing character: There is no √ in font cmr10!
+Missing character: There is no √ in font cmr10!
+Missing character: There is no √ in font cmr10!
+Missing character: There is no √ in font cmr10!
+Missing character: There is no √ in font cmr10!
+
+Overfull \hbox (294.59682pt too wide) in paragraph at lines 166--166
+[][][]\T1/cmr/m/n/10 Solu√ü√$\OML/cmm/m/it/10 ^^Vesondeseatribuiocaminhomaisrpi
+doparacadausuriosobascondi\OMS/cmsy/m/n/10 x\OML/cmm/m/it/10 ^^Vescorrentes; s\
+OT1/cmr/m/it/10 $\OML/cmm/m/it/10 ochamadasdesolu\OMS/cmsy/m/n/10 x\OT1/cmr/m/i
+t/10 $\OML/cmm/m/it/10 o[]ou[]:Solu\OMS/cmsy/m/n/10 x\OML/cmm/m/it/10 ^^Vesonde
+minimiza \OMS/cmsy/m/n/10 ^^@
+ []
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.167 
+      
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no Ω in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no Ω in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no Ω in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no Ω in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no Ω in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no Ω in font cmr12!
+Missing character: There is no √ in font cmr12!
+
+Overfull \hbox (1205.60686pt too wide) in paragraph at lines 150--167
+[]\T1/cmr/m/n/12 Dentro deste con-texto, \T1/cmr/bx/n/12 ? \T1/cmr/m/n/12 prop√
+$\OML/cmm/m/it/12 ^^Veumaaplica\OMS/cmsy/m/n/12 x\OT1/cmr/m/it/12 $\OML/cmm/m/i
+t/12 ointeressantequeusao[] comosubproblema:Nestaaplica\OMS/cmsy/m/n/12 x\OT1/c
+mr/m/it/12 $\OML/cmm/m/it/12 o; n\OT1/cmr/m/it/12 $\OML/cmm/m/it/12 osedesejami
+nimizarapenasotempodepercursodecadausurioindividualmente; oobjetivo[]minimizaro
+tempototaldepercursodosistemacomoumtodo:Comafun\OMS/cmsy/m/n/12 x\OT1/cmr/m/it/
+12 $\OML/cmm/m/it/12 oobjetivodaformaquefoidescritoacima; []poss\T1/cmr/m/n/12 
+-
+ []
+
+
+Overfull \hbox (279.20491pt too wide) in paragraph at lines 150--167
+\OML/cmm/m/it/12 velqueparaatingiraefici[]nciaglobal; algunsusuriosprecisemreal
+izarcaminhosmuitopioresdoquerealizariamcasoutilizassemumaestrat[]giaego\T1/cmr/
+m/n/12 -
+ []
+
+
+Overfull \hbox (786.4721pt too wide) in paragraph at lines 150--167
+\OML/cmm/m/it/12 sta:Assim; emumsistemadeapoio decis\OT1/cmr/m/it/12 $\OML/cmm/
+m/it/12 o; poderiaacontecerdosusuriosn\OT1/cmr/m/it/12 $\OML/cmm/m/it/12 osegui
+remasrecomenda\OMS/cmsy/m/n/12 x\OML/cmm/m/it/12 ^^Vesapresentadas:Pensandonist
+o; []aplicaumarestri\OMS/cmsy/m/n/12 x\OT1/cmr/m/it/12 $\OML/cmm/m/it/12 oparaq
+ueocaminhodecadausurion\OT1/cmr/m/it/12 $\OML/cmm/m/it/12 osejademasiadamentepi
+ordoqueomelhorcaminhoposs\T1/cmr/m/n/12 -
+ []
+
+
+Overfull \hbox (151.21536pt too wide) in paragraph at lines 150--167
+\OML/cmm/m/it/12 vel:Destaforma; []poss\T1/cmr/m/n/12 -\OML/cmm/m/it/12 velobte
+rumasolu\OMS/cmsy/m/n/12 x\OT1/cmr/m/it/12 $\OML/cmm/m/it/12 oaceitvelparacadau
+surio; queobjetivaaumentaraefici[]nciaglobaldosistema[][][][][]:$ 
+ []
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.169 auxiliar motoristas a tomarem decis√µ
+                                           es de rota. Vamos idealizar um
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 170.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 170.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 171.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 171.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 172.
+
+
+LaTeX Warning: Command \textordfeminine invalid in math mode on input line 172.
+
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 173.
+
+
+LaTeX Warning: Command \textordfeminine invalid in math mode on input line 173.
+
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 173.
+
+
+LaTeX Warning: Command \textexclamdown invalid in math mode on input line 173.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 174.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 174.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 174.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 175.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 175.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 175.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 175.
+
+
+LaTeX Warning: Command \textcent invalid in math mode on input line 175.
+
+
+! LaTeX Error: Command \textcent unavailable in encoding T1.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.175 ...exemplo) e nas condi√ß√µes atuais do tr√¢
+                                                  nsito.
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 176.
+
+
+LaTeX Warning: Command \textexclamdown invalid in math mode on input line 176.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 176.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 176.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 177.
+
+
+LaTeX Warning: Command \textexclamdown invalid in math mode on input line 177.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 177.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 178.
+
+
+LaTeX Warning: Command \textexclamdown invalid in math mode on input line 178.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 179.
+
+
+LaTeX Warning: Command \textordfeminine invalid in math mode on input line 179.
+
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 179.
+
+
+LaTeX Warning: Command \textexclamdown invalid in math mode on input line 179.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 179.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 180.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 180.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 180.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 181.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 181.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.182 
+      
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no Ω in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no Ω in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no Ω in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no Ω in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no Ω in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+
+Overfull \hbox (1330.22992pt too wide) in paragraph at lines 168--182
+\T1/cmr/m/n/12 mo-to-ris-tas a to-ma-rem decis√$\OML/cmm/m/it/12 ^^Vesderota:Va
+mosidealizarumsistemaquepodefornecerinforma\OMS/cmsy/m/n/12 x\OML/cmm/m/it/12 ^
+^Vescomocongestionamentos; bloqueiosouacidentes; edarrecomenda\OMS/cmsy/m/n/12 
+x\OML/cmm/m/it/12 ^^Vesbaseadonestesdados:Omotoristacadastrariasuasprefer[]ncia
+s; entrariacomoseudestinoeosistemacalculariaarotabaseadonosmapasdigitais; prefe
+r[]nciasdousurio; especificidadesdove\T1/cmr/m/n/12 -
+ []
+
+
+Overfull \hbox (1374.20506pt too wide) in paragraph at lines 168--182
+\OML/cmm/m/it/12 culo\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 dimens^^Ves; quantidaded
+ecombust\T1/cmr/m/n/12 -\OML/cmm/m/it/12 veldispon\T1/cmr/m/n/12 -\OML/cmm/m/it
+/12 veleconsumo; porexemplo\OT1/cmr/m/n/12 )\OML/cmm/m/it/12 enascondi\OMS/cmsy
+/m/n/12 x\OML/cmm/m/it/12 ^^Vesatuaisdotrnsito:Sistemasdestetipopoderiamteroseg
+uintecenrio; ascondi\OMS/cmsy/m/n/12 x\OML/cmm/m/it/12 ^^Vesdetrfegoseriamobtid
+asatrav[]sdesensoresetransmitidasaumacentraldecontroledetrfego; queporsuavez; r
+eceberia\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 talvezdocomputadordebordodocarro\OT1/
+cmr/m/n/12 )\OML/cmm/m/it/12 asprefer[]nciasdosusurios; ascaracter\T1/cmr/m/n/1
+2 -
+ []
+
+
+Overfull \hbox (110.11pt too wide) in paragraph at lines 168--182
+\OML/cmm/m/it/12 sticasdosve\T1/cmr/m/n/12 -\OML/cmm/m/it/12 culos; asposi\OMS/
+cmsy/m/n/12 x\OML/cmm/m/it/12 ^^Vesatuaiseseusdestinos; podendoassimfazercertas
+distribui\OMS/cmsy/m/n/12 x\OML/cmm/m/it/12 ^^Vesderotasaosmotoristas:$ 
+ []
+
+ <figuras/jpg/gps.jpg, id=359, 505.89pt x 391.4625pt>
+File: figuras/jpg/gps.jpg Graphic file (type jpg)
+ <use figuras/jpg/gps.jpg>
+LaTeX Font Info:    Font shape `OMS/cmr/m/it' in size <10.95> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 194.
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 194.
+
+! LaTeX Error: Command \textcent unavailable in encoding T1.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.194 ...07/live-traffic-information-for-13.html)}
+                                                  
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+
+! LaTeX Error: Command \textcent unavailable in encoding T1.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.194 ...07/live-traffic-information-for-13.html)}
+                                                  
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.198 Descrevemos todo um conjunto de restri√ß√µ
+                                                es complexo e detalhista, po...
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 198.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 199.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 199.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 199.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 199.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 199.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 200.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 200.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 201.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 201.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 201.
+
+
+LaTeX Warning: Command \textexclamdown invalid in math mode on input line 201.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 202.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 202.
+
+
+LaTeX Warning: Command \textexclamdown invalid in math mode on input line 202.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 202.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.203 
+      
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no Ω in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no Ω in font cmr12!
+Missing character: There is no √ in font cmr12!
+
+Overfull \hbox (254.25763pt too wide) in paragraph at lines 198--203
+[]\T1/cmr/m/n/12 Descrevemos todo um con-junto de restri√ü√$\OML/cmm/m/it/12 ^^
+Vescomplexoedetalhista; por[]m; nanossaformula\OMS/cmsy/m/n/12 x\OT1/cmr/m/it/1
+2 $\OML/cmm/m/it/12 olevaremosemconsidera\OMS/cmsy/m/n/12 x\OT1/cmr/m/it/12 $\O
+ML/cmm/m/it/12 oapenasosn\T1/cmr/m/n/12 -
+ []
+
+
+Overfull \hbox (638.5305pt too wide) in paragraph at lines 198--203
+\OML/cmm/m/it/12 veisdecongestionamentoeumlimitantesuperiorparaadegrada\OMS/cms
+y/m/n/12 x\OT1/cmr/m/it/12 $\OML/cmm/m/it/12 odeumcaminhoemrela\OMS/cmsy/m/n/12
+ x\OT1/cmr/m/it/12 $\OML/cmm/m/it/12 oaomelhorcaminho\OT1/cmr/m/n/12 (\OML/cmm/
+m/it/12 consideramosumcaminhovivelapenasseeste[]maisdemoradoqueocaminhomaisrpid
+oat[]umcertolimite\OT1/cmr/m/n/12 )\OML/cmm/m/it/12 :$ 
+ []
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.213 }
+       .
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 213.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 213.
+
+Missing character: There is no √ in font cmr10!
+Missing character: There is no √ in font cmr10!
+! Missing $ inserted.
+<inserted text> 
+                $
+l.213 }
+       .
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.214 
+      
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+! Extra }, or forgotten $.
+\MakeUppercase  ... {\uppercase {#1}}\reserved@a }
+                                                  
+l.214 
+      
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.214 
+      
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+! Missing } inserted.
+<inserted text> 
+                }
+l.214 
+      
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+ [3 <./figuras/jpg/gps.jpg>]
+! Missing $ inserted.
+<inserted text> 
+                $
+l.215 N√≥
+         s modelamos os ve√≠culos que possuem a mesma origem e destino como um
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+! Extra }, or forgotten $.
+\maththreesuperior ->{^3}
+                         
+l.215 N√≥
+         s modelamos os ve√≠culos que possuem a mesma origem e destino como um
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 215.
+
+Missing character: There is no √ in font cmr12!
+! Missing $ inserted.
+<inserted text> 
+                $
+l.217 Podemos representar cada $k \in
+                                      K$ como $(s_k, t_k)$. Definimos a
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+
+Overfull \hbox (363.8501pt too wide) in paragraph at lines 215--227
+[]\T1/cmr/m/n/12 N√$[]\OML/cmm/m/it/12 smodelamososve\T1/cmr/m/n/12 -\OML/cmm/m
+/it/12 culosquepossuemamesmaorigemedestinocomoumpar$\T1/cmr/m/n/12 k = (s, t)$\
+OML/cmm/m/it/12 ; definimos$\T1/cmr/m/n/12 K$\OML/cmm/m/it/12 comooconjuntodeto
+dosestespares:Podemosrepresentarcada$\T1/cmr/m/n/12 k
+ []
+
+
+! LaTeX Error: Command \textcent unavailable in encoding T1.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.228 Definimos um fator de toler√¢
+                                   ncia $\varphi \geq 1$. Atrav√©s deste fator,
+
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.238 O sistema √≥
+                  timo com restri√ß√µes (\textsc{CSO} -- \emph{constrained s...
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+! Extra }, or forgotten $.
+\maththreesuperior ->{^3}
+                         
+l.238 O sistema √≥
+                  timo com restri√ß√µes (\textsc{CSO} -- \emph{constrained s...
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 238.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 238.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 239.
+
+
+LaTeX Warning: Command \textordmasculine invalid in math mode on input line 239
+.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 240.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.241 
+      
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+
+Overfull \hbox (253.13103pt too wide) in paragraph at lines 238--241
+[]\T1/cmr/m/n/12 O sis-tema √$[]\OML/cmm/m/it/12 timocomrestri\OMS/cmsy/m/n/12 
+x\OML/cmm/m/it/12 ^^Ves\OT1/cmr/m/n/12 ([] \OMS/cmsy/m/n/12 ^^@ ^^@[]\OT1/cmr/m
+/n/12 )\OML/cmm/m/it/12 proposto; podesermodeladocomooseguintefluxom[]ltiplodec
+ustom\T1/cmr/m/n/12 -
+ []
+
+
+Package natbib Warning: Citation `jahn:05' on page 4 undefined on input line 25
+3.
+
+
+Package natbib Warning: Citation `frank:56' on page 4 undefined on input line 2
+54.
+
+
+Package natbib Warning: Citation `leblanc:85' on page 4 undefined on input line
+ 255.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.256 um caminho √≥
+                   timo em $\mathcal{P}_k^\varphi$ que √© precisamente o \rcsp:
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+! Extra }, or forgotten $.
+\maththreesuperior ->{^3}
+                         
+l.256 um caminho √≥
+                   timo em $\mathcal{P}_k^\varphi$ que √© precisamente o \rcsp:
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+
+! LaTeX Error: \mathcal allowed only in math mode.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.256 um caminho √≥timo em $\mathcal
+                                    {P}_k^\varphi$ que √© precisamente o \rcsp:
+
+You're in trouble here.  Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.256 um caminho √≥timo em $\mathcal{P}_
+                                        k^\varphi$ que √© precisamente o \rcsp:
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+
+! LaTeX Error: Command \textcent unavailable in encoding T1.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.257 ...caso, cada arco $uv \in A$ tem dois par√¢
+                                                  metros, o tempo de
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.269 ...equentemente usado para aproximar fun√ß√µ
+                                                  es complexas ou
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 270.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.271 
+      
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+Missing character: There is no √ in font cmr12!
+
+Overfull \hbox (11.02129pt too wide) in paragraph at lines 267--271
+[]\T1/cmr/m/n/12 Uma cur-va/-fun√ü√øo √[] li-near por par-tes (\T1/cmr/m/it/12 
+pi-e-cewise li-near curve\T1/cmr/m/n/12 ) se pu-der-mos subdividi-
+ []
+
+ [4]
+
+pdfTeX warning: pdflatex (file ./figuras/pdf/funcao_linear_por_partes.pdf): PDF
+ inclusion: found PDF version <1.5>, but at most version <1.4> allowed
+
+<figuras/pdf/funcao_linear_por_partes.pdf, id=373, 301.125pt x 210.7875pt>
+File: figuras/pdf/funcao_linear_por_partes.pdf Graphic file (type pdf)
+ <use figuras/pdf/funcao_linear_por_partes.pdf>
+! Missing $ inserted.
+<inserted text> 
+                $
+l.288 Aplica√ß√µ
+                es nas √°reas citadas no par√°grafo anterior, frequentemente
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 288.
+
+
+LaTeX Warning: Command \textexclamdown invalid in math mode on input line 288.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 288.
+
+
+LaTeX Warning: Command \textexclamdown invalid in math mode on input line 288.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 291.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 292.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 293.
+
+
+LaTeX Warning: Command \textexclamdown invalid in math mode on input line 293.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 294.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 294.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 294.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 294.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 295.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 295.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 295.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 296.
+
+
+LaTeX Warning: Command \textordmasculine invalid in math mode on input line 296
+.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.297 
+      
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+Missing character: There is no √ in font cmr12!
+Missing character: There is no Ω in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no Ω in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no Ω in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+
+Overfull \hbox (2155.279pt too wide) in paragraph at lines 288--297
+[]\T1/cmr/m/n/12 Aplica√ü√$\OML/cmm/m/it/12 ^^Vesnasreascitadasnopargrafoanteri
+or; frequentementeincluemumaenormequantidadededados\OT1/cmr/m/n/12 (\OML/cmm/m/
+it/12 ascurvasemgeralpossuemumagrandequantidadedepartesoupontosdequebra\OT1/cmr
+/m/n/12 )\OML/cmm/m/it/12 :Istocausadificuldades; porexemplo; comoespa\OMS/cmsy
+/m/n/12 x\OML/cmm/m/it/12 odearmazenamento; taxadetransmiss\OT1/cmr/m/it/12 $\O
+ML/cmm/m/it/12 ooutempogastopararenderizaracurvaemumdispositivogrfico:Istonatur
+almentenosfazpensarnoproblemaderedu\OMS/cmsy/m/n/12 x\OT1/cmr/m/it/12 $\OML/cmm
+/m/it/12 o=compress\OT1/cmr/m/it/12 $\OML/cmm/m/it/12 odedados; onden[]squeremo
+sdeterminarumanovacurvalinearporpartesque[]t\OT1/cmr/m/it/12 $\OML/cmm/m/it/12 
+oaproximadaquandoposs\T1/cmr/m/n/12 -
+ []
+
+
+Package natbib Warning: Citation `dahl:96' on page 5 undefined on input line 29
+8.
+
+
+Package natbib Warning: Citation `nygaard:98' on page 5 undefined on input line
+ 298.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.302 n√≥
+         s temos um arco $v_iv_j$. O custo de um arco $c_{uv}$ √© o erro
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+! Extra }, or forgotten $.
+\maththreesuperior ->{^3}
+                         
+l.302 n√≥
+         s temos um arco $v_iv_j$. O custo de um arco $c_{uv}$ √© o erro
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.302 n√≥s temos um arco $v_
+                            iv_j$. O custo de um arco $c_{uv}$ √© o erro
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 305.
+! Missing $ inserted.
+<inserted text> 
+                $
+l.306 ...{uv}$ √© $1$ para $uv \in A$.  Agora, n√≥
+                                                  s podemos computar
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+! Extra }, or forgotten $.
+\maththreesuperior ->{^3}
+                         
+l.306 ...{uv}$ √© $1$ para $uv \in A$.  Agora, n√≥
+                                                  s podemos computar
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 307.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 307.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 307.
+
+
+LaTeX Warning: Command \textexclamdown invalid in math mode on input line 307.
+
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no Ω in font cmr12!
+! Missing $ inserted.
+<inserted text> 
+                $
+l.309 ...tar o menor n√∫mero de pontos de quebra.}
+                                                  .
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+! Extra }, or forgotten $.
+\maththreesuperior ->{^3}
+                         
+l.309 ...tar o menor n√∫mero de pontos de quebra.}
+                                                  .
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 309.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 309.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 309.
+
+
+LaTeX Warning: Command \textordmasculine invalid in math mode on input line 309
+.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.309 ...tar o menor n√∫mero de pontos de quebra.}
+                                                  .
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+Missing character: There is no √ in font cmr10!
+Missing character: There is no √ in font cmr10!
+Missing character: There is no √ in font cmr10!
+
+Overfull \hbox (12.91057pt too wide) in paragraph at lines 309--309
+[][][]\T1/cmr/m/n/10 Alternativamente, n√$[]\OML/cmm/m/it/10 spodemoslimitaroer
+rodeaproxima\OMS/cmsy/m/n/10 x\OT1/cmr/m/it/10 $\OML/cmm/m/it/10 oecomputaromen
+orn[]merodepontosdequebra:|$ 
+ []
+
+! Missing } inserted.
+<inserted text> 
+                }
+l.309 ...tar o menor n√∫mero de pontos de quebra.}
+                                                  .
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.310 
+      
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+
+Overfull \hbox (9.823pt too wide) in paragraph at lines 298--310
+\T1/cmr/m/n/12 s√øo os v√[]rtices do grafo $\OML/cmm/m/it/12 G \OT1/cmr/m/n/12 
+= (\OML/cmm/m/it/12 V; A\OT1/cmr/m/n/12 )$ \T1/cmr/m/n/12 e para todo para $\OT
+1/cmr/m/n/12 1 \OMS/cmsy/m/n/12 ^^T \OML/cmm/m/it/12 i \OMS/cmsy/m/n/12 ^^T \OM
+L/cmm/m/it/12 j \OMS/cmsy/m/n/12 ^^T \OML/cmm/m/it/12 n$ \T1/cmr/m/n/12 n√$[]\O
+ML/cmm/m/it/12 stemosumarco$\T1/cmr/m/n/12 v$[]\OML/cmm/m/it/12 v[]$\T1/cmr/m/n
+/12 .
+ []
+
+
+
+pdfTeX warning: pdflatex (file ./figuras/pdf/curva.pdf): PDF inclusion: found P
+DF version <1.5>, but at most version <1.4> allowed
+ <figuras/pdf/curva.pdf, id=377, 361.35pt x 216.81pt>
+File: figuras/pdf/curva.pdf Graphic file (type pdf)
+ <use figuras/pdf/curva.pdf>
+
+pdfTeX warning: pdflatex (file ./figuras/pdf/curva_aproximada.pdf): PDF inclusi
+on: found PDF version <1.5>, but at most version <1.4> allowed
+
+<figuras/pdf/curva_aproximada.pdf, id=379, 361.35pt x 216.81pt>
+File: figuras/pdf/curva_aproximada.pdf Graphic file (type pdf)
+ <use figuras/pdf/curva_aproximada.pdf>
+! Missing $ inserted.
+<inserted text> 
+                $
+l.328 ...cobrindo o m√°ximo poss√≠vel de varia√ß√µ
+                                                  es e aplica√ß√µes do probl...
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 328.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 328.
+
+
+! LaTeX Error: Command \item invalid in math mode.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.329 \item
+            apresentar o \rcsp~e suas diversas abordagens com uma nota√ß√£o
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+! LaTeX Error: Something's wrong--perhaps a missing \item.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.329 \item a
+             presentar o \rcsp~e suas diversas abordagens com uma nota√ß√£o
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+! LaTeX Error: Something's wrong--perhaps a missing \item.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.329 \item a
+             presentar o \rcsp~e suas diversas abordagens com uma nota√ß√£o
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 329.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 329.
+
+
+! LaTeX Error: Command \item invalid in math mode.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.331 \item
+            implementar um subconjunto dos principais algoritmos conhecidos;
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.331 \item i
+             mplementar um subconjunto dos principais algoritmos conhecidos;
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+! Missing } inserted.
+<inserted text> 
+                }
+l.331 \item i
+             mplementar um subconjunto dos principais algoritmos conhecidos;
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+
+Overfull \hbox (203.12674pt too wide) in paragraph at lines 327--331
+\T1/cmr/m/n/12 poss√-vel de varia√ü√$\OML/cmm/m/it/12 ^^Veseaplica\OMS/cmsy/m/n
+/12 x\OML/cmm/m/it/12 ^^Vesdoproblema\OT1/cmr/m/n/12 ; \OML/cmm/m/it/12 apresen
+taro[] esuasdiversasabordagenscomumanota\OMS/cmsy/m/n/12 x\OT1/cmr/m/it/12 $\OM
+L/cmm/m/it/12 opadronizada\OT1/cmr/m/n/12 ; [][]$ 
+ []
+
+! Extra }, or forgotten \endgroup.
+\par ...m \@noitemerr {\@@par }\fi \else {\@@par }
+                                                  \fi 
+l.331 \item i
+             mplementar um subconjunto dos principais algoritmos conhecidos;
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.340 ... com os conceitos, mas faremos indica√ß√µ
+                                                  es de publica√ß√µes
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 340.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 340.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 341.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 341.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 341.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.342 
+      
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+ [5 <./figuras/pdf/funcao_linear_por_partes.pdf>] [6 <./figuras/pdf/curva.pdf> 
+<./figuras/pdf/curva_aproximada.pdf>]
+
+Package natbib Warning: Citation `pf:fluxos' on page 7 undefined on input line 
+365.
+
+
+Package natbib Warning: Citation `wolsey1998integer' on page 7 undefined on inp
+ut line 367.
+
+
+Package natbib Warning: Citation `Carvalhoetal01' on page 7 undefined on input 
+line 367.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.368 algoritmos de aproxima√ß√£o, e √© uma √≥
+                                              tima referencia sobre o assunto.
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+! Extra }, or forgotten $.
+\maththreesuperior ->{^3}
+                         
+l.368 algoritmos de aproxima√ß√£o, e √© uma √≥
+                                              tima referencia sobre o assunto.
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+
+! LaTeX Error: Command \bfseries invalid in math mode.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.369 ... temos o livro \citet{clrs:introalg-2001}
+                                                   que pode ser usado para
+Please use the math alphabet \mathbf instead of the \bfseries command. 
+
+
+Package natbib Warning: Citation `clrs:introalg-2001' on page 7 undefined on in
+put line 369.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.371 
+      
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+
+Overfull \hbox (124.98215pt too wide) in paragraph at lines 363--371
+\T1/cmr/m/n/12 √$[]\OML/cmm/m/it/12 timareferenciasobreoassunto:Porfimtemosoliv
+ro[]quepodeserusadoparaoestudodecomplexidadecomputacional:$ 
+ []
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.378 ...√ß√£o do \rcsp, alem de citar informa√ß√µ
+                                                  es sobre complexidade e
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 380.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 380.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 381.
+
+
+LaTeX Warning: Command \textordfeminine invalid in math mode on input line 381.
+
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 382.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.384 
+      
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+
+Overfull \hbox (1714.13577pt too wide) in paragraph at lines 376--384
+\T1/cmr/m/n/12 ta√ü√øo. Apre-sen-ta-mos tex-tu-al-mente uma de-fi-ni√ü√øo do \T
+1/cmr/m/sc/12 RCSP\T1/cmr/m/n/12 , alem de ci-tar informa√ü√$\OML/cmm/m/it/12 ^
+^Vessobrecomplexidadeedescreveralgunsproblemasinteressantesaosquaiso[] podesera
+plicado:Enumeramostamb[]most[]picosrelevantesparaoentendimentodonossotrabalhofa
+zendorefer[]nciaatextosquepodemajudarosleitoresaadquirirtaisconhecimentos:Disco
+rremosumpoucotamb[]marespeitodofocoeobjetivosdestetrabalho:$ 
+ []
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.393 deste trabalho. Apresentamos um breve hist√≥
+                                                  rico listando as principais
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+! Extra }, or forgotten $.
+\maththreesuperior ->{^3}
+                         
+l.393 deste trabalho. Apresentamos um breve hist√≥
+                                                  rico listando as principais
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 394.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 394.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 394.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 395.
+
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+
+! LaTeX Error: \mathcal allowed only in math mode.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.395 que o \rcsp~√© um problema $\mathcal
+                                          {NP}$-dif√≠cil. Por fim descrevemos
+You're in trouble here.  Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 395.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.397 
+      
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+Missing character: There is no √ in font cmr12!
+
+Overfull \hbox (386.52434pt too wide) in paragraph at lines 391--397
+\T1/cmr/m/n/12 Apre-sen-ta-mos um breve hist√$[]\OML/cmm/m/it/12 ricolistandoas
+principaissolu\OMS/cmsy/m/n/12 x\OML/cmm/m/it/12 ^^Vesconhecidasparaoproblema:E
+xpomostamb[]mumaprovaquemostraqueo[] []umproblema$\T1/cmr/m/n/12 NP$\OMS/cmsy/m
+/n/12 ^^@\OML/cmm/m/it/12 dif\T1/cmr/m/n/12 -
+ []
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.398 ...tos} -- \nameref{cap:experimentos}, exp√µ
+                                                  e
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 399.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 399.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 399.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.401 
+      
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+Missing character: There is no √ in font cmr12!
+
+Overfull \hbox (227.68613pt too wide) in paragraph at lines 398--401
+[]\T1/cmr/m/n/12 O Cap√-tulo [][]4[][] -- [][]Ex-pe-ri-men-tos[][], exp√$\OML/c
+mm/m/it/12 ^^Veestat\T1/cmr/m/n/12 -\OML/cmm/m/it/12 sticasepercep\OMS/cmsy/m/n
+/12 x\OML/cmm/m/it/12 ^^Vesarespeitodosexperimentosrealizadoscomosalgoritmosimp
+lementados:$ 
+ []
+
+) (./cap-spp.tex [7] [8
+
+]
+Cap\'{\i }tulo 2.
+
+Package natbib Warning: Citation `paulo:97' on page 9 undefined on input line 1
+6.
+
+
+Package natbib Warning: Citation `fabio:09' on page 9 undefined on input line 1
+6.
+
+
+Package natbib Warning: Citation `shigueo:02' on page 9 undefined on input line
+ 17.
+
+
+<figuras/pdf/spp_custo1.pdf, id=450, 164.19342pt x 164.87598pt>
+File: figuras/pdf/spp_custo1.pdf Graphic file (type pdf)
+ <use figuras/pdf/spp_custo1.pdf>
+<figuras/pdf/spp_custo2.pdf, id=451, 163.79292pt x 164.87598pt>
+File: figuras/pdf/spp_custo2.pdf Graphic file (type pdf)
+ <use figuras/pdf/spp_custo2.pdf> [9]
+LaTeX Font Info:    Font shape `OMS/cmr/m/sl' in size <12> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 88.
+
+Package natbib Warning: Citation `zhu:05' on page 10 undefined on input line 10
+0.
+
+ [10 <./figuras/pdf/spp_custo1.pdf> <./figuras/pdf/spp_custo2.pdf>]
+<figuras/pdf/spp_potencial1.pdf, id=481, 175.95135pt x 177.60654pt>
+File: figuras/pdf/spp_potencial1.pdf Graphic file (type pdf)
+ <use figuras/pdf/spp_potencial1.pdf>
+
+Package natbib Warning: Citation `pf:proglin' on page 11 undefined on input lin
+e 160.
+
+ [11 <./figuras/pdf/spp_potencial1.pdf>]
+<figuras/pdf/spp_potencial2.pdf, id=496, 175.95135pt x 177.60654pt>
+File: figuras/pdf/spp_potencial2.pdf Graphic file (type pdf)
+ <use figuras/pdf/spp_potencial2.pdf> [12 <./figuras/pdf/spp_potencial2.pdf>]
+<figuras/pdf/spp_predecessores1.pdf, id=510, 158.79324pt x 158.43091pt>
+File: figuras/pdf/spp_predecessores1.pdf Graphic file (type pdf)
+ <use figuras/pdf/spp_predecessores1.pdf>
+<figuras/pdf/spp_predecessores2.pdf, id=511, 152.04704pt x 153.04779pt>
+File: figuras/pdf/spp_predecessores2.pdf Graphic file (type pdf)
+ <use figuras/pdf/spp_predecessores2.pdf>
+
+Package natbib Warning: Citation `clrs:introalg-2001' on page 13 undefined on i
+nput line 301.
+
+
+Package natbib Warning: Citation `tarjan:data' on page 13 undefined on input li
+ne 302.
+
+ [13 <./figuras/pdf/spp_predecessores1.pdf> <./figuras/pdf/spp_predecessores2.p
+df>]
+
+Package natbib Warning: Citation `dijkstra:59' on page 14 undefined on input li
+ne 379.
+
+
+Package natbib Warning: Citation `fabio:09' on page 14 undefined on input line 
+382.
+
+
+Package natbib Warning: Citation `pf:fluxos' on page 14 undefined on input line
+ 382.
+
+ [14] [15]
+<figuras/pdf/spp_dijkstra1.pdf, id=541, 177.05447pt x 203.3718pt>
+File: figuras/pdf/spp_dijkstra1.pdf Graphic file (type pdf)
+ <use figuras/pdf/spp_dijkstra1.pdf>
+<figuras/pdf/spp_dijkstra2.pdf, id=542, 177.05447pt x 203.3718pt>
+File: figuras/pdf/spp_dijkstra2.pdf Graphic file (type pdf)
+ <use figuras/pdf/spp_dijkstra2.pdf>
+<figuras/pdf/spp_dijkstra3.pdf, id=543, 177.05447pt x 203.3718pt>
+File: figuras/pdf/spp_dijkstra3.pdf Graphic file (type pdf)
+ <use figuras/pdf/spp_dijkstra3.pdf>
+<figuras/pdf/spp_dijkstra4.pdf, id=544, 177.05447pt x 203.3718pt>
+File: figuras/pdf/spp_dijkstra4.pdf Graphic file (type pdf)
+ <use figuras/pdf/spp_dijkstra4.pdf> [16 <./figuras/pdf/spp_dijkstra1.pdf> <./f
+iguras/pdf/spp_dijkstra2.pdf>]
+<figuras/pdf/spp_dijkstra5.pdf, id=564, 177.05447pt x 203.3718pt>
+File: figuras/pdf/spp_dijkstra5.pdf Graphic file (type pdf)
+ <use figuras/pdf/spp_dijkstra5.pdf>
+<figuras/pdf/spp_dijkstra6.pdf, id=565, 177.05447pt x 203.3718pt>
+File: figuras/pdf/spp_dijkstra6.pdf Graphic file (type pdf)
+ <use figuras/pdf/spp_dijkstra6.pdf>
+<figuras/pdf/spp_dijkstra7.pdf, id=566, 177.05447pt x 203.3718pt>
+File: figuras/pdf/spp_dijkstra7.pdf Graphic file (type pdf)
+ <use figuras/pdf/spp_dijkstra7.pdf>
+<figuras/pdf/spp_dijkstra8.pdf, id=567, 177.05447pt x 203.77129pt>
+File: figuras/pdf/spp_dijkstra8.pdf Graphic file (type pdf)
+ <use figuras/pdf/spp_dijkstra8.pdf>
+<figuras/pdf/spp_dijkstra9.pdf, id=568, 177.05447pt x 203.77129pt>
+File: figuras/pdf/spp_dijkstra9.pdf Graphic file (type pdf)
+ <use figuras/pdf/spp_dijkstra9.pdf>
+<figuras/pdf/spp_dijkstra10.pdf, id=569, 177.05447pt x 203.77129pt>
+File: figuras/pdf/spp_dijkstra10.pdf Graphic file (type pdf)
+ <use figuras/pdf/spp_dijkstra10.pdf> [17 <./figuras/pdf/spp_dijkstra3.pdf> <./
+figuras/pdf/spp_dijkstra4.pdf> <./figuras/pdf/spp_dijkstra5.pdf> <./figuras/pdf
+/spp_dijkstra6.pdf> <./figuras/pdf/spp_dijkstra7.pdf> <./figuras/pdf/spp_dijkst
+ra8.pdf>]
+<figuras/pdf/spp_dijkstra11.pdf, id=617, 175.95135pt x 203.77129pt>
+File: figuras/pdf/spp_dijkstra11.pdf Graphic file (type pdf)
+ <use figuras/pdf/spp_dijkstra11.pdf>
+<figuras/pdf/spp_dijkstra12.pdf, id=618, 175.95135pt x 203.3718pt>
+File: figuras/pdf/spp_dijkstra12.pdf Graphic file (type pdf)
+ <use figuras/pdf/spp_dijkstra12.pdf>
+<figuras/pdf/spp_dijkstra13.pdf, id=619, 176.35184pt x 203.3718pt>
+File: figuras/pdf/spp_dijkstra13.pdf Graphic file (type pdf)
+ <use figuras/pdf/spp_dijkstra13.pdf>
+<figuras/pdf/spp_dijkstra14.pdf, id=620, 176.35184pt x 203.3718pt>
+File: figuras/pdf/spp_dijkstra14.pdf Graphic file (type pdf)
+ <use figuras/pdf/spp_dijkstra14.pdf>
+<figuras/pdf/spp_dijkstra15.pdf, id=621, 176.35184pt x 203.3718pt>
+File: figuras/pdf/spp_dijkstra15.pdf Graphic file (type pdf)
+ <use figuras/pdf/spp_dijkstra15.pdf>
+<figuras/pdf/spp_dijkstra16.pdf, id=622, 176.35184pt x 203.3718pt>
+File: figuras/pdf/spp_dijkstra16.pdf Graphic file (type pdf)
+ <use figuras/pdf/spp_dijkstra16.pdf> [18 <./figuras/pdf/spp_dijkstra9.pdf> <./
+figuras/pdf/spp_dijkstra10.pdf> <./figuras/pdf/spp_dijkstra11.pdf> <./figuras/p
+df/spp_dijkstra12.pdf> <./figuras/pdf/spp_dijkstra13.pdf> <./figuras/pdf/spp_di
+jkstra14.pdf>]
+<figuras/pdf/spp_dijkstra17.pdf, id=669, 176.35184pt x 203.3718pt>
+File: figuras/pdf/spp_dijkstra17.pdf Graphic file (type pdf)
+ <use figuras/pdf/spp_dijkstra17.pdf>
+<figuras/pdf/spp_dijkstra18.pdf, id=670, 176.35184pt x 203.3718pt>
+File: figuras/pdf/spp_dijkstra18.pdf Graphic file (type pdf)
+ <use figuras/pdf/spp_dijkstra18.pdf>
+
+Package natbib Warning: Citation `shigueo:02' on page 19 undefined on input lin
+e 532.
+
+ [19 <./figuras/pdf/spp_dijkstra15.pdf> <./figuras/pdf/spp_dijkstra16.pdf> <./f
+iguras/pdf/spp_dijkstra17.pdf> <./figuras/pdf/spp_dijkstra18.pdf>]
+
+Package natbib Warning: Citation `johnson:heap' on page 20 undefined on input l
+ine 580.
+
+
+Package natbib Warning: Citation `FredTarjan:Fibonacci' on page 20 undefined on
+ input line 581.
+
+
+Package natbib Warning: Citation `ahuja:netflows' on page 20 undefined on input
+ line 594.
+
+
+Package natbib Warning: Citation `clr:introalg-1999' on page 20 undefined on in
+put line 594.
+
+ [20]
+
+Package natbib Warning: Citation `ahuja:radixheap' on page 21 undefined on inpu
+t line 656.
+
+
+Package natbib Warning: Citation `boris:buckets' on page 21 undefined on input 
+line 656.
+
+
+Package natbib Warning: Citation `FredTarjan:Fibonacci' on page 21 undefined on
+ input line 656.
+
+
+Package natbib Warning: Citation `clrs:introalg-2001' on page 21 undefined on i
+nput line 660.
+
+LaTeX Font Info:    Try loading font information for T1+cmss on input line 670.
+
+ (/usr/share/texmf-texlive/tex/latex/base/t1cmss.fd
+File: t1cmss.fd 1999/05/25 v2.5h Standard LaTeX font definitions
+)
+
+LaTeX Font Warning: Font shape `T1/cmss/m/sc' in size <12> not available
+(Font)              Font shape `T1/cmr/m/sc' tried instead on input line 670.
+
+
+Overfull \hbox (49.62408pt too wide) in paragraph at lines 664--677
+[] 
+ []
+
+
+Package natbib Warning: Citation `FredTarjan:Fibonacci' on page 21 undefined on
+ input line 683.
+
+
+Package natbib Warning: Citation `bellman:58' on page 21 undefined on input lin
+e 694.
+
+
+Package natbib Warning: Citation `carlos:98' on page 21 undefined on input line
+ 696.
+
+ [21]
+
+Package natbib Warning: Citation `pf:fluxos' on page 22 undefined on input line
+ 735.
+
+) [22] (./cap-rcsp/cap.tex [23] [24
+
+]
+Cap\'{\i }tulo 3.
+ (./cap-rcsp/sec-definicao.tex) (./cap-rcsp/sec-historico.tex [25]
+
+Package natbib Warning: Citation `zang:80' on page 26 undefined on input line 1
+8.
+
+
+Package natbib Warning: Citation `yen:71' on page 26 undefined on input line 20
+.
+
+
+Package natbib Warning: Citation `beasley:89' on page 26 undefined on input lin
+e 26.
+
+
+Package natbib Warning: Citation `mehlhorn:00' on page 26 undefined on input li
+ne 29.
+
+
+Package natbib Warning: Citation `hassin:92' on page 26 undefined on input line
+ 32.
+
+
+Package natbib Warning: Citation `zang:80' on page 26 undefined on input line 4
+0.
+
+
+Package natbib Warning: Citation `beasley:89' on page 26 undefined on input lin
+e 43.
+
+
+Package natbib Warning: Citation `mehlhorn:00' on page 26 undefined on input li
+ne 45.
+
+
+Package natbib Warning: Citation `joksch:66' on page 26 undefined on input line
+ 47.
+
+
+Package natbib Warning: Citation `aneja:83' on page 26 undefined on input line 
+49.
+
+
+Package natbib Warning: Citation `hassin:92' on page 26 undefined on input line
+ 51.
+
+
+Package natbib Warning: Citation `dumitrescu:03' on page 26 undefined on input 
+line 53.
+
+
+Package natbib Warning: Citation `joksch:66' on page 26 undefined on input line
+ 67.
+
+
+Package natbib Warning: Citation `hassin:92' on page 26 undefined on input line
+ 68.
+
+
+Package natbib Warning: Citation `aneja:83' on page 26 undefined on input line 
+69.
+
+
+Package natbib Warning: Citation `dijkstra:59' on page 26 undefined on input li
+ne 71.
+
+
+Package natbib Warning: Citation `dumitrescu:03' on page 26 undefined on input 
+line 77.
+
+
+Package natbib Warning: Citation `aneja:83' on page 26 undefined on input line 
+79.
+
+) (./cap-rcsp/sec-complexidade.tex
+
+Package natbib Warning: Citation `zang:80' on page 26 undefined on input line 4
+.
+
+
+Package natbib Warning: Citation `jaffe:84' on page 26 undefined on input line 
+4.
+
+
+Package natbib Warning: Citation `dumitrescu:03' on page 26 undefined on input 
+line 6.
+
+
+Package natbib Warning: Citation `garey:79' on page 26 undefined on input line 
+6.
+
+
+Package natbib Warning: Citation `zang:80' on page 26 undefined on input line 8
+.
+
+ [26]
+
+Package natbib Warning: Citation `hassin:92' on page 27 undefined on input line
+ 10.
+
+
+Package natbib Warning: Citation `beasley:89' on page 27 undefined on input lin
+e 12.
+
+
+Package natbib Warning: Citation `zang:80' on page 27 undefined on input line 1
+8.
+
+ [27]
+<figuras/pdf/reducao_mochila.pdf, id=745, 364.39436pt x 51.14307pt>
+File: figuras/pdf/reducao_mochila.pdf Graphic file (type pdf)
+ <use figuras/pdf/reducao_mochila.pdf>) (./cap-rcsp/sec-preprocessamento.tex [2
+8 <./figuras/pdf/reducao_mochila.pdf>]
+
+Package natbib Warning: Citation `aneja:83' on page 29 undefined on input line 
+16.
+
+
+Package natbib Warning: Citation `dumitrescu:03' on page 29 undefined on input 
+line 36.
+
+) (./cap-rcsp/sec-dinamica.tex [29]
+
+Package natbib Warning: Citation `joksch:66' on page 30 undefined on input line
+ 44.
+
+
+Package natbib Warning: Citation `goldman:65' on page 30 undefined on input lin
+e 45.
+
+
+Package natbib Warning: Citation `lawler:76' on page 30 undefined on input line
+ 45.
+
+ [30] [31]
+
+Package natbib Warning: Citation `floyd:62' on page 32 undefined on input line 
+126.
+
+
+Overfull \hbox (16.85837pt too wide) in paragraph at lines 129--137
+[]\T1/cmr/m/n/12 O va-lor do ca-mi-nho Ûtimo $\OML/cmm/m/it/12 OPT$ \T1/cmr/m/n
+/12 pode ser en-con-trado pela cha-mada $[]\OT1/cmr/m/n/12 ([][]\OML/cmm/m/it/1
+2 ; ^^U\OT1/cmr/m/n/12 )$
+ []
+
+
+Package natbib Warning: Citation `joksch:66' on page 32 undefined on input line
+ 140.
+
+ [32]
+
+Package natbib Warning: Citation `hassin:92' on page 33 undefined on input line
+ 196.
+
+ [33] [34] [35]
+
+Package natbib Warning: Citation `aneja:83' on page 36 undefined on input line 
+343.
+
+
+Package natbib Warning: Citation `desrochers:88' on page 36 undefined on input 
+line 343.
+
+
+Package natbib Warning: Citation `desrosiers:95' on page 36 undefined on input 
+line 343.
+
+
+Package natbib Warning: Citation `stroetmann:97' on page 36 undefined on input 
+line 343.
+
+
+Package natbib Warning: Citation `joksch:66' on page 36 undefined on input line
+ 351.
+
+ [36]
+
+pdfTeX warning: pdflatex (file ./figuras/plot/step-function.pdf): PDF inclusion
+: found PDF version <1.5>, but at most version <1.4> allowed
+
+<figuras/plot/step-function.pdf, id=824, 361.35pt x 216.81pt>
+File: figuras/plot/step-function.pdf Graphic file (type pdf)
+ <use figuras/plot/step-function.pdf> [37 <./figuras/plot/step-function.pdf>]) 
+(./cap-rcsp/sec-aproximacao.tex
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `math shift' on input line 1.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `\epsilon' on input line 1.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `math shift' on input line 1.
+
+
+Package natbib Warning: Citation `hassin:92' on page 38 undefined on input line
+ 4.
+
+ [38]
+
+Package natbib Warning: Citation `hassin:92' on page 39 undefined on input line
+ 85.
+
+
+Package natbib Warning: Citation `hassin:92' on page 39 undefined on input line
+ 91.
+
+
+Package natbib Warning: Citation `phillips:93' on page 39 undefined on input li
+ne 94.
+
+) (./cap-rcsp/sec-kshortest.tex
+
+Package natbib Warning: Citation `hoffman:59' on page 39 undefined on input lin
+e 7.
+
+ [39]
+
+Package natbib Warning: Citation `eppstein:94' on page 40 undefined on input li
+ne 12.
+
+
+Package natbib Warning: Citation `zang:80' on page 40 undefined on input line 2
+2.
+
+
+Package natbib Warning: Citation `eppstein:12' on page 40 undefined on input li
+ne 23.
+
+) (./cap-rcsp/sec-lagrangeana.tex
+
+Package natbib Warning: Citation `zang:80' on page 40 undefined on input line 4
+.
+
+ [40]
+
+Package natbib Warning: Citation `geoffrion:74' on page 41 undefined on input l
+ine 51.
+
+
+Package natbib Warning: Citation `fisher:78' on page 41 undefined on input line
+ 51.
+
+ [41] [42] [43]
+<figuras/png/exemplo_grafo.png, id=865, 713.66624pt x 637.38126pt>
+File: figuras/png/exemplo_grafo.png Graphic file (type png)
+ <use figuras/png/exemplo_grafo.png>
+<figuras/png/exemplo_funcao_L.png, id=867, 452.25566pt x 374.0768pt>
+File: figuras/png/exemplo_funcao_L.png Graphic file (type png)
+ <use figuras/png/exemplo_funcao_L.png>)) (./cap-experimentos.tex [44] [45 <./f
+iguras/png/exemplo_grafo.png> <./figuras/png/exemplo_funcao_L.png>] [46
+
+]
+Cap\'{\i }tulo 4.
+
+Package natbib Warning: Citation `ziegelmann:01' on page 47 undefined on input 
+line 30.
+
+ [47]
+
+Package natbib Warning: Citation `beasley:89' on page 48 undefined on input lin
+e 117.
+
+
+Package natbib Warning: Citation `beasley:89' on page 48 undefined on input lin
+e 154.
+
+
+Package natbib Warning: Citation `beasley:89' on page 48 undefined on input lin
+e 154.
+
+ [48]
+
+Package natbib Warning: Citation `beasley:89' on page 49 undefined on input lin
+e 168.
+
+
+Package natbib Warning: Citation `beasley:89' on page 49 undefined on input lin
+e 176.
+
+
+
+pdfTeX warning: pdflatex (file ./figuras/pdf/bc_tempo.pdf): PDF inclusion: foun
+d PDF version <1.5>, but at most version <1.4> allowed
+
+<figuras/pdf/bc_tempo.pdf, id=894, 361.35pt x 216.81pt>
+File: figuras/pdf/bc_tempo.pdf Graphic file (type pdf)
+ <use figuras/pdf/bc_tempo.pdf>
+
+pdfTeX warning: pdflatex (file ./figuras/pdf/bc_memoria.pdf): PDF inclusion: fo
+und PDF version <1.5>, but at most version <1.4> allowed
+
+<figuras/pdf/bc_memoria.pdf, id=896, 361.35pt x 216.81pt>
+File: figuras/pdf/bc_memoria.pdf Graphic file (type pdf)
+ <use figuras/pdf/bc_memoria.pdf> [49]) [50] [51 <./figuras/pdf/bc_tempo.pdf> <
+./figuras/pdf/bc_memoria.pdf>]
+\openout2 = `ape-conjuntos.aux'.
+
+ (./ape-conjuntos.tex) [52
+
+
+
+]
+No file dissertacao.bbl.
+ (./cap-indice.tex)
+
+Package natbib Warning: There were undefined citations.
+
+ (./dissertacao.aux (./ape-conjuntos.aux))
+
+LaTeX Warning: There were multiply-defined labels.
+
+ )
+(\end occurred inside a group at level 8)
+
+### simple group (level 8) entered at line 393 ({)
+### simple group (level 7) entered at line 368 ({)
+### simple group (level 6) entered at line 306 ({)
+### simple group (level 5) entered at line 302 ({)
+### simple group (level 4) entered at line 256 ({)
+### simple group (level 3) entered at line 238 ({)
+### simple group (level 2) entered at line 215 ({)
+### simple group (level 1) entered at line 48 ({)
+### bottom level 
+Here is how much of TeX's memory you used:
+ 10728 strings out of 493848
+ 153904 string characters out of 1152823
+ 289540 words of memory out of 3000000
+ 13493 multiletter control sequences out of 15000+50000
+ 45437 words of font info for 112 fonts, out of 3000000 for 9000
+ 719 hyphenation exceptions out of 8191
+ 38i,14n,43p,561b,750s stack positions out of 5000i,500n,10000p,200000b,50000s
+{/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-t1.enc}</us
+r/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/tex
+mf-texlive/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texmf-texlive/
+fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texmf-texlive/fonts/type1
+/public/amsfonts/cm/cmmi12.pfb></usr/share/texmf-texlive/fonts/type1/public/ams
+fonts/cm/cmmi6.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmm
+i7.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr
+/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf
+-texlive/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texmf-texlive/fon
+ts/type1/public/amsfonts/cm/cmr6.pfb></usr/share/texmf-texlive/fonts/type1/publ
+ic/amsfonts/cm/cmr7.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/c
+m/cmr8.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
+</usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/share/
+texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texmf-texliv
+e/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/share/texmf-texlive/fonts/typ
+e1/public/amsfonts/cm/cmti12.pfb></usr/share/texmf-texlive/fonts/type1/public/a
+msfonts/latxfont/lasy10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfon
+ts/symbols/msbm10.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbi1095.pf
+b></usr/share/texmf/fonts/type1/public/cm-super/sfbl1200.pfb></usr/share/texmf/
+fonts/type1/public/cm-super/sfbx1000.pfb></usr/share/texmf/fonts/type1/public/c
+m-super/sfbx1095.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx1200.pfb
+></usr/share/texmf/fonts/type1/public/cm-super/sfbx1440.pfb></usr/share/texmf/f
+onts/type1/public/cm-super/sfbx1728.pfb></usr/share/texmf/fonts/type1/public/cm
+-super/sfbx2488.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfcc1000.pfb>
+</usr/share/texmf/fonts/type1/public/cm-super/sfcc1095.pfb></usr/share/texmf/fo
+nts/type1/public/cm-super/sfcc1200.pfb></usr/share/texmf/fonts/type1/public/cm-
+super/sfcc1728.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm0700.pfb><
+/usr/share/texmf/fonts/type1/public/cm-super/sfrm0800.pfb></usr/share/texmf/fon
+ts/type1/public/cm-super/sfrm1000.pfb></usr/share/texmf/fonts/type1/public/cm-s
+uper/sfrm1095.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1200.pfb></
+usr/share/texmf/fonts/type1/public/cm-super/sfrm1728.pfb></usr/share/texmf/font
+s/type1/public/cm-super/sfsl1200.pfb></usr/share/texmf/fonts/type1/public/cm-su
+per/sfti1000.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfti1095.pfb></u
+sr/share/texmf/fonts/type1/public/cm-super/sfti1200.pfb>
+Output written on dissertacao.pdf (66 pages, 1299873 bytes).
+PDF statistics:
+ 1087 PDF objects out of 1200 (max. 8388607)
+ 153 named destinations out of 1000 (max. 500000)
+ 480 words of extra memory for PDF output out of 10000 (max. 10000000)
+

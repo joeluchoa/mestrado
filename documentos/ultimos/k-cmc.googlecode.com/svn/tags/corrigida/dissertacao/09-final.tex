@@ -1,0 +1,228 @@
+%%%
+%%
+%%
+%%%
+%\chapter{Conclusões}
+\chapter{Considerações finais}
+\label{cap:consideracoes}
+\section{Histórico}
+
+Meu primeiro contato com o \kCM\ foi através do problema apresentado na
+introdução. Inicialmente, estudei o algoritmo de Naoki Katoh,
+Toshihide Ibaraki e H. Mine~\cite{katoh:n-12-411} (KIM) de uma maneira
+não-acadêmica, objetivando implementá-lo.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Nosso primeiro contato com o \kCM\ foi através do algoritmo de Naoki Katoh,
+%% Toshihide Ibaraki e H. Mine~\cite{katoh:n-12-411} (KIM) de uma maneira
+%% não-acadêmica, objetivando implementá-lo para resolver o 
+%% problema apresentado na
+%% introdução.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Mais tarde, decidimos usar o \kCM\ e os algoritmos para resolvê-los como tema
+central do mestrado e passamos a estudar o algoritmo de KIM sobre um novo
+ponto de vista: entender sua essência, subrotinas, peculiaridades e, além
+disso, procurarmos semelhanças e diferenças com os demais algoritmos
+existentes para o mesmo problema.  
+
+O foco inicial do trabalho foi entender o algoritmo
+\KIM{} para, num momento posterior, estudar a viabilidade de algumas mudanças
+experimentais que pudessem melhorar seu desempenho em grafos especiais ou,
+quem sabe, até em grafos genéricos.  Durante a implementação do algoritmo \KIM{}
+realizada na TeleMax, tive algumas idéias para melhorar o seu desempenho para
+o grafo que representava a rede de dados da TeleMax.  Devido aos prazos curtos
+e, principalmente ao fato da implementação ter atendido aos requisitos de
+desempenho, não foi possível justificar orçamento para a análise e
+implementação das melhorias pensadas.  Decidimos, nesta dissertação de
+mestrado, apresentar a motivação do estudo do algoritmo \KIM{} para o problema
+\kCM, estudá-lo à luz do método de \Yen{} do qual ele é derivado,
+descrevê-lo de uma maneira mais simples, sem toda a especificidade de um
+pseudo-código, apresentar algumas melhorias, implementá-las e avaliar os seus
+desempenhos.
+
+
+Estudamos o artigo de KIM,  bastante
+adequado para aqueles que desejam apenas implementar o algoritmo, uma vez que
+o pseudo-código é apresentado em grande detalhe. 
+A linguagem bastante carregada dificultou um entendimento do algoritmo em linhas gerais, razão que nos levou
+a buscar outra fonte.  Embora não seja apenas um
+novo artigo sobre o algoritmo \KIM{}, o trabalho de 
+John Hershberger, Matthew Maxel e Subhash Suri~\cite{hershberger:acmta-3-??} 
+é classificado pelos autores como uma
+extensão do algoritmo \KIM{} para grafos não simétricos.  O grande mérito deste
+artigo, do nosso ponto de vista, não é o da apresentação de um novo algoritmo
+para o problema \kCM, mas sim pela descrição do problema \kCM{} e das idéias
+subjacentes na elaboração do algoritmo, apresentadas de uma maneira bem mais
+simples de ser compreendida, sem o abuso de notações pesadas, como as do
+artigo KIM. 
+
+Após algumas horas de estudo do  artigo de Hershberger, Maxel e Suri,
+decidimos dar mais atenção ao método base para o problema \kCM, o método 
+de \Yen{}. 
+Nosso objetivo era encontrar os fundamentos e as idéias mais gerais que
+permeavam, segundo nosso entendimento, todos os algoritmos para o 
+problema \kCM.  
+
+
+A descrição do método de \Yen{}~\cite{yen:ms-17-712} é bem sucinta, mas
+foi suficiente para entendermos algumas idéias gerais.  Debruçarmo-nos então
+sobre o artigo de KIM, tendo como bagagem o aprendizado
+ganho dos trabalhos de Yen e de Hershberger, Maxel e Suri, e o reescrevemos
+com base nos conceitos apresentados nos artigos citados.
+
+\section{$k$-menores passeios}
+
+Apesar de não ter sido considerado neste texto consideramos que
+devemos pelo menos mencionar o \defi{problema do $k$-menores
+  passeios}\index{problema!dos k-menores passeios@dos $k$-menores
+      passeios}, denotado por \kMP{}, tendo em vias a sua semelhança
+    com o \kCM:
+ \begin{quote}
+   \textbf{Problema} \kMP$(V,A,c,s,t,k)$:%
+   \index{problema!k-MP@\kMP}\mar{\kMP}
+   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+   Dado um grafo $(V,A)$, uma função
+   custo $c$, dois vértice $s$ e $t$ e um inteiro positivo $k$, 
+   encontrar os $k$-menores \textbf{passeios} de $s$ a~$t$.
+ \end{quote}
+Os primeiros para esse problema foram propostos~\cite{yen:ms-17-712} por 
+W.~Hoffman e R.~Pavley~\cite{hoffmanpavley},
+R.~Bellman e R.~Kalaba~\cite{bellmankalaba} e
+M.~Sakarovitch~\cite{sakarovitch}, entre outros.
+
+Apesar desse problema parecer levemente diferente do \kCM, ele 
+admite soluções muito mais eficientes.
+Em 1975, Bennett L. Fox~\cite{fox-1975} propôs um algoritmo para o
+\kMP{} que consome tempo $\Oh(m + kn\log n)$, onde $m$ é o número de
+arcos e $n$ o número de vértices do grafo. 
+ David Eppstein~\cite{eppstein:siamjc-28-652}
+apresentou um algoritmo para o \kMP{} que consome tempo $\Oh(m + k +
+n\log n)$: o algoritmo computa uma representação implícita para os
+passeios e a partir dessa representação cada passeio pode ser
+explicitamente obtido em tempo $\Oh(n)$. Para alguns grafos esse consumo
+de tempo pode ser na prática diminuído por um versão do algoritmo de
+Eppstein~\cite{jimenez}. 
+
+A técnica de  David
+Eppstein~\cite{eppstein:siamjc-28-652} também se aplica para o próximo
+problema:
+\begin{quote}
+  \textbf{Problema} \KCM$(V,A,c,s,t,K)$:%
+  \index{problema!KMC@\KCM}\mar{\KCM}
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  Dado um grafo $(V,A)$, uma função
+  custo $c$, dois vértice $s$ e $t$ e um inteiro positivo $K$, 
+  encontrar os \textbf{passeios} de $s$ a~$t$ de custos não superiores a $K$.
+\end{quote}
+
+Um problema similar, o de encontrar as \defi{$k$-menores árvores
+  geradoras}\index{k-menores arvores geradoras@$k$-menores árvores geradoras}:
+\begin{quote}
+  \textbf{Problema} \kMAG$(V,A,c,k)$:%
+  \index{problema!kMAG@\kMAG}\mar{\kMAG}
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  Dado um grafo simétrico $(V,A)$, uma função
+  custo $c$, e um inteiro positivo $k$, 
+  encontrar as $k$-menores árvores geradoras.
+\end{quote}
+também foi considerado por alguns pesquisadores~\cite{eppstein-kssp}.
+
+
+\section{Alguns limites}
+
+A tabela~\ref{tab:historico} mostra os limites inferiores e superiores de para
+alguns problemas de caminhos mínimos. Todos os limites
+inferiores utilizam o \textit{modelo de comparação-adição}. 
+Na tabela, o valor $m+\log n$ é devido a uma aplicação do algoritmo de Dijkstra com o \textit{Fibonacci heap} de 
+Michael L. Fredman and Robert Endre Tarjan~\cite{FredTarjan:Fibonacci}.
+Esse valor pode ser substituído por $T(n,m)$.
+
+\begin{figure}[h] \centering %\scriptsize
+ \begin{tabular}{^^7cl^^7cl^^7cl^^7c}\hline
+ {\bf Problema} & 
+\multicolumn{1}{^^7cc^^7c}{\bf Limite inferior} &
+ \multicolumn{1}{^^7cc^^7c}{\bf Limite superior}\\\hline\hline
+ caminho m\'inimo (\PCM) & 
+\multicolumn{2}{c^^7c}{$\Theta(m+n\log n)$~\cite{FredTarjan:Fibonacci}}{}\\
+\hline
+ \textit{All-pairs shortest path}& 
+$\Omega(nm)$~\cite{karger-1993} & 
+$\Oh(n(m+n\log n))$~\cite{FredTarjan:Fibonacci}\\ \hline
+$k$-menores caminhos (\kCM) &  
+$\Omega(\min\{n^2,m\sqrt{n}\})$~\cite{hershberger-acm-2007} & 
+$\Oh(kn(m+n\log n))$~\cite{yen:ms-17-712,yen:1972}\\
+\hline
+$k$-menores passeios (\kMP) &
+\multicolumn{2}{{c^^7c}}{$\Theta(k + m + n\log n)$~\cite{eppstein:siamjc-28-652}}\\ \hline
+ Replacement paths & 
+$\Omega(\min\{n^2,m\sqrt{n}\})$~\cite{hershberger-acm-2007} &
+$\Oh(n(m+n\log n))$~\cite{hershberger-acm-2007}\\ 
+\hline
+ \end{tabular}
+\caption[Limites para alguns problemas de caminhos mínimos] {Limite inferiores e superiores para alguns problemas de caminhos 
+mínimos.}
+ \label{tab:historico}
+ \end{figure} \normalsize
+
+
+
+\section{Trabalhos futuros}
+
+Nem tudo o que pretendíamos coube no tempo estipulado.
+Dentre os trabalhos futuros que gostaríamos de realizar, ou ao menos deixar como sugestão, 
+citamos experimentar algumas mudanças no algoritmo \KIM{}, e avaliar o quanto
+elas significam em ganho de desempenho.  De antemão, sabemos que estas
+mudanças não acarretarão em melhoras assintóticas, mas acreditamos que
+conseguiremos alcançar desempenhos significativamente superiores.
+Como o algoritmo \KIM{} tem como subrotina a geração de 
+árvores de caminhos mínimos e, como foi constatado em Eleni Hadjiconstantinou e
+ Nicos Christofides~\cite{eleni:n-34-88} que essa subrotina
+responde pela maior parte do processamento do algoritmo,
+estudaríamos o algoritmo para a reconstrução de árvores
+de ca\-mi\-nhos mínimos descrito por Enrico Nardelli, Guido Proietti e Peter
+Widmayer~\cite{nardelli:a-35-56}.  Resumidamente, se trata de um algoritmo
+para o seguinte problema: dada uma árvore de caminhos mínimos para um grafo
+$G$ encontrar a árvore de caminhos mínimos para o grafo $G'$ derivado de $G$
+pela remoção de algumas arestas e vértices. Acreditamos
+que melhorias neste ponto do algoritmo possam levar a grandes ganhos de
+desempenho.  O artigo de Alberto Marchetti-Spaccamela e Umberto
+Nanni~\cite{marchetti:n-16-149} também está relacionado ao problema de
+reconstrução de árvores e mereceria um estudo também.
+  
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%, uma vez que observamos %
+%muitas semelhanças entres os grafos geradores das árvores de menores
+%caminhos.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Experiência}
+
+Sobre a implementação gostaríamos de dizer que foi uma experiência
+bastante enriquecedora.  Inicialmente possuíamos uma implementação
+própria, a qual não se mostrou adequada, primeiramente por funcionar
+apenas para grafos sem custos e segundo por estar muito vinculado ao
+trabalho realizado na empresa onde trabalhei.  Pretendíamos fazer uma
+implementação que pudesse ser usada no caso mais geral possível e, que
+fizesse uso de alguma biblioteca pública para manipulação de grafos.
+As razões vão desde a maior aceitação do código por parte da
+comunidade "open-source", até a sua reutilização, passando também
+pela possibilidade de utilizar código para visualização gráfica.
+
+
+Começamos buscando uma biblioteca bem aceita e utilizada e que fosse
+implementada em JAVA, devido a minha maior familiaridade com esta.
+Encontramos a biblioteca JUNG, a qual se mostrou bem apropriada aos
+nossos propósitos.  O passo seguinte foi entender um pouco do seu
+funcionamento e suas estruturas de dados.  Em seguida, começamos a
+implementação do algoritmo de KIM.  Neste momento, nos deparamos com
+diversos problemas na reutilização de código, cito aqui,
+principalmente, a rotina de geração de menor caminho baseada no
+algoritmo de Dijkstra.  Foi preciso pensar bastante até descobrirmos
+uma maneira de aproveitar esta rotina e foi muito prazeroso ver o
+resultado obtido.  Durante a implementação, usamos bastante as
+saídas gráficas de alguns pontos do algoritmo para ajudar-nos a
+identificar erros.  Houve diversos obstáculos durante a
+implementação e, sempre é possível que se faça uma implementação mais
+enxuta e eficiente quanto maior for o conhecimento sobre o assunto e a
+biblioteca.  Esperamos que nosso código venha a ser incorporado ao rol
+de funções existentes no JUNG e com isso contribuir para o projeto
+open source que foi de grande ajuda no desenvolvimento deste trabalho.
